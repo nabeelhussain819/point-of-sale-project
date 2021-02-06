@@ -15,13 +15,13 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $updated_at
  * @property UserStore[] $userStores
  */
-class User extends Authenticatable  
+class User extends Authenticatable
 {
     use HasRoles;
 
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -29,7 +29,7 @@ class User extends Authenticatable
     /**
      * @var array
      */
-    protected $fillable = ['name', 'email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'email', 'email_verified_at', 'remember_token', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

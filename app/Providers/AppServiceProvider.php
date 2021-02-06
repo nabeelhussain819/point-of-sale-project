@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Access\Gate;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,5 +26,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        $this->register();
+
+
+
+        Paginator::useBootstrap();
     }
 }

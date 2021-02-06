@@ -18,6 +18,8 @@ class StoreController extends Controller
     public function index()
     {
         //
+        $userStore = UserStore::with('store','user')->get();
+        return view('admin.stores.index',['store' => $userStore]);
     }
 
     /**

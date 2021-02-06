@@ -230,20 +230,20 @@ return [
         ],
         [
             'text' => 'Home',
-            'url' => 'admin/dashboard',
+            'url' => '/home',
             'icon' => 'far fa-fw fa-file',
         ],
-        ['header' => 'All Stores'],
         [
             'text' => 'Store',
             'url' => 'admin/stores',
             'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
         ],
-        ['header' => 'All Users'],
         [
             'text' => 'Users',
             'url' => 'admin/users',
             'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
         ]
     ],
 

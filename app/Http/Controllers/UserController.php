@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserStore;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        return view('superadmin.users.index',['users' => User::all()]);
+          return view('admin.users.index',['users' => UserStore::with('store','user')->paginate(5),'user' => User::paginate(5) ]);
     }
 
     /**
@@ -27,7 +28,7 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('superadmin.users.create');
+        return view('admin.users.create',['role' => Role::all()]);
     }
 
     /**
@@ -45,9 +46,10 @@ class UserController extends Controller
             'password' => 'required|min:8|max:20'
             ]);
         $user = new User();
-        $user->password = Hash::make($request->password);
+        $user->password = bcrypt($request->password);
+        $user->assignRole($request->role);
         $user->fill($request->all())->save();
-        return back()->with('success','User Created');
+        return redirect('admin/users')->with('success','User Created');
     }
 
     /**
@@ -59,7 +61,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
-        return view('superadmin.users.show',['user' => $user]);
+        return view('admin.users.show',['user' => $user]);
     }
 
     /**
@@ -71,7 +73,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
-        return view('superadmin.users.edit',['user' => $user]);
+        return view('admin.users.edit',['user' => $user,'role' => Role::all()]);
     }
 
     /**
@@ -85,12 +87,11 @@ class UserController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|unique:users',
-            'email' => 'required|unique:users',
-            'password' => 'required|min:8|max:20'
+            'name' => 'required',
+            'email' => 'required',
         ]);
-        $user->fill($request->all())->update();
-        return back()->with('success',"$user->name Updated");
+        $user->fill($request->all())->save();
+        return redirect('admin/users')->with('success',"$user->name Updated");
     }
 
     /**
@@ -103,6 +104,6 @@ class UserController extends Controller
     {
         //
         $user->delete();
-        return back()->with('success',"$user->name Deleted");
+        return redirect('admin/users')->with('success',"$user->name Deleted");
     }
 }

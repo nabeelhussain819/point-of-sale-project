@@ -26,12 +26,21 @@
                 <div class="form-group ">
                     <label>Status</label>
                     <select name="active" class="form-control" required>
-                        <option value="1">ACTIVE</option>
                         <option value="0">IN-ACTIVE</option>
+                        <option value="1">ACTIVE</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
+        @if (isset($errors) && count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
 @endsection

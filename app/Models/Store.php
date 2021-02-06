@@ -25,7 +25,7 @@ class Store extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'guid', 'location', 'description','created_at', 'updated_at'];
+    protected $fillable = ['name', 'guid', 'location', 'description','created_at','active', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
