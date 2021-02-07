@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\StoreController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin'], function () {
