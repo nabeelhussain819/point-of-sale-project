@@ -18,7 +18,7 @@ class StoreController extends Controller
     public function index()
     {
         //
-        $userStore = UserStore::with('store','user')->get();
+        $userStore = UserStore::with('store','user','role')->get();
         return view('admin.stores.index',['store' => $userStore]);
     }
 
@@ -103,8 +103,12 @@ class StoreController extends Controller
     public function assignUserToStore(Request $request)
     {
         $userStore = new UserStore();
+        $request->validate([
+            'role_id' => 'required',
+            'user_id' => 'required'
+        ]);
         $userStore->fill($request->all())->save();
-        return redirect('admin/dashboard')->with('success','User Assigned To the Store');
+        return redirect('admin/stores')->with('success','User Assigned To the Store');
 
     }
 }

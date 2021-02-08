@@ -17,6 +17,7 @@ class CreateUserStores extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('role_id')->nullable();
             $table->integer('store_count')->nullable();
             $table->timestamps();
         });
@@ -24,6 +25,7 @@ class CreateUserStores extends Migration
         Schema::table('user_stores',function (Blueprint $table){
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('role_id')->references('id')->on('roles')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

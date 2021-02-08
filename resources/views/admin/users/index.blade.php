@@ -44,7 +44,7 @@
                     </td>
                 </tr>
             @empty
-                <a href="{{route('stores.create')}}">No Stores, Please Create One</a>
+                <a href="{{route('stores.create')}}">No Users, Please Create One</a>
             @endforelse
             </tbody>
         </table>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
 
 /**
  * @property integer $id
@@ -17,7 +18,7 @@ class UserStore extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -25,7 +26,7 @@ class UserStore extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'store_id', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'store_id','role_id', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -41,5 +42,10 @@ class UserStore extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

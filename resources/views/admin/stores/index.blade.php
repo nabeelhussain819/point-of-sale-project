@@ -20,6 +20,7 @@
                 <th scope="col">Location</th>
                 <th scope="col">Description</th>
                 <th scope="col">Active</th>
+                <th scope="col">Assigned As</th>
                 <th scope="col">Assigned To</th>
                 <th scope="col">Action</th>
             </tr>
@@ -35,13 +36,10 @@
                     <td>{{$item->store->location}}</td>
                     <td>{{$item->store->description}}</td>
                     <td><span class="{!! $item->store->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->store->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
+                    <td>{{$item->role->name}}</td>
                     <td>
                         {{$item->user->name}}
                         <span class="badge badge-primary">{{$item->user->roles->pluck('name')}}</span>
-{{--                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter{{$item->id}}">--}}
-{{--                            Assign Store--}}
-{{--                        </button>--}}
-{{--                        @include('partials.modal',['modalId' => $item->id, 'id' => $item->id,'name' => 'store_id','route' =>'addusertostore'])--}}
                     </td>
                     <td>
                         <div style="display: flex">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
 
 /**
  * @property integer $id
@@ -34,4 +35,6 @@ class Store extends Model
     {
         return $this->hasMany('App\Models\UserStore');
     }
+
+
 }

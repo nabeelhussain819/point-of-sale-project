@@ -224,14 +224,12 @@ return [
     */
     'menu' => [
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
             'text' => 'Home',
             'url' => '/home',
             'icon' => 'far fa-fw fa-file',
+        ],
+        [
+
         ],
         [
             'text' => 'Store',
