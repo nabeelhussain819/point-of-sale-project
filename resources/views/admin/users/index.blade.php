@@ -7,9 +7,9 @@
         <h1>Assigned Users</h1>
         <a class="btn btn-success" href="{{route('users.create')}}">Add User</a>
         <br>
-        @if (session('status'))
+        @if (session('success'))
             <div class="alert alert-success" role="alert">
-                {{ session('status') }}
+                {{ session('success') }}
             </div>
         @endif
         <table class="table">

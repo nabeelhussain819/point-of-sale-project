@@ -9,6 +9,10 @@
                 </button>
             </div>
             <div class="modal-body">
+                <label>Name:</label>
+                    <p>{{$nameO}}</p>
+                <label>Description: </label>
+                    <p>{{$description}}</p>
                 <form action="{{route("$route")}}" method="POST">
                 @csrf
                 <input type="hidden" value="{{$id}}" name="{{$name}}"/>

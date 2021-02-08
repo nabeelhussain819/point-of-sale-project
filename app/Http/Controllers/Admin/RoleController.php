@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Models\UserStore;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         //
-          return view('admin.users.index',['users' => UserStore::with('store','user')->paginate(5),'user' => User::paginate(5) ]);
+        return view('admin.roles.index',['roles' => Role::all()]);
     }
 
     /**
@@ -28,7 +27,7 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('admin.users.create',['role' => Role::all()]);
+        return view('admin.roles.create');
     }
 
     /**
@@ -41,15 +40,10 @@ class UserController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|unique:users',
-            'email' => 'required|unique:users',
-            'password' => 'required|min:8|max:20'
-            ]);
-        $user = new User();
-        $user->password = bcrypt($request->password);
-        $user->assignRole($request->role);
-        $user->fill($request->all())->save();
-        return redirect('admin/users')->with('success','User Created');
+            'name' => 'required|unique:roles,name',
+        ]);
+        Role::create(['name' => $request->name]);
+        return redirect('admin/roles')->with('success','Role Created');
     }
 
     /**
@@ -58,10 +52,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
         //
-        return view('admin.users.show',['user' => $user]);
     }
 
     /**
@@ -70,10 +63,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
         //
-        return view('admin.users.edit',['user' => $user,'role' => Role::all()]);
+        $role = Role::find($id);
+        return view('admin.roles.edit',['role' => $role]);
     }
 
     /**
@@ -83,15 +77,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         //
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
+            'name' => 'required|unique:roles,name',
         ]);
-        $user->fill($request->all())->save();
-        return redirect('admin/users')->with('success',"$user->name Updated");
+        Role::where('id', $id)->update(['name' => $request->name]);
+        return redirect('admin/roles')->with('success','Role Updated');
+
     }
 
     /**
@@ -100,10 +94,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
         //
-        $user->delete();
-        return redirect('admin/users')->with('success',"$user->name Deleted");
+        $role = Role::find($id);
+        $role->delete();
+        return back()->with('success','Role Deleted');
     }
 }

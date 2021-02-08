@@ -7,9 +7,9 @@
         <h1>Stores</h1>
         <a class="btn btn-success" href="{{route('stores.create')}}">Add Store</a>
         <br>
-        @if (session('status'))
+        @if (session('success'))
             <div class="alert alert-success" role="alert">
-                {{ session('status') }}
+                {{ session('success') }}
             </div>
         @endif
         <table class="table">
@@ -37,6 +37,7 @@
                     <td><span class="{!! $item->store->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->store->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
                     <td>
                         {{$item->user->name}}
+                        <span class="badge badge-primary">{{$item->user->roles->pluck('name')}}</span>
 {{--                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter{{$item->id}}">--}}
 {{--                            Assign Store--}}
 {{--                        </button>--}}
@@ -44,11 +45,11 @@
                     </td>
                     <td>
                         <div style="display: flex">
-                            <a class="btn btn-info" href="{{route('stores.edit',$item->store->id)}}">Edit</a>
+                            <a class="btn btn-info" href="{{route('stores.edit',$item->store->id)}}"><i class="fa fa-pen"></i></a>
                             <form action="{{route('stores.destroy',$item->store->id)}}" method="POST">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-danger">DELETE</button>
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
                         </div>
                     </td>

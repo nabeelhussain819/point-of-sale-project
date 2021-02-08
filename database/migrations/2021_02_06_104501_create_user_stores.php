@@ -17,6 +17,7 @@ class CreateUserStores extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('store_id');
+            $table->integer('store_count')->nullable();
             $table->timestamps();
         });
 

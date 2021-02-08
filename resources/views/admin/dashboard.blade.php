@@ -47,7 +47,8 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter{{$item->id}}">
                             Assign Store
                         </button>
-                        @include('partials.modal',['modalId' => $item->id, 'id' => $item->id,'name' => 'store_id','route' =>'addusertostore'])
+                        @include('partials.modal',['modalId' => $item->id, 'id' => $item->id,
+                        'name' => 'store_id','route' =>'addusertostore' ,'nameO' => $item->name, 'description' => $item->description])
                     </td>
                     <td>
                         <div style="display: flex;margin:4px">

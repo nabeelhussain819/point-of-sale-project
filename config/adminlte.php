@@ -244,6 +244,12 @@ return [
             'url' => 'admin/users',
             'icon' => 'far fa-fw fa-file',
             'can' => ['admin']
+        ],
+        [
+            'text' => 'Roles',
+            'url' => 'admin/roles',
+            'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
         ]
     ],
 
