@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Store;
 use App\Models\UserStore;
 use Illuminate\Http\Request;
@@ -45,7 +44,8 @@ class StoreController extends Controller
         $store = new Store();
         $store->guid = Str::uuid();
         $store->fill($request->all())->save();
-        return redirect('admin/dashboard')->with('success','Store Created');
+        UserStore::create(['role_id' => $request->get('role_id'),'store_id' => $store->id, 'user_id' => $request->get('user_id')]);
+        return redirect('admin/home')->with('success','Store Created');
     }
 
     /**
@@ -65,10 +65,14 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Store $store)
+    public function edit($id)
     {
         //
-        return view('admin.stores.edit',['store' => $store]);
+        $store = Store::with('userStores')->find($id);
+        return view('admin.stores.edit',['store' => $store, 
+        'role_id' => $store->userStores->pluck('role_id')->first(),
+        'user_id' => $store->userStores->pluck('user_id')->first()
+        ]);
     }
 
     /**
@@ -82,8 +86,9 @@ class StoreController extends Controller
     {
         //
         $store = Store::find($id);
+        UserStore::where('store_id', $store->id)->update(['role_id' => $request->get('role_id'), 'user_id' => $request->get('user_id')]);
         $store->fill($request->all())->update();
-        return redirect('admin/dashboard')->with('success',"$store->name Updated");
+        return redirect('admin/home')->with('success',"$store->name Updated");
     }
 
     /**

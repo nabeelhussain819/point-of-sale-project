@@ -24,6 +24,27 @@
                     <textarea type="text" class="form-control" {{$store->description}} name="description" id="exampleInputPassword1" placeholder="Enter Description" required>{{$store->description}}</textarea>
                 </div>
 
+                <div class="form-group">
+                    <label>Select User</label>
+                    <select name="user_id" class="form-control">
+                        <option value="">Please Select User</option>
+                        @foreach(\App\Models\User::where('id','!=',auth()->id())->get() as $user)
+                            <option value="{{$user->id}}" {{$user->id == $user_id ? 'selected' : ''}}>{{$user->name}} <span class="badge badge-primary">({{$user->getRoleNames()->first()}})</span></option>
+                        @endforeach
+                    </select>
+                    
+                </div>
+
+                <div class="form-group">
+                    <label>Select Role</label>
+                    <select name="role_id" class="form-control">
+                        <option value="">Please Select Role</option>
+                        @foreach(\Spatie\Permission\Models\Role::where('id','!=',1)->get() as $item)
+                            <option value="{{$item->id}}" {{$item->id == $role_id ? 'selected' : ''}}>{{$item->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="form-group ">
                     <label>Status</label>
                     <select name="active" class="form-control" required>
@@ -31,7 +52,7 @@
                         <option value="1" {{$store->active == 1 ? 'selected' : ''}}>ACTIVE</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" name="edit_store">Submit</button>
             </form>
         </div>
         @if (isset($errors) && count($errors) > 0)

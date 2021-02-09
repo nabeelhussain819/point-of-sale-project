@@ -33,7 +33,7 @@ class Store extends Model
      */
     public function userStores()
     {
-        return $this->hasMany('App\Models\UserStore');
+        return $this->hasMany(UserStore::class);
     }
 
 

@@ -32,14 +32,14 @@
             @forelse($store as $item)
                 <tr>
                     <td>{{$count++}}</td>
-                    <td>{{$item->store->name}}</td>
+                    <td><a href="{{route('stores.edit',$item->store->id)}}">{{$item->store->name}}</a></td>
                     <td>{{$item->store->location}}</td>
                     <td>{{$item->store->description}}</td>
                     <td><span class="{!! $item->store->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->store->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
                     <td>{{$item->role->name}}</td>
                     <td>
                         {{$item->user->name}}
-                        <span class="badge badge-primary">{{$item->user->roles->pluck('name')}}</span>
+                        <span class="badge badge-primary">{{$item->user->roles->pluck('name')->first()}}</span>
                     </td>
                     <td>
                         <div style="display: flex">
