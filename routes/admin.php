@@ -2,15 +2,13 @@
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StoreController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin'], function () {
-    if(\Illuminate\Support\Facades\Auth::user()->hasRole('super-admin')){
     Route::get('/home', function () {
         return view('admin.dashboard');
     });
-    }
-
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,

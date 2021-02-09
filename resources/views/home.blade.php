@@ -8,7 +8,7 @@
 {{--  sir this a jugar i know  --}}
     @if(auth()->user()->hasRole('super-admin'))
         <script>
-            window.location.href = "admin/dashboard";
+            window.location.href = "admin/home";
         </script>
         @endif
     <div class="container">
