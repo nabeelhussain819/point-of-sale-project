@@ -22,7 +22,14 @@
                     <label for="exampleInputPassword1">Description</label>
                     <textarea type="text" class="form-control" name="description" id="exampleInputPassword1" placeholder="Enter Description" required></textarea>
                 </div>
-
+                <div class="form-group">
+                    <label>Select User</label>
+                    @include('partials.user_look_up')
+                </div>
+                <div class="form-group">
+                    <label>Select Role</label>
+                    @include('partials.roles_lookup')
+                </div>
                 <div class="form-group ">
                     <label>Status</label>
                     <select name="active" class="form-control" required>

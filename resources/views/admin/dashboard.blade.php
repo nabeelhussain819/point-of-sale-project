@@ -39,7 +39,7 @@
             @forelse(\App\Models\Store::all() as $item)
                 <tr>
                     <td>{{$count++}}</td>
-                    <td>{{$item->name}}</td>
+                    <td><a href="{{route('stores.edit',$item->id)}}">{{$item->name}}</a></td>
                     <td>{{$item->location}}</td>
                     <td>{{$item->description}}</td>
                     <td><span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
