@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Models\UserDetail;
 use App\Models\UserStore;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -17,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         //
-          return view('admin.users.index',['users' => UserStore::with('store','user')->paginate(5),'user' => User::paginate(5) ]);
+        return view('admin.users.index',['user' => UserDetail::where('user_id','!=',auth()->user()->id)->paginate(10)]);
     }
 
     /**
@@ -37,18 +39,16 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         //
-        $request->validate([
-            'name' => 'required|unique:users',
-            'email' => 'required|unique:users',
-            'password' => 'required|min:8|max:20'
-            ]);
         $user = new User();
         $user->password = bcrypt($request->password);
-        $user->assignRole($request->role);
-        $user->fill($request->all())->save();
+        $user->assignRole($request->get('role_id'));
+        $user->fill($request->validated())->save();
+        $detail = new UserDetail();
+        $detail->user()->associate($user);
+        $detail->fill($request->validated())->save();
         return redirect('admin/users')->with('success','User Created');
     }
 

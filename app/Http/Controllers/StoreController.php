@@ -71,7 +71,8 @@ class StoreController extends Controller
         $store = Store::with('userStores')->find($id);
         return view('admin.stores.edit',['store' => $store, 
         'role_id' => $store->userStores->pluck('role_id')->first(),
-        'user_id' => $store->userStores->pluck('user_id')->first()
+        'user_id' => $store->userStores->pluck('user_id')->first(),
+        'storeOfUser' => UserStore::with('store','user','role')->where('store_id',$id)->get()
         ]);
     }
 
@@ -85,10 +86,16 @@ class StoreController extends Controller
     public function update(Request $request, $id)
     {
         //
+        if($request->get('assignform'))
+        {
+         $this->assignUserToStore($request);
+        }
+        else
+        {
         $store = Store::find($id);
-        UserStore::where('store_id', $store->id)->update(['role_id' => $request->get('role_id'), 'user_id' => $request->get('user_id')]);
         $store->fill($request->all())->update();
-        return redirect('admin/home')->with('success',"$store->name Updated");
+        }
+        return back()->with('success',"$store->name Updated");
     }
 
     /**
@@ -113,7 +120,7 @@ class StoreController extends Controller
             'user_id' => 'required'
         ]);
         $userStore->fill($request->all())->save();
-        return redirect('admin/stores')->with('success','User Assigned To the Store');
+        return redirect()->back()->with('success','User Assigned To the Store');
 
     }
 }

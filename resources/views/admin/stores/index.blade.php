@@ -12,50 +12,48 @@
                 {{ session('success') }}
             </div>
         @endif
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Location</th>
-                <th scope="col">Description</th>
-                <th scope="col">Active</th>
-                <th scope="col">Assigned As</th>
-                <th scope="col">Assigned To</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @php
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
                 $count = 1;
-            @endphp
-            @forelse($store as $item)
+                @endphp
+            @forelse(\App\Models\Store::all() as $item)
                 <tr>
                     <td>{{$count++}}</td>
-                    <td><a href="{{route('stores.edit',$item->store->id)}}">{{$item->store->name}}</a></td>
-                    <td>{{$item->store->location}}</td>
-                    <td>{{$item->store->description}}</td>
-                    <td><span class="{!! $item->store->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->store->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
-                    <td>{{$item->role->name}}</td>
+                    <td><a href="{{route('stores.edit',$item->id)}}">{{$item->name}}</a></td>
+                    <td>{{$item->location}}</td>
+                    <td>{{$item->description}}</td>
+                    <td><span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
+    
                     <td>
-                        {{$item->user->name}}
-                        <span class="badge badge-primary">{{$item->user->roles->pluck('name')->first()}}</span>
-                    </td>
-                    <td>
-                        <div style="display: flex">
-                            <a class="btn btn-info" href="{{route('stores.edit',$item->store->id)}}"><i class="fa fa-pen"></i></a>
-                            <form action="{{route('stores.destroy',$item->store->id)}}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                            </form>
+                        <div style="display: flex;margin:4px">
+                        <a class="btn btn-info" href="{{route('stores.edit',$item->id)}}"><i class="fa fa-pen"></i></a>
+                        <form action="{{route('stores.destroy',$item->id)}}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        </form>
                         </div>
                     </td>
                 </tr>
-            @empty
+                @empty
                 <a href="{{route('stores.create')}}">No Stores, Please Create One</a>
-            @endforelse
-            </tbody>
-        </table>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+
     </div>
 @endsection

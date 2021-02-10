@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\UserDetail;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -25,6 +27,14 @@ class UserSeeder extends Seeder
         'email' => 'superadmin@admin.com',
         'password' => Hash::make('admin')
     ]);
+    UserDetail::create([
+        'user_id' => $admin->id,
+        'first_name' => 'super-admin',
+        'last_name' => 'super-admin',
+        'DOB' => Carbon::now(),
+        'phone' => '+923156986335',
+    ]);
+
     $admin->assignRole('super-admin');
     
     Role::create(['name' => 'sales']);
@@ -33,6 +43,14 @@ class UserSeeder extends Seeder
         'email' => 'johndoe@sales.com',
         'password' => Hash::make('password')
     ]);
+    UserDetail::create([
+        'user_id' => $sales->id,
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'DOB' => Carbon::now(),
+        'phone' => '+932241432',
+    ]);
+
     $sales->assignRole('sales');
 
     Role::create(['name' => 'user']);
@@ -40,6 +58,13 @@ class UserSeeder extends Seeder
         'name' => 'Mark',
         'email' => 'mark@gmail.com',
         'password' => Hash::make('password')
+    ]);
+    UserDetail::create([
+        'user_id' => $user->id,
+        'first_name' => 'Mark',
+        'last_name' => 'Johnson',
+        'DOB' => Carbon::now(),
+        'phone' => '+932241432',
     ]);
     $user->assignRole('user');
 
