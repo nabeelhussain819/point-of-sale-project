@@ -90,12 +90,17 @@ class UserController extends Controller
         {
             $this->assignRole($request);
         }
+        elseif($request->get('removeRole'))
+        {
+            $this->deassignRole($request);
+        }
         else{
         $user->fill($request->all())->save();
+        $user->assignRole($request->get('role_id'));
         $detail = UserDetail::where('user_id', $user->id)->first();
         $detail->user()->associate($user);
         $detail->fill($request->all())->save();
-        }
+    }
         return redirect()->back()->with('success',"$user->name Updated");
     }
 
@@ -117,5 +122,12 @@ class UserController extends Controller
         $user = User::where('id',$request->get('user_id'))->first();
         $user->assignRole($request->role_id);
         return redirect()->back()->with('success','Role Assigned ');
+    }
+
+    public function deassignRole(Request $request)
+    {
+        $user = User::where('id',$request->get('user_id'))->first();
+        $user->syncRoles($request->get('role'));
+        return redirect()->back()->with('success','Role Removed');
     }
 }

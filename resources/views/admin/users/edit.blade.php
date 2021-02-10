@@ -102,10 +102,14 @@
                                             ACTIVE</option>
                                     </select>
                                 </div>
-                                {{-- <div class="form-group ">
+                                <div class="form-group ">
                                     <label>Select Role</label>
-@include('partials.roles_lookup')
-                                </div> --}}
+                                    <select name="role_id" class="form-control">
+                                    @foreach(\Spatie\Permission\Models\Role::where('id','!=',1)->get() as $item)
+                                    <option value="{{$item->id}}" {{$item->id == $user->roles->pluck('id')->first() ? 'selected' : ''}}>{{$item->name}}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
                                 <button type="submit" class="btn btn-primary float-right">Submit</button>
                             </div>
                         </div>
@@ -141,8 +145,8 @@
                                     @endforeach
                                 </select>
                         </div>
-                        <button type="submit" class="btn btn-primary float-right" name="assign">Assign</button>
                         <input type="hidden" value="{{$user->id}}" name="user_id"/>
+                        <button type="submit" class="btn btn-primary float-right" name="assign">Assign</button>
                     </form>
                 </div>
                 <div class="container">
@@ -152,6 +156,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Role</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -164,6 +169,14 @@
                                     <td>{{$count++}}</td>
                                     <td>
                                         {{$item}}
+                                    </td>
+                                    <td>
+                                        <form action="{{route('remove.role')}}" method="POST">
+                                            @csrf
+                                            <input type="hidden" value="{{$user->id}}" name="user_id"/>
+                                            <input type="hidden" value="{{$item}}" name="role" />
+                                            <button type="submit" class="btn btn-danger" name="removeRole"><i class="fa fa-trash"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @empty

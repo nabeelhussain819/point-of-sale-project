@@ -20,4 +20,6 @@ Route::group(['prefix' => 'admin'], function () {
     ]);
     Route::post('assign',[StoreController::class,'assignUserToStore'])->name('addusertostore');
     Route::post('assign-role',[UserController::class,'assignRole'])->name('addroletouser');
+    Route::post('deassign-role',[UserController::class,'deassignRole'])->name('remove.role');
+    
 });
