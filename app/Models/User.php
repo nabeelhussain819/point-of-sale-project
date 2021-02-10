@@ -36,6 +36,11 @@ class User extends Authenticatable
      */
     public function userStores()
     {
-        return $this->hasMany('App\Models\UserStore');
+        return $this->hasMany(UserStore::class);
+    }
+
+    public function userDetail()
+    {
+        return $this->hasMany(UserDetail::class);
     }
 }

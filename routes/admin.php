@@ -17,4 +17,5 @@ Route::group(['prefix' => 'admin'], function () {
         'user-store' => UserStoreController::class,
     ]);
     Route::post('assign',[StoreController::class,'assignUserToStore'])->name('addusertostore');
+    Route::post('assign-role',[UserController::class,'assignRole'])->name('addroletouser');
 });

@@ -86,12 +86,17 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-        ]);
+        if($request->get('assign'))
+        {
+            $this->assignRole($request);
+        }
+        else{
         $user->fill($request->all())->save();
-        return redirect('admin/users')->with('success',"$user->name Updated");
+        $detail = UserDetail::where('user_id', $user->id)->first();
+        $detail->user()->associate($user);
+        $detail->fill($request->all())->save();
+        }
+        return redirect()->back()->with('success',"$user->name Updated");
     }
 
     /**
@@ -105,5 +110,12 @@ class UserController extends Controller
         //
         $user->delete();
         return redirect('admin/users')->with('success',"$user->name Deleted");
+    }
+
+    public function assignRole(Request $request)
+    {
+        $user = User::where('id',$request->get('user_id'))->first();
+        $user->assignRole($request->role_id);
+        return redirect()->back()->with('success','Role Assigned ');
     }
 }

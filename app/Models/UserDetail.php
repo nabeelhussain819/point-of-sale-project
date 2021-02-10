@@ -28,6 +28,7 @@ class UserDetail extends Model
      */
     protected $keyType = 'integer';
 
+
     /**
      * @var array
      */
@@ -38,6 +39,6 @@ class UserDetail extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class);
     }
 }
