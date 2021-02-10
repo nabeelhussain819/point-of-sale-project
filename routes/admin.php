@@ -7,9 +7,11 @@ use App\Http\Controllers\UserStoreController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin'], function () {
+
     Route::get('/home', function () {
         return view('admin.dashboard');
-    });
+    })->middleware('role:super-admin');
+
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,
