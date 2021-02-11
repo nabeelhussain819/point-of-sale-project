@@ -44,7 +44,7 @@ class UserController extends Controller
         //
         $user = new User();
         $user->password = bcrypt($request->password);
-        $user->assignRole($request->get('role_id'));
+        $user->assignRole($request->input('role_id'));
         $user->fill($request->validated())->save();
         $detail = new UserDetail();
         $detail->user()->associate($user);
@@ -86,17 +86,17 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
-        if($request->get('assign'))
+        if($request->input('assign'))
         {
             $this->assignRole($request);
         }
-        elseif($request->get('removeRole'))
+        elseif($request->input('removeRole'))
         {
             $this->deassignRole($request);
         }
         else{
         $user->fill($request->all())->save();
-        $user->assignRole($request->get('role_id'));
+        $user->assignRole($request->input('role_id'));
         $detail = UserDetail::where('user_id', $user->id)->first();
         $detail->user()->associate($user);
         $detail->fill($request->all())->save();
@@ -119,15 +119,15 @@ class UserController extends Controller
 
     public function assignRole(Request $request)
     {
-        $user = User::where('id',$request->get('user_id'))->first();
-        $user->assignRole($request->role_id);
+        $user = User::where('id',$request->input('user_id'))->first();
+        $user->assignRole($request->input('role_id'));
         return redirect()->back()->with('success','Role Assigned ');
     }
 
     public function deassignRole(Request $request)
     {
-        $user = User::where('id',$request->get('user_id'))->first();
-        $user->syncRoles($request->get('role'));
+        $user = User::where('id',$request->input('user_id'))->first();
+        $user->syncRoles($request->input('role'));
         return redirect()->back()->with('success','Role Removed');
     }
 }

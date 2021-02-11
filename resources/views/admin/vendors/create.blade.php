@@ -1,0 +1,69 @@
+@extends('adminlte::page')
+
+@section('title','Edit Vendor')
+@section('content')
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <h1>Create A New Vendor</h1>
+        </div>
+    </div>
+    <div class="card-body">
+        <form action="{{ route('vendors.store') }}" method="POST">
+            @csrf
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter Vendor Name"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="">Telephone</label>
+                        <input type="text" class="form-control" name="telephone" placeholder="Enter Telephone Number" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Mailing Address</label>
+                        <input type="name" class="form-control" name="mailing_address" id="" aria-describedby="emailHelp"
+                            placeholder="Enter Mailing Address" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="">Website</label>
+                        <input type="name" class="form-control" name="website" id="" aria-describedby="emailHelp"
+                            placeholder="Enter Website" required/>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="">Contact Title</label>
+                        <input type="text" class="form-control" name="contact_title" id="" placeholder="Enter Contact Title" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="">Contact Number</label>
+                        <input type="text" class="form-control" name="contact_number" id="" placeholder="Enter Contact Number" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="">Contact Email</label>
+                        <input type="text" class="form-control" name="contact_email" placeholder="Enter Contact Email" required />
+                    </div>
+     
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <textarea type="text" class="form-control" name="description" placeholder="Enter Description"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    @if(isset($errors) && count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+</div>
+@endsection

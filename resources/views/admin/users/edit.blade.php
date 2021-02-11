@@ -136,14 +136,17 @@
                 <div class="card-body">
                     <form action="{{route('addroletouser')}}" method="POST">
                         @csrf
-                        <div class="form-group">
-                            <label> Select Role </label>
-                                <select name="role_id" class="form-control">
-                                    <option value="">Please Select Role</option>
+                        <div class="form-group" style="display: inline">
+                                {{-- <select name="role_id" class="form-control">
+                                    <option value="">Please Select Role</option> --}}
                                     @foreach(\Spatie\Permission\Models\Role::where('id','!=',1)->get() as $item)
-                                        <option value="{{$item->id}}" {{$item->id == $user->roles->pluck('id')->first() ? 'selected' : ''}}>{{$item->name}}</option>
+                                    <label>
+                                        {{$item->name}}
+                                    </label>
+                                    <input value="{{$item->id}}" type="checkbox" name="role_id[]" />
+                                        {{-- <option value="{{$item->id}}" {{$item->id == $user->roles->pluck('id')->first() ? 'selected' : ''}}>{{$item->name}}</option> --}}
                                     @endforeach
-                                </select>
+                                {{-- </select> --}}
                         </div>
                         <input type="hidden" value="{{$user->id}}" name="user_id"/>
                         <button type="submit" class="btn btn-primary float-right" name="assign">Assign</button>

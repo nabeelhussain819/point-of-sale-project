@@ -4,10 +4,16 @@
 
 @section('content')
 <div class="row">
+
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="container">
             <div class="card">
                 <div class="card-header">
+                    @if(session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <div class="card-title"> <h1>Store Details</h1></div>
                     <button type="button" class="btn btn-primary float-right" style="margin:10px" data-toggle="modal" data-target="#exampleModalCenter{{$store->id}}">
                         Assign Store

@@ -248,6 +248,12 @@ return [
             'url' => 'admin/roles',
             'icon' => 'far fa-fw fa-file',
             'can' => ['admin']
+        ],
+        [
+            'text' => 'Vendors',
+            'url' => 'admin/vendors',
+            'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
         ]
     ],
 
