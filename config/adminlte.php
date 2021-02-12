@@ -229,9 +229,6 @@ return [
             'icon' => 'far fa-fw fa-file',
         ],
         [
-
-        ],
-        [
             'text' => 'Store',
             'url' => 'admin/stores',
             'icon' => 'far fa-fw fa-file',
@@ -244,8 +241,32 @@ return [
             'can' => ['admin']
         ],
         [
+            'text' => 'Categories',
+            'url' => 'admin/categories',
+            'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
+        ],
+        [
+            'text' => 'Departments',
+            'url' => 'admin/departments',
+            'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
+        ],
+        [
             'text' => 'Roles',
             'url' => 'admin/roles',
+            'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
+        ],
+        [
+            'text' => 'Products',
+            'url' => 'admin/products',
+            'icon' => 'far fa-fw fa-file',
+            'can' => ['admin']
+        ],
+        [
+            'text' => 'Inventory',
+            'url' => 'admin/inventory',
             'icon' => 'far fa-fw fa-file',
             'can' => ['admin']
         ],

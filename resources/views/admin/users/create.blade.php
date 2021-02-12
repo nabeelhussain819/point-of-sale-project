@@ -56,7 +56,7 @@
                         <label for="">Password</label>
                         <input type="text" class="form-control" name="password" placeholder="Enter Password" required />
                     </div>
-     
+
                     <div class="form-group">
                         <label for="">Driver License</label>
                         <input type="text" class="form-control" name="driver_license" placeholder="Enter Driver License"/>

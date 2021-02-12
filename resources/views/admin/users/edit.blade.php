@@ -73,11 +73,11 @@
                                     <input type="email" class="form-control" value="{{ $user->email }}" name="email"
                                         id="" placeholder="Enter Email" required />
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="">Password</label>
                                     <input type="text" class="form-control" name="password" placeholder="Enter Password"
                                         required />
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                     <label for="">Driver License</label>

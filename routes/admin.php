@@ -5,6 +5,10 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStoreController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InventroyController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin'], function () {
@@ -18,7 +22,11 @@ Route::group(['prefix' => 'admin'], function () {
         'stores' => StoreController::class,
         'roles' => RoleController::class,
         'user-store' => UserStoreController::class,
-        'vendors' => VendorController::class
+        'vendors' => VendorController::class,
+        'categories' => CategoryController::class,
+        'departments' => DepartmentController::class,
+        'products' => ProductController::class,
+        'inventory' => InventroyController::class
     ]);
     Route::post('assign',[StoreController::class,'assignUserToStore'])->name('addusertostore');
     Route::post('assign-role',[UserController::class,'assignRole'])->name('addroletouser');
