@@ -45,7 +45,6 @@
                     <td> {{$item->contact_title ?? 'No Contact Title'}} </td>
                     <td>{{$item->contact_number ?? 'No Contact Number'}}</td>
                     <td>{{$item->contact_email ?? 'No Contact Email'}}</td>
-                    <td>{{$item->description ?? 'No Description'}}</td>
                     <td>
                         <div style="display: flex">
                             <a class="btn btn-info"

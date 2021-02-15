@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
-use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class InventroyController extends Controller
+class InventoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -45,6 +45,7 @@ class InventroyController extends Controller
             'vendor_id' => 'required'
         ]);
         $inventory = new Inventory();
+        $inventory->guid = Str::uuid();
         $inventory->fill($request->all())->save();
         return redirect('admin/inventory')->with('success','Inventory Added');
     }

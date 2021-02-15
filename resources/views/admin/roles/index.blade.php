@@ -17,6 +17,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Permissions</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Action</th>
             </tr>
@@ -29,6 +30,10 @@
                 <tr>
                     <td>{{$count++}}</td>
                     <td>{{$item->name}}</td>
+                    <td>@foreach($item->permissions as $p)
+                            {{$p->name}}
+                        @endforeach
+                        </td>
                     <td>{{$item->created_at}}</td>
                     <td>
                         <div style="display: flex">

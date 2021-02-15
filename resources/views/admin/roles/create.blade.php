@@ -15,12 +15,14 @@
                 </div>
                 <div class="form-group">
                     <label>Permissions</label>
-                    <select name="permission" class="form-control">
-                        <option value="">Please Select Permission</option>
+                    <div class="row">
                        @foreach($permission as $item)
-                           <option value="{{$item->id}}">{{$item->name}}</option>
-                        @endforeach
-                    </select>
+                           <div class="col">
+                           <p>{{$item->name}}</p>
+                        <input type="checkbox" name="permission[]" value="{{$item->id}}"/>
+                           </div>
+                       @endforeach
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
