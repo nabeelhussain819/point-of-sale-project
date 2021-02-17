@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventory;
+use App\Models\Customer;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class InventoryController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class InventoryController extends Controller
     public function index()
     {
         //
-        return view('admin.inventory.index',['inventories' => Inventory::all()]);
+        return view('admin.customers.index',['customers' => OrderProduct::with('customer','product')->get()]);
     }
 
     /**
@@ -27,7 +28,7 @@ class InventoryController extends Controller
     public function create()
     {
         //
-        return view('admin.inventory.create');
+        return view('admin.customers.create',['products' => Product::all()]);
     }
 
     /**
@@ -39,15 +40,17 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'name' => 'required',
-            'product_id' => 'required',
-            'vendor_id' => 'required'
-        ]);
-        $inventory = new Inventory();
-        $inventory->guid = Str::uuid();
-        $inventory->fill($request->all())->save();
-        return redirect('admin/inventory')->with('success','Inventory Added');
+        $orderCustomer = new OrderProduct();
+        $customer = new Customer();
+        $customer->fill($request->all())->save();
+        $orderCustomer->order_id = 'PO' .rand(1111,999999);
+        //only saving single product for now will change this in future
+        foreach ($request->products as $product) {
+            $item = $product;
+            $orderCustomer->product_id = $item;
+        }
+        $orderCustomer->customer()->associate($customer)->save();
+        return redirect('admin/customers')->with('success','Customer Created');
     }
 
     /**
@@ -70,7 +73,7 @@ class InventoryController extends Controller
     public function edit($id)
     {
         //
-        return view('admin.inventory.edit',['inventory' => Inventory::find($id)]);
+        return view('admin.customers.edit',['customer' => Customer::find($id)]);
     }
 
     /**
@@ -83,14 +86,9 @@ class InventoryController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $request->validate([
-            'name' => 'required',
-            'product_id' => 'required',
-            'vendor_id' => 'required'
-        ]);
-        $inventory = Inventory::find($id);
-        $inventory->fill($request->all())->update();
-        return redirect()->back()->with('success','Inventory Updated');
+        $customer = Customer::find($id);
+        $customer->fill($request->all())->update();
+        return redirect()->back()->with('success',"Customer $customer->name Updated");
     }
 
     /**
@@ -102,8 +100,8 @@ class InventoryController extends Controller
     public function destroy($id)
     {
         //
-        $inventory = Inventory::find($id);
-        $inventory->delete();
-        return redirect()->back()->with('success','Inventory Deleted');
+        $customer = Customer::find($id);
+        $customer->delete();
+        return redirect()->back()->with('success',"Customer $customer->name Deleted");
     }
 }

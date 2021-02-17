@@ -20,6 +20,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Vendor Name</th>
                 <th scope="col">Phone</th>
@@ -33,6 +34,7 @@
                 <tr>
                     <td>{{ $count++ }}</td>
                     <td>{{ $item->name }}</td>
+                    <td>{{ $item->quantity }}</td>
                     <td>{{ $item->product->name }}</td>
                     <td>{{ $item->vendor->name }}</td>
                     <td>

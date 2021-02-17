@@ -15,6 +15,10 @@
                     <input type="text" name="name" class="form-control" placeholder="Name"/>
                 </div>
                 <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" step="0" min="0" class="form-control" placeholder="Quantity"/>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputPassword1">Vendor</label>
                     <select name="vendor_id" class="form-control">
                         @foreach(\App\Models\Vendor::all() as $item)

@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
+ * @property integer $inventory_id
  * @property integer $product_id
- * @property integer $vendor_id
- * @property string $name
+ * @property string $description
+ * @property integer $quantity
+ * @property float $unit_price
+ * @property float $tax
  * @property string $created_at
  * @property string $updated_at
+ * @property Inventory $inventory
  * @property Product $product
- * @property Vendor $vendor
  */
-class Inventory extends Model
+class Sale extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -26,7 +29,15 @@ class Inventory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity','created_at', 'updated_at'];
+    protected $fillable = ['inventory_id', 'product_id', 'description', 'tax', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function inventory()
+    {
+        return $this->belongsTo(Inventory::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -34,18 +45,5 @@ class Inventory extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function vendor()
-    {
-        return $this->belongsTo(Vendor::class);
-    }
-
-    public function sales()
-    {
-        return $this->hasMany(Sale::class);
     }
 }
