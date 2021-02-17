@@ -16,21 +16,21 @@
                     <h4>Personal Information</h4>
                     <div class="form-group">
                         <label for="">First Name</label>
-                        <input type="text" class="form-control" name="first_name" placeholder="Enter First Name"
+                        <input type="text" class="form-control" value="{{old('first_name')}}" name="first_name" placeholder="Enter First Name"
                             required />
                     </div>
                     <div class="form-group">
                         <label for="">Last Name</label>
-                        <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" required/>
+                        <input type="text" class="form-control" value="{{old('last_name')}}" name="last_name" placeholder="Enter Last Name" required/>
                     </div>
                     <div class="form-group">
                         <label for="">Full Name</label>
-                        <input type="name" class="form-control" name="name" id="" aria-describedby="emailHelp"
+                        <input type="name" class="form-control" name="name" value="{{old('name')}}" id="" aria-describedby="emailHelp"
                             placeholder="Enter Full Name" required />
                     </div>
                     <div class="form-group">
                         <label for="">Phone Number</label>
-                        <input type="name" class="form-control" name="phone" id="" aria-describedby="emailHelp"
+                        <input type="name" class="form-control" name="phone" value="{{old('phone')}}" id="" aria-describedby="emailHelp"
                             placeholder="Enter Phone Number" required/>
                     </div>
                     <div class="form-group">
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">DOB</label>
-                        <input type="date" class="form-control" name="DOB" id="" aria-describedby="emailHelp"
+                        <input type="date" class="form-control" name="DOB" value="{{old('DOB')}}" id="" aria-describedby="emailHelp"
                             placeholder="Enter Phone Number" required/>
                     </div>
                 </div>
@@ -50,20 +50,15 @@
                     <h4>Login Information</h4>
                     <div class="form-group">
                         <label for="">Email</label>
-                        <input type="email" class="form-control" name="email" id="" placeholder="Enter Email" required />
+                        <input type="email" class="form-control" name="email" value="{{old('email')}}" id="" placeholder="Enter Email" required />
                     </div>
-                    <div class="form-group">
-                        <label for="">Password</label>
-                        <input type="text" class="form-control" name="password" placeholder="Enter Password" required />
-                    </div>
-
                     <div class="form-group">
                         <label for="">Driver License</label>
-                        <input type="text" class="form-control" name="driver_license" placeholder="Enter Driver License"/>
+                        <input type="text" class="form-control" name="driver_license" value="{{old('driver_license')}}" placeholder="Enter Driver License"/>
                     </div>
                     <div class="form-group">
                         <label for="">State </label>
-                        <input type="text" class="form-control" name="state" placeholder="Enter State"/>
+                        <input type="text" class="form-control" name="state" value="{{old('state')}}" placeholder="Enter State"/>
                     </div>
                     <div class="form-group">
                         <label for="">Active</label>

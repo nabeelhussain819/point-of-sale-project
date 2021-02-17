@@ -46,7 +46,7 @@ class VendorController extends Controller
         ]);        
         $vendors = new Vendor();
         $vendors->fill($request->all())->save();
-        return redirect('admin/vendors')->with('success','Store Created');
+        return redirect('vendors')->with('success','Store Created');
     }
 
 

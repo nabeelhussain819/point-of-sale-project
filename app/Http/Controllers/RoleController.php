@@ -44,7 +44,7 @@ class RoleController extends Controller
         ]);
         $role = Role::create(['name' => $request->get('name')]);
         $role->syncPermissions($request->get('permission'));
-        return redirect('admin/roles')->with('success', 'Role Created');
+        return redirect('roles')->with('success', 'Role Created');
     }
 
     /**
@@ -83,10 +83,11 @@ class RoleController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|unique:roles,name',
+            'name' => 'required',
+            'permission' => 'required'
         ]);
-        $role = Role::where('id', $id)->update(['name' => $request->name]);
-        $role->syncPermissions($request->input('permission'));
+        $role = Role::find($id)->update(['name' => $request->name]);
+        $role->syncPermissions($request->get('permission'));
         return redirect('admin/roles')->with('success', 'Role Updated');
 
     }

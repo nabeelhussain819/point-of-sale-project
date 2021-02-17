@@ -47,7 +47,7 @@ class InventoryController extends Controller
         $inventory = new Inventory();
         $inventory->guid = Str::uuid();
         $inventory->fill($request->all())->save();
-        return redirect('admin/inventory')->with('success','Inventory Added');
+        return redirect('inventory')->with('success','Inventory Added');
     }
 
     /**

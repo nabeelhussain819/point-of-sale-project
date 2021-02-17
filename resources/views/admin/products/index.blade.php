@@ -5,7 +5,10 @@
 @section('content')
     <div class="container">
         <h1>Products</h1>
-        <a class="btn btn-success" href="{{route('products.create')}}">Add Product</a>
+        @if(auth()->user()->hasPermissionTo('product-create'))
+
+            <a class="btn btn-success" href="{{route('products.create')}}">Add Product</a>
+        @endif
         <br>
         @if (session('success'))
             <div class="alert alert-success" role="alert">
@@ -41,20 +44,28 @@
                         <td>{{$item->cost}}</td>
                         <td>{{$item->category->name}}</td>
                         <td>{{$item->department->name}}</td>
-                        <td><span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
+                        <td>
+                            <span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span>
+                        </td>
                         <td>
                             <div style="display: flex;margin:4px">
-                                <a class="btn btn-info" href="{{route('products.edit',$item->id)}}"><i class="fa fa-pen"></i></a>
-                                <form action="{{route('products.destroy',$item->id)}}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                </form>
+                                @if(auth()->user()->hasPermissionTo('product-edit'))
+                                    <a class="btn btn-info" href="{{route('products.edit',$item->id)}}"><i
+                                                class="fa fa-pen"></i></a>
+                                @endif
+                                @if(auth()->user()->hasPermissionTo('product-delete'))
+                                    <form action="{{route('products.destroy',$item->id)}}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
                 @empty
-                    <a href="{{route('products.create')}}">No Products, Please Create One</a>
+                    <p>No Products</p>
                 @endforelse
                 </tbody>
             </table>

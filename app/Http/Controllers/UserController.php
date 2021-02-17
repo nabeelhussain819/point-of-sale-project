@@ -43,13 +43,13 @@ class UserController extends Controller
     {
         //
         $user = new User();
-        $user->password = bcrypt($request->password);
+        $user->password = bcrypt('password');
         $user->assignRole($request->input('role_id'));
         $user->fill($request->validated())->save();
         $detail = new UserDetail();
         $detail->user()->associate($user);
         $detail->fill($request->validated())->save();
-        return redirect('admin/users')->with('success','User Created');
+        return redirect('users')->with('success','User Created');
     }
 
     /**
@@ -114,7 +114,7 @@ class UserController extends Controller
     {
         //
         $user->delete();
-        return redirect('admin/users')->with('success',"$user->name Deleted");
+        return redirect('users')->with('success',"$user->name Deleted");
     }
 
     public function assignRole(Request $request)

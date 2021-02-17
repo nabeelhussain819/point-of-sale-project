@@ -50,7 +50,7 @@ class CustomerController extends Controller
             $orderCustomer->product_id = $item;
         }
         $orderCustomer->customer()->associate($customer)->save();
-        return redirect('admin/customers')->with('success','Customer Created');
+        return redirect('customers')->with('success','Customer Created');
     }
 
     /**

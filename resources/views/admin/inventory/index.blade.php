@@ -12,8 +12,10 @@
         @endif
     </div>
     <div class="container">
-        <h1>All Inventories</h1> <a class="btn btn-success" href="{{ route('inventory.create') }}">Add Inventories</a>
-
+        @if(auth()->user()->hasPermissionTo('inventory-create'))
+            <h1>All Inventories</h1> <a class="btn btn-success" href="{{ route('inventory.create') }}">Add
+                Inventories</a>
+        @endif
         <br>
         <table class="table">
             <thead>
@@ -39,19 +41,25 @@
                     <td>{{ $item->vendor->name }}</td>
                     <td>
                         <div style="display: flex">
-                            <a class="btn btn-info"
-                               href="{{ route('inventory.edit',$item->id) }}"><i
-                                        class="fa fa-pen"></i></a>
-                            <form action="{{ route('inventory.destroy',$item->id) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                            </form>
+                            @if(auth()->user()->hasPermissionTo('inventory-edit'))
+
+                                <a class="btn btn-info"
+                                   href="{{ route('inventory.edit',$item->id) }}"><i
+                                            class="fa fa-pen"></i></a>
+                            @endif
+                            @if(auth()->user()->hasPermissionTo('inventory-delete'))
+
+                                <form action="{{ route('inventory.destroy',$item->id) }}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                </form>
+                            @endif
                         </div>
                     </td>
                 </tr>
             @empty
-                <a href="{{ route('inventory.create') }}">No Inventories, Please Create One</a>
+                <p>No Inventories</p>
             @endforelse
             </tbody>
         </table>

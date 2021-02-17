@@ -6,11 +6,6 @@
 @stop
 @section('content')
 {{--  sir this a jugar i know  --}}
-    @if(auth()->user()->hasRole('super-admin'))
-        <script>
-            window.location.href = "admin/home";
-        </script>
-    @endif
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">

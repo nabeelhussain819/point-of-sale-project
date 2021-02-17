@@ -1,11 +1,13 @@
 @extends('adminlte::page')
 
-@section('title','All Roles')
+@section('title','All Customers')
 
 @section('content')
     <div class="container">
         <h1>Customers</h1>
-        <a class="btn btn-success" href="{{route('customers.create')}}">Add New Customers</a>
+        @if(auth()->user()->hasPermissionTo('customer-create'))
+            <a class="btn btn-success" href="{{route('customers.create')}}">Add New Customers</a>
+        @endif
         <br>
         @if (session('success'))
             <div class="alert alert-success" role="alert">
@@ -40,17 +42,23 @@
                     <td>{{$item->created_at}}</td>
                     <td>
                         <div style="display: flex">
-                            <a class="btn btn-info" href="{{route('customers.edit',$item->customer->id)}}"><i class="fa fa-pen"></i></a>
-                            <form action="{{route('customers.destroy',$item->customer->id)}}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                            </form>
+                            @if(auth()->user()->hasPermissionTo('customer-edit'))
+                                <a class="btn btn-info" href="{{route('customers.edit',$item->customer->id)}}"><i
+                                            class="fa fa-pen"></i></a>
+                            @endif
+                            @if(auth()->user()->hasPermissionTo('customer-delete'))
+
+                                <form action="{{route('customers.destroy',$item->customer->id)}}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                </form>
+                            @endif
                         </div>
                     </td>
                 </tr>
             @empty
-                <a href="{{route('customers.create')}}">No Customers, Please Create One</a>
+                <p>No customers</p>
             @endforelse
             </tbody>
         </table>

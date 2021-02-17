@@ -57,7 +57,7 @@
                         <td style="display: none;">Total:</td>
                         <td style="display: none;">Total:</td>
                         <td style="display: none;">Total:</td>
-                        <td class="float-right"></td>
+                        <td></td>
 
                     </tr>
                 </tfoot>

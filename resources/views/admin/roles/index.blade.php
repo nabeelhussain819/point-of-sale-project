@@ -5,7 +5,9 @@
 @section('content')
     <div class="container">
         <h1>Roles</h1>
-        <a class="btn btn-success" href="{{route('roles.create')}}">Add New Role</a>
+        @if(auth()->user()->hasPermissionTo('role-create'))
+            <a class="btn btn-success" href="{{route('roles.create')}}">Add New Role</a>
+        @endif
         <br>
         @if (session('success'))
             <div class="alert alert-success" role="alert">
@@ -31,23 +33,28 @@
                     <td>{{$count++}}</td>
                     <td>{{$item->name}}</td>
                     <td>@foreach($item->permissions as $p)
-                            {{$p->name}}
+                          <span class="badge badge-primary">{{$p->name}}</span>
                         @endforeach
-                        </td>
+                    </td>
                     <td>{{$item->created_at}}</td>
                     <td>
                         <div style="display: flex">
-                            <a class="btn btn-info" href="{{route('roles.edit',$item->id)}}"><i class="fa fa-pen"></i></a>
-                            <form action="{{route('roles.destroy',$item->id)}}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                            </form>
+                            @if(auth()->user()->hasPermissionTo('role-edit'))
+                                <a class="btn btn-info" href="{{route('roles.edit',$item->id)}}"><i
+                                            class="fa fa-pen"></i></a>
+                            @endif
+                            @if(auth()->user()->hasPermissionTo('role-delete'))
+                                <form action="{{route('roles.destroy',$item->id)}}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                </form>
+                            @endif
                         </div>
                     </td>
                 </tr>
             @empty
-                <a href="{{route('roles.create')}}">No Roles, Please Create One</a>
+                <p>No Roles</p>
             @endforelse
             </tbody>
         </table>

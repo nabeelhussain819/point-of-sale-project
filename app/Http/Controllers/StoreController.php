@@ -45,7 +45,7 @@ class StoreController extends Controller
         $store->guid = Str::uuid();
         $store->fill($request->all())->save();
         UserStore::create(['role_id' => $request->get('role_id'),'store_id' => $store->id, 'user_id' => $request->get('user_id')]);
-        return redirect('admin/home')->with('success','Store Created');
+        return redirect('home')->with('success','Store Created');
     }
 
     /**

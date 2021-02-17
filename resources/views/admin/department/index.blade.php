@@ -5,7 +5,9 @@
 @section('content')
     <div class="container">
         <h1>Department</h1>
-        <a class="btn btn-success" href="{{route('departments.create')}}">Add New Department</a>
+        @if(auth()->user()->hasPermissionTo('department-create'))
+            <a class="btn btn-success" href="{{route('departments.create')}}">Add New Department</a>
+        @endif
         <br>
         @if (session('success'))
             <div class="alert alert-success" role="alert">
@@ -34,21 +36,28 @@
                     <td>{{$item->name}}</td>
                     <td>{{$item->full_name ?? 'No description'}}</td>
                     <td>{{$item->reference ?? 'No reference given'}}</td>
-                    <td><span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
+                    <td>
+                        <span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span>
+                    </td>
                     <td>{{$item->created_at}}</td>
                     <td>
                         <div style="display: flex">
-                            <a class="btn btn-info" href="{{route('departments.edit',$item->id)}}"><i class="fa fa-pen"></i></a>
-                            <form action="{{route('departments.destroy',$item->id)}}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                            </form>
+                            @if(auth()->user()->hasPermissionTo('department-edit'))
+                                <a class="btn btn-info" href="{{route('departments.edit',$item->id)}}"><i
+                                            class="fa fa-pen"></i></a>
+                            @endif
+                            @if(auth()->user()->hasPermissionTo('department-delete'))
+                                <form action="{{route('departments.destroy',$item->id)}}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                </form>
+                            @endif
                         </div>
                     </td>
                 </tr>
             @empty
-                <a href="{{route('departments.create')}}">No Department, Please Create One</a>
+                <p>No Department</p>
             @endforelse
             </tbody>
         </table>

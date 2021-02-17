@@ -230,51 +230,53 @@ return [
         ],
         [
             'text' => 'Store',
-            'url' => 'admin/stores',
+            'url' => 'stores',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
         ],
         [
             'text' => 'Users',
-            'url' => 'admin/users',
+            'url' => 'users',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
         ],
         [
             'text' => 'Categories',
-            'url' => 'admin/categories',
+            'url' => 'categories',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
         ],
         [
             'text' => 'Departments',
-            'url' => 'admin/departments',
+            'url' => 'departments',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
         ],
         [
             'text' => 'Roles',
-            'url' => 'admin/roles',
+            'url' => 'roles',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
         ],
         [
             'text' => 'Products',
-            'url' => 'admin/products',
+            'url' => 'products',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
         ],
         [
             'text' => 'Inventory',
-            'url' => 'admin/inventory',
+            'url' => 'inventory',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
         ],
         [
             'text' => 'Vendors',
-            'url' => 'admin/vendors',
+            'url' => 'vendors',
             'icon' => 'far fa-fw fa-file',
-            'can' => ['admin']
+        ],
+        [
+            'text' => 'Customers',
+            'url' => 'customers',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
+            'text' => 'Sales',
+            'url' => 'sales',
+            'icon' => 'far fa-fw fa-file',
         ]
     ],
 

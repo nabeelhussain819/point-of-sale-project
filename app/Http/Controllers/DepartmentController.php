@@ -44,7 +44,7 @@ class DepartmentController extends Controller
         ]);
         $department= new Department();
         $department->fill($request->all())->save();
-        return redirect('admin/departments')->with('success', 'Department Added');
+        return redirect('departments')->with('success', 'Department Added');
     }
 
     /**

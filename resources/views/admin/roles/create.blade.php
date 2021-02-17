@@ -15,15 +15,12 @@
                 </div>
                 <div class="form-group">
                     <label>Permissions</label>
-                    <div class="row">
+                    <br>
                        @foreach($permission as $item)
-                           <div class="col">
-                           <p>{{$item->name}}</p>
-                        <input type="checkbox" name="permission[]" value="{{$item->id}}"/>
-                           </div>
+                    <label class="checkbox-inline" style="font-size: 12px; padding: 5px;"><span class="badge badge-primary">{{$item->name}}</span> </label>
+                      <input type="checkbox" name="permission[]" value="{{$item->id}}"/>
                        @endforeach
                     </div>
-                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

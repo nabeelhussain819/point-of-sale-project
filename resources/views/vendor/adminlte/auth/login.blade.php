@@ -43,13 +43,15 @@
         {{-- Password field --}}
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                   placeholder="{{ __('adminlte::adminlte.password') }}">
+                   placeholder="{{ __('password') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-lock {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
-            @if($errors->has('password'))
+            <p>default password of your account is <strong>password</strong>, Please change it after login</p>
+
+        @if($errors->has('password'))
                 <div class="invalid-feedback">
                     <strong>{{ $errors->first('password') }}</strong>
                 </div>
@@ -78,8 +80,8 @@
 @section('auth_footer')
     {{-- Password reset link --}}
     @if($password_reset_url)
-        <p class="my-0">
-            <a href="{{ $password_reset_url }}">
+        <p class="my-0" class="text-center">
+            <a href="{{ $password_reset_url }}" >
                 {{ __('adminlte::adminlte.i_forgot_my_password') }}
             </a>
         </p>

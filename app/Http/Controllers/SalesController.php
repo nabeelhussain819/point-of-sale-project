@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Inventory;
-use App\Models\OrderProduct;
-use App\Models\Product;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 
@@ -18,7 +17,7 @@ class SalesController extends Controller
     public function index()
     {
         //
-        return view('admin.sales.index',['sales' => Sale::with('inventory','product')->get()]);
+        return view('admin.sales.index',['sales' => Sale::with('inventory','customer')->get()]);
     }
 
     /**
@@ -29,7 +28,7 @@ class SalesController extends Controller
     public function create()
     {
         //
-        return view('admin.sales.create',['products' => Product::all(),'inventory' => Inventory::all()]);
+        return view('admin.sales.create',['inventory' => Inventory::all(),'customers' => Customer::all()]);
     }
 
     /**
@@ -41,6 +40,7 @@ class SalesController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate(['customer_id' => 'required', 'inventory_id' => 'required']);
         $sales = new Sale();
         $sales->fill($request->all())->save();
         return redirect('admin/sales')->with('success','New Sale Created');
