@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\RoleController;
@@ -44,11 +46,12 @@ Route::group(['middleware' => ['auth']], function () {
         'products' => ProductController::class,
         'inventory' => InventoryController::class,
         'customers' => CustomerController::class,
-        'sales' => SalesController::class
+        'sales' => SalesController::class,
+        'orders' => OrderController::class,
     ]);
     Route::post('assign', [StoreController::class, 'assignUserToStore'])->name('addusertostore');
     Route::post('assign-role', [UserController::class, 'assignRole'])->name('addroletouser');
     Route::post('deassign-role', [UserController::class, 'deassignRole'])->name('remove.role');
-    Route::get('change-password', [\App\Http\Controllers\ChangePasswordController::class, 'index'])->name('password.change');
-    Route::post('change-password', [\App\Http\Controllers\ChangePasswordController::class, 'store'])->name('change.password');
+    Route::get('change-password', [ChangePasswordController::class, 'index'])->name('password.change');
+    Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 });

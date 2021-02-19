@@ -45,12 +45,4 @@ class OrderProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function sales()
-    {
-        return $this->hasMany(Sale::class, 'order_id');
-    }
 }

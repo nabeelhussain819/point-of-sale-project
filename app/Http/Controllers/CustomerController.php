@@ -40,16 +40,8 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         //
-        $orderCustomer = new OrderProduct();
         $customer = new Customer();
         $customer->fill($request->all())->save();
-        $orderCustomer->order_id = 'PO' .rand(1111,999999);
-        //only saving single product for now will change this in future
-        foreach ($request->products as $product) {
-            $item = $product;
-            $orderCustomer->product_id = $item;
-        }
-        $orderCustomer->customer()->associate($customer)->save();
         return redirect('customers')->with('success','Customer Created');
     }
 

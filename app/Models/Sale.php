@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property integer $quantity
  * @property float $unit_price
- * @property float $tax
  * @property string $created_at
  * @property string $updated_at
  * @property Inventory $inventory
@@ -29,7 +28,7 @@ class Sale extends Model
     /**
      * @var array
      */
-    protected $fillable = ['inventory_id', 'customer_id', 'description', 'tax', 'created_at', 'updated_at'];
+    protected $fillable = ['inventory_id', 'customer_id', 'description', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -42,7 +41,7 @@ class Sale extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function product()
+    public function customer()
     {
         return $this->belongsTo(Customer::class);
     }

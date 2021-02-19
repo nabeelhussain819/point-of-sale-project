@@ -277,7 +277,13 @@ return [
             'text' => 'Sales',
             'url' => 'sales',
             'icon' => 'far fa-fw fa-file',
-        ]
+        ],
+        [
+            'text' => 'Orders',
+            'url' => 'orders',
+            'icon' => 'far fa-fw fa-file',
+        ],
+
     ],
 
     /*

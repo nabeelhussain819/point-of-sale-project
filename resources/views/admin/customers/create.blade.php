@@ -25,18 +25,6 @@
                     <label for="exampleInputEmail1">Telephone</label>
                     <input type="name" class="form-control" name="telephone" id="exampleInputEmail1" placeholder="Telephone" required>
                 </div>
-
-                <div class="form-group">
-                    <label>Products</label>
-                    <div class="row">
-                       @foreach(\App\Models\Product::all() as $item)
-                           <div class="col-2">
-                           <p>{{$item->name}}</p>
-                           <input type="checkbox" name="products[]" value="{{$item->id}}"/>
-                           </div>
-                       @endforeach
-                    </div>
-                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

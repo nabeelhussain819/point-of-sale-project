@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Inventory;
+use App\Models\OrderProduct;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,9 @@ class SalesController extends Controller
     public function index()
     {
         //
-        return view('admin.sales.index',['sales' => Sale::with('inventory','customer')->get()]);
+        return view('admin.sales.index',['sales' => Sale::with('inventory','customer')->get(), 'orders' => OrderProduct::with('customer','product')->get()]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -41,9 +43,16 @@ class SalesController extends Controller
     {
         //
         $request->validate(['customer_id' => 'required', 'inventory_id' => 'required']);
+        foreach ($request->products as $product) {
+            OrderProduct::insert([
+                'customer_id' => $request->customer_id,
+                'order_id' => 'PO' .rand(1111,999999),
+                'product_id' => $product
+            ]);
+        }
         $sales = new Sale();
         $sales->fill($request->all())->save();
-        return redirect('admin/sales')->with('success','New Sale Created');
+        return redirect('sales')->with('success','New Sale Created');
     }
 
     /**

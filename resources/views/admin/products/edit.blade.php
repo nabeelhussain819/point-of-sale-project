@@ -77,9 +77,9 @@
                     </div>
                     <div class="form-group">
                         <label>Active</label>
-                        <select name="taxable" class="form-control">
-                            <option value="0" {{$product->active == 0 ? 'selected' : ''}}>Active</option>
-                            <option value="1" {{$product->active == 1 ? 'selected' : ''}}>Not Active</option>
+                        <select name="active" class="form-control">
+                            <option value="1" {{$product->active == 1 ? 'selected' : ''}}>Active</option>
+                            <option value="0" {{$product->active == 0 ? 'selected' : ''}}>Not Active</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary float-right">Submit</button>

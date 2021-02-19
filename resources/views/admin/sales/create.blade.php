@@ -42,6 +42,17 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Products</label>
+                                <div class="row">
+                                    @foreach(\App\Models\Product::all() as $item)
+                                        <div class="col-2">
+                                            <p>{{$item->name}}</p>
+                                            <input type="checkbox" name="products[]" value="{{$item->id}}"/>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary float-right">Submit</button>
                         </form>
                     </div>
