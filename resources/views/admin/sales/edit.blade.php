@@ -2,6 +2,7 @@
 
 @section('title','Edit Product')
 @section('content')
+
     <div class="card">
         <div class="card-header">
             @if(session('success'))

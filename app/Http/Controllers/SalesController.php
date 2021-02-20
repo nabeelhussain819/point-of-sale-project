@@ -18,7 +18,7 @@ class SalesController extends Controller
     public function index()
     {
         //
-        return view('admin.sales.index',['sales' => Sale::with('inventory','customer')->get(), 'orders' => OrderProduct::with('customer','product')->get()]);
+        return view('admin.sales.index',['sales' => Sale::with('inventory','customer')->get(),'inventory' => Inventory::all(),'customers' => Customer::all()]);
     }
 
 
@@ -30,7 +30,7 @@ class SalesController extends Controller
     public function create()
     {
         //
-        return view('admin.sales.create',['inventory' => Inventory::all(),'customers' => Customer::all()]);
+        return view('admin.sales.create',[]);
     }
 
     /**
