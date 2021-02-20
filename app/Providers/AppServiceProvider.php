@@ -27,9 +27,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         $this->register();
-
-
-
-        Paginator::useBootstrap();
+       Paginator::useBootstrap();
     }
 }
