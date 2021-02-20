@@ -5,10 +5,20 @@
 @section('content')
 
     <div class="container">
+        @if (isset($errors) && count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="panel panel-default">
             <div class="panel-heading"><b>New Order</b>
             </div>
-            <form action="POST" method="{{route('sales.store')}}">
+            <form action="{{route('sales.store')}}" method="POST">
+                @csrf
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -82,7 +92,7 @@
                 @php
                     $count = 1;
                 @endphp
-                @forelse(\App\Models\OrderProduct::with('customer','product')->get() as $item)
+                @forelse(\App\Models\Customer::with('customer','product')->get() as $item)
                     <tr>
                         <td>{{$count++}}</td>
                         <td>{{$item->order_id}}</td>

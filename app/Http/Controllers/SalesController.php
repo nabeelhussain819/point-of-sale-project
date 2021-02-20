@@ -18,7 +18,7 @@ class SalesController extends Controller
     public function index()
     {
         //
-        return view('admin.sales.index',['sales' => Sale::with('inventory','customer')->get(),'inventory' => Inventory::all(),'customers' => Customer::all()]);
+        return view('admin.sales.index',['sales' => Sale::with('product','customer')->get(),'customers' => Customer::all()]);
     }
 
 
@@ -42,7 +42,7 @@ class SalesController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate(['customer_id' => 'required', 'inventory_id' => 'required']);
+        $request->validate(['customer_id' => 'required', 'products' => 'required', 'quantity' => 'required']);
         foreach ($request->products as $product) {
             OrderProduct::insert([
                 'customer_id' => $request->customer_id,

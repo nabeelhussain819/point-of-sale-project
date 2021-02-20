@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
- * @property integer $inventory_id
  * @property integer $product_id
+ * @property integer $customer_id
  * @property string $description
  * @property integer $quantity
- * @property float $unit_price
  * @property string $created_at
  * @property string $updated_at
- * @property Inventory $inventory
+ * @property Customer $customer
  * @property Product $product
  */
 class Sale extends Model
@@ -28,15 +27,7 @@ class Sale extends Model
     /**
      * @var array
      */
-    protected $fillable = ['inventory_id', 'customer_id', 'description', 'created_at', 'updated_at'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function inventory()
-    {
-        return $this->belongsTo(Inventory::class);
-    }
+    protected $fillable = ['product_id', 'customer_id', 'description', 'quantity', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -44,5 +35,13 @@ class Sale extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

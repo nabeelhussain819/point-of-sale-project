@@ -22,7 +22,7 @@ class CreateSalesTable extends Migration
         });
 
         Schema::table('sales', function (Blueprint $table){
-            $table->foreign('product_id')->references('id')->on('inventories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

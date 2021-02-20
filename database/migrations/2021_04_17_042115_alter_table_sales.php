@@ -15,7 +15,7 @@ class AlterTableSales extends Migration
     {
         Schema::table('sales', function (Blueprint $table) {
             $table->unsignedBigInteger('customer_id')->nullable();
-            $table->foreign('customer_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
