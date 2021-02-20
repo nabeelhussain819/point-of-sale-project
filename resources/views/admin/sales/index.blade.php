@@ -14,77 +14,82 @@
                 </ul>
             </div>
         @endif
-        <div class="panel panel-default">
-            <div class="panel-heading"><b>New Order</b>
-            </div>
-            <form action="{{route('sales.store')}}" method="POST">
-                @csrf
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th class="col-xs-3">Customer</th>
-                    <th class="col-xs-3">Description</th>
-                    <th class="col-xs-3">Quantity</th>
-                    <th class="col-xs-3">Product</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="radio">
-                            <select class="form-control" name="customer_id">
-                                @foreach($customers as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="description"
-                               placeholder="Enter description"
-                               required/>
-                    </td>
-                    <td>
-                        <input type="number" class="form-control" name="quantity" id=""
-                               placeholder="Enter Quantity" required/>
-                    </td>
-                    <td>
-                        <div class="input-group spinner">
-                            <div class="row">
-                                @foreach(\App\Models\Product::all() as $item)
-                                    <div class="col">
-                                        <p>{{$item->name}}</p>
-                                        <input type="checkbox" name="products[]" value="{{$item->id}}"/>
+        <div class="card">
+            <div class="card-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><b>New Order</b>
+                    </div>
+                    <form action="{{route('sales.store')}}" method="POST">
+                        @csrf
+                        <table class="table" id="products_table">
+                            <thead>
+                            <tr>
+                                <th class="col-xs-3">Customer</th>
+                                <th class="col-xs-3">Description</th>
+                                <th class="col-xs-3">Quantity</th>
+                                <th class="col-xs-3">Product</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr id="product0">
+                                <td>
+                                    <div class="radio">
+                                        <select class="form-control" name="customer_id">
+                                            @foreach($customers as $item)
+                                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                @endforeach
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="description"
+                                           placeholder="Enter description"/>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" name="quantity" id=""
+                                           placeholder="Enter Quantity"/>
+                                </td>
+                                <td>
+                                    <div class="input-group spinner">
+                                        <div class="row">
+                                            <select class="form-control" name="products[]">
+                                                @foreach(\App\Models\Product::all() as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="product1">
+                            </tr>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button id="add_row" class="btn btn-default float-left">+ Add Row</button>
+                                <button id='delete_row' class="float-right btn btn-danger">- Delete Row</button>
                             </div>
                         </div>
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-primary float-right" >Add</button>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <td>
-
-                </td>
-                </tfoot>
-            </table>
-            </form>
+                        <br>
+                        <div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+
         <div class="table-responsive">
 
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Order Id</th>
                     <th scope="col">Customer Name</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col" class="unitprice">Unit Price</th>
+                    <th scope="col">Customer Email</th>
+                    <th scope="col">Products</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
                     {{--                    <th scope="col">Action</th>--}}
                 </tr>
                 </thead>
@@ -92,39 +97,34 @@
                 @php
                     $count = 1;
                 @endphp
-                @forelse(\App\Models\Customer::with('customer','product')->get() as $item)
+                @forelse($customers as $item)
                     <tr>
-                        <td>{{$count++}}</td>
-                        <td>{{$item->order_id}}</td>
-                        <td>{{$item->customer->name}}</td>
-                        <td>{{$item->product->name}}</td>
-                        <td>{{$item->product->description}}</td>
-                        <td>{{$item->product->cost}}</td>
+                        <td>{{$item->id}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{$item->email}}</td>
                         <td>
-                            <div style="display: flex;margin:4px">
-                                {{--                                <a class="btn btn-info" href="{{route('sales.edit',$item->id)}}"><i--}}
-                                {{--                                            class="fa fa-pen"></i></a>--}}
-                                {{--                                <form action="{{route('sales.destroy',$item->id)}}" method="POST">--}}
-                                {{--                                    @method('DELETE')--}}
-                                {{--                                    @csrf--}}
-                                {{--                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>--}}
-                                {{--                                </form>--}}
-                            </div>
+                            <ul>
+                                @foreach($item->orderProducts as $products)
+                                    <li> {{$products->product->name}}</li>
+                                @endforeach
+                            </ul>
+                        </td>
+                        <td>
+                            @foreach($item->orderProducts as $products)
+                                <li> {{$products->quantity}}</li>
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($item->orderProducts as $products)
+                                <li> {{$products->quantity * $products->product->cost}}</li>
+                            @endforeach
                         </td>
                     </tr>
                 @empty
-                    {{--                    <a href="{{route('sales.create')}}">No Sales yet</a>--}}
                 @endforelse
                 </tbody>
                 {{--                <td>Total Sum Of Quantity: {{$item->inventory->quantity * $item->inventory->product->cost}}</td>--}}
                 <tfoot>
-                {{--                <tr>--}}
-                {{--                    <td style="display: none;">Total:</td>--}}
-                {{--                    <td style="display: none;">Total Quantity</td>--}}
-                {{--                    <td style="display: none;">Total Quantity</td>--}}
-                {{--                    <td style="display: none;">Total Quantity</td>--}}
-                {{--                    <td></td>--}}
-                {{--                </tr>--}}
                 </tfoot>
             </table>
         </div>
@@ -134,9 +134,22 @@
 
     <script>
         $(document).ready(function () {
-            // $("table thead th").each(function (i) {
-            //     calculateColumn(i);
-            // });
+            let row_number = 1;
+            $("#add_row").click(function (e) {
+                e.preventDefault();
+                let new_row_number = row_number - 1;
+                $('#product' + row_number).html($('#product' + new_row_number).html()).find('td:first-child');
+                $('#products_table').append('<tr id="product' + (row_number + 1) + '"></tr>');
+                row_number++;
+            });
+
+            $("#delete_row").click(function (e) {
+                e.preventDefault();
+                if (row_number > 1) {
+                    $("#product" + (row_number - 1)).html('');
+                    row_number--;
+                }
+            });
         });
 
         function calculateColumn(index) {

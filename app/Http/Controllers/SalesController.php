@@ -18,7 +18,8 @@ class SalesController extends Controller
     public function index()
     {
         //
-        return view('admin.sales.index',['sales' => Sale::with('product','customer')->get(),'customers' => Customer::all()]);
+        return view('admin.sales.index',['sales' => OrderProduct::with('product','customer')->get(),
+            'customers' => Customer::with('orderProducts')->get()]);
     }
 
 
@@ -43,10 +44,11 @@ class SalesController extends Controller
     {
         //
         $request->validate(['customer_id' => 'required', 'products' => 'required', 'quantity' => 'required']);
-        foreach ($request->products as $product) {
+        foreach ($request->input('products',[]) as $product) {
             OrderProduct::insert([
-                'customer_id' => $request->customer_id,
+                'customer_id' => $request->get('customer_id'),
                 'order_id' => 'PO' .rand(1111,999999),
+                'quantity' => $request->get('quantity'),
                 'product_id' => $product
             ]);
         }

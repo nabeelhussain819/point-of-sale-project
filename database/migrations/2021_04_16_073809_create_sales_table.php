@@ -16,7 +16,6 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->bigInteger('quantity')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->timestamps();
         });
