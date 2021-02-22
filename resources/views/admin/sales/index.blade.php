@@ -14,7 +14,7 @@
                 </ul>
             </div>
         @endif
-        <div class="card">
+        <div class="card shadow rounded">
             <div class="card-body">
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>New Order</b>
@@ -24,10 +24,10 @@
                         <table class="table" id="products_table">
                             <thead>
                             <tr>
-                                <th class="col-xs-3">Customer</th>
-                                <th class="col-xs-3">Description</th>
-                                <th class="col-xs-3">Quantity</th>
-                                <th class="col-xs-3">Product</th>
+                                <th class="col-xs-4">Customer</th>
+                                <th class="col-xs-4">Description</th>
+                                <th class="col-xs-4">Quantity</th>
+                                <th class="col-xs-4">Product</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -46,15 +46,16 @@
                                            placeholder="Enter description"/>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control" name="quantity" id=""
+                                    <input type="text" class="form-control" name="quantity"
                                            placeholder="Enter Quantity"/>
                                 </td>
                                 <td>
                                     <div class="input-group spinner">
                                         <div class="row">
                                             <select class="form-control" name="products[]">
-                                                @foreach(\App\Models\Product::all() as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                <option value="">Please Select Product</option>
+                                                @foreach(\App\Models\Inventory::all() as $item)
+                                                    <option value="{{$item->id}}">{{$item->product->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -66,67 +67,87 @@
                         </table>
                         <div class="row">
                             <div class="col-md-12">
-                                <button id="add_row" class="btn btn-default float-left">+ Add Row</button>
-                                <button id='delete_row' class="float-right btn btn-danger">- Delete Row</button>
+                                <button id="add_row" class="btn btn-primary float-left shadow-lg">+ Add Row</button>
+                                <button id='delete_row' class="float-right btn btn-danger shadow-lg">- Delete Row</button>
                             </div>
                         </div>
                         <br>
                         <div>
-                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button class="btn btn-success font-weight-bold shadow rounded float-right" type="submit">Save</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        <div class="card shadow rounded">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Customer Email</th>
+                            <th scope="col">Products</th>
+                            <th scope="col">Product Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">Actions</th>
+                            {{--                    <th scope="col">Action</th>--}}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @php
+                            $count = 1;
+                        @endphp
+                        @forelse($customers as $item)
+                            <tr>
+                                <td>{{$item->id}}</td>
+                                <td>{{$item->name}}</td>
+                                <td>{{$item->email}}</td>
+                                <td>
+                                    <ul>
+                                        @foreach($item->orderProducts as $products)
+                                            <li> {{$products->inventory->product->name}}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach($item->orderProducts as $products)
+                                            <li> {{$products->inventory->product->cost}}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
 
-        <div class="table-responsive">
+                                <td>
+                                    @foreach($item->orderProducts as $products)
+                                        <li> {{$products->quantity}}</li>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach($item->orderProducts as $products)
+                                        <li> {{$products->quantity * $products->inventory->product->cost}}</li>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <form action="{{route('sales.destroy',$item->id)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                        @endforelse
+                        </tbody>
+                        {{--                <td>Total Sum Of Quantity: {{$item->inventory->quantity * $item->inventory->product->cost}}</td>--}}
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Customer Name</th>
-                    <th scope="col">Customer Email</th>
-                    <th scope="col">Products</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total Price</th>
-                    {{--                    <th scope="col">Action</th>--}}
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $count = 1;
-                @endphp
-                @forelse($customers as $item)
-                    <tr>
-                        <td>{{$item->id}}</td>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->email}}</td>
-                        <td>
-                            <ul>
-                                @foreach($item->orderProducts as $products)
-                                    <li> {{$products->product->name}}</li>
-                                @endforeach
-                            </ul>
-                        </td>
-                        <td>
-                            @foreach($item->orderProducts as $products)
-                                <li> {{$products->quantity}}</li>
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach($item->orderProducts as $products)
-                                <li> {{$products->quantity * $products->product->cost}}</li>
-                            @endforeach
-                        </td>
-                    </tr>
-                @empty
-                @endforelse
-                </tbody>
-                {{--                <td>Total Sum Of Quantity: {{$item->inventory->quantity * $item->inventory->product->cost}}</td>--}}
-                <tfoot>
-                </tfoot>
-            </table>
+            </div>
         </div>
 
     </div>

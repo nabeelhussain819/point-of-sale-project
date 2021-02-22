@@ -126,7 +126,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-custom elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -224,19 +224,24 @@ return [
     */
     'menu' => [
         [
-            'text' => 'Home',
-            'url' => '/home',
-            'icon' => 'far fa-fw fa-file',
+            'text' => 'Store',
+            'url' => 'home',
+            'icon' => 'fas fa-tachometer-alt',
         ],
         [
-            'text' => 'Store',
-            'url' => 'stores',
-            'icon' => 'far fa-fw fa-file',
+            'text' => 'Customers',
+            'url' => 'customers',
+            'icon' => 'fas fa-users',
+        ],
+        [
+            'text' => 'Inventory',
+            'url' => 'inventory',
+            'icon' => 'fas fa-boxes',
         ],
         [
             'text' => 'Users',
             'url' => 'users',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fas fa-user',
         ],
         [
             'text' => 'Categories',
@@ -246,44 +251,18 @@ return [
         [
             'text' => 'Departments',
             'url' => 'departments',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'far fa-building',
         ],
         [
             'text' => 'Roles',
             'url' => 'roles',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fas fa-user-tag',
         ],
-        [
-            'text' => 'Products',
-            'url' => 'products',
-            'icon' => 'far fa-fw fa-file',
-        ],
-        [
-            'text' => 'Inventory',
-            'url' => 'inventory',
-            'icon' => 'far fa-fw fa-file',
-        ],
-        [
-            'text' => 'Vendors',
-            'url' => 'vendors',
-            'icon' => 'far fa-fw fa-file',
-        ],
-        [
-            'text' => 'Customers',
-            'url' => 'customers',
-            'icon' => 'far fa-fw fa-file',
-        ],
-        [
-            'text' => 'Sales',
-            'url' => 'sales',
-            'icon' => 'far fa-fw fa-file',
-        ],
-        [
-            'text' => 'Orders',
-            'url' => 'orders',
-            'icon' => 'far fa-fw fa-file',
-        ],
-
+//        [
+//            'text' => 'Sales',
+//            'url' => 'sales',
+//            'icon' => 'far fa-fw fa-file',
+//        ],
     ],
 
     /*

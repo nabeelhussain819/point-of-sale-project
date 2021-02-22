@@ -73,6 +73,27 @@
 
 </head>
 
+<style>
+    .main-sidebar
+    {
+        background-color: #3d3f71;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        color: #595886;
+    }
+    label
+    {
+        color: #595886;
+    }
+    [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active{
+        color: #000;
+    }
+   .nav-pills .nav-link.active
+    {
+        background-color: #fff;
+        color: #595886;
+    }
+</style>
 <body class="@yield('classes_body')" @yield('body_data')>
 
     {{-- Body Content --}}

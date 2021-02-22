@@ -12,10 +12,14 @@
         @endif
     </div>
     <div class="container">
-        @if(auth()->user()->hasPermissionTo('user-create'))
-            <h1>All Users</h1> <a class="btn btn-success" href="{{ route('users.create') }}">Add User</a>
-        @endif
+        <h4>All Users @if(auth()->user()->hasPermissionTo('user-create')) <a
+                    class="btn btn-success float-right shadow rounded font-weight-bold"
+                    href="{{ route('users.create') }}">Add User</a>  @endif</h4>
+
         <br>
+        <div class="card shadow rounded">
+            <div class="card-body">
+                <div class="table-responsive">
         <table class="table">
             <thead>
             <tr>
@@ -53,7 +57,7 @@
                                     @csrf
                                     <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
-                                @endif
+                            @endif
                         </div>
                     </td>
                 </tr>
@@ -62,6 +66,11 @@
             @endforelse
             </tbody>
         </table>
-        {{ $user->links() }}
+                </div>
+            </div>
+            {{ $user->links() }}
+
+        </div>
+
     </div>
 @endsection

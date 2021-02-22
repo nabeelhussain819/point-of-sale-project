@@ -12,7 +12,8 @@
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-6">
-            <table class="table">
+            <div class="table-responsive">
+            <table class="table mt-5">
                 @if (session('success'))
                     <div class="alert alert-success" role="alert">
                         {{ session('success') }}
@@ -25,7 +26,6 @@
                     <th scope="col">Description</th>
                     <th scope="col">Reference</th>
                     <th scope="col">Active</th>
-                    <th scope="col">Created At</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
@@ -42,7 +42,6 @@
                         <td>
                             <span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span>
                         </td>
-                        <td>{{$item->created_at}}</td>
                         <td>
                             <div style="display: flex">
                                 @if(auth()->user()->hasPermissionTo('category-edit'))
@@ -60,6 +59,7 @@
                 @endforelse
                 </tbody>
             </table>
+            </div>
             {{$categories->links('pagination::bootstrap-4')}}
         </div>
     </div>

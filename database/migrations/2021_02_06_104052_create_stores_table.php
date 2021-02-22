@@ -17,7 +17,16 @@ class CreateStoresTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('guid');
             $table->string('name');
+            $table->string('full_name');
+            $table->string('code')->unique();
             $table->string('location');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip');
+            $table->date('timezone');
+            $table->string('contact_info');
+            $table->string('primary_phone');
+            $table->string('fax');
             $table->string('description')->nullable();
             $table->boolean('active')->default(false);
             $table->timestamps();

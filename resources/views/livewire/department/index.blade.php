@@ -15,8 +15,8 @@
                 {{ session('success') }}
             </div>
         @endif
-        <div class="table-responsive">
-    <table class="table">
+            <div class="table-responsive">
+    <table class="table mt-5">
         <thead>
         <tr>
             <th scope="col">#</th>

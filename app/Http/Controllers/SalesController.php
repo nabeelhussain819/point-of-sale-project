@@ -18,7 +18,7 @@ class SalesController extends Controller
     public function index()
     {
         //
-        return view('admin.sales.index',['sales' => OrderProduct::with('product','customer')->get(),
+        return view('admin.sales.index',['sales' => OrderProduct::with('inventory','customer')->get(),
             'customers' => Customer::with('orderProducts')->get()]);
     }
 
@@ -43,14 +43,17 @@ class SalesController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate(['customer_id' => 'required', 'products' => 'required', 'quantity' => 'required']);
+        $request->validate(['customer_id' => 'required', 'products' => 'required']);
         foreach ($request->input('products',[]) as $product) {
             OrderProduct::insert([
                 'customer_id' => $request->get('customer_id'),
                 'order_id' => 'PO' .rand(1111,999999),
                 'quantity' => $request->get('quantity'),
-                'product_id' => $product
+                'inventory_id' => $product
             ]);
+//           $invent = Inventory::where('id', $request->get('products'))->get();
+//           $invent->quantity = $invent->quantity - $request->get('quantity');
+//           $invent->update();
         }
         $sales = new Sale();
         $sales->fill($request->all())->save();
@@ -100,5 +103,8 @@ class SalesController extends Controller
     public function destroy($id)
     {
         //
+        $orderProduct = OrderProduct::where('customer_id', $id);
+        $orderProduct->delete();
+        return back()->with('success','Product Deleted');
     }
 }

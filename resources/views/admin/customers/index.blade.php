@@ -3,5 +3,6 @@
 @section('title','All Customers')
 
 @section('content')
+
   <livewire:customers/>
 @endsection

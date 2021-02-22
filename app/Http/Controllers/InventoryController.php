@@ -42,7 +42,8 @@ class InventoryController extends Controller
         $request->validate([
             'name' => 'required',
             'product_id' => 'required',
-            'vendor_id' => 'required'
+            'vendor_id' => 'required',
+            'quantity' => 'required'
         ]);
         $inventory = new Inventory();
         $inventory->guid = Str::uuid();

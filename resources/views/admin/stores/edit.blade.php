@@ -7,7 +7,7 @@
 
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="container">
-            <div class="card">
+            <div class="card shadow rounded">
                 <div class="card-header">
                     @if(session('success'))
                     <div class="alert alert-success" role="alert">
@@ -15,7 +15,7 @@
                     </div>
                     @endif
                     <div class="card-title"> <h1>Store Details</h1></div>
-                    <button type="button" class="btn btn-primary float-right" style="margin:10px" data-toggle="modal" data-target="#exampleModalCenter{{$store->id}}">
+                    <button type="button" class="btn btn-primary float-right mt-2" data-toggle="modal" data-target="#exampleModalCenter{{$store->id}}">
                         Assign Store
                     </button>
                     @include('partials.modal',['modalId' => $store->id, 'id' => $store->id,
@@ -37,28 +37,6 @@
                             <label for="exampleInputPassword1">Description</label>
                             <textarea type="text" class="form-control" {{$store->description}} name="description" id="exampleInputPassword1" placeholder="Enter Description" required>{{$store->description}}</textarea>
                         </div>
-        
-                        {{-- <div class="form-group">
-                            <label>Select User</label>
-                            <select name="user_id" class="form-control">
-                                <option value="">Please Select User</option>
-                                @foreach(\App\Models\User::where('id','!=',auth()->id())->get() as $user)
-                                    <option value="{{$user->id}}" {{$user->id == $user_id ? 'selected' : ''}}>{{$user->name}} <span class="badge badge-primary">({{$user->getRoleNames()->first()}})</span></option>
-                                @endforeach
-                            </select>
-                            
-                        </div>
-        
-                        <div class="form-group">
-                            <label>Select Role</label>
-                            <select name="role_id" class="form-control">
-                                <option value="">Please Select Role</option>
-                                @foreach(\Spatie\Permission\Models\Role::where('id','!=',1)->get() as $item)
-                                    <option value="{{$item->id}}" {{$item->id == $role_id ? 'selected' : ''}}>{{$item->name}}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
-        
                         <div class="form-group ">
                             <label>Status</label>
                             <select name="active" class="form-control" required>
@@ -66,7 +44,7 @@
                                 <option value="1" {{$store->active == 1 ? 'selected' : ''}}>ACTIVE</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary" name="edit_store">Submit</button>
+                        <button type="submit" class="btn btn-success float-right font-weight-bold" name="edit_store">Edit</button>
                     </form>
                 </div>    
             </div>
@@ -85,7 +63,7 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="container">
-            <div class="card">
+            <div class="card shadow rounded">
                 <div class="card-header">
                     <div class="card-title">
                         User Assigned to this store
@@ -132,7 +110,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <a href="{{route('stores.create')}}">No Stores, Please Create One</a>
+                            <p>No User Assigned to this store</p>
                             @endforelse
                         </tbody>
                     </table>

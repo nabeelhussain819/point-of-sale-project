@@ -1,20 +1,18 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property integer $quantity
  * @property integer $id
- * @property integer $product_id
  * @property integer $customer_id
+ * @property integer $inventory_id
  * @property string $order_id
  * @property string $created_at
  * @property string $updated_at
  * @property Customer $customer
- * @property string $quantity
- * @property Product $product
- * @property Sale[] $sales
+ * @property Inventory $inventory
  */
 class OrderProduct extends Model
 {
@@ -25,11 +23,10 @@ class OrderProduct extends Model
      */
     protected $keyType = 'integer';
 
-
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'quantity','customer_id', 'order_id', 'created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'inventory_id', 'quantity','order_id', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -42,8 +39,8 @@ class OrderProduct extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function product()
+    public function inventory()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Inventory::class);
     }
 }

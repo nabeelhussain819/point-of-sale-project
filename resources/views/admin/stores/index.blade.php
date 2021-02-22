@@ -6,7 +6,7 @@
     <div class="container">
         <h1>Store</h1>
         @if(auth()->user()->hasPermissionTo('store-edit'))
-            <a class="btn btn-success" href="{{route('stores.create')}}">Add Store</a>
+
         @endif
         <br>
         @if (session('success'))
@@ -14,6 +14,7 @@
                 {{ session('success') }}
             </div>
         @endif
+
         <div class="table-responsive">
 
             <table class="table">

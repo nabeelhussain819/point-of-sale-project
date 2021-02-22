@@ -28,8 +28,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Store Assigned</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Address</th>
+
                     <th scope="col">Store Description</th>
                     <th scope="col">Assigned As</th>
                 </tr>
@@ -38,13 +39,15 @@
                 @php
                     $count = 1;
                 @endphp
-                @forelse(\App\Models\UserStore::with('store','user','role')->where('user_id',auth()->id())->get() as $item)
+                @forelse(\App\Models\Store::where('user_id',auth()->id())->get() as $item)
                     <tr>
                         <td>{{$count++}}</td>
-                        <td>{{$item->user->name}}</td>
-                        <td>{{$item->user->email}}</td>
-                        <td>{{$item->store->name}}</td>
-                        <td>{{$item->store->description}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{$item->full_name}}</td>
+                        <td>{{$item->location}}</td>
+                        <td>{{$item->city}}</td>
+                        <td>{{$item->city}}</td>
+
                         <td>{{$item->role->name}}</td>
                         <td>
                             {{--                        <div style="display: flex">--}}

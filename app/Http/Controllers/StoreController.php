@@ -41,10 +41,11 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validateFields($request);
         $store = new Store();
         $store->guid = Str::uuid();
+        $store->code = Store::code();
         $store->fill($request->all())->save();
-        UserStore::create(['role_id' => $request->get('role_id'),'store_id' => $store->id, 'user_id' => $request->get('user_id')]);
         return redirect('home')->with('success','Store Created');
     }
 
@@ -122,5 +123,22 @@ class StoreController extends Controller
         $userStore->fill($request->all())->save();
         return redirect()->back()->with('success','User Assigned To the Store');
 
+    }
+
+    private function validateFields($request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'full_name' => 'required',
+            'timezone' => 'required',
+            'city' => 'required',
+            'zip' => 'required',
+            'state' => 'required',
+            'location' => 'required',
+            'description' => 'required',
+            'contact_info' => 'required',
+            'primary_phone' => 'required',
+            'fax' => 'required',
+        ]);
     }
 }

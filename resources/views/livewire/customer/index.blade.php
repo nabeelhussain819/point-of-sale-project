@@ -9,9 +9,9 @@
                 @endif
             @endif
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 ">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table mt-5">
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">
                             {{ session('success') }}
