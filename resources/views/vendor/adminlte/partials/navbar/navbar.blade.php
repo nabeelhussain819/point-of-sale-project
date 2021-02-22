@@ -6,6 +6,19 @@
     <ul class="navbar-nav">
         {{-- Left sidebar toggler link --}}
         @include('adminlte::partials.navbar.menu-item-left-sidebar-toggler')
+        <form action="{{ $item['href'] }}" method="{{ $item['method'] }}" class="form-inline mx-2">
+            {{ csrf_field() }}
+            <div class="input-group">
+                <input class="form-control form-control-navbar" type="search" name="{{ $item['input_name'] }}"
+                       placeholder="{{ $item['text'] }}" aria-label="{{ $item['aria-label'] ?? $item['text'] }}">
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        
 
         {{-- Configured left links --}}
         @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-left'), 'item')
@@ -16,6 +29,10 @@
 
     {{-- Navbar right links --}}
     <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+            <a class="nav-link" data-widget="control-sidebar" id="lock_screen" data-slide="true" href="#" role="button"><i class="fas fa-th-large"></i></a>
+          </li>
         {{-- Custom right links --}}
         @yield('content_top_nav_right')
 
