@@ -40,15 +40,23 @@ Route::group(['middleware' => ['auth']], function () {
         'stores' => StoreController::class,
         'roles' => RoleController::class,
         'user-store' => UserStoreController::class,
-        'vendors' => VendorController::class,
-        'categories' => CategoryController::class,
-        'departments' => DepartmentController::class,
-        'products' => ProductController::class,
-        'inventory' => InventoryController::class,
         'customers' => CustomerController::class,
         'sales' => SalesController::class,
         'orders' => OrderController::class,
     ]);
+    Route::group(['prefix' => 'product-management'], function (){
+       Route::Resources([
+           'categories' => CategoryController::class,
+           'departments' => DepartmentController::class,
+           'products' => ProductController::class,
+       ]);
+    });
+    Route::group(['prefix' => 'inventory-management'],function(){
+        Route::Resources([
+            'inventory' => InventoryController::class,
+            'vendors' => VendorController::class,
+        ]);
+    });
     Route::post('assign', [StoreController::class, 'assignUserToStore'])->name('addusertostore');
     Route::post('assign-role', [UserController::class, 'assignRole'])->name('addroletouser');
     Route::post('deassign-role', [UserController::class, 'deassignRole'])->name('remove.role');

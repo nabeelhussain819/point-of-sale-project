@@ -235,23 +235,18 @@ return [
         ],
         [
             'text' => 'Inventory',
-            'url' => 'inventory',
+            'url' => 'inventory-management/inventory',
             'icon' => 'fas fa-boxes',
+        ],
+        [
+            'text' => 'Reports',
+            'url' => '',
+            'icon' => 'fas fa-file',
         ],
         [
             'text' => 'Users',
             'url' => 'users',
             'icon' => 'fas fa-user',
-        ],
-        [
-            'text' => 'Categories',
-            'url' => 'categories',
-            'icon' => 'far fa-fw fa-file',
-        ],
-        [
-            'text' => 'Departments',
-            'url' => 'departments',
-            'icon' => 'far fa-building',
         ],
         [
             'text' => 'Roles',

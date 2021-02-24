@@ -13,7 +13,7 @@
                                         <i class="fas fa-money-bill-wave text-light" style="font-size: 70px"></i>
                                     </div>
                                     <div class="col">
-                                        <h4 class="mt-1 text-light" >Customer Sale</h4>
+                                        <h5 class="mt-1 text-light" >Customer Sale</h5>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                         <i class="fas fa-cubes text-light" style="font-size: 70px"></i>
                                     </div>
                                     <div class="col">
-                                        <h4 class="mt-0 text-light">Layaway/In Store Finace</h4>
+                                        <h5 class="mt-0 text-light">Layaway/In Store Finace</h5>
                                     </div>
                                 </div>
                             </div>
@@ -61,29 +61,14 @@
                                         <i class="fas fa-tools text-light" style="font-size: 70px"></i>
                                     </div>
                                     <div class="col">
-                                        <h4 class="mt-3 text-light">Repairs</h4>
+                                        <h5 class="mt-3 text-light">Repairs</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
-{{--                <div class="col-lg-3 col-md-3 col-sm-3">--}}
-{{--                    <a href="{{route('inventory.index')}}" style="">--}}
-{{--                        <div class="card shadow-lg bg-white rounded" style="height: 120px; background-image: linear-gradient(90deg, #4D5D53 0%, #4F7942 20%, #8FBC8B 100%);">--}}
-{{--                            <div class="card-body text-center">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col">--}}
-{{--                                        <i class="fas fa-list-alt text-light" style="font-size: 70px"></i>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col">--}}
-{{--                                        <h4 class="mt-1 text-light" >Item Search</h4>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
+
             </div>
 
         <div class="row justify-content-center">
@@ -135,11 +120,11 @@
 
                                 <td>
                                     <div style="display: flex;margin:4px">
-                                        <a class="btn btn-info" href="{{route('stores.edit',$item->id)}}"><i class="fa fa-pen"></i></a>
+                                        <a class="btn btn-info mr-1" href="{{route('stores.edit',$item->id)}}"><i class="fa fa-pen"></i></a>
                                         <form action="{{route('stores.destroy',$item->id)}}" method="POST">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                            <button type="submit" class="btn btn-danger ml-1"><i class="fa fa-trash"></i></button>
                                         </form>
                                     </div>
                                 </td>

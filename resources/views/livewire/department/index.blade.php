@@ -45,11 +45,11 @@
                 <td>
                     <div style="display: flex">
                         @if(auth()->user()->hasPermissionTo('department-edit'))
-                            <button class="btn btn-info" wire:click="edit({{$item->id}})"><i
+                            <button class="btn btn-info mr-1" wire:click="edit({{$item->id}})"><i
                                         class="fa fa-pen"></i></button>
                         @endif
                         @if(auth()->user()->hasPermissionTo('department-delete'))
-                            <button type="submit" class="btn btn-danger" wire:click="delete({{$item->id}})"><i
+                            <button type="submit" class="btn btn-danger ml-1" wire:click="delete({{$item->id}})"><i
                                         class="fa fa-trash"></i></button>
                         @endif
                     </div>

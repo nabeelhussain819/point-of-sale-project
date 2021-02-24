@@ -44,14 +44,14 @@
                                 <td>
                                     <div style="display: flex">
                                         @if(auth()->user()->hasPermissionTo('role-edit'))
-                                            <a class="btn btn-info" href="{{route('roles.edit',$item->id)}}"><i
+                                            <a class="btn btn-info mr-1" href="{{route('roles.edit',$item->id)}}"><i
                                                         class="fa fa-pen"></i></a>
                                         @endif
                                         @if(auth()->user()->hasPermissionTo('role-delete'))
                                             <form action="{{route('roles.destroy',$item->id)}}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                <button type="submit" class="btn btn-danger ml-1"><i class="fa fa-trash"></i></button>
                                             </form>
                                         @endif
                                     </div>

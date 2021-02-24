@@ -134,7 +134,7 @@
                                     <form action="{{route('sales.destroy',$item->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-danger ml-1" type="submit"><i class="fa fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

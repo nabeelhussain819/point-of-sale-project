@@ -49,13 +49,13 @@
                             @if(auth()->user()->hasPermissionTo('user-edit'))
                                 <a class="btn btn-info"
                                    href="{{ route('users.edit',$item->user->id) }}"><i
-                                            class="fa fa-pen"></i></a>
+                                            class="fa fa-pen mr-1"></i></a>
                             @endif
                             @if(auth()->user()->hasPermissionTo('user-delete'))
                                 <form action="{{ route('users.destroy',$item->user->id) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                    <button type="submit" class="btn btn-danger ml-1"><i class="fa fa-trash"></i></button>
                                 </form>
                             @endif
                         </div>

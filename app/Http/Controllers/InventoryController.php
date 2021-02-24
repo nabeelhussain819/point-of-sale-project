@@ -16,7 +16,7 @@ class InventoryController extends Controller
     public function index()
     {
         //
-        return view('admin.inventory.index',['inventories' => Inventory::all()]);
+        return view('admin.inventory.index');
     }
 
     /**
@@ -27,7 +27,7 @@ class InventoryController extends Controller
     public function create()
     {
         //
-        return view('admin.inventory.create');
+        return view('admin.inventory.create',['inventories' => Inventory::all()]);
     }
 
     /**
@@ -48,7 +48,7 @@ class InventoryController extends Controller
         $inventory = new Inventory();
         $inventory->guid = Str::uuid();
         $inventory->fill($request->all())->save();
-        return redirect('inventory')->with('success','Inventory Added');
+        return redirect('inventory/create')->with('success','Inventory Added');
     }
 
     /**
@@ -91,7 +91,7 @@ class InventoryController extends Controller
         ]);
         $inventory = Inventory::find($id);
         $inventory->fill($request->all())->update();
-        return redirect()->back()->with('success','Inventory Updated');
+        return redirect('inventory/create')->with('success','Inventory Updated');
     }
 
     /**
@@ -105,6 +105,6 @@ class InventoryController extends Controller
         //
         $inventory = Inventory::find($id);
         $inventory->delete();
-        return redirect()->back()->with('success','Inventory Deleted');
+        return redirect('inventory/create')->with('success','Inventory Deleted');
     }
 }

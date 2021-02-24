@@ -51,7 +51,7 @@
                                 <td>
                                     <div style="display: flex">
                                         @if(auth()->user()->hasPermissionTo('vendor-edit'))
-                                            <a class="btn btn-info"
+                                            <a class="btn btn-info mr-1"
                                                href="{{ route('vendors.edit',$item->id) }}"><i
                                                         class="fa fa-pen"></i></a>
                                         @endif
@@ -59,7 +59,7 @@
                                             <form action="{{ route('vendors.destroy',$item->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                <button type="submit" class="btn btn-danger ml-1"><i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
                                         @endif

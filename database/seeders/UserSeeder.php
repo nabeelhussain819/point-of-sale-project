@@ -69,7 +69,8 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@admin.com',
-            'password' => Hash::make('admin')
+            'password' => Hash::make('admin'),
+            'is_changed_password' => true
         ]);
 
         UserDetail::create([
