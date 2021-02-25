@@ -23,7 +23,7 @@ class StockTableSeeder extends Seeder
 
         foreach ($stockItems as $items)
         {
-            Stock::create(['name' => $items]);
+            Stock::create(['name' => $items, 'Constant' => $items]);
         }
     }
 }

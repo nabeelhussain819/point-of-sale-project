@@ -23,7 +23,7 @@ class Stock extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'created_at', 'updated_at'];
+    protected $fillable = ['name','constant','created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -32,4 +32,5 @@ class Stock extends Model
     {
         return $this->hasMany(OrderProduct::class);
     }
+
 }
