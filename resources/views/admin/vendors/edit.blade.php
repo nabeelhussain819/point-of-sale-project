@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Create A New Vendor')
+@section('title','Edit Vendor')
 @section('content')
     <div class="container">
         <h4>Edit {{$vendor->name}}</h4>

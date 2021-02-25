@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vendor;
 use Illuminate\Http\Request;
 
-class VendorController extends Controller
+class StockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class VendorController extends Controller
     public function index()
     {
         //
-        return view('admin.vendors.index',['vendors' => Vendor::all()]);
+        return view('admin.stock.index');
     }
 
     /**
@@ -26,7 +25,6 @@ class VendorController extends Controller
     public function create()
     {
         //
-        return view('admin.vendors.create');
     }
 
     /**
@@ -38,17 +36,7 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'name' => 'required',
-            'telephone' => 'required',
-            'mailing_address' => 'required',
-            'website' => 'required',
-        ]);        
-        $vendors = new Vendor();
-        $vendors->fill($request->all())->save();
-        return redirect('inventory-management/vendors')->with('success','Store Created');
     }
-
 
     /**
      * Display the specified resource.
@@ -70,7 +58,6 @@ class VendorController extends Controller
     public function edit($id)
     {
         //
-        return view('admin.vendors.edit',['vendor' => Vendor::find($id)]);
     }
 
     /**
@@ -83,9 +70,6 @@ class VendorController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $vendor = Vendor::find($id);
-        $vendor->fill($request->all())->update();
-        return redirect()->back()->with('success',"$vendor->name Updated");
     }
 
     /**
@@ -97,9 +81,5 @@ class VendorController extends Controller
     public function destroy($id)
     {
         //
-        $vendor = Vendor::find($id);
-        $vendor->delete();
-        return redirect()->back()->with('success','Vendor Deleted');
-
     }
 }

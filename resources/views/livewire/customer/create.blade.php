@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" wire:click="store()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Add New</button>
+            <button wire:click="store()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Add New</button>
         </div>
         @if (isset($errors) && count($errors) > 0)
             <div class="alert alert-danger">

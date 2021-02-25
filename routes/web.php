@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\RoleController;
@@ -49,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
            'categories' => CategoryController::class,
            'departments' => DepartmentController::class,
            'products' => ProductController::class,
+           'stocks' => StockController::class
        ]);
     });
     Route::group(['prefix' => 'inventory-management'],function(){

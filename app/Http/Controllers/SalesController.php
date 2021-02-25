@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Inventory;
 use App\Models\OrderProduct;
-use App\Models\Sale;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -43,19 +43,21 @@ class SalesController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate(['customer_id' => 'required', 'products' => 'required']);
+        $request->validate(['customer_id' => 'required', 'products' => 'required' , 'stock_id' => 'required', 'store_id' => 'required','quantity' => 'required']);
         foreach ($request->input('products',[]) as $product) {
             OrderProduct::insert([
                 'customer_id' => $request->get('customer_id'),
                 'order_id' => 'PO' .rand(1111,999999),
                 'quantity' => $request->get('quantity'),
-                'inventory_id' => $product
+                'inventory_id' => $product,
+                'store_id' => $request->get('store_id'),
+                'stock_id' => $request->get('stock_id'),
             ]);
 //           $invent = Inventory::where('id', $request->get('products'))->get();
 //           $invent->quantity = $invent->quantity - $request->get('quantity');
 //           $invent->update();
         }
-        $sales = new Sale();
+        $sales = new Order();
         $sales->fill($request->all())->save();
         return redirect('sales')->with('success','New Sale Created');
     }

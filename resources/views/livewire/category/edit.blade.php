@@ -5,6 +5,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <input wire:model="selected_id" type="hidden"/>
+
                         <label for="exampleInputEmail1" class="font-weight-normal">Name</label>
                         <input type="text" class="form-control" wire:model="name" id="exampleInputEmail1" placeholder="Name" required>
                     </div>
@@ -27,7 +29,7 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" wire:click="store()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Edit</button>
+                <button  wire:click="update()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Edit</button>
             </div>
         </div>
         @if (isset($errors) && count($errors) > 0)

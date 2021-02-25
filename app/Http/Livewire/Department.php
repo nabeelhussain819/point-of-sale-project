@@ -74,7 +74,7 @@ class Department extends Component
         ]);
         $this->updateMode = false;
         $this->resetFields();
-        session()->flash('success','Category Updated');
+        session()->flash('success','Department Updated');
     }
 
     public function delete($id)

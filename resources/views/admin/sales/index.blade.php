@@ -12,8 +12,14 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+
             </div>
         @endif
+            @if (session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
         <div class="card shadow rounded">
             <div class="card-body">
                 <div class="panel panel-default">
@@ -28,6 +34,8 @@
                                 <th class="col-xs-4">Description</th>
                                 <th class="col-xs-4">Quantity</th>
                                 <th class="col-xs-4">Product</th>
+                                <th scope="col-xs-4">Store</th>
+                                <th scope="col-xs-4">Stock</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,6 +69,22 @@
                                         </div>
                                     </div>
                                 </td>
+                                <td>
+                                    <select class="form-control" name="store_id">
+                                        @foreach(\App\Models\Store::all() as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" name="stock_id">
+                                        @foreach(\App\Models\Stock::all() as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+
+
                             </tr>
                             <tr id="product1">
                             </tr>

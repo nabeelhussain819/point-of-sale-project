@@ -48,7 +48,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->guid = Str::uuid();
         $product->fill($request->all())->save();
-        return redirect('products')->with('success','Product Added');
+        return redirect('product-management/products/create')->with('success','Product Added');
     }
 
     /**

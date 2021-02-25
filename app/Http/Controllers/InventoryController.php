@@ -48,7 +48,7 @@ class InventoryController extends Controller
         $inventory = new Inventory();
         $inventory->guid = Str::uuid();
         $inventory->fill($request->all())->save();
-        return redirect('inventory/create')->with('success','Inventory Added');
+        return redirect('inventory-management/inventory/create')->with('success','Inventory Added');
     }
 
     /**
@@ -91,7 +91,7 @@ class InventoryController extends Controller
         ]);
         $inventory = Inventory::find($id);
         $inventory->fill($request->all())->update();
-        return redirect('inventory/create')->with('success','Inventory Updated');
+        return redirect('inventory-management/inventory/create')->with('success','Inventory Updated');
     }
 
     /**
@@ -105,6 +105,6 @@ class InventoryController extends Controller
         //
         $inventory = Inventory::find($id);
         $inventory->delete();
-        return redirect('inventory/create')->with('success','Inventory Deleted');
+        return redirect()->back()->with('success','Inventory Deleted');
     }
 }

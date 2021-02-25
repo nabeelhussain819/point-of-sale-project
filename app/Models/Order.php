@@ -14,11 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property Customer $customer
  * @property Product $product
  */
-class Sale extends Model
+class Order extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -43,4 +43,9 @@ class Sale extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+//    public function stock()
+//    {
+//        return $this->belongsTo(Stock::class);
+//    }
 }

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Create A New Product')
+@section('title','Products')
 @section('content')
 
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -82,7 +82,6 @@
                                 </select>
                             </div>
 
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -90,6 +89,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success shadow rounded font-weight-bold float-right">Add New</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
