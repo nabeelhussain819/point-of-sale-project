@@ -81,12 +81,14 @@
                         @endif
             </div>
         </div>
-
+@if(auth()->user()->hasRole('super-admin'))
         <div class="container">
             <h1>Stores </h1>
             <br>
             <div class="card shadow rounded">
                 <div class="card-body">
+                    <div class="table-responsive">
+
                     <table class="table">
                         <thead class="thead">
                         <tr>
@@ -134,6 +136,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                    </div>
 
                 </div>
             </div>
@@ -141,4 +144,5 @@
 
         </div>
     </div>
+    @endif
 @endsection

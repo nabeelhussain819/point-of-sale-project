@@ -22,6 +22,8 @@ class AlterInventoryTable extends Migration
             $table->float('extended_cost',36);
             $table->string('adjustment')->nullable();
             $table->string('bin');
+            $table->unsignedBigInteger('store_id')->nullable();
+            $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

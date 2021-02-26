@@ -48,4 +48,9 @@ class UserStore extends Model
     {
         return $this->belongsTo(Role::class);
     }
+
+    public static function getCurrentUserStore()
+    {
+        return UserStore::where('user_id', auth()->user()->id)->get();
+    }
 }

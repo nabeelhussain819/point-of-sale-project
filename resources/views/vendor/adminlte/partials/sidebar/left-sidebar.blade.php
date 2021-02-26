@@ -10,6 +10,19 @@
     {{-- Sidebar menu --}}
     <div class="sidebar">
         <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column"  data-widget="treeview" role="menu">
+                <li style="margin: 2px; color: #fff;">Current Store</li>
+                <form method="POST">
+                    @csrf
+                <select name="store_id" class="form-control">
+                    @foreach(\App\Models\UserStore::getCurrentUserStore() as $item)
+                        <option value="{{$item->store_id}}" type="submit">{{$item->store->name}}</option>
+                    @endforeach
+                </select>
+                </form>
+
+            </ul>
+            <br>
             <ul class="nav nav-pills nav-sidebar flex-column {{ config('adminlte.classes_sidebar_nav', '') }}"
                 data-widget="treeview" role="menu"
                 @if(config('adminlte.sidebar_nav_animation_speed') != 300)
