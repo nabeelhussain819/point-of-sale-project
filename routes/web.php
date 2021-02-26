@@ -36,6 +36,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->middleware('changedPassword');
+    Route::post('/home',[\App\Http\Controllers\HomeController::class,'getStoreId'])->name('store.id');
+    Route::get('/sales-purchase',[SalesController::class,'purchase'])->name('purchase.index');
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,

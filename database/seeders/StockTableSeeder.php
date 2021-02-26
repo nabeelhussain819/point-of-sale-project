@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Stock;
+use App\Models\Type;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class StockTableSeeder extends Seeder
@@ -20,10 +22,20 @@ class StockTableSeeder extends Seeder
             'Return',
             'Repair'
         ];
+        $types = [
+            'Simple-Order',
+            'Purchase-Order',
+            'Purchase-Receive'
+        ];
 
         foreach ($stockItems as $items)
         {
             Stock::create(['name' => $items, 'Constant' => $items]);
+        }
+
+        foreach ($types as $items)
+        {
+            Type::insert(['name' => $items, 'created_at' => Carbon::now(0), 'updated_at' => Carbon::now()]);
         }
     }
 }

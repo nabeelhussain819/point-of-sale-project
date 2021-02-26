@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use http\Env\Request;
 use mysql_xdevapi\Session;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -20,7 +20,7 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function getStoreId(\Illuminate\Support\Facades\Request $request)
+    public function getStoreId(Request $request)
     {
         \Illuminate\Support\Facades\Session::put('store_id', $request->get('store_id'));
         return back()->with('success','Store Selected');

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','All Sales')
+@section('title','Purchase Order')
 
 @section('content')
 
@@ -15,18 +15,18 @@
 
             </div>
         @endif
-            @if (session('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                </div>
-            @endif
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card shadow rounded">
             <div class="card-body">
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>New Order</b>
                     </div>
                     <form action="{{route('sales.store')}}" method="POST">
-                        <input type="hidden" name="type_id" value="1"/>
+                        <input type="hidden" name="type_id" value="3"/>
                         @csrf
                         <table class="table" id="products_table">
                             <thead>
@@ -44,7 +44,6 @@
                                 <td>
                                     <div class="radio">
                                         <select class="form-control" name="customer_id">
-                                            <option value="">Please Select Customer</option>
                                             @foreach($customers as $item)
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                             @endforeach
@@ -73,7 +72,6 @@
                                 </td>
                                 <td>
                                     <select class="form-control" name="store_id">
-                                        <option value="">Please Select Store</option>
                                         @foreach(\App\Models\Store::all() as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
@@ -81,7 +79,6 @@
                                 </td>
                                 <td>
                                     <select class="form-control" name="stock_id">
-                                        <option value="">Please Select Stock</option>
                                         @foreach(\App\Models\Stock::all() as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach

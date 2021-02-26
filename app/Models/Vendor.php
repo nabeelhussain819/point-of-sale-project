@@ -31,4 +31,9 @@ class Vendor extends Model
      */
     protected $fillable = ['name', 'telephone', 'mailing_address', 'website', 'contact_title', 'contact_number', 'contact_email', 'description', 'created_at', 'updated_at'];
 
+
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
 }

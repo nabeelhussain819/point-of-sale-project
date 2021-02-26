@@ -26,7 +26,7 @@ class Inventory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity','lookup','description','UPC','cost','extended_cost','bin','created_at', 'updated_at'];
+    protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity','lookup','description','UPC','cost','extended_cost','bin','created_at', 'store_id','updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

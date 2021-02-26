@@ -10,18 +10,20 @@
     {{-- Sidebar menu --}}
     <div class="sidebar">
         <nav class="mt-2">
+            @if(!\App\Models\User::isSuperAdmin())
             <ul class="nav nav-pills nav-sidebar flex-column"  data-widget="treeview" role="menu">
                 <li style="margin: 2px; color: #fff;">Current Store</li>
-                <form method="POST">
+                <form method="POST" action="{{route('store.id')}}">
                     @csrf
-                <select name="store_id" class="form-control">
+                <select name="store_id" class="form-control" onchange="this.form.submit()">
                     @foreach(\App\Models\UserStore::getCurrentUserStore() as $item)
-                        <option value="{{$item->store_id}}" type="submit">{{$item->store->name}}</option>
+                        <option value="{{$item->store_id}}" type="submit" {{$item->store_id == \Illuminate\Support\Facades\Session::get('store_id') ? 'selected' : ''}}>{{$item->store->name}}</option>
                     @endforeach
                 </select>
                 </form>
 
             </ul>
+            @endif
             <br>
             <ul class="nav nav-pills nav-sidebar flex-column {{ config('adminlte.classes_sidebar_nav', '') }}"
                 data-widget="treeview" role="menu"

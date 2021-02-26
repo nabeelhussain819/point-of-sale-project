@@ -21,7 +21,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <a href="{{route('vendors.index')}}" style="color: #fff;">
+                    <a href="{{route('purchase.index')}}" style="color: #fff;">
                         <div class="card shadow-lg bg-white rounded" style="height: 120px; background-image: linear-gradient(87deg, #ef3232  0%, #ff6666  100%) !important; border-radius: .375rem;">
                             <div class="card-body text-center">
                                 <div class="row">

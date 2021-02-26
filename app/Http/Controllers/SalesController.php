@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Inventory;
 use App\Models\OrderProduct;
 use App\Models\Order;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -22,6 +23,12 @@ class SalesController extends Controller
             'customers' => Customer::with('orderProducts')->get()]);
     }
 
+    public function purchase()
+    {
+        //
+        return view('admin.sales.purchase_order',['sales' => OrderProduct::with('inventory','vendor')->get(),
+            'vendors' => Vendor::with('orderProducts')->get()]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,23 +50,37 @@ class SalesController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate(['customer_id' => 'required', 'products' => 'required' , 'stock_id' => 'required', 'store_id' => 'required','quantity' => 'required']);
+      
         foreach ($request->input('products',[]) as $product) {
-            OrderProduct::insert([
-                'customer_id' => $request->get('customer_id'),
-                'order_id' => 'PO' .rand(1111,999999),
-                'quantity' => $request->get('quantity'),
-                'inventory_id' => $product,
-                'store_id' => $request->get('store_id'),
-                'stock_id' => $request->get('stock_id'),
-            ]);
-//           $invent = Inventory::where('id', $request->get('products'))->get();
-//           $invent->quantity = $invent->quantity - $request->get('quantity');
-//           $invent->update();
+            if($request->get('customer_id'))
+            {
+                $request->validate(['customer_id' => 'required', 'sale_id','products' => 'required' , 'stock_id' => 'required', 'store_id' => 'required','quantity' => 'required']);
+                OrderProduct::insert([
+                    'order_id' => 'PO' .rand(1111,999999),
+                    'quantity' => $request->get('quantity'),
+                    'inventory_id' => $product,
+                    'store_id' => $request->get('store_id'),
+                    'stock_id' => $request->get('stock_id'),
+                    'type_id' => $request->get('type_id'),
+                    'vendor_id' => $request->get('vendor_id')
+                ]);
+            }
+            else{
+                $request->validate(['vendor_id' => 'required', 'sale_id','products' => 'required' , 'stock_id' => 'required', 'store_id' => 'required','quantity' => 'required']);
+                OrderProduct::insert([
+                    'order_id' => 'PO' .rand(1111,999999),
+                    'quantity' => $request->get('quantity'),
+                    'inventory_id' => $product,
+                    'store_id' => $request->get('store_id'),
+                    'stock_id' => $request->get('stock_id'),
+                    'type_id' => $request->get('type_id'),
+                    'vendor_id' => $request->get('vendor_id')
+                ]);
+            }
         }
         $sales = new Order();
         $sales->fill($request->all())->save();
-        return redirect('sales')->with('success','New Sale Created');
+        return redirect()->back()->with('success','New Sale Created');
     }
 
     /**

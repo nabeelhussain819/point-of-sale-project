@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','All Sales')
+@section('title','Purchase Order')
 
 @section('content')
 
@@ -15,50 +15,46 @@
 
             </div>
         @endif
-            @if (session('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                </div>
-            @endif
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card shadow rounded">
             <div class="card-body">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><b>New Order</b>
+{{--                    <div class="panel-heading"><b>New Order</b>--}}
                     </div>
                     <form action="{{route('sales.store')}}" method="POST">
-                        <input type="hidden" name="type_id" value="1"/>
+                        <div class="form-group">
+                            <label>Vendor </label>
+                            <select class="form-control" name="vendor_id">
+                                <option value="">Please Select Vendor</option>
+                                @foreach($vendors as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description </label>
+                            <input type="text" class="form-control" name="description"
+                                   placeholder="Enter description"/>
+                        </div>
+
+                        <br>
+                        <input type="hidden" name="type_id" value="2"/>
                         @csrf
                         <table class="table" id="products_table">
                             <thead>
                             <tr>
-                                <th class="col-xs-4">Customer</th>
-                                <th class="col-xs-4">Description</th>
-                                <th class="col-xs-4">Quantity</th>
                                 <th class="col-xs-4">Product</th>
+                                <th class="col-xs-4">Quantity</th>
                                 <th scope="col-xs-4">Store</th>
                                 <th scope="col-xs-4">Stock</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr id="product0">
-                                <td>
-                                    <div class="radio">
-                                        <select class="form-control" name="customer_id">
-                                            <option value="">Please Select Customer</option>
-                                            @foreach($customers as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" name="description"
-                                           placeholder="Enter description"/>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" name="quantity"
-                                           placeholder="Enter Quantity"/>
-                                </td>
                                 <td>
                                     <div class="input-group spinner">
                                         <div class="row">
@@ -71,10 +67,15 @@
                                         </div>
                                     </div>
                                 </td>
+                                <td>   <input type="text" class="form-control" name="quantity"
+                                              placeholder="Enter Quantity"/>
+
+                                </td>
                                 <td>
                                     <select class="form-control" name="store_id">
                                         <option value="">Please Select Store</option>
-                                        @foreach(\App\Models\Store::all() as $item)
+
+                                    @foreach(\App\Models\Store::all() as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
                                     </select>
@@ -82,7 +83,8 @@
                                 <td>
                                     <select class="form-control" name="stock_id">
                                         <option value="">Please Select Stock</option>
-                                        @foreach(\App\Models\Stock::all() as $item)
+
+                                    @foreach(\App\Models\Stock::all() as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
                                     </select>
@@ -114,8 +116,9 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Customer Name</th>
-                            <th scope="col">Customer Email</th>
+                            <th scope="col">Vendor Name</th>
+                            <th scope="col">Mailing Address</th>
+                            <th scope="col">Contact</th>
                             <th scope="col">Products</th>
                             <th scope="col">Product Price</th>
                             <th scope="col">Quantity</th>
@@ -128,11 +131,12 @@
                         @php
                             $count = 1;
                         @endphp
-                        @forelse($customers as $item)
+                        @forelse($vendors as $item)
                             <tr>
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->name}}</td>
-                                <td>{{$item->email}}</td>
+                                <td>{{$item->mailing_address}}</td>
+                                <td>{{$item->telephone}}</td>
                                 <td>
                                     <ul>
                                         @foreach($item->orderProducts as $products)
