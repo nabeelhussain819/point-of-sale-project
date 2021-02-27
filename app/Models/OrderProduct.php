@@ -67,4 +67,9 @@ class OrderProduct extends Model
     {
         return $this->belongsTo(Vendor::class);
     }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 }

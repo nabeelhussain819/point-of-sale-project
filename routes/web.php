@@ -38,6 +38,10 @@ Route::group(['middleware' => ['auth']], function () {
     })->middleware('changedPassword');
     Route::post('/home',[\App\Http\Controllers\HomeController::class,'getStoreId'])->name('store.id');
     Route::get('/sales-purchase',[SalesController::class,'purchase'])->name('purchase.index');
+    Route::get('/sales-purchase-received/{vendor}',[SalesController::class,'purchaseReceived'])->name('purchase.received');
+    Route::delete('/sales-purchase-delete/{vendor}',[SalesController::class,'destroyVendorProduct'])->name('purchase-vendor.delete');
+    Route::post('/sales-purchase-received',[SalesController::class,'storeInInventory'])->name('purchase.received.generate');
+
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,
