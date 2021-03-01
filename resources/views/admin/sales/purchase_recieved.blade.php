@@ -83,7 +83,7 @@
                                 <td>
                                     <select class="form-control" name="stock_id">
                                         <option value="">Please Select Stock</option>
-                                        <option value="{{$item->stock->id}}" selected>{{$item->stock->name}}</option>
+                                        <option value="{{$item->stock->name}}" selected>{{$item->stock->name}}</option>
                                     </select>
                                 </td>
                             </tr>

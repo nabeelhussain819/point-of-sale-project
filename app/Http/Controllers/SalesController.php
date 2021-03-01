@@ -6,6 +6,8 @@ use App\Models\Customer;
 use App\Models\Inventory;
 use App\Models\OrderProduct;
 use App\Models\Order;
+use App\Models\StockTransfer;
+use App\Models\Store;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -59,7 +61,6 @@ class SalesController extends Controller
                 ]);
             }
         return redirect()->back()->with('success', 'Received ');
-
     }
 
     /**
@@ -89,11 +90,12 @@ class SalesController extends Controller
                 OrderProduct::insert([
                     'order_id' => 'PO' . rand(1111, 999999),
                     'quantity' => $request->get('quantity'),
+                    'lookup' => $request->get('lookup'),
                     'inventory_id' => $product,
                     'store_id' => $request->get('store_id'),
                     'stock_id' => $request->get('stock_id'),
                     'type_id' => $request->get('type_id'),
-                    'vendor_id' => $request->get('vendor_id')
+                    'customer_id' => $request->get('customer_id')
                 ]);
             } else {
                 $request->validate(['vendor_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
@@ -101,6 +103,7 @@ class SalesController extends Controller
                     'order_id' => 'PO' . rand(1111, 999999),
                     'quantity' => $request->get('quantity'),
                     'inventory_id' => $product,
+                    'lookup' => $request->get('lookup'),
                     'store_id' => $request->get('store_id'),
                     'stock_id' => $request->get('stock_id'),
                     'type_id' => $request->get('type_id'),

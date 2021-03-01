@@ -47,6 +47,7 @@
                     <table class="table" id="products_table">
                         <thead>
                         <tr>
+                            <th class="col-xs-4">Lookup</th>
                             <th class="col-xs-4">Product</th>
                             <th class="col-xs-4">Quantity</th>
                             <th scope="col-xs-4">Store</th>
@@ -55,6 +56,10 @@
                         </thead>
                         <tbody>
                         <tr id="product0">
+                            <td>
+                                <input type="text" class="form-control" name="lookup"
+                                       placeholder="Enter Lookup"/>
+                            </td>
                             <td>
                                 <div class="input-group spinner">
                                     <div class="row">
@@ -109,7 +114,7 @@
                 </form>
             </div>
         </div>
-    </div>
+
     <div class="card shadow rounded">
         <div class="card-body">
             <div class="table-responsive">

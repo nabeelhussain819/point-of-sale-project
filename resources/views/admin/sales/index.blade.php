@@ -32,6 +32,7 @@
                             <thead>
                             <tr>
                                 <th class="col-xs-4">Customer</th>
+                                <th class="col-xs-4">Lookup</th>
                                 <th class="col-xs-4">Description</th>
                                 <th class="col-xs-4">Quantity</th>
                                 <th class="col-xs-4">Product</th>
@@ -50,6 +51,10 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="lookup"
+                                           placeholder="Enter Lookup"/>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" name="description"

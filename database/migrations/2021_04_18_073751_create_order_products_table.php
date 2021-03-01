@@ -15,18 +15,19 @@ class CreateOrderProductsTable extends Migration
     {
         Schema::create('order_products', function (Blueprint $table) {
             $table->id();
+            $table->string('lookup');
             $table->bigInteger('quantity');
             $table->string('order_id');
             $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('inventory_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
-            $table->unsignedBigInteger('inventory_id');
             $table->timestamps();
         });
 
         Schema::table('order_products', function (Blueprint $table){
            $table->foreign('inventory_id')->references('id')->on('inventories')->cascadeOnUpdate()->cascadeOnDelete();
            $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate()->cascadeOnDelete();
+           $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

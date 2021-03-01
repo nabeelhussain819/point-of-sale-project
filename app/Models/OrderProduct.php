@@ -30,7 +30,7 @@ class OrderProduct extends Model
     /**
      * @var array
      */
-    protected $fillable = ['customer_id', 'inventory_id', 'store_id', 'stock_id', 'quantity', 'order_id','type_id' ,'vendor_id','created_at', 'updated_at'];
+    protected $fillable = ['customer_id','lookup','inventory_id', 'store_id', 'stock_id', 'quantity', 'order_id','type_id' ,'vendor_id','created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -47,6 +47,8 @@ class OrderProduct extends Model
     {
         return $this->belongsTo(Inventory::class);
     }
+
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

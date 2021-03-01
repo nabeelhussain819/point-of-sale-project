@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\RoleController;
@@ -36,12 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->middleware('changedPassword');
-    Route::post('/home',[\App\Http\Controllers\HomeController::class,'getStoreId'])->name('store.id');
-    Route::get('/sales-purchase',[SalesController::class,'purchase'])->name('purchase.index');
-    Route::get('/sales-purchase-received/{vendor}',[SalesController::class,'purchaseReceived'])->name('purchase.received');
-    Route::delete('/sales-purchase-delete/{vendor}',[SalesController::class,'destroyVendorProduct'])->name('purchase-vendor.delete');
-    Route::post('/sales-purchase-received',[SalesController::class,'storeInInventory'])->name('purchase.received.generate');
-
+    Route::post('/home',[HomeController::class,'getStoreId'])->name('store.id');
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,
@@ -64,6 +61,15 @@ Route::group(['middleware' => ['auth']], function () {
             'inventory' => InventoryController::class,
             'vendors' => VendorController::class,
         ]);
+        Route::get('/sales-purchase',[SalesController::class,'purchase'])->name('purchase.index');
+        Route::get('/sales-purchase-received/{vendor}',[SalesController::class,'purchaseReceived'])->name('purchase.received');
+        Route::delete('/sales-purchase-delete/{vendor}',[SalesController::class,'destroyVendorProduct'])->name('purchase-vendor.delete');
+        Route::post('/sales-purchase-received',[SalesController::class,'storeInInventory'])->name('purchase.received.generate');
+        Route::get('/stock-transfer',[TransferController::class,'index'])->name('transfer.index');
+        Route::get('/stock-transfer/create',[TransferController::class,'stockTransfer'])->name('transfer.create');
+        Route::post('/stock-transfer',[TransferController::class,'transfer'])->name('transfer.store');
+        Route::get('/stock-transfer/{transfer}',[TransferController::class,'received'])->name('transfer.received');
+        Route::delete('/stock-transfer/{transfer}',[TransferController::class,'delete'])->name('transfer.delete');
     });
     Route::post('assign', [StoreController::class, 'assignUserToStore'])->name('addusertostore');
     Route::post('assign-role', [UserController::class, 'assignRole'])->name('addroletouser');
