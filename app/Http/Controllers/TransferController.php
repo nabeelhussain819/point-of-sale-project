@@ -38,22 +38,28 @@ class TransferController extends Controller
 
     public function markAsReceived(Request $request)
     {
-        foreach ($request->get('products') as $product){
-        Inventory::insert([
-            'product_id' => $product,
-            'guid' => Str::uuid(),
-            'description' => $request->get('description'),
-            'lookup' => $request->get('lookup'),
-            'name' => $request->get('name'),
-            'quantity' => $request->get('quantity'),
-            'store_id' => $request->get('store_out'),
-            'cost' => $request->get('cost'),
-            'extended_cost' => $request->get('cost'),
-            'vendor_id' => $request->get('vendor_id'),
-            'bin' => $request->get('bin'),
-        ]);
+        foreach ($request->get('products') as $product) {
+            Inventory::insert([
+                'product_id' => $product,
+                'guid' => Str::uuid(),
+                'description' => $request->get('description'),
+                'lookup' => $request->get('lookup'),
+                'name' => $request->get('name'),
+                'quantity' => $request->get('quantity'),
+                'store_id' => $request->get('store_out'),
+                'cost' => $request->get('cost'),
+                'extended_cost' => $request->get('cost'),
+                'vendor_id' => $request->get('vendor_id'),
+                'bin' => $request->get('bin'),
+            ]);
+
+            $storeIn = Inventory::where('store_id', $request->get('store_in'))->first();
+            $quantity = $storeIn->quantity - $request->get('quantity');
+            $storeIn->update([
+                'quantity' => $quantity
+            ]);
         }
-        return redirect()->back()->with('success','Stock Transfered');
+        return redirect()->back()->with('success', 'Stock Transfered');
     }
 
     public function delete(StockTransfer $transfer)
