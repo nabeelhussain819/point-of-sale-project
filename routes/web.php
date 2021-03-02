@@ -70,6 +70,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/stock-transfer',[TransferController::class,'transfer'])->name('transfer.store');
         Route::get('/stock-transfer/{transfer}',[TransferController::class,'received'])->name('transfer.received');
         Route::delete('/stock-transfer/{transfer}',[TransferController::class,'delete'])->name('transfer.delete');
+        Route::post('/stock-transfer-received',[TransferController::class,'markAsReceived'])->name('transfer.markasreceived');
     });
     Route::post('assign', [StoreController::class, 'assignUserToStore'])->name('addusertostore');
     Route::post('assign-role', [UserController::class, 'assignRole'])->name('addroletouser');

@@ -24,10 +24,10 @@
             <div class="card-body">
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>Stock Transfer</b>
-{{--                        <a class="btn btn-success float-right rounded shadow-lg" href="{{route('transfer.index')}}">See--}}
-{{--                            Transfers</a>--}}
+                        {{--                        <a class="btn btn-success float-right rounded shadow-lg" href="{{route('transfer.index')}}">See--}}
+                        {{--                            Transfers</a>--}}
                     </div>
-                    <form action="{{route('transfer.received',$transfer)}}" method="POST">
+                    <form action="{{route('transfer.markasreceived',$transfer)}}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="">Request #</label>
@@ -72,29 +72,33 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <input type="hidden" name="lookup" value="{{$transfer->inventory->lookup}}"/>
-                                <input type="hidden" name="bin" value="{{$transfer->inventory->bin}}"/>
-                                <input type="hidden" name="cost" value="{{$transfer->inventory->product->cost * $transfer->inventory->quantity}}"/>
-                                <input type="hidden" name="extended_cost"value="{{$transfer->inventory->extended_cost}}"/>
-                                <input type="hidden" name="extended_cost"value="{{$transfer->inventory->description}}"/>
+                            <input type="hidden" name="name" value="{{$transfer->inventory->name}}"/>
+                            <input type="hidden" name="lookup" value="{{$transfer->inventory->lookup}}"/>
+                            <input type="hidden" name="bin" value="{{$transfer->inventory->bin}}"/>
+                            <input type="hidden" name="cost"
+                                   value="{{$transfer->inventory->product->cost * $transfer->inventory->quantity}}"/>
+                            <input type="hidden" name="extended_cost" value="{{$transfer->inventory->extended_cost}}"/>
+                            <input type="hidden" name="description"
+                                   value="Transfered From {{$transfer->storeOut->name}}"/>
+                            <input type="hidden" name="vendor_id" value="{{$transfer->inventory->vendor_id}}"/>
 
-                                <tr id="product0">
-                                    <td>
-                                        <input type="text" class="form-control" name="quantity"
-                                               placeholder="Enter Quantity" value="{{$transfer->quantity}}"/>
-                                    </td>
-                                    <td>
-                                        <div class="input-group spinner">
-                                            <div class="row">
-                                                <select class="form-control" name="products[]">
-                                                    <option value="">Please Select Product</option>
-                                                    <option value="{{$transfer->inventory->product->id}}"
-                                                            selected>{{$transfer->inventory->product->name}}</option>
-                                                </select>
-                                            </div>
+                            <tr id="product0">
+                                <td>
+                                    <input type="text" class="form-control" name="quantity"
+                                           placeholder="Enter Quantity" value="{{$transfer->quantity}}"/>
+                                </td>
+                                <td>
+                                    <div class="input-group spinner">
+                                        <div class="row">
+                                            <select class="form-control" name="products[]">
+                                                <option value="">Please Select Product</option>
+                                                <option value="{{$transfer->inventory->product->id}}"
+                                                        selected>{{$transfer->inventory->product->name}}</option>
+                                            </select>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr id="product1">
                             </tr>
                         </table>

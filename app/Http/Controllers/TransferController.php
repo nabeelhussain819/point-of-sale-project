@@ -30,7 +30,7 @@ class TransferController extends Controller
     }
 
 
-    public function received(Request $request, StockTransfer $transfer)
+    public function received(StockTransfer $transfer)
     {
 
         return view('admin.transfers.received', ['transfer' => $transfer]);
@@ -38,19 +38,22 @@ class TransferController extends Controller
 
     public function markAsReceived(Request $request)
     {
+        foreach ($request->get('products') as $product){
         Inventory::insert([
-            'product_id' => $request->get(''),
+            'product_id' => $product,
             'guid' => Str::uuid(),
             'description' => $request->get('description'),
             'lookup' => $request->get('lookup'),
-            'name' => $request->get('p_order_id'),
+            'name' => $request->get('name'),
             'quantity' => $request->get('quantity'),
             'store_id' => $request->get('store_out'),
             'cost' => $request->get('cost'),
             'extended_cost' => $request->get('cost'),
             'vendor_id' => $request->get('vendor_id'),
-            'bin' => $request->get('stock_id'),
+            'bin' => $request->get('bin'),
         ]);
+        }
+        return redirect()->back()->with('success','Stock Transfered');
     }
 
     public function delete(StockTransfer $transfer)
