@@ -17,7 +17,9 @@ class CreateOrderProductsTable extends Migration
             $table->id();
             $table->string('lookup');
             $table->bigInteger('quantity');
-            $table->string('order_id');
+//            $table->string('order_id'); Horrible
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('inventory_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
@@ -28,6 +30,8 @@ class CreateOrderProductsTable extends Migration
            $table->foreign('inventory_id')->references('id')->on('inventories')->cascadeOnUpdate()->cascadeOnDelete();
            $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnUpdate()->cascadeOnDelete();
            $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

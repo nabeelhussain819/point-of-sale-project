@@ -84,15 +84,6 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td>
-                                    <select class="form-control" name="stock_id">
-                                        <option value="">Please Select Stock</option>
-                                        @foreach(\App\Models\StockBin::all() as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-
 
                             </tr>
                             <tr id="product1">

@@ -59,7 +59,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
-                        <a href="{{route('stocks.index')}}" style="">
+                        <a href="{{route('stock-bin.index')}}" style="">
                             <div class="card shadow-lg bg-white rounded"
                                  style="height: 120px; background-image: linear-gradient(87deg, #2980B9 0%, #6DD5FA 100%); border-radius: .375rem;">
                                 <div class="card-body text-center">
@@ -77,4 +77,6 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 @endsection

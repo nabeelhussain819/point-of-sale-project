@@ -19,8 +19,9 @@ class SalesController extends Controller
      */
     public function index()
     {
-        //
-        return view('admin.sales.index', ['sales' => OrderProduct::with('inventory', 'customer')->get(),
+        // Adding in inventory ,Sales Controller ,method purchase and module is Purchase Order (Optimization)
+        return view('admin.sales.index',
+            ['sales' => OrderProduct::with('inventory', 'customer')->get(),
             'customers' => Customer::with('orderProducts')->get()]);
     }
 
@@ -37,6 +38,7 @@ class SalesController extends Controller
         return view('admin.sales.purchase_recieved', ['vendor' => $vendor]);
     }
 
+    // why repeating and handling of code on every method which hav the same functionality
     public function storeInInventory(Request $request)
     {
         foreach ($request->input('products', []) as $product) {
@@ -81,37 +83,56 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
-        foreach ($request->input('products', []) as $product) {
-            if ($request->get('customer_id')) {
-                $request->validate(['customer_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
-                OrderProduct::insert([
-                    'order_id' => 'PO' . rand(1111, 999999),
-                    'quantity' => $request->get('quantity'),
-                    'lookup' => $request->get('lookup'),
-                    'inventory_id' => $product,
-                    'store_id' => $request->get('store_id'),
-                    'stock_id' => $request->get('stock_id'),
-                    'type_id' => $request->get('type_id'),
-                    'customer_id' => $request->get('customer_id')
-                ]);
-            } else {
-                $request->validate(['vendor_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
-                OrderProduct::insert([
-                    'order_id' => 'PO' . rand(1111, 999999),
-                    'quantity' => $request->get('quantity'),
-                    'inventory_id' => $product,
-                    'lookup' => $request->get('lookup'),
-                    'store_id' => $request->get('store_id'),
-                    'stock_id' => $request->get('stock_id'),
-                    'type_id' => $request->get('type_id'),
-                    'vendor_id' => $request->get('vendor_id')
-                ]);
-            }
-        }
         $sales = new Order();
         $sales->fill($request->all())->save();
+
+        $productData = [];
+        collect($request->get('products'))->each(function ($product) use (&$productData, $request) {
+
+            $productData[] = array_merge($product,
+                ['store_id' => 1, 'type_id' => 2] //@armash pleas check this out its not post
+            );
+        });
+
+        $sales->orderProducts()->sync($productData);
+        /*
+         * Worst code ever
+         * Repetitive code
+         * if new case will come it will not handle
+         * Dirty way of using Controller
+         * query in loop not using sync method of relation
+         * creating custom data
+         */
+//
+//        foreach ($request->input('products', []) as $product) {
+//            if ($request->get('customer_id')) {
+//                $request->validate(['customer_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
+//                OrderProduct::insert([
+//                    'order_id' => 'PO' . rand(1111, 999999),
+//                    'quantity' => $request->get('quantity'),
+//                    'lookup' => $request->get('lookup'),
+//                    'inventory_id' => $product,
+//                    'store_id' => $request->get('store_id'),
+//                    'stock_id' => $request->get('stock_id'),
+//                    'type_id' => $request->get('type_id'),
+//                    'customer_id' => $request->get('customer_id')
+//                ]);
+//            } else {
+//                $request->validate(['vendor_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
+//                OrderProduct::insert([
+//                    'order_id' => 'PO' . rand(1111, 999999),
+//                    'quantity' => $request->get('quantity'),
+//                    'inventory_id' => $product,
+//                    'lookup' => $request->get('lookup'),
+//                    'store_id' => $request->get('store_id'),
+//                    'stock_id' => $request->get('stock_id'),
+//                    'type_id' => $request->get('type_id'),
+//                    'vendor_id' => $request->get('vendor_id')
+//                ]);
+//            }
+//        }
+//        $sales = new Order();
+//        $sales->fill($request->all())->save();
         return redirect()->back()->with('success', 'New Sale Created');
     }
 
