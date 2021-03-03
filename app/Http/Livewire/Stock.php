@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\StockBin;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -58,10 +59,17 @@ class Stock extends Component
         $this->name = null;
     }
 
-    public function delete($id)
+    /**
+     * @param StockBin $stockBin
+     * @throws \Exception
+     */
+    public function delete(StockBin $stockBin)
     {
-        $stock = \App\Models\StockBin::find($id);
-        $stock->delete();
+        if ($stockBin->system) {
+            return $this->addError('error', 'System field  not allowed to delete');
+        }
+
+        $stockBin->delete();
         session()->flash('success', 'StockBin Deleted');
     }
 }

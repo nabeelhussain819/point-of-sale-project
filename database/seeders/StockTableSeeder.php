@@ -30,7 +30,7 @@ class StockTableSeeder extends Seeder
 
         foreach ($stockItems as $items)
         {
-            StockBin::create(['name' => $items, 'Constant' => $items]);
+            StockBin::create(['name' => $items, 'Constant' => $items, 'system' => true]);
         }
 
         foreach ($types as $items)

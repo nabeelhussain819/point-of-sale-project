@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\StockBin;
 
 class StockBinController extends Controller
 {
@@ -78,8 +79,10 @@ class StockBinController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(StockBin $stockBin)
     {
-        //
+        if($stockBin->system){
+            throw new \BadMethodCallException('System  are not allowed to delete');
+        }
     }
 }

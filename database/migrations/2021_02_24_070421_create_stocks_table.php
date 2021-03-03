@@ -19,6 +19,7 @@ class CreateStocksTable extends Migration
             $table->unsignedBigInteger('store_id')->nullable();
             $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
+            $table->boolean('system')->default(false);
         });
 
 
