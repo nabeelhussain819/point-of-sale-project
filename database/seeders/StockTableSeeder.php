@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Stock;
+use App\Models\StockBin;
 use App\Models\Type;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -30,7 +30,7 @@ class StockTableSeeder extends Seeder
 
         foreach ($stockItems as $items)
         {
-            Stock::create(['name' => $items, 'Constant' => $items]);
+            StockBin::create(['name' => $items, 'Constant' => $items]);
         }
 
         foreach ($types as $items)

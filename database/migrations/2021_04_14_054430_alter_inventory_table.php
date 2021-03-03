@@ -21,9 +21,12 @@ class AlterInventoryTable extends Migration
             $table->float('cost',36);
             $table->float('extended_cost',36);
             $table->string('adjustment')->nullable();
-            $table->string('bin');
+            $table->unsignedBigInteger('stock_bin_id');
             $table->unsignedBigInteger('store_id')->nullable();
             $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete()->cascadeOnUpdate();
+        });
+        Schema::table('inventories', function (Blueprint $table) {
+            $table->foreign('stock_bin_id')->references('id')->on('stock_bins')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

@@ -59,7 +59,7 @@ class TransferController extends Controller
                 'quantity' => $quantity
             ]);
         }
-        return redirect()->back()->with('success', 'Stock Transfered');
+        return redirect()->back()->with('success', 'StockBin Transfered');
     }
 
     public function delete(StockTransfer $transfer)

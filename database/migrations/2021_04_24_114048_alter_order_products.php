@@ -16,9 +16,9 @@ class AlterOrderProducts extends Migration
         //
         Schema::table('order_products', function (Blueprint $table){
             $table->unsignedBigInteger('store_id');
-            $table->unsignedBigInteger('stock_id')->nullable();
+            $table->unsignedBigInteger('stock_bin_id')->default(1);
             $table->unsignedBigInteger('type_id');
-            $table->foreign('stock_id')->references('id')->on('stocks')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('stock_bin_id')->references('id')->on('stock_bins')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('type_id')->references('id')->on('types')->cascadeOnDelete()->cascadeOnUpdate();
         });

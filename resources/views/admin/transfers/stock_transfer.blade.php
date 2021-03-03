@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Stock Transfer')
+@section('title','StockBin')
 
 @section('content')
 

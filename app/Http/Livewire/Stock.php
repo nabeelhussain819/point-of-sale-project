@@ -12,7 +12,7 @@ class Stock extends Component
 
     public function render()
     {
-        return view('livewire.stocks.index', ['stocks' => \App\Models\Stock::all()]);
+        return view('livewire.stocks.index', ['stocks' => \App\Models\StockBin::all()]);
     }
 
     public function store()
@@ -21,18 +21,18 @@ class Stock extends Component
             'name' => 'required',
         ]);
 
-        \App\Models\Stock::insert([
+        \App\Models\StockBin::insert([
             'name' => $this->name,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         $this->resetFields();
-        session()->flash('success', 'Stock Added');
+        session()->flash('success', 'StockBin Added');
     }
 
     public function edit($id)
     {
-        $stock = \App\Models\Stock::findOrFail($id);
+        $stock = \App\Models\StockBin::findOrFail($id);
         $this->selected_id = $id;
         $this->name = $stock->name;
         $this->updateMode = true;
@@ -44,13 +44,13 @@ class Stock extends Component
             'selected_id' => 'required|numeric',
             'name' => 'required',
         ]);
-        $category = \App\Models\Stock::findOrFail($this->selected_id);
+        $category = \App\Models\StockBin::findOrFail($this->selected_id);
         $category->update([
             'name' => $this->name,
         ]);
         $this->updateMode = false;
         $this->resetFields();
-        session()->flash('success', 'Stock Updated');
+        session()->flash('success', 'StockBin Updated');
     }
 
     public function resetFields()
@@ -60,8 +60,8 @@ class Stock extends Component
 
     public function delete($id)
     {
-        $stock = \App\Models\Stock::find($id);
+        $stock = \App\Models\StockBin::find($id);
         $stock->delete();
-        session()->flash('success', 'Stock Deleted');
+        session()->flash('success', 'StockBin Deleted');
     }
 }

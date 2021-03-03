@@ -14,7 +14,7 @@ class AlterTableStocks extends Migration
     public function up()
     {
         //
-        Schema::table('stocks',function (Blueprint $table){
+        Schema::table('stock_bins',function (Blueprint $table){
            $table->string('Constant')->nullable();
         });
     }

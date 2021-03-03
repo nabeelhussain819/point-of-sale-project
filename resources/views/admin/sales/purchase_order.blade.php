@@ -63,10 +63,11 @@
                             <td>
                                 <div class="input-group spinner">
                                     <div class="row">
+
                                         <select class="form-control" name="products[]">
                                             <option value="">Please Select Product</option>
-                                            @foreach(\App\Models\Inventory::all() as $item)
-                                                <option value="{{$item->id}}">{{$item->product->name}}</option>
+                                            @foreach(\App\Models\Product::all() as $item)
+                                                <option value="{{$item->id}}">{{$item->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -89,7 +90,7 @@
                                 <select class="form-control" name="stock_id">
                                     <option value="">Please Select Stock</option>
 
-                                    @foreach(\App\Models\Stock::all() as $item)
+                                    @foreach(\App\Models\StockBin::all() as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>

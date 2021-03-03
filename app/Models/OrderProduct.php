@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property Customer $customer
  * @property Inventory $inventory
- * @property Stock $stock
+ * @property StockBin $stock
  * @property Store $store
  */
 class OrderProduct extends Model
@@ -55,7 +55,7 @@ class OrderProduct extends Model
      */
     public function stock()
     {
-        return $this->belongsTo(Stock::class);
+        return $this->belongsTo(StockBin::class);
     }
 
     /**

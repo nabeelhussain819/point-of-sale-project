@@ -30,7 +30,9 @@ class InventoryController extends Controller
     public function create()
     {
         //
-        (User::isSuperAdmin()) ? $inventories = Inventory::all() : $inventories = Inventory::where('store_id',Session::get('store_id'))->get() ;
+        (User::isSuperAdmin()) ?
+            $inventories = Inventory::all() : $inventories =
+            Inventory::where('store_id',Session::get('store_id'))->get() ;
         return view('admin.inventory.create',['inventories' =>$inventories]);
     }
 

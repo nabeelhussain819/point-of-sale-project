@@ -41,7 +41,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        //
         $user = new User();
         $user->password = bcrypt('password');
         $user->assignRole($request->input('role_id'));

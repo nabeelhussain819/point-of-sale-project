@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Inventory;
-use App\Models\OrderProduct;
 use App\Models\Order;
-use App\Models\StockTransfer;
-use App\Models\Store;
+use App\Models\OrderProduct;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -29,7 +27,8 @@ class SalesController extends Controller
     public function purchase()
     {
         //
-        return view('admin.sales.purchase_order', ['sales' => OrderProduct::with('inventory', 'vendor')->get(),
+        return view('admin.sales.purchase_order',
+            ['sales' => OrderProduct::with('inventory', 'vendor')->get(),
             'vendors' => Vendor::with('orderProducts')->get()]);
     }
 

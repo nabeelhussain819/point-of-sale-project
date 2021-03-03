@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property OrderProduct[] $orderProducts
  */
-class Stock extends Model
+class StockBin extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.

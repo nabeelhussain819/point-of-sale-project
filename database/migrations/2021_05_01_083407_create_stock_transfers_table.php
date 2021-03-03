@@ -28,8 +28,9 @@ class CreateStockTransfersTable extends Migration
             $table->foreign('store_in')->references('id')->on('stores')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('store_out')->references('id')->on('stores')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('inventory_id')->references('id')->on('inventories')->cascadeOnUpdate()->cascadeOnDelete();
-
         });
+
+
     }
 
     /**
