@@ -3,7 +3,7 @@
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\StockController;
+use App\Http\Controllers\StockBinController;
 use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth']], function () {
            'categories' => CategoryController::class,
            'departments' => DepartmentController::class,
            'products' => ProductController::class,
-           'stocks' => StockController::class
+           'stock-bin' => StockBinController::class
        ]);
     });
     Route::group(['prefix' => 'inventory-management'],function(){
