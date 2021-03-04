@@ -77,6 +77,7 @@
                         $count = 1;
                     @endphp
                     @forelse($vendors as $item)
+
                         <tr>
                             <td>{{$item->id}}</td>
                             <td>{{$item->name}}</td>
@@ -86,13 +87,14 @@
                             <td>
                                 <ul>
                                     @foreach($item->orderProducts as $products)
-                                        <li> {{$products->inventory->product->name}}</li>
+                                        <li> {{$products->product->name}}</li>
                                     @endforeach
                                 </ul>
                             </td>
                             <td>
                                 <ul>
                                     @foreach($item->orderProducts as $products)
+
                                         <li> {{$products->inventory->product->cost}}</li>
                                     @endforeach
                                 </ul>

@@ -7,8 +7,10 @@ use App\Models\Inventory;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Vendor;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
 
 class SalesController extends Controller
 {
@@ -27,10 +29,12 @@ class SalesController extends Controller
 
     public function purchase()
     {
-        //
         return view('admin.sales.purchase_order',
             ['sales' => OrderProduct::with('inventory', 'vendor')->get(),
-            'vendors' => Vendor::with('orderProducts')->get()]);
+                'vendors' => Vendor::with(['orderProducts' => function (HasMany $belongsTo) {
+                    $belongsTo->with("product");
+                }])
+                    ->get()]);
     }
 
     public function purchaseReceived(Vendor $vendor)
@@ -83,18 +87,22 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        $sales = new Order();
-        $sales->fill($request->all())->save();
+
+        $order = new Order();
+        $order->fill($request->all())->save();
 
         $productData = [];
         collect($request->get('products'))->each(function ($product) use (&$productData, $request) {
-
             $productData[] = array_merge($product,
-                ['store_id' => 1, 'type_id' => 2] //@armash pleas check this out its not post
+                [
+                    'type_id' => $request->get('type_id'),
+                    'vendor_id' => $request->get('vendor_id'),
+                    'customer_id' => $request->get('customer_id')
+                ]
             );
         });
 
-        $sales->orderProducts()->sync($productData);
+        $order->orderProducts()->sync($productData);
         /*
          * Worst code ever
          * Repetitive code

@@ -74,4 +74,9 @@ class OrderProduct extends Model
     {
         return $this->belongsTo(Type::class);
     }
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+
+    }
 }
