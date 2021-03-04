@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class PurchaseOrdersProducts extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('purchase_orders_products', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->float('price');
+            $table->float('expected_price');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('purchase_order_id');
+        });
+
+        Schema::table('purchase_orders_products', function (Blueprint $table) {
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->cascadeOnUpdate()->cascadeOnDelete();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('purchase_orders_products');
+    }
+}
