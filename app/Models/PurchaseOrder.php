@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $id
+ * @property integer $vendor_id
+ * @property integer $store_id
+ * @property float $price
+ * @property float $expected_price
+ * @property float $shiping_cost
+ * @property string $expected_date
+ * @property string $received_date
+ * @property string $created_at
+ * @property string $updated_at
+ * @property Store $store
+ * @property Vendor $vendor
+ * @relation PurchaseOrdersProduct[] $purchaseOrdersProducts
+ */
+class PurchaseOrder extends Model
+{
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'integer';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['vendor_id', 'store_id', 'price', 'expected_price', 'shiping_cost', 'expected_date', 'received_date', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function store()
+    {
+        return $this->belongsTo('App\Models\Store');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function vendor()
+    {
+        return $this->belongsTo('App\Models\Vendor');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchaseOrdersProducts()
+    {
+        return $this->hasMany('App\Models\PurchaseOrdersProduct');
+    }
+}
