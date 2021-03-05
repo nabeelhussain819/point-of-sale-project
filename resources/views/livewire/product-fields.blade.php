@@ -14,7 +14,7 @@
         @foreach($inputs as $key => $value)
             <tr id="product0">
                 <td>
-                    <input type="text" class="form-control" name="products[{{$key}}][lookup]"
+                    <input type="text" class="form-control"
                            placeholder="Enter Lookup"/>
                 </td>
                 <td>

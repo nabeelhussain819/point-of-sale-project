@@ -50,10 +50,10 @@ class PurchaseOrder extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function purchaseOrdersProducts()
     {
-        return $this->hasMany('App\Models\PurchaseOrdersProduct');
+        return $this->belongsToMany(PurchaseOrdersProduct::class, 'purchase_orders_products', 'purchase_order_id', 'purchase_order_id');
     }
 }

@@ -23,9 +23,15 @@ class PurchaseOrdersProduct extends Model
     protected $keyType = 'integer';
 
     /**
+     *
+     * disabled timestamp
+     * @var Bool
+     */
+    public $timestamps = false;
+    /**
      * @var array
      */
-    protected $fillable = ['product_id', 'purchase_order_id', 'price', 'expected_price', 'quantity', 'total_price'];
+    protected $fillable = ['product_id', 'purchase_order_id', 'price', 'expected_price', 'quantity', 'total_price', 'total', 'expected_total'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderProduct;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrdersProduct;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 
@@ -42,24 +43,35 @@ class PurchaseOrderController extends Controller
     public function store(Request $request)
     {
         $purchaseOrder = new PurchaseOrder();
+        $purchaseOrderProduct = new PurchaseOrdersProduct();
         $totalPrice = 0;
-
         $productData = [];
-        collect($request->get('products'))->each(function ($product) use (&$productData, $request) {
+
+        ////@todo Ugly code Move this in observer
+
+        collect($request->get('products'))->each(function ($product) use (&$productData, $request, &$totalPrice, $purchaseOrderProduct) {
+            $total = $product['price'] * $product['quantity'];
+            $totalPrice += $total;
+
             $productData[] = array_merge($product,
                 [
-                    'type_id' => $request->get('type_id'),
-                    'vendor_id' => $request->get('vendor_id'),
-                    'customer_id' => $request->get('customer_id')
+                    'expected_price' => $product['price'],
+                    'total' => $total,
+                    'expected_total' => $total,
                 ]
+            //@todo move all this work in observer   after meeting
             );
         });
 
-        $purchaseOrder->fill($request->all());
-        dd($request->all());
+
+        $PurachseOrderData = array_merge($request->all(), [
+            'expected_price' => $totalPrice,
+            'price' => $totalPrice
+        ]);
+
 
         $purchaseOrder
-            ->fill($purchasesOrderData)
+            ->fill($PurachseOrderData)
             ->save();
         $purchaseOrder->purchaseOrdersProducts()->sync($productData);
     }
