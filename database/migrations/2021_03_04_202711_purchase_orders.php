@@ -16,8 +16,8 @@ class PurchaseOrders extends Migration
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('price');
-            $table->float('expected_price');
-            $table->float('shiping_cost');
+            $table->float('expected_price')->nullable();
+            $table->float('shiping_cost')->nullable();
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('store_id');
             $table->dateTime("expected_date");

@@ -25,7 +25,7 @@ class PurchaseOrdersProduct extends Model
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'purchase_order_id', 'price', 'expected_price'];
+    protected $fillable = ['product_id', 'purchase_order_id', 'price', 'expected_price', 'quantity', 'total_price'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -5,8 +5,8 @@
             <th class="col-xs-4">Lookup</th>
             <th class="col-xs-4">Product</th>
             <th class="col-xs-4">Quantity</th>
-            <th class="col-xs-4">Store</th>
-            <th class="col-xs-4">Stock</th>
+            <th class="col-xs-4">Price</th>
+            <th class="col-xs-4">Total Price</th>
         </tr>
         </thead>
         <tbody>
@@ -20,7 +20,7 @@
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
-
+                            {{--@todo optimize quqery do not repeat --}}
                             <select class="form-control" name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>
                                 @foreach(\App\Models\Product::all() as $item)
@@ -32,16 +32,9 @@
                 </td>
                 <td><input type="text" class="form-control" name="products[{{$key}}][quantity]"
                            placeholder="Enter Quantity"/>
-
                 </td>
-                <td>
-                    <select class="form-control" name="products[{{$key}}][store_id]">
-                        <option value="">Please Select Store</option>
-
-                        @foreach(\App\Models\Store::all() as $item)
-                            <option value="{{$item->id}}">{{$item->name}}</option>
-                        @endforeach
-                    </select>
+                <td><input type="text" class="form-control" name="products[{{$key}}][price]"
+                           placeholder="Enter Quantity"/>
                 </td>
             </tr>
         @endforeach

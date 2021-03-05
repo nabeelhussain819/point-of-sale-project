@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
         'customers' => CustomerController::class,
         'sales' => SalesController::class,
         'orders' => OrderController::class,
-        'purchaseOrders' => PurchaseOrderController::class,
+        'purchase-order' => PurchaseOrderController::class,
     ]);
     Route::group(['prefix' => 'product-management'], function (){
        Route::Resources([

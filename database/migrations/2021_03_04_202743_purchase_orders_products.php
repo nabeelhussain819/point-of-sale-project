@@ -15,8 +15,10 @@ class PurchaseOrdersProducts extends Migration
     {
         Schema::create('purchase_orders_products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('price');
-            $table->float('expected_price');
+            $table->float('price')->nullable();
+            $table->float('total_price')->nullable();
+            $table->float('expected_price')->nullable();
+            $table->float('quantity')->nullable();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('purchase_order_id');
         });

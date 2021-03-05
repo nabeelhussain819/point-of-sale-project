@@ -17,8 +17,7 @@ class PurchaseOrderController extends Controller
     public function index()
     {
 
-        return view('admin.purchase_order.index'
-            ,
+        return view('admin.purchase_order.index',
             ['sales' => OrderProduct::with('inventory', 'vendor')->get(),
                 'vendors' => Vendor::get()]
         );
@@ -31,7 +30,7 @@ class PurchaseOrderController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -42,7 +41,27 @@ class PurchaseOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $purchaseOrder = new PurchaseOrder();
+        $totalPrice = 0;
+
+        $productData = [];
+        collect($request->get('products'))->each(function ($product) use (&$productData, $request) {
+            $productData[] = array_merge($product,
+                [
+                    'type_id' => $request->get('type_id'),
+                    'vendor_id' => $request->get('vendor_id'),
+                    'customer_id' => $request->get('customer_id')
+                ]
+            );
+        });
+
+        $purchaseOrder->fill($request->all());
+        dd($request->all());
+
+        $purchaseOrder
+            ->fill($purchasesOrderData)
+            ->save();
+        $purchaseOrder->purchaseOrdersProducts()->sync($productData);
     }
 
     /**

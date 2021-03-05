@@ -35,10 +35,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Description </label>
+                        <input type="text" class="form-control" name="description"
+                               placeholder="Enter description"/>
+                    </div>
 
                     <div class="form-group">
-                        <label>Store </label>
-                        <select class="form-control" name="store_id">
+                        <label>Description </label>
+                        <select class="form-control" name="products[{{$key}}][store_id]">
                             <option value="">Please Select Store</option>
 
                             @foreach(\App\Models\Store::all() as $item)
@@ -46,12 +51,6 @@
                             @endforeach
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label for="">Expected Date</label>
-                        <input type="date" class="form-control" name="expected_date"/>
-                    </div>
-
                     <br>
                     <input type="hidden" name="type_id" value="2"/>
                     @csrf
@@ -95,32 +94,32 @@
                                 <td>{{$item->mailing_address}}</td>
                                 <td>{{$item->telephone}}</td>
 
-                                {{--<td>--}}
-                                {{--<ul>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
-                                {{--<li> {{$products->product->name}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</ul>--}}
-                                {{--</td>--}}
-                                {{--<td>--}}
-                                {{--<ul>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
+                                <td>
+                                    <ul>
+                                        @foreach($item->orderProducts as $products)
+                                            <li> {{$products->product->name}}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach($item->orderProducts as $products)
 
-                                {{--<li> {{$products->inventory->product->cost}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</ul>--}}
-                                {{--</td>--}}
+                                            <li> {{$products->inventory->product->cost}}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
 
-                                {{--<td>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
-                                {{--<li> {{$products->quantity}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</td>--}}
-                                {{--<td>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
-                                {{--<li> {{$products->quantity * $products->inventory->product->cost}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</td>--}}
+                                <td>
+                                    @foreach($item->orderProducts as $products)
+                                        <li> {{$products->quantity}}</li>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach($item->orderProducts as $products)
+                                        <li> {{$products->quantity * $products->inventory->product->cost}}</li>
+                                    @endforeach
+                                </td>
                                 <td>
                                     <div style="display: flex;">
                                         <a href="{{route('purchase.received',$item)}}" class="btn btn-info mr-1">
