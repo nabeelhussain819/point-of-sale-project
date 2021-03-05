@@ -11,7 +11,7 @@ class ProductFields extends Component
 
     public function render()
     {
-        return view('livewire.product-fields');
+        return view('livewire.purchase-order.product-fields');
     }
 
     public function add($i)
@@ -19,5 +19,11 @@ class ProductFields extends Component
         $i = $i + 1;
         $this->i = $i; // $i++
         array_push($this->inputs, $i);
+    }
+
+    public function store()
+    {
+
+        dd("ad");
     }
 }

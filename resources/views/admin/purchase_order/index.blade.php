@@ -25,43 +25,8 @@
                 <div class="panel panel-default">
                     {{--                    <div class="panel-heading"><b>New Order</b>--}}
                 </div>
-                <form action="{{route('purchase-order.store')}}" method="POST">
-                    <div class="form-group">
-                        <label>Vendor </label>
-                        <select class="form-control" name="vendor_id">
-                            <option value="">Please Select Vendor</option>
-                            @foreach($vendors as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                @livewire('purchase-order', ['vendors'=>$vendors])
 
-                    <div class="form-group">
-                        <label>Store </label>
-                        <select class="form-control" name="store_id">
-                            <option value="">Please Select Store</option>
-
-                            @foreach(\App\Models\Store::all() as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Expected Date</label>
-                        <input type="date" class="form-control" name="expected_date"/>
-                    </div>
-
-                    <br>
-                    <input type="hidden" name="type_id" value="2"/>
-                    @csrf
-                    <livewire:product-fields/>
-                    <br>
-                    <div>
-                        <button class="btn btn-success font-weight-bold shadow rounded float-right" type="submit">Save
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
 
@@ -75,10 +40,11 @@
                         <div class="col-sm-3">Total {{$po->price}}$</div>
                         <div class="col-sm-6">
                             <div style="display: flex;">
-                                <a href="{{route('purchase.received',$item)}}" class="btn btn-info mr-1">
+
+                                <a href="{{route('purchaseOrder.received',$po->id)}}" class="btn btn-info mr-1">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <form action="{{route('purchase-vendor.delete',$item->id)}}" method="POST">
+                                <form action="{{route('purchase-vendor.delete',$po->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger ml-1" type="submit"><i

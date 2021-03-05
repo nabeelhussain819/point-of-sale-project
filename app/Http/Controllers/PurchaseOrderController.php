@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
 use App\Models\Vendor;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
@@ -41,10 +42,9 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
@@ -127,5 +127,12 @@ class PurchaseOrderController extends Controller
     public function destroy(PurchaseOrder $purchaseOrder)
     {
         //
+    }
+
+    public function received(PurchaseOrder $purchaseOrder)
+    {
+
+        $purchaseOrder->update(['received_date' => Carbon::now()]);
+//        $purchaseOrder->products->each()
     }
 }
