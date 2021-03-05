@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OrderProduct;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
 use App\Models\Vendor;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller
@@ -19,8 +19,14 @@ class PurchaseOrderController extends Controller
     {
 
         return view('admin.purchase_order.index',
-            ['sales' => OrderProduct::with('inventory', 'vendor')->get(),
-                'vendors' => Vendor::get()]
+            [
+                'vendors' => Vendor::get(),
+                'purchaseOrder' => PurchaseOrder::whereNull('received_date')
+                    ->with(['products' => function (HasMany $belongsTo) {
+                        $belongsTo->with('product');
+                    }, 'vendor'])
+                    ->get()
+            ]// optimize this as well]
         );
     }
 

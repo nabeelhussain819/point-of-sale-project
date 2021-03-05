@@ -67,83 +67,66 @@
 
         <div class="card shadow rounded">
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Vendor Name</th>
-                            <th scope="col">Mailing Address</th>
-                            <th scope="col">Contact</th>
-                            <th scope="col">Products</th>
-                            <th scope="col">Product Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total Price</th>
-                            <th scope="col">Actions</th>
-                            {{--                    <th scope="col">Action</th>--}}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @php
-                            $count = 1;
-                        @endphp
-                        @forelse($vendors as $item)
 
-                            <tr>
-                                <td>{{$item->id}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->mailing_address}}</td>
-                                <td>{{$item->telephone}}</td>
+                @foreach($purchaseOrder as $po)
+                    <div class="row alert alert-success">
 
-                                {{--<td>--}}
-                                {{--<ul>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
-                                {{--<li> {{$products->product->name}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</ul>--}}
-                                {{--</td>--}}
-                                {{--<td>--}}
-                                {{--<ul>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
+                        <div class="col-sm-3">#{{$po->id}} {{$po->vendor->name}}</div>
+                        <div class="col-sm-3">Total {{$po->price}}$</div>
+                        <div class="col-sm-6">
+                            <div style="display: flex;">
+                                <a href="{{route('purchase.received',$item)}}" class="btn btn-info mr-1">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                <form action="{{route('purchase-vendor.delete',$item->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger ml-1" type="submit"><i
+                                                class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
 
-                                {{--<li> {{$products->inventory->product->cost}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</ul>--}}
-                                {{--</td>--}}
 
-                                {{--<td>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
-                                {{--<li> {{$products->quantity}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</td>--}}
-                                {{--<td>--}}
-                                {{--@foreach($item->orderProducts as $products)--}}
-                                {{--<li> {{$products->quantity * $products->inventory->product->cost}}</li>--}}
-                                {{--@endforeach--}}
-                                {{--</td>--}}
-                                <td>
-                                    <div style="display: flex;">
-                                        <a href="{{route('purchase.received',$item)}}" class="btn btn-info mr-1">
-                                            <i class="fa fa-pen"></i>
-                                        </a>
-                                        <form action="{{route('purchase-vendor.delete',$item->id)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger ml-1" type="submit"><i
-                                                        class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                        @endforelse
-                        </tbody>
-                        {{--                <td>Total Sum Of Quantity: {{$item->inventory->quantity * $item->inventory->product->cost}}</td>--}}
-                        <tfoot>
-                        </tfoot>
-                    </table>
-                </div>
+                    </div>
+
+                    <div>
+
+                        {{------------------table---------------}}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Products</th>
+                                    <th scope="col">Product Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Total Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($po->products as $product)
+                                    <tr>
+                                        <td>{{$product->id}}</td>
+                                        <td>{{$product->id}}</td>
+                                        <td>{{$product->product->name}}</td>
+                                        <td>{{$product->quantity}}</td>
+                                        <td>{{$product->total}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                        {{------------------table---------------}}
+
+                    </div>
+                @endforeach
+
+
 
             </div>
         </div>
