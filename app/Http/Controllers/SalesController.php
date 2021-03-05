@@ -87,7 +87,6 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-
         $order = new Order();
         $order->fill($request->all())->save();
 

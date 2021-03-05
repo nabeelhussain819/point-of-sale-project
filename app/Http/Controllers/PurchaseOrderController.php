@@ -63,17 +63,19 @@ class PurchaseOrderController extends Controller
             );
         });
 
-
-        $PurachseOrderData = array_merge($request->all(), [
+        //@todo Overser ugent piece of work
+        $PurchaseOrderData = array_merge($request->all(), [
             'expected_price' => $totalPrice,
             'price' => $totalPrice
         ]);
 
 
         $purchaseOrder
-            ->fill($PurachseOrderData)
+            ->fill($PurchaseOrderData)
             ->save();
         $purchaseOrder->purchaseOrdersProducts()->sync($productData);
+
+        return redirect()->back()->with('success', 'New Sale Created');
     }
 
     /**
