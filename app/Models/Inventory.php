@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Core\Base;
 
 /**
  * @property integer $id
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Product $product
  * @property Vendor $vendor
  */
-class Inventory extends Model
+class Inventory extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -23,10 +23,11 @@ class Inventory extends Model
      */
     protected $keyType = 'integer';
 
+    protected $autoBlame = false;
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity','lookup','description','UPC','cost','extended_cost','bin','created_at', 'store_id','updated_at'];
+    protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity', 'lookup', 'description', 'UPC', 'cost', 'extended_cost', 'stock_bin_id', 'created_at', 'store_id', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

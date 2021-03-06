@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $product_id
  * @property integer $purchase_order_id
  * @property float $price
+ * @property float $quantity
  * @property float $expected_price
  * @relation Product $product
  * @relation PurchaseOrder $purchaseOrder
