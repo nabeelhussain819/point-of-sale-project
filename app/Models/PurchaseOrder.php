@@ -35,6 +35,7 @@ class PurchaseOrder extends Model
      */
     protected $fillable = ['vendor_id', 'store_id', 'price', 'expected_price', 'shiping_cost', 'expected_date', 'received_date', 'created_at', 'updated_at'];
 
+    public $isReceiving = false;
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

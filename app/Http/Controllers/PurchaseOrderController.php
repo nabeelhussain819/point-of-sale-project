@@ -142,8 +142,8 @@ class PurchaseOrderController extends Controller
     public function received(PurchaseOrder $purchaseOrder)
     {
         DB::transaction(function () use ($purchaseOrder) {
+            $purchaseOrder->isReceiving = true;
             $purchaseOrder->update(['received_date' => Carbon::now()]);
         });
-
     }
 }
