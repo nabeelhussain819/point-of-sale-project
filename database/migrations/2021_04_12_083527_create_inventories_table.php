@@ -18,7 +18,7 @@ class CreateInventoriesTable extends Migration
             $table->string('name');
             $table->uuid('guid');
             $table->bigInteger('quantity');
-            $table->unsignedBigInteger('product_id')->nullable()->unique();
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
             $table->timestamps();
         });
