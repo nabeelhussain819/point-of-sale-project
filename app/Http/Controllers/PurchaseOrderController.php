@@ -6,6 +6,8 @@ use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
 use App\Models\Vendor;
 use App\Observers\PurchaseOrderObserver;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
@@ -133,8 +135,15 @@ class PurchaseOrderController extends Controller
         //
     }
 
+    /**
+     * @param PurchaseOrder $purchaseOrder
+     * @throws \Throwable
+     */
     public function received(PurchaseOrder $purchaseOrder)
     {
-        $purchaseOrder->update(['received_date' => Carbon::now()]);
+        DB::transaction(function () use ($purchaseOrder) {
+            $purchaseOrder->update(['received_date' => Carbon::now()]);
+        });
+
     }
 }

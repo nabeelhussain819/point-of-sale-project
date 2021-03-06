@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Observers\PurchaseOrderObserver;
 use Illuminate\Database\Eloquent\Model;
+
 
 /**
  * @property integer $id
@@ -60,5 +62,12 @@ class PurchaseOrder extends Model
     public function products()
     {
         return $this->hasMany(PurchaseOrdersProduct::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        PurchaseOrder::observe(PurchaseOrderObserver::class);
     }
 }
