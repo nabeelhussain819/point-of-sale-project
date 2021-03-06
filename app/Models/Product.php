@@ -62,4 +62,9 @@ class Product extends Model
     }
 
 
+    public static function getPrice(int $id)
+    {
+        $product = Product::select('id', 'cost')->where('id', $id)->firstorFail();
+        return $product->cost;
+    }
 }

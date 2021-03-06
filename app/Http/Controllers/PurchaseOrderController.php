@@ -57,7 +57,6 @@ class PurchaseOrderController extends Controller
         $purchaseOrderProduct = new PurchaseOrdersProduct();
         $totalPrice = 0;
         $productData = [];
-
         ////@todo Ugly code Move this in observer
 
         collect($request->get('products'))->each(function ($product) use (&$productData, $request, &$totalPrice, $purchaseOrderProduct) {

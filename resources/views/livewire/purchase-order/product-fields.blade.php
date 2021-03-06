@@ -12,6 +12,7 @@
         <tbody>
 
         @foreach($inputs as $key => $value)
+
             <tr id="product0">
                 <td>
                     <input type="text" class="form-control"
@@ -21,7 +22,9 @@
                     <div class="input-group spinner">
                         <div class="row">
                             {{--@todo optimize quqery do not repeat --}}
-                            <select class="form-control" name="products[{{$key}}][product_id]">
+                            <select wire:change="setPrice({{$key}})" class="form-control"
+                                    wire:model="products.{{$key}}.id"
+                                    name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>
                                 @foreach(\App\Models\Product::all() as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>
@@ -30,11 +33,24 @@
                         </div>
                     </div>
                 </td>
-                <td><input type="text" class="form-control" name="products[{{$key}}][quantity]"
+                <td><input type="text"
+                           class="form-control"
+                           wire:change="quantity({{$key}})"
+                           wire:model.lazy="products.{{$key}}.quantity"
+                           name="products[{{$key}}][quantity]"
                            placeholder="Enter Quantity"/>
                 </td>
-                <td><input type="text" class="form-control" name="products[{{$key}}][price]"
-                           placeholder="Enter Quantity"/>
+
+                <td>
+                    <span>{{$products[$key]['price']}}</span>
+                    <input type="hidden" class="form-control"
+                           wire:model="products.{{$key}}.price"
+                           name="products[{{$key}}][price]"
+                           placeholder="Enter Price"/>
+                </td>
+                <td>
+                    <span>{{$productPrices[$key]}}</span>
+
                 </td>
             </tr>
         @endforeach
