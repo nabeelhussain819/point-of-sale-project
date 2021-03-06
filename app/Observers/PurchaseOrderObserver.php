@@ -17,6 +17,8 @@ class PurchaseOrderObserver
     public function saving(PurchaseOrder $purchaseOrder)
     {
         $purchaseOrder->products->each(function (PurchaseOrdersProduct $purchaseOrdersProduct) use ($purchaseOrder) {
+
+            //That method should be in inventory model optimization after 3 moduel integration
             Inventory::updateOrCreate([
                 'name' => 'test',
                 'product_id' => $purchaseOrdersProduct->product_id,
