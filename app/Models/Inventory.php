@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Observers\InventoryObserver;
 
 /**
  * @property integer $id
@@ -13,6 +14,7 @@ use App\Core\Base;
  * @property string $updated_at
  * @property Product $product
  * @property Vendor $vendor
+ * @property string quantity
  */
 class Inventory extends Base
 {
@@ -48,5 +50,12 @@ class Inventory extends Base
     public function sales()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        Inventory::observe(InventoryObserver::class);
     }
 }

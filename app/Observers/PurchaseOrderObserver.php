@@ -20,6 +20,9 @@ class PurchaseOrderObserver
 
             //That method should be in inventory model optimization after 3 moduel integration
             Inventory::updateOrCreate([
+                'product_id' => $purchaseOrdersProduct->product_id,
+                'store_id' => $purchaseOrder->store_id
+            ], [
                 'name' => 'test',
                 'product_id' => $purchaseOrdersProduct->product_id,
                 'vendor_id' => $purchaseOrder->vendor_id,
@@ -32,9 +35,6 @@ class PurchaseOrderObserver
                 'stock_bin_id' => Type::RETAIL,
                 'store_id' => $purchaseOrder->store_id,
 
-            ], [
-                'product_id' => $purchaseOrdersProduct->product_id,
-                'store_id' => $purchaseOrder->store_id
             ]);
         });
 
