@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Core\Base;
 
 /**
  * @property integer $id
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Store $store
  * @property Store $store2
  */
-class StockTransfer extends Model
+class StockTransfer extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -31,14 +31,14 @@ class StockTransfer extends Model
     /**
      * @var array
      */
-    protected $fillable = ['store_in', 'store_out', 'inventory_id', 'request', 'reference', 'quantity', 'date', 'created_at', 'updated_at'];
+    protected $fillable = ['transfer_by', 'received_by', 'store_in_id', 'store_out_id', 'request_id', 'transfer_date', 'received_date', 'created_by', 'updated_by'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function inventory()
+    public function storeOut()
     {
-        return $this->belongsTo(Inventory::class);
+        return $this->belongsTo(Store::class, 'store_in_id');
     }
 
     /**
@@ -46,14 +46,22 @@ class StockTransfer extends Model
      */
     public function storeIn()
     {
-        return $this->belongsTo(Store::class, 'store_in');
+        return $this->belongsTo(Store::class, 'store_out_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function storeOut()
+    public function transferBy()
     {
-        return $this->belongsTo(Store::class, 'store_out');
+        return $this->belongsTo('App\User', 'transfer_by');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function receivedBy()
+    {
+        return $this->belongsTo('App\User', 'received_by');
     }
 }

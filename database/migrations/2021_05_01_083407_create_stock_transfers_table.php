@@ -14,23 +14,48 @@ class CreateStockTransfersTable extends Migration
     public function up()
     {
         Schema::create('stock_transfers', function (Blueprint $table) {
-            $table->id();
-            $table->string('request');
-            $table->unsignedBigInteger('store_in');
-            $table->unsignedBigInteger('store_out');
-            $table->string('reference');
-            $table->bigInteger('quantity');
-            $table->unsignedBigInteger('inventory_id')->nullable();
-            $table->date('date');
+            $table->bigIncrements('id');
+            $table->string('request_id')->nullable();
+            $table->dateTime('transfer_date')->nullable();
+            $table->dateTime('received_date')->nullable();
+            $table->unsignedBigInteger('transfer_by')->nullable();
+            $table->unsignedBigInteger('received_by')->nullable();
+            $table->unsignedBigInteger('store_in_id')->nullable();
+            $table->unsignedBigInteger('store_out_id')->nullable();
+            $table->string('created_by');
+            $table->string('updated_by');
             $table->timestamps();
         });
-        Schema::table('stock_transfers', function (Blueprint $table){
-            $table->foreign('store_in')->references('id')->on('stores')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('store_out')->references('id')->on('stores')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('inventory_id')->references('id')->on('inventories')->cascadeOnUpdate()->cascadeOnDelete();
+
+        Schema::table('stock_transfers', function (Blueprint $table) {
+
+            $table->foreign('store_in_id')->references('id')
+                ->on('stores')->cascadeOnUpdate()->cascadeOnDelete();
+
+            $table->foreign('store_out_id')->references('id')
+                ->on('stores')->cascadeOnUpdate()->cascadeOnDelete();
+
+            $table->foreign('transfer_by')->references('id')
+                ->on('users')->cascadeOnUpdate()->cascadeOnDelete();
+
+            $table->foreign('received_by')->references('id')
+                ->on('users')->cascadeOnUpdate()->cascadeOnDelete();
+
         });
 
 
+        Schema::create('stock_transfer_products', function (Blueprint $table) {
+            $table->id();
+            $table->float('quantity')->nullable();
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('stock_transfer_id');
+            $table->timestamps();
+        });
+
+        Schema::table('stock_transfer_products', function (Blueprint $table) {
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('stock_transfer_id')->references('id')->on('stock_transfers')->cascadeOnUpdate()->cascadeOnDelete();
+        });
     }
 
     /**
@@ -41,5 +66,6 @@ class CreateStockTransfersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('stock_transfers');
+        Schema::dropIfExists('stock_transfer_products');
     }
 }

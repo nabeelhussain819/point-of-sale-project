@@ -13,7 +13,8 @@ class TransferController extends Controller
 
     public function index()
     {
-        return view('admin.transfers.index', ['transfers' => StockTransfer::with('inventory', 'storeIn', 'storeOut')->get()]);
+        return view('admin.transfers.index',
+            ['transfers' => StockTransfer::with('inventory', 'storeIn', 'storeOut')->get()]);
 
     }
 
