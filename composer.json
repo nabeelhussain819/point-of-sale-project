@@ -36,6 +36,9 @@
     },
     "extra": {
         "laravel": {
+          "providers": [
+            "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider"
+          ],
             "dont-discover": []
         }
     },

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
 use App\Models\Vendor;
-use Carbon\Carbon;
+use App\Observers\PurchaseOrderObserver;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,6 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
-
         return view('admin.purchase_order.index',
             [
                 'vendors' => Vendor::get(),
@@ -39,6 +38,12 @@ class PurchaseOrderController extends Controller
     public function create()
     {
 
+    }
+
+    public function boot()
+    {
+        parent::boot();
+        PurchaseOrder::observe(PurchaseOrderObserver::class);
     }
 
     /**
@@ -69,7 +74,7 @@ class PurchaseOrderController extends Controller
             );
         });
 
-        //@todo Overser ugent piece of work
+        //@todo Observer ugent piece of work
         $PurchaseOrderData = array_merge($request->all(), [
             'expected_price' => $totalPrice,
             'price' => $totalPrice
@@ -131,8 +136,6 @@ class PurchaseOrderController extends Controller
 
     public function received(PurchaseOrder $purchaseOrder)
     {
-
         $purchaseOrder->update(['received_date' => Carbon::now()]);
-//        $purchaseOrder->products->each()
     }
 }
