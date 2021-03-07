@@ -64,4 +64,9 @@ class StockTransfer extends Base
     {
         return $this->belongsTo('App\User', 'received_by');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(StockTransferProduct::class);
+    }
 }

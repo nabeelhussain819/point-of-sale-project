@@ -7,20 +7,20 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($formFields as $field)
-
+        @foreach($formFields as $key=>$value)
             <tr>
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
-                            <input type="number" class="form-control" name="quantity" required/>
+                            <input type="number" class="form-control"
+                                   name="products[{{$key}}][quantity]" required/>
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
-                            <select class="form-control" name="inventory_id">
+                            <select class="form-control" name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>
                                 @foreach($products as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>

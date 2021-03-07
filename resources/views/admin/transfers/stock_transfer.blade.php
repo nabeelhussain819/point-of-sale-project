@@ -40,19 +40,25 @@
                         </div>
                         <div class="form-group">
                             <label>Store In</label>
-                            <select name="store_in" id="" class="form-control">
+                            <select name="store_in_id" id="" class="form-control">
                                 <option value="">Please Select Store In</option>
-                                @foreach(\App\Models\Store::all() as $item)
+
+                                @foreach($stores as $item)
                                     <option value="{{$item->id}}" selected>{{$item->name}}</option>
                                 @endforeach
+
+                                {{--// ridiculous--}}
+                                {{--@foreach(\App\Models\Store::all() as $item)--}}
+                                {{--<option value="{{$item->id}}" selected>{{$item->name}}</option>--}}
+                                {{--@endforeach--}}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">Store Out</label>
-                            <select name="store_out" id="" class="form-control">
+                            <select name="store_out_id" id="" class="form-control">
                                 <option value="">Please Select Store Out</option>
-                                @foreach(\App\Models\Store::all() as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @foreach($stores as $item)
+                                    <option value="{{$item->id}}" selected>{{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>
