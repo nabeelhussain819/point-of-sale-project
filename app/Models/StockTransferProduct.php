@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Core\Base;
 
 /**
  * @property integer $id
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Product $product
  * @property StockTransfer $stockTransfer
  */
-class StockTransferProduct extends Model
+class StockTransferProduct extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.

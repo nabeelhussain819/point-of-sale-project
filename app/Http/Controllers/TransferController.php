@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\StockTransfer;
+use App\Models\StockTransferProduct;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -34,12 +35,19 @@ class TransferController extends Controller
 
     public function transfer(Request $request)
     {
-        dd($request->all());
         $transfer = new StockTransfer();
-        $transfer->fill($request->all());
 
-        $transfer->save();
-        $transfer->products()->saveMany($transfer);
+
+        $productData = [];
+
+        collect($request->get('products'))->each(function ($product) use (&$productData) {
+            $stockProduct = new StockTransferProduct();
+//            $productData[] = $stockProduct->fill($product);
+            $productData[] = $product;
+        });
+
+        $transfer->fill($request->all())->save();
+        $transfer->products()->sync($productData);
         return redirect()->back()->with('success', 'Transfer Created');
     }
 

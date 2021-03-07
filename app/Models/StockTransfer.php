@@ -67,6 +67,6 @@ class StockTransfer extends Base
 
     public function products()
     {
-        return $this->belongsToMany(StockTransferProduct::class);
+        return $this->belongsToMany(StockTransferProduct::class, 'stock_transfer_products', 'stock_transfer_id', 'stock_transfer_id');
     }
 }

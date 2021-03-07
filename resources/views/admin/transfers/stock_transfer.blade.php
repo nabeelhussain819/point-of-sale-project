@@ -30,12 +30,12 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Request #</label>
-                            <input type="text" class="form-control" name="request"
+                            <input type="text" class="form-control" name="request_id"
                                    placeholder="Request #"/>
                         </div>
                         <div class="form-group">
                             <label for="">Date</label>
-                            <input type="date" class="form-control" name="date"
+                            <input type="date" class="form-control" name="transfer_date"
                                    />
                         </div>
                         <div class="form-group">
@@ -46,11 +46,6 @@
                                 @foreach($stores as $item)
                                     <option value="{{$item->id}}" selected>{{$item->name}}</option>
                                 @endforeach
-
-                                {{--// ridiculous--}}
-                                {{--@foreach(\App\Models\Store::all() as $item)--}}
-                                {{--<option value="{{$item->id}}" selected>{{$item->name}}</option>--}}
-                                {{--@endforeach--}}
                             </select>
                         </div>
                         <div class="form-group">
@@ -63,11 +58,11 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Reference</label>
-                            <input type="text" class="form-control" name="reference"
-                                   placeholder="Reference" required/>
-                        </div>
+                        {{--<div class="form-group">--}}
+                            {{--<label>Reference</label>--}}
+                            {{--<input type="text" class="form-control" name="reference"--}}
+                                   {{--placeholder="Reference" required/>--}}
+                        {{--</div>--}}
                         <input type="hidden" name="type_id" value="1"/>
                         @livewire('stock-transfer-product-field', ['products'=>$products])
                         <br>

@@ -91,6 +91,7 @@ class ProductController extends Controller
             'retail_price' => 'required|numeric|min:0',
             'min_price' => 'required|numeric|min:0',
         ]);
+        
         $product = Product::find($id);
         $product->fill($request->all())->update();
         return redirect()->back()->with('success',"$product->name Updated");
