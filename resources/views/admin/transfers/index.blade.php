@@ -12,12 +12,10 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Request</th>
                             <th scope="col">From</th>
                             <th scope="col">To</th>
-                            <th scope="col">Products</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Date</th>
+                            <th scope="col">Transfer date</th>
+
                             <th scope="col">Actions</th>
                         </tr>
                         </thead>
@@ -28,12 +26,11 @@
                         @forelse($transfers as $item)
                             <tr>
                                 <td>{{$item->id}}</td>
-                                <td>{{$item->request}}</td>
+                              
                                 <td>{{$item->storeIn->name}}</td>
                                 <td>{{$item->storeOut->name}}</td>
-                                <td>{{$item->inventory->product->name}}</td>
-                                <td>{{$item->quantity}}</td>
-                                <td>{{$item->date}}</td>
+
+                                <td>{{$item->transfer_date->diffForHumans()}}</td>
                                 <td>
                                     <div style="display: flex;">
                                     <a class="btn btn-info" href="{{route('transfer.received',$item)}}"><i class="fa fa-pen"></i></a>

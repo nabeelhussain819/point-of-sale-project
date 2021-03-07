@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\StockTransfer;
-use App\Models\StockTransferProduct;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,7 +17,7 @@ class TransferController extends Controller
     {
         return view('admin.transfers.index',
             [
-                'transfers' => StockTransfer::with('inventory', 'storeIn', 'storeOut')->get(), //@todo optimization so many relation
+                'transfers' => StockTransfer::with('storeIn', 'storeOut')->get(), //@todo optimization so many relation
                 'products' => Product::all(),// should be paginated record
             ]);
 
@@ -37,17 +36,12 @@ class TransferController extends Controller
     {
         $transfer = new StockTransfer();
 
-
-        $productData = [];
-
-        collect($request->get('products'))->each(function ($product) use (&$productData) {
-            $stockProduct = new StockTransferProduct();
-//            $productData[] = $stockProduct->fill($product);
-            $productData[] = $product;
+        $productData = collect($request->get('products'))->map(function ($product) {
+            return $product;
         });
 
         $transfer->fill($request->all())->save();
-        $transfer->products()->sync($productData);
+        $transfer->transferProducts()->sync($productData);
         return redirect()->back()->with('success', 'Transfer Created');
     }
 

@@ -33,6 +33,7 @@ class StockTransfer extends Base
      */
     protected $fillable = ['transfer_by', 'received_by', 'store_in_id', 'store_out_id', 'request_id', 'transfer_date', 'received_date', 'created_by', 'updated_by'];
 
+    protected $dates = ['transfer_date'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -65,8 +66,14 @@ class StockTransfer extends Base
         return $this->belongsTo('App\User', 'received_by');
     }
 
-    public function products()
+    //hot fix have to find the COC issue not mapping correctly
+    public function transferProducts()
     {
         return $this->belongsToMany(StockTransferProduct::class, 'stock_transfer_products', 'stock_transfer_id', 'stock_transfer_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(StockTransferProduct::class);
     }
 }
