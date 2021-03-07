@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\Product;
 use App\Models\StockTransfer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,17 +15,24 @@ class TransferController extends Controller
     public function index()
     {
         return view('admin.transfers.index',
-            ['transfers' => StockTransfer::with('inventory', 'storeIn', 'storeOut')->get()]);
+            [
+                'transfers' => StockTransfer::with('inventory', 'storeIn', 'storeOut')->get(),
+                'products' => Product::all()
+            ]);
 
     }
 
     public function stockTransfer()
     {
-        return view('admin.transfers.stock_transfer', ['inventory' => Inventory::all()]);
+        return view('admin.transfers.stock_transfer',
+            [
+                'products' => Product::all()
+            ]);
     }
 
     public function transfer(Request $request)
     {
+        dd($request->all());
         $transfer = new StockTransfer();
         $transfer->fill($request->all())->save();
         return redirect()->back()->with('success', 'Transfer Created');

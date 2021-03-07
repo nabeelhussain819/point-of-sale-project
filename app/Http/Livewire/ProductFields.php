@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Helpers\ArrayHelper;
 use App\Models\Product;
 use Livewire\Component;
 
@@ -30,7 +31,7 @@ class ProductFields extends Component
         $this->products[$i] = 0;
         $this->products[$i] = ['price' => 0];
         $this->i = $i + 1;
-        array_push($this->inputs, $this->i);
+        ArrayHelper::push($this->inputs, $this->i);
     }
 
     public function store()

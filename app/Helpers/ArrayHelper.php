@@ -251,4 +251,10 @@ class ArrayHelper extends Arr
     {
         return self::merge(array_diff($array1, $array2), array_diff($array2, $array1));
     }
+
+    public static function push(array &$array, $element): array
+    {
+        array_push($array, $element);
+        return $array;
+    }
 }

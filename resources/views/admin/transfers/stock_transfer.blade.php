@@ -63,44 +63,7 @@
                                    placeholder="Reference" required/>
                         </div>
                         <input type="hidden" name="type_id" value="1"/>
-                        <table class="table" id="products_table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Quantity</th>
-                                <th scope="col-xs-4">Products</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr id="product0">
-                                <td>
-                                    <div class="input-group spinner">
-                                        <div class="row">
-                                            <input type="number" class="form-control" name="quantity" required/>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group spinner">
-                                        <div class="row">
-                                            <select class="form-control" name="inventory_id">
-                                                <option value="">Please Select Product</option>
-                                                @foreach($inventory as $item)
-                                                    <option value="{{$item->id}}">{{$item->product->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr id="product1">
-                            </tr>
-                        </table>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button id="add_row" class="btn btn-primary float-left shadow-lg">+ Add Row</button>
-                                <button id='delete_row' class="float-right btn btn-danger shadow-lg">- Delete Row</button>
-                            </div>
-                        </div>
+                        @livewire('stock-transfer-product-field', ['products'=>$products])
                         <br>
                         <div>
                             <button class="btn btn-success font-weight-bold shadow rounded float-right" type="submit">Save</button>

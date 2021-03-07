@@ -1,0 +1,45 @@
+<div>
+    <table class="table" id="products_table">
+        <thead>
+        <tr>
+            <th scope="col">Quantity</th>
+            <th scope="col-xs-4">Products</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($formFields as $field)
+
+            <tr>
+                <td>
+                    <div class="input-group spinner">
+                        <div class="row">
+                            <input type="number" class="form-control" name="quantity" required/>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group spinner">
+                        <div class="row">
+                            <select class="form-control" name="inventory_id">
+                                <option value="">Please Select Product</option>
+                                @foreach($products as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <button id="add_row" wire:click.prevent="addRow({{$row}})"
+                    class="btn btn-primary float-left shadow-lg">+
+                Add Row
+            </button>
+            <button id='delete_row' class="float-right btn btn-danger shadow-lg">- Delete Row</button>
+        </div>
+    </div>
+</div>
