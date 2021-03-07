@@ -130,7 +130,7 @@
                                 <th scope="col">Cost</th>
                                 <th scope="col">Extended Cost</th>
                                 <th scope="col">Bin</th>
-                                <th scope="col">Vendor Name</th>
+                                <th scope="col">Store Name</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -149,7 +149,7 @@
                                     <td>{{$item->cost}}</td>
                                     <td>{{$item->extended_cost}}</td>
                                     <td>{{$item->bin}}</td>
-                                    <td>{{ $item->vendor->name }}</td>
+                                    <td>{{ $item->store->name }}</td>
                                     <td>
                                         <div style="display: flex;">
                                             @if(auth()->user()->hasPermissionTo('inventory-edit'))
