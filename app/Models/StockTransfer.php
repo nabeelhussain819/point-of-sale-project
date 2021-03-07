@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Observers\StockTransferObserver;
 
 /**
  * @property integer $id
@@ -34,6 +35,8 @@ class StockTransfer extends Base
     protected $fillable = ['transfer_by', 'received_by', 'store_in_id', 'store_out_id', 'request_id', 'transfer_date', 'received_date', 'created_by', 'updated_by'];
 
     protected $dates = ['transfer_date'];
+
+    public $isReceiving = false;
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -81,5 +84,12 @@ class StockTransfer extends Base
     {
         $this->load(['products']);
         return $this;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        StockTransfer::observe(StockTransferObserver::class);
     }
 }

@@ -31,6 +31,13 @@ class Inventory extends Base
      */
     protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity', 'lookup', 'description', 'UPC', 'cost', 'extended_cost', 'stock_bin_id', 'created_at', 'store_id', 'updated_at'];
 
+    const
+        SCENARIO_TRANSFER = 'TRANSFER',
+        SCENARIO_PURCHASE = 'PURCHASE';
+
+    public $INCOMING_PRODUCTS = false;
+    public $OUTGOING_PRODUCTS = false;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

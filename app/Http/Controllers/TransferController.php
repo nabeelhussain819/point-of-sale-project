@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\StockTransfer;
 use App\Models\Store;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
@@ -36,6 +37,7 @@ class TransferController extends Controller
         $transfer = new StockTransfer();
 
         $productData = collect($request->get('products'))->map(function ($product) {
+            unset($product['id']); // hot fix
             return $product;
         });
 
@@ -55,18 +57,31 @@ class TransferController extends Controller
             ]);
     }
 
+    /**
+     * @param StockTransfer $transfer
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
+     */
     public function markAsReceived(StockTransfer $transfer, Request $request)
     {
-        $productData = collect($request->get('products'))->map(function ($product) {
-            return $product;
+        //todo Some centric logic
+        DB::transaction(function () use ($transfer, $request) {
+            $productData = collect($request->get('products'))->map(function ($product) {
+                return $product;
+            });
+
+            $transfer->isReceiving = true;
+
+            $transfer->fill(ArrayHelper::merge([
+                'received_date' => Carbon::now()
+            ], $request->all())
+            )->update();
+
+            $transfer->transferProducts()->sync($productData);
         });
 
-        $transfer->fill(ArrayHelper::merge([
-            'received_date' => Carbon::now()
-        ], $request->all()))->update();
-        $transfer->transferProducts()->sync($productData);
         return redirect('/inventory-management/stock-transfer')->with('success', 'Transfer Created');
-//        return redirect()->back()
     }
 
     public function delete(StockTransfer $transfer)
