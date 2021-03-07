@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventory;
+use App\Helpers\ArrayHelper;
 use App\Models\Product;
 use App\Models\StockTransfer;
 use App\Models\Store;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class TransferController extends Controller
 {
@@ -17,10 +17,9 @@ class TransferController extends Controller
     {
         return view('admin.transfers.index',
             [
-                'transfers' => StockTransfer::with('storeIn', 'storeOut')->get(), //@todo optimization so many relation
+                'transfers' => StockTransfer::whereNull('received_date')->with('storeIn', 'storeOut')->get(), //@todo optimization so many relation
                 'products' => Product::all(),// should be paginated record
             ]);
-
     }
 
     public function stockTransfer()
@@ -48,34 +47,26 @@ class TransferController extends Controller
 
     public function received(StockTransfer $transfer)
     {
-
-        return view('admin.transfers.received', ['transfer' => $transfer]);
+        return view('admin.transfers.received',
+            [
+                'transfer' => $transfer->withProducts(),
+                'stores' => Store::all(),
+                'products' => Product::all(),
+            ]);
     }
 
-    public function markAsReceived(Request $request)
+    public function markAsReceived(StockTransfer $transfer, Request $request)
     {
-        foreach ($request->get('products') as $product) {
-            Inventory::insert([
-                'product_id' => $product,
-                'guid' => Str::uuid(),
-                'description' => $request->get('description'),
-                'lookup' => $request->get('lookup'),
-                'name' => $request->get('name'),
-                'quantity' => $request->get('quantity'),
-                'store_id' => $request->get('store_out'),
-                'cost' => $request->get('cost'),
-                'extended_cost' => $request->get('cost'),
-                'vendor_id' => $request->get('vendor_id'),
-                'bin' => $request->get('bin'),
-            ]);
+        $productData = collect($request->get('products'))->map(function ($product) {
+            return $product;
+        });
 
-            $storeIn = Inventory::where('store_id', $request->get('store_in'))->first();
-            $quantity = $storeIn->quantity - $request->get('quantity');
-            $storeIn->update([
-                'quantity' => $quantity
-            ]);
-        }
-        return redirect()->back()->with('success', 'StockBin Transfered');
+        $transfer->fill(ArrayHelper::merge([
+            'received_date' => Carbon::now()
+        ], $request->all()))->update();
+        $transfer->transferProducts()->sync($productData);
+        return redirect('/inventory-management/stock-transfer')->with('success', 'Transfer Created');
+//        return redirect()->back()
     }
 
     public function delete(StockTransfer $transfer)

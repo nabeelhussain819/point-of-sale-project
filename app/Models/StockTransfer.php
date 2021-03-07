@@ -76,4 +76,10 @@ class StockTransfer extends Base
     {
         return $this->hasMany(StockTransferProduct::class);
     }
+
+    public function withProducts()
+    {
+        $this->load(['products']);
+        return $this;
+    }
 }

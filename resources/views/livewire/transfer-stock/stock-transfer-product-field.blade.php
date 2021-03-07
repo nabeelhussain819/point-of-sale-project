@@ -12,7 +12,12 @@
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
+                            <input type="hidden"
+                                   name="products[{{$key}}][id]"
+                                   value="{{!empty($value['id']) ? $value['id']:null}}"/>
+
                             <input type="number" class="form-control"
+                                   value="{{!empty($value['quantity']) ? $value['quantity']:null}}"
                                    name="products[{{$key}}][quantity]" required/>
                         </div>
                     </div>
@@ -23,7 +28,8 @@
                             <select class="form-control" name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>
                                 @foreach($products as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option selected="{{!empty($value['quantity']) ? $item->id === $value['quantity']:null}}"
+                                            value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>

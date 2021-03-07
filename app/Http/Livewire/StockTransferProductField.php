@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\ArrayHelper;
+use App\Models\StockTransferProduct;
 use Livewire\Component;
 
 class StockTransferProductField extends Component
@@ -14,9 +15,15 @@ class StockTransferProductField extends Component
         return view('livewire.transfer-stock.stock-transfer-product-field');
     }
 
-    public function mount($products)
+    public function mount($products, $dbProducts = null)
     {
         $this->products = $products;
+
+        if (!empty($dbProducts)) {
+            $this->formFields = collect($dbProducts)->map(function (StockTransferProduct $product) {
+                return $product->getAttributes();
+            })->all();
+        }
     }
 
     public function addRow($row)
