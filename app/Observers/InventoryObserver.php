@@ -8,6 +8,8 @@ class InventoryObserver
 {
     public function saving(Inventory $inventory)
     {
-        $inventory->quantity = $inventory->getOriginal('quantity') + $inventory->quantity;
+        if (!$inventory->OUTGOING_PRODUCTS) {
+            $inventory->quantity = $inventory->getOriginal('quantity') + $inventory->quantity;
+        }
     }
 }

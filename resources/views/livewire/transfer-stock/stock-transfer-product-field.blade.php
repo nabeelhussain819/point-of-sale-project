@@ -22,14 +22,19 @@
                         </div>
                     </div>
                 </td>
+
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
                             <select class="form-control" name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>
                                 @foreach($products as $item)
-                                    <option selected="{{!empty($value['quantity']) ? $item->id === $value['quantity']:null}}"
-                                            value="{{$item->id}}">{{$item->name}}</option>
+
+                                    <option
+                                            {{($item->id == $value['product_id']? 'selected':'')}}
+                                            {{--selected="{{!empty($value['product_id']) ? ($item->id == $value['product_id']? true:false):null}}"--}}
+                                            value="{{$item->id}}">{{$item->name}}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

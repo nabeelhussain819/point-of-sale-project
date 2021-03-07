@@ -28,6 +28,7 @@ class StockTransfer extends Base
      * @var string
      */
     protected $keyType = 'integer';
+    protected $hasGuid = false;
 
     /**
      * @var array

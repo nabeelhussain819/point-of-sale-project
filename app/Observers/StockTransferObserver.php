@@ -34,6 +34,17 @@ class StockTransferObserver
                     'store_id' => $stockTransfer->store_in_id,
                 ]);
             });
+
+            Inventory::where('store_id', $stockTransfer->store_out_id)
+                ->whereIn('product_id', $stockTransfer->products->pluck('product_id')->all())
+                ->get()
+                ->each(function (Inventory $inventory) use ($stockTransfer) {
+                    $inventory->OUTGOING_PRODUCTS = true;
+
+                    $inventory->update(['quantity' =>
+                        $inventory->quantity - $stockTransfer->products->where('product_id', $inventory->product_id)->first()->quantity]);
+                });
+
         }
     }
 }

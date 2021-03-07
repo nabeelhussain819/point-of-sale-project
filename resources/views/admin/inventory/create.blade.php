@@ -123,8 +123,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Lookup</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Description</th>
+
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Cost</th>
@@ -142,8 +141,6 @@
                                 <tr>
                                     <td>{{ $count++ }}</td>
                                     <td>{{$item->lookup}}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{$item->description}}</td>
                                     <td>{{ $item->product->name }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{$item->cost}}</td>
