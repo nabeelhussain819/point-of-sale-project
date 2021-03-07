@@ -109,9 +109,9 @@
         <div class="container">
             @if(auth()->user()->hasPermissionTo('inventory-create'))
                 <h4>All Inventories
-                    <button class="btn btn-success float-right shadow-rounded font-weight-bold" data-toggle="modal"
-                            data-target="#exampleModalCenter">Add New
-                    </button>
+                    {{--<button class="btn btn-success float-right shadow-rounded font-weight-bold" data-toggle="modal"--}}
+                            {{--data-target="#exampleModalCenter">Add New--}}
+                    {{--</button>--}}
                 </h4>
             @endif
             <br>
