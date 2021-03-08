@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Category $category
  * @property Department $department
  * @property Inventory[] $inventories
+ * @property boolean $has_serial_number
  */
 class Product extends Model
 {
@@ -35,7 +36,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['department_id', 'guid','category_id', 'name', 'description', 'UPC', 'cost', 'retail_price', 'min_price', 'taxable', 'active', 'created_at', 'updated_at'];
+    protected $fillable = ['department_id', 'guid', 'category_id', 'name', 'description', 'UPC', 'cost', 'retail_price', 'min_price', 'taxable', 'active', 'created_at', 'updated_at', 'has_serial_number'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -66,5 +67,10 @@ class Product extends Model
     {
         $product = Product::select('id', 'cost')->where('id', $id)->firstorFail();
         return $product->cost;
+    }
+
+    public function setHasSerialNumberAttribute($hasSerial)
+    {
+        $this->attributes['has_serial_number'] = $hasSerial === 'on';
     }
 }

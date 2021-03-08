@@ -31,7 +31,7 @@
                                 @foreach($products as $item)
 
                                     <option
-                                            {{($item->id == $value['product_id']? 'selected':'')}}
+                                            {{(!empty( $value['product_id']) ?? $item->id == $value['product_id']? 'selected':'')}}
                                             {{--selected="{{!empty($value['product_id']) ? ($item->id == $value['product_id']? true:false):null}}"--}}
                                             value="{{$item->id}}">{{$item->name}}
                                     </option>

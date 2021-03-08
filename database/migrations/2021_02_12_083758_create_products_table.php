@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->float('cost',36);
             $table->float('retail_price',36);
+            $table->boolean('has_serial_number')->default(false);
             $table->float('min_price',36);
             $table->boolean('taxable')->default(false);
             $table->boolean('active')->default(false);

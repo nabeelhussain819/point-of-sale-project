@@ -29,7 +29,7 @@ class Inventory extends Base
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity', 'lookup', 'description', 'UPC', 'cost', 'extended_cost', 'stock_bin_id', 'created_at', 'store_id', 'updated_at'];
+    protected $fillable = ['product_id', 'vendor_id', 'name', 'quantity', 'lookup', 'description', 'UPC', 'cost', 'extended_cost', 'stock_bin_id', 'created_at', 'store_id', 'updated_at', 'has_serial_number'];
 
     const
         SCENARIO_TRANSFER = 'TRANSFER',
