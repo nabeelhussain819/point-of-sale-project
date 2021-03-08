@@ -51,7 +51,7 @@
                                 @endforeach
                             </select>
                         </div>
-                </div>
+
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <h4>Product Cost</h4>
                     <div class="form-group">
@@ -82,14 +82,25 @@
                             <option value="0" {{$product->active == 0 ? 'selected' : ''}}>Not Active</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">Submit</button>
 
+                    <div class="form-group">
+                        <label>Has Serial</label>
+                        {{--@todo Armash please handle the checkbox--}}
+                        <input id="checkbox" type="checkbox" name="has_serial_number">
+                    </div>
+                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                </div>
                     </form>
                 </div>
             </div>
-
-
         </div>
+
     </div>
 
+@endsection
+
+@section('script')
+    <script>
+
+    </script>
 @endsection

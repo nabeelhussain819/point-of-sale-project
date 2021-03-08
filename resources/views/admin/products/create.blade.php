@@ -81,10 +81,14 @@
                                     <option value="0">Not Active</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Has Serial</label>
+                                <input id="" type="checkbox" name="has_serial_number" value="">
+                            </div>
 
                         </div>
                     </div>
-                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success shadow rounded font-weight-bold float-right">Add New</button>
@@ -93,7 +97,7 @@
             </div>
         </div>
     </div>
-
+    </div>
 
             @if (isset($errors) && count($errors) > 0)
                 <div class="alert alert-danger">
