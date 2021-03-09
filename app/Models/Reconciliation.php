@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  * @property Store $store
- * @property ReconciliationProduct[] $reconciliationProducts
+ * @relation  ReconciliationProduct[] $reconciliationProducts
  */
 class Reconciliation extends Model
 {
@@ -36,11 +36,13 @@ class Reconciliation extends Model
         return $this->belongsTo('App\Store');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function reconciliationProducts()
     {
-        return $this->hasMany('App\ReconciliationProduct');
+        return $this->belongsToMany(ReconciliationProduct::class, 'reconciliation_products', 'reconciliation_id', 'reconciliation_id');
     }
+
+//    public function purchaseOrdersProducts()
+//    {
+//        return $this->belongsToMany(ReconciliationProduct::class, 'reconciliation_orders_products', 'reconciliation__id', 'reconciliation__id');
+//    }
 }
