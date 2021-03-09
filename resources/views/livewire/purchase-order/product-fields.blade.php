@@ -57,8 +57,8 @@
     </table>
     <div class="row">
         <div class="col-md-12">
-            <button class="btn text-white btn-info btn-sm" wire:click.prevent="add({{$i}})">Add</button>
-            <button id='delete_row' class="float-right btn btn-danger shadow-lg">- Delete Row</button>
+            <button class="btn text-white btn-info " wire:click.prevent="add({{$i}})"><i class="fa fa-plus"></i></button>
+            <button id='delete_row' class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
         </div>
     </div>
 </div>

@@ -91,8 +91,8 @@
                         </table>
                         <div class="row">
                             <div class="col-md-12">
-                                <button id="add_row" class="btn btn-primary float-left shadow-lg">+ Add Row</button>
-                                <button id='delete_row' class="float-right btn btn-danger shadow-lg">- Delete Row</button>
+                                <button id="add_row" class="btn btn-primary float-left shadow-lg"><i class="fa fa-plus"></i></button>
+                                <button id='delete_row' class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
                         <br>

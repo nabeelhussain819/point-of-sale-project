@@ -46,7 +46,7 @@ class VendorController extends Controller
         ]);        
         $vendors = new Vendor();
         $vendors->fill($request->all())->save();
-        return redirect('inventory-management/vendors')->with('success','Store Created');
+        return redirect('inventory-management/vendors')->with('success',"Vendor {$vendors->name} Created");
     }
 
 
@@ -67,10 +67,10 @@ class VendorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Vendor $vendor)
     {
         //
-        return view('admin.vendors.edit',['vendor' => Vendor::find($id)]);
+        return view('admin.vendors.edit',['vendor' => $vendor]);
     }
 
     /**
@@ -94,10 +94,9 @@ class VendorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Vendor $vendor)
     {
         //
-        $vendor = Vendor::find($id);
         $vendor->delete();
         return redirect()->back()->with('success','Vendor Deleted');
 

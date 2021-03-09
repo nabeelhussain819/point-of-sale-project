@@ -38,25 +38,25 @@
                         @php
                             $count = 1;
                         @endphp
-                        @forelse($vendors as $item)
+                        @forelse($vendors as $vendor)
                             <tr>
                                 <td>{{ $count++ }}</td>
-                                <td>{{ $item->name}}</td>
-                                <td>{{ $item->telephone }}</td>
-                                <td>{{ $item->mailing_address }}</td>
-                                <td>{{ $item->website }}</td>
-                                <td> {{$item->contact_title ?? 'No Contact Title'}} </td>
-                                <td>{{$item->contact_number ?? 'No Contact Number'}}</td>
-                                <td>{{$item->contact_email ?? 'No Contact Email'}}</td>
+                                <td>{{ $vendor->name}}</td>
+                                <td>{{ $vendor->telephone }}</td>
+                                <td>{{ $vendor->mailing_address }}</td>
+                                <td>{{ $vendor->website }}</td>
+                                <td> {{$vendor->contact_title ?? 'No Contact Title'}} </td>
+                                <td>{{$vendor->contact_number ?? 'No Contact Number'}}</td>
+                                <td>{{$vendor->contact_email ?? 'No Contact Email'}}</td>
                                 <td>
                                     <div style="display: flex">
                                         @if(auth()->user()->hasPermissionTo('vendor-edit'))
                                             <a class="btn btn-info mr-1"
-                                               href="{{ route('vendors.edit',$item->id) }}"><i
+                                               href="{{ route('vendors.edit',$vendor) }}"><i
                                                         class="fa fa-pen"></i></a>
                                         @endif
                                         @if(auth()->user()->hasPermissionTo('vendor-delete'))
-                                            <form action="{{ route('vendors.destroy',$item->id) }}" method="POST">
+                                            <form action="{{ route('vendors.destroy',$vendor) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger ml-1"><i class="fa fa-trash"></i>

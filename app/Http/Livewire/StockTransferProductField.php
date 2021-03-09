@@ -31,4 +31,9 @@ class StockTransferProductField extends Component
         $this->row = $row + 1;
         ArrayHelper::push($this->formFields, $this->row);
     }
+
+    public function deleteRow($row)
+    {
+        unset($this->row);
+    }
 }
