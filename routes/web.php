@@ -9,6 +9,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\ReconciliationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\StockBinController;
@@ -49,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
         'sales' => SalesController::class,
         'orders' => OrderController::class,
         'purchase-order' => PurchaseOrderController::class,
+        'reconciliation' => ReconciliationController::class,
     ]);
     Route::group(['prefix' => 'product-management'], function (){
        Route::Resources([
@@ -58,6 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
            'stock-bin' => StockBinController::class
        ]);
     });
+
     Route::group(['prefix' => 'inventory-management'],function(){
         Route::Resources([
             'inventory' => InventoryController::class,

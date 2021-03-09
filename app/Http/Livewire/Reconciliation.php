@@ -10,4 +10,16 @@ class Reconciliation extends Component
     {
         return view('livewire.reconciliation.reconciliation');
     }
+
+    public function submit()
+    {
+        $this->validate();
+
+        // Execution doesn't reach here if validation fails.
+
+        Contact::create([
+            'name' => $this->name,
+            'email' => $this->email,
+        ]);
+    }
 }
