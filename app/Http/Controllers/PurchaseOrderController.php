@@ -55,6 +55,13 @@ class PurchaseOrderController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'vendor_id' => 'required',
+            'store_id' => 'required',
+            'expected_date' => 'required',
+            'products' => 'required',
+        ]);
+
         $purchaseOrder = new PurchaseOrder();
         $purchaseOrderProduct = new PurchaseOrdersProduct();
         $totalPrice = 0;
@@ -82,9 +89,7 @@ class PurchaseOrderController extends Controller
         ]);
 
 
-        $purchaseOrder
-            ->fill($PurchaseOrderData)
-            ->save();
+        $purchaseOrder->fill($PurchaseOrderData)->save();
         $purchaseOrder->purchaseOrdersProducts()->sync($productData);
 
         return redirect()->back()->with('success', 'New Sale Created');
@@ -93,7 +98,7 @@ class PurchaseOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PurchaseOrder $purchaseOrder
+     * @param \App\Models\PurchaseOrder $purchaseOrder
      * @return \Illuminate\Http\Response
      */
     public function show(PurchaseOrder $purchaseOrder)
@@ -104,7 +109,7 @@ class PurchaseOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\PurchaseOrder $purchaseOrder
+     * @param \App\Models\PurchaseOrder $purchaseOrder
      * @return \Illuminate\Http\Response
      */
     public function edit(PurchaseOrder $purchaseOrder)
@@ -115,8 +120,8 @@ class PurchaseOrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\PurchaseOrder $purchaseOrder
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\PurchaseOrder $purchaseOrder
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, PurchaseOrder $purchaseOrder)
@@ -127,7 +132,7 @@ class PurchaseOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PurchaseOrder $purchaseOrder
+     * @param \App\Models\PurchaseOrder $purchaseOrder
      * @return \Illuminate\Http\Response
      */
     public function destroy(PurchaseOrder $purchaseOrder)
@@ -139,6 +144,12 @@ class PurchaseOrderController extends Controller
      * @param PurchaseOrder $purchaseOrder
      * @throws \Throwable
      */
+    public function receivedForm(PurchaseOrder $purchaseOrder)
+    {
+
+        return view('admin.purchase_order.received', ['purchaseOrder' => $purchaseOrder]);
+    }
+
     public function received(PurchaseOrder $purchaseOrder)
     {
         DB::transaction(function () use ($purchaseOrder) {

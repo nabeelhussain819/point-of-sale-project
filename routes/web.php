@@ -73,9 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/stock-transfer/{transfer}',[TransferController::class,'received'])->name('transfer.received');
         Route::delete('/stock-transfer/{transfer}',[TransferController::class,'delete'])->name('transfer.delete');
         Route::post('/stock-transfer-received/{transfer}', [TransferController::class, 'markAsReceived'])->name('transfer.markasreceived');
-
 //        revamp
-
     });
 
 
@@ -86,8 +84,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 
     Route::group(['prefix' => 'purchase-order'], function () {
-        Route::get('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])
+        Route::get('/received-form/{purchaseOrder}', [PurchaseOrderController::class, 'receivedForm'])
             ->name('purchaseOrder.received');
+        Route::get('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])
+            ->name('purchaseOrder.received-done');
+
     });
 
 

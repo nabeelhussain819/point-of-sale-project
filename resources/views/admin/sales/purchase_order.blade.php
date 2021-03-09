@@ -28,7 +28,7 @@
                 <form action="{{route('sales.store')}}" method="POST">
                     <div class="form-group">
                         <label>Vendor </label>
-                        <select class="form-control" name="vendor_id">
+                        <select class="form-control" name="vendor_id" required>
                             <option value="">Please Select Vendor</option>
                             @foreach($vendors as $item)
                                 <option value="{{$item->id}}">{{$item->name}}</option>
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label>Description </label>
                         <input type="text" class="form-control" name="description"
-                               placeholder="Enter description"/>
+                               placeholder="Enter description" required/>
                     </div>
 
                     <br>

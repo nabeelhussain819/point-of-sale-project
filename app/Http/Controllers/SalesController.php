@@ -87,21 +87,29 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'lookup' => 'required',
+            'customer_id' => 'required',
+            'description' => 'required',
+            'type_id' => 'required',
+            'products' => 'required',
+            'quantity' => 'required'
+        ]);
+
         $order = new Order();
         $order->fill($request->all())->save();
-
         $productData = [];
         collect($request->get('products'))->each(function ($product) use (&$productData, $request) {
             $productData[] = array_merge($product,
                 [
                     'type_id' => $request->get('type_id'),
                     'vendor_id' => $request->get('vendor_id'),
-                    'customer_id' => $request->get('customer_id')
+                    'customer_id' => $request->get('customer_id'),
                 ]
             );
         });
-
         $order->orderProducts()->sync($productData);
+
         /*
          * Worst code ever
          * Repetitive code

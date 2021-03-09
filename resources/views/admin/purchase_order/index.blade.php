@@ -34,11 +34,11 @@
             <div class="card-body">
 
                 @foreach($purchaseOrder as $po)
-                    <div class="row alert alert-success">
+                    <div class="row alert alert-success mt-1 mb-1">
 
-                        <div class="col-sm-3">#{{$po->id}} {{$po->vendor->name}}</div>
-                        <div class="col-sm-3">Total {{$po->price}}$</div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4 mt-1">#{{$po->id}} {{$po->vendor->name}}</div>
+                        <div class="col-sm-4 mt-1">Total {{$po->price}}$</div>
+                        <div class="col-sm-4">
                             <div style="display: flex;">
 
                                 <a href="{{route('purchaseOrder.received',$po->id)}}" class="btn btn-info mr-1">
@@ -102,34 +102,5 @@
 
     <script>
         // @todo remove this
-        $(document).ready(function () {
-            let row_number = 1;
-            $("#add_row").click(function (e) {
-                e.preventDefault();
-                let new_row_number = row_number - 1;
-                $('#product' + row_number).html($('#product' + new_row_number).html()).find('td:first-child');
-                $('#products_table').append('<tr id="product' + (row_number + 1) + '"></tr>');
-                row_number++;
-            });
-
-            $("#delete_row").click(function (e) {
-                e.preventDefault();
-                if (row_number > 1) {
-                    $("#product" + (row_number - 1)).html('');
-                    row_number--;
-                }
-            });
-        });
-
-        function calculateColumn(index) {
-            // var total = 0;
-            // $('table tr').each(function () {
-            //     var value = parseInt($('td ', this).eq(index).text());
-            //     if (!isNaN(value)) {
-            //         total += value;
-            //     }
-            // });
-            // $('table tfoot td').eq(index).text('Total Sum: ' + total);
-        }
     </script>
 @endsection

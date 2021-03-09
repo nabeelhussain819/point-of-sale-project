@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">New Product</h5>
@@ -22,22 +22,23 @@
                                 <div class="form-group">
                                     <label for="">Product Name</label>
                                     <input type="text" class="form-control" name="name" placeholder="Enter Name"
-                                           required/>
+                                           required value="{{old('name')}}"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Product Full Name</label>
                                     <input type="text" class="form-control" name="description" placeholder="Enter description"
-                                           required/>
+                                           required value="{{old('description')}}"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="">UPC</label>
                                     <input type="text" class="form-control" name="UPC" id="" aria-describedby="emailHelp"
-                                           placeholder="Enter UPC" required/>
+                                           placeholder="Enter UPC" required value="{{old('UPC')}}"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Department</label>
                                     <select class="form-control" name="department_id">
-                                        @foreach(\App\Models\Department::all() as $item)
+                                        <option>Please Select Department</option>
+                                    @foreach(\App\Models\Department::all() as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
                                     </select>
@@ -45,6 +46,7 @@
                                 <div class="form-group">
                                     <label for="">Category</label>
                                     <select class="form-control" name="category_id">
+                                        <option>Please Select Category</option>
                                         @foreach(\App\Models\Category::all() as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
@@ -55,17 +57,17 @@
                             <h4>Product Cost</h4>
                             <div class="form-group">
                                 <label for="">Cost</label>
-                                <input type="number" class="form-control" name="cost" id="" placeholder="Enter Cost" required/>
+                                <input type="number" class="form-control" name="cost" id="" placeholder="Enter Cost" value="{{old('cost')}}" required/>
                             </div>
                             <div class="form-group">
                                 <label for="">Retail Price</label>
-                                <input type="number" class="form-control" name="retail_price" placeholder="Enter Retail Price"
+                                <input type="number" class="form-control" name="retail_price" value="{{old('retail_price')}}" placeholder="Enter Retail Price"
                                        required/>
                             </div>
 
                             <div class="form-group">
                                 <label for="">Minimum Price</label>
-                                <input type="text" class="form-control" name="min_price" placeholder="Enter Minimum Price"/>
+                                <input type="text" class="form-control" name="min_price" value="{{old('min_price')}}" placeholder="Enter Minimum Price"/>
                             </div>
                             <div class="form-group">
                                 <label>Taxable</label>

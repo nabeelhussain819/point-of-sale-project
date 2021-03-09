@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\ArrayHelper;
+use App\Models\Inventory;
 use App\Models\Product;
 use Livewire\Component;
 
@@ -13,6 +14,7 @@ class ProductFields extends Component
     public $products = [];
     public $productPrices = [];
     public $quantity = [];
+    public $lookup;
 
     public function render()
     {
@@ -58,6 +60,9 @@ class ProductFields extends Component
         if (!empty($this->products[$i]['quantity'])) {
             $this->productPrices[$i] = $this->products[$i]['quantity'] * $this->products[$i]['price'];
         }
+    }
 
+    public function search()
+    {
     }
 }

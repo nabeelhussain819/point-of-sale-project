@@ -53,4 +53,5 @@ class UserStore extends Model
     {
         return UserStore::where('user_id', auth()->user()->id)->get();
     }
+
 }

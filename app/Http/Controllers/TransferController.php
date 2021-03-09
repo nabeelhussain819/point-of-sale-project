@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ArrayHelper;
+use App\Http\Requests\TransferRequest;
 use App\Models\Product;
 use App\Models\StockTransfer;
 use App\Models\Store;
@@ -32,10 +33,9 @@ class TransferController extends Controller
             ]);
     }
 
-    public function transfer(Request $request)
+    public function transfer(TransferRequest $request)
     {
         $transfer = new StockTransfer();
-
         $productData = collect($request->get('products'))->map(function ($product) {
             unset($product['id']); // hot fix
             return $product;
@@ -89,4 +89,6 @@ class TransferController extends Controller
         $transfer->delete();
         return redirect()->back()->with('success', 'Transfer Rejected');
     }
+
+
 }

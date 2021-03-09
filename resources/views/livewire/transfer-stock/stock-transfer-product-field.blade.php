@@ -47,10 +47,10 @@
     <div class="row">
         <div class="col-md-12">
             <button id="add_row" wire:click.prevent="addRow({{$row}})"
-                    class="btn btn-primary float-left shadow-lg">+
-                Add Row
+                    class="btn btn-primary float-left shadow-lg">
+                <i class="fa fa-plus"></i>
             </button>
-            <button id='delete_row' class="float-right btn btn-danger shadow-lg">- Delete Row</button>
+            <button id='delete_row' wire:click.prevent="deleteRow({{$row}})" class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
         </div>
     </div>
 </div>
