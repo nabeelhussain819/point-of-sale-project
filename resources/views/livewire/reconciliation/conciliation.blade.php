@@ -65,22 +65,11 @@
                 @endphp
 
                 @if($concileData[$inventory->product_id]['physical_quantity'] > $inventory->quantity)
-
-                    @php $overstock= $overstock .  $i;
-
-                    @endphp
+                    @php $overstock= $overstock .  $i;  @endphp
                 @elseif($concileData[$inventory->product_id]['physical_quantity']<$inventory->quantity)
-
-                    @php
-
-                        $deficit = $deficit . $i;
-                    @endphp
-
+                    @php $deficit = $deficit . $i; @endphp
                 @elseif($concileData[$inventory->product_id]['physical_quantity']==$inventory->quantity)
-                    @php
-                        $matched = $matched . $i;
-
-                    @endphp
+                    @php    $matched = $matched . $i;@endphp
                 @endIf
             @endforeach
 
