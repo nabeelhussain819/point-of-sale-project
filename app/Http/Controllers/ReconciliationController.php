@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\Reconciliation;
+use App\Models\ReconciliationProduct;
 use Illuminate\Http\Request;
-
 
 class ReconciliationController extends Controller
 {
@@ -17,10 +17,9 @@ class ReconciliationController extends Controller
     public function index()
     {
         $reconciliation = new Reconciliation();
-
         return view('admin.reconciliation.index', [
             'reconciliations' => $reconciliation->getIncomplete()->get(),
-            'products' => Inventory::storeProducts()
+//            'products' => Inventory::storeProducts()
         ]);
     }
 
@@ -88,5 +87,23 @@ class ReconciliationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function conciliation(Reconciliation $reconciliation)
+    {
+        $concileData = [];
+        collect($reconciliation->products)->map(function (ReconciliationProduct $reconciliationProduct) use (&$concileData) {
+
+            $concileData[$reconciliationProduct->product_id] = [
+                'physical_quantity' => $reconciliationProduct->physical_quantity
+            ];
+        });
+
+        return view('admin.reconciliation.conciliation', [
+            'conciliation' => $reconciliation, // no need of join
+            'inventories' => Inventory::storeProductsById($reconciliation->products->pluck('product_id')->toArray()),
+            'concileData' => $concileData
+        ]);
+
     }
 }

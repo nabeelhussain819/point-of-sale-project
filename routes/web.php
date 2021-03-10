@@ -61,6 +61,10 @@ Route::group(['middleware' => ['auth']], function () {
        ]);
     });
 
+    Route::group(['prefix' => 'reconciliation'], function () {
+        Route::get('/conciliation/{reconciliation}', [ReconciliationController::class, 'conciliation'])->name('conciliation');
+        Route::post('/conciliation', [ReconciliationController::class, 'saveConciliation'])->name('conciliation.save');
+    });
     Route::group(['prefix' => 'inventory-management'],function(){
         Route::Resources([
             'inventory' => InventoryController::class,

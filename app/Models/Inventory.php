@@ -76,4 +76,14 @@ class Inventory extends Base
         return Inventory::where('store_id', Store::current())
             ->get()->pluck('product');
     }
+
+    public static function storeProductsById(array $products)
+    {
+        return Inventory::where('store_id', Store::current())
+            ->whereIn('product_id', $products)
+            ->with(['product' => function ($query) {
+                $query->select(['id', 'name']);
+            }])
+            ->get();
+    }
 }

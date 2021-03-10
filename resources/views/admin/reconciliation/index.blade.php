@@ -3,7 +3,6 @@
 @section('title','Reconciliation Create')
 
 @section('content')
-    {{------------------table---------------}}
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -18,6 +17,9 @@
                 <tr>
                     <td>{{$product->id}}</td>
                     <td>{{$product->name}}</td>
+                    <td>
+                        <a href="{{route('conciliation',$product->id)}}">reconcile</a>
+                    </td>
                 </tr>
             @endforeach
             </tbody>
@@ -26,7 +28,5 @@
             </tfoot>
         </table>
     </div>
-    {{------------------table---------------}}
 
-    <livewire:reconciliation/>
 @endsection

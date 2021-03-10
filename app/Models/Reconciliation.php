@@ -56,4 +56,9 @@ class Reconciliation extends Model
     {
         return $query->where('store_id', Store::current());
     }
+
+    public function withProducts()
+    {
+        return $this->load(['products']);
+    }
 }
