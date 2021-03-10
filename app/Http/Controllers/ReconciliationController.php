@@ -16,8 +16,10 @@ class ReconciliationController extends Controller
      */
     public function index()
     {
+        $reconciliation = new Reconciliation();
+
         return view('admin.reconciliation.index', [
-            'reconciliation' => Reconciliation::getAllStores(),
+            'reconciliations' => $reconciliation->getIncomplete()->get(),
             'products' => Inventory::storeProducts()
         ]);
     }

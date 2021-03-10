@@ -47,10 +47,13 @@ class Reconciliation extends Model
     }
 
 //Todo Optimization should be in cache
-    public static function getAllStores()
+    public function getIncomplete()
     {
-        return Reconciliation::where('store_id', Store::current())
-            ->with(['products'])
-            ->get();
+        return Reconciliation::stores()->with(['products']);
+    }
+
+    public function scopeStores($query)
+    {
+        return $query->where('store_id', Store::current());
     }
 }
