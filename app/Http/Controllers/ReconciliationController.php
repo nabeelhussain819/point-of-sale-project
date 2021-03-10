@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
+use App\Models\Reconciliation;
 use Illuminate\Http\Request;
+
 
 class ReconciliationController extends Controller
 {
@@ -13,7 +16,10 @@ class ReconciliationController extends Controller
      */
     public function index()
     {
-        return view('admin.reconciliation.index');
+        return view('admin.reconciliation.index', [
+            'reconciliation' => Reconciliation::getAllStores(),
+            'products' => Inventory::storeProducts()
+        ]);
     }
 
     /**
@@ -23,7 +29,7 @@ class ReconciliationController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.reconciliation.create');
     }
 
     /**

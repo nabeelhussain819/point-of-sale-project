@@ -41,8 +41,16 @@ class Reconciliation extends Model
         return $this->belongsToMany(ReconciliationProduct::class, 'reconciliation_products', 'reconciliation_id', 'reconciliation_id');
     }
 
-//    public function purchaseOrdersProducts()
-//    {
-//        return $this->belongsToMany(ReconciliationProduct::class, 'reconciliation_orders_products', 'reconciliation__id', 'reconciliation__id');
-//    }
+    public function products()
+    {
+        return $this->hasMany(ReconciliationProduct::class);
+    }
+
+//Todo Optimization should be in cache
+    public static function getAllStores()
+    {
+        return Reconciliation::where('store_id', Store::current())
+            ->with(['products'])
+            ->get();
+    }
 }

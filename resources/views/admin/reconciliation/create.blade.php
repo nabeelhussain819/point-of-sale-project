@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Reconciliation Create')
+@section('title','Reconciliation')
 
 @section('content')
     <livewire:reconciliation/>

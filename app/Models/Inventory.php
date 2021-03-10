@@ -70,4 +70,10 @@ class Inventory extends Base
 
         Inventory::observe(InventoryObserver::class);
     }
+
+    public static function storeProducts()
+    {
+        return Inventory::where('store_id', Store::current())
+            ->get()->pluck('product');
+    }
 }

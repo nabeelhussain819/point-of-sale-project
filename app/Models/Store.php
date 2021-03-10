@@ -47,4 +47,13 @@ class Store extends Model
     {
         return rand(0,9999);
     }
+
+    public static function current()
+    {
+        $storeId = session()->get('store_id');
+        if (empty($storeId)) {
+            throw  new \BadMethodCallException('store not selected');
+        }
+        return $storeId;
+    }
 }
