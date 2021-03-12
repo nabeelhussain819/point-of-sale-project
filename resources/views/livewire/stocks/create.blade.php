@@ -6,7 +6,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Name</label>
-                        <input type="text" class="form-control" wire:model="name" placeholder="Name" required>
+                        <input type="text" class="form-control" wire:model="name" value="{{old('name')}}" placeholder="Name" required>
                     </div>
                 </div>
             </div>

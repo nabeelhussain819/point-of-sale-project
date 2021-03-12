@@ -22,25 +22,25 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Inventory Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Name"/>
+                                    <input type="text" name="name" class="form-control" value="{{old('name')}}" placeholder="Name"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Lookup</label>
-                                    <input type="number" name="lookup" class="form-control" placeholder="Lookup"/>
+                                    <input type="number" name="lookup" class="form-control" placeholder="Lookup" value="{{old('lookup')}}"/>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input type="text" name="quantity" step="0" min="0" class="form-control"
+                                    <input type="text" name="quantity" step="0" min="0" value="{{old('quantity')}}" class="form-control"
                                            placeholder="Quantity"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Cost</label>
-                                    <input type="number" name="cost" class="form-control" placeholder="Cost"/>
+                                    <input type="number" name="cost" value="{{old('cost')}}" class="form-control" placeholder="Cost"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Bin</label>
-                                    <input type="text" name="bin" class="form-control"
+                                    <input type="text" name="bin" value="{{old('bin')}}" class="form-control"
                                            placeholder="Bin..."/>
                                 </div>
                             </div>
@@ -63,18 +63,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label>UPC</label>
-                                    <input type="number" name="UPC" class="form-control" placeholder="UPC"/>
+                                    <input type="number" name="UPC" {{old('UPC')}} class="form-control" placeholder="UPC"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Extended Cost</label>
                                     <input type="number" name="extended_cost" class="form-control"
-                                           placeholder="Lookup"/>
+                                           placeholder="Lookup" {{old('lookup')}}/>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Description</label>
                                     <textarea name="description" class="form-control"
-                                    ></textarea>
+                                    >{{old('description')}}</textarea>
                                 </div>
                             </div>
                         </div>
