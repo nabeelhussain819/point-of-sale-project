@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </td>
-                <td><input type="text"
+                <td><input type="number"
                            class="form-control"
                            wire:change="quantity({{$key}})"
                            wire:model.lazy="products.{{$key}}.quantity"

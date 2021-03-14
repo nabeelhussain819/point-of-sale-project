@@ -56,7 +56,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text"
+                                        <input type="number"
                                                class="form-control"
                                                value="{{$value->quantity}}"
                                                placeholder="Enter Quantity"/>
@@ -81,8 +81,8 @@
                                 <button id='delete_row' class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
-{{--                        @livewire('stock-transfer-product-field',--}}
-{{--                        ['products'=>$products,'dbProducts'=>$transfer->products])--}}
+                       {{-- @livewire('stock-transfer-product-field',
+                      ['products'=>$products,'dbProducts'=>$transfer->products]) --}}
 
                         <br>
                         <div>
