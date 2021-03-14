@@ -86,4 +86,18 @@ class Inventory extends Base
             }])
             ->get();
     }
+
+    public static function updateProductQuantityByIdAndProductId($id , $product_id, $quantity){
+        return Inventory::where(
+            [
+                ['id' , '=', $id],
+                ['product_id',  '=', $product_id],
+                ['store_id',  '=', Store::current()]
+            ]
+        )->update(
+            array(
+                'quantity' => $quantity 
+            )
+        );
+    }
 }

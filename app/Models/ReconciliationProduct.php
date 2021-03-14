@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ReconciliationProduct extends Model
 {
+
+    public $timestamps = false;
     /**
      * The "type" of the auto-incrementing ID.
      * 
@@ -42,5 +44,28 @@ class ReconciliationProduct extends Model
     public function reconciliation()
     {
         return $this->belongsTo('App\Reconciliation');
+    }
+
+    public static function updateSystemQuantityAndAjustQuantityByReconcilationIdAndProductId(
+        $reconciliation_id, 
+        $product_id, 
+        $quantity, 
+        $difference 
+    ){
+        return ReconciliationProduct::where(
+            [
+                ['reconciliation_id' , '=', $reconciliation_id],
+                ['product_id',  '=', $product_id]
+            ]
+            // 'id', '=', $iConcileId
+
+        )->update(
+            array(
+                'system_quantity' => $quantity,
+                'adjust_quantity' => $difference,
+                // 'timestamps' => false
+            // ) 
+             )
+        );
     }
 }

@@ -57,10 +57,11 @@
             {{--// God please forgive me --}}
             @foreach($inventories as $inventory)
                 @php  $i= '<div class="row">
-                    <div class="col-3">'.$inventory->id.'</div>
-                    <div class="col-3">'.$inventory->product->name.'</div>
-                    <div class="col-3">'.$concileData[$inventory->product_id]['physical_quantity'].'</div>
-                    <div class="col-3">'.$inventory->quantity.'</div>
+                    <div class="col-2">'.$inventory->id.'</div>
+                    <div class="col-2">'.$inventory->product->name.'</div>
+                    <div class="col-2">'.$concileData[$inventory->product_id]['physical_quantity'].'</div>
+                    <div class="col-2">'.$inventory->quantity.'</div>
+                    <div class="col-2" id="action" data-id="'.$inventory->id.'" data-product-id="'.$inventory->product_id.'" data-physical-quantity="'.$concileData[$inventory->product_id]['physical_quantity'].'" data-quantity="'.$inventory->quantity.'" data-concile-id="'.$conciliation->id.'">Resolve</div>
                 </div>';
                 @endphp
 
@@ -73,16 +74,40 @@
                 @endIf
             @endforeach
 
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                {!! $overstock !!}
+            <div class="tab-pane fade show active" data-name="overstocks" id="home" role="tabpanel" aria-labelledby="home-tab">
+                @if($overstock) 
+                    <div class="" id=""> Match All OverStocks
+                    </div>
+                    {!! $overstock !!}
+                @else 
+                    No OverStock Record Found 
+                @endif
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                {!! $deficit !!}
+            <div class="tab-pane fade" data-name="deficit" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                @if($deficit)  
+                    {!! $deficit !!}
+                @else 
+                    No Deficit Record Found 
+                @endif
             </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                {!! $matched !!}
+                @if($matched) 
+                    {!! $matched !!}
+                @else 
+                    No Record Found 
+                @endif
             </div>
         </div>
     </div>
 
 </div>
+ 
+@section('js')
+<script type="text/javascript">
+var APP_URL = {!! json_encode(url('/')) !!};
+</script>
+<script src="{{ asset('/js/common.js') }}"></script> 
+<script src="{{ asset('/js/reconcillation.js') }}"></script> 
+@endsection
+     
+ 
