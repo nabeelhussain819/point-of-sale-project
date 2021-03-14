@@ -14,3 +14,5 @@ yarn-error.log
 .idea
 _ide_helper.php
 yarn.lock
+resources/js/.vscode/settings.json
+.gitignore
