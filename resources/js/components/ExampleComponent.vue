@@ -6,7 +6,7 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        <a-button type="primary">
+                        <a-button v-on:click="addNewPost" type="primary">
                             Primary
                         </a-button>
                      asd   I'm an example component.
@@ -21,6 +21,17 @@
     export default {
         mounted() {
             console.log('Component mounted.')
+        },
+        methods: {
+            //exmaple
+            addNewPost() {
+                axios.post('/example', {title: "title", user_id: "title"})
+                    .then((response) => {
+
+                        $('#success').html(response.data.message)
+
+                    })
+            }
         }
     }
 </script>
