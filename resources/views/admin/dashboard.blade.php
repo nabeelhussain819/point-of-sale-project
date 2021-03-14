@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Dashboard')
 @section('content')
-    <example-component></example-component>
+
     <div class="container">
         <div class="container">
             <div class="row" style="align-items: center">
