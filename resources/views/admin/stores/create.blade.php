@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="container">
+
         <h4>New Store</h4>
         <div class="card shadow rounded">
             <div class="card-body">
@@ -36,10 +37,9 @@
                                 <label for="exampleInputPassword1">Zip</label>
                                 <input type="text" class="form-control" name="zip" placeholder="Location" value="{{old('zip')}}" required>
                             </div>
-                    </div>
-                    <div class="col-md-6">
 
-                        <div class="form-group">
+
+                            <div class="form-group">
                             <label>Timezone</label>
                             <input type="date" class="form-control" name="timezone" value="{{old('timezone')}}" placeholder="Timezone" required>
                         </div>
