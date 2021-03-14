@@ -94,7 +94,6 @@
                             <td>
                                 <ul>
                                     @foreach($item->orderProducts as $products)
-
                                         <li> {{$products->inventory->product->cost}}</li>
                                     @endforeach
                                 </ul>

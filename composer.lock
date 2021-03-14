@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6ea268a13c1ac462ff2cea127544683",
+    "content-hash": "6aaa6cb3a0ca0b7382f68d31687d5c4d",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1214,6 +1214,10 @@
                 "laravel",
                 "ui"
             ],
+            "support": {
+                "issues": "https://github.com/laravel/ui/issues",
+                "source": "https://github.com/laravel/ui/tree/v3.2.0"
+            },
             "time": "2021-01-06T19:20:22+00:00"
         },
         {

@@ -127,7 +127,7 @@
     @endif
     <div class="card shadow rounded">
         <div class="card-body">
-            <div class="table-responsive">
+            <div id="app" class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
@@ -185,4 +185,5 @@
         </div>
     </div>
 
+    <script src="{{asset('/js/app.js')}}"></script>
 @endsection

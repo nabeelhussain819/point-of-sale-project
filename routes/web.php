@@ -1,15 +1,18 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DeviceTypeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ReconciliationController;
+use App\Http\Controllers\RepairController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\StockBinController;
@@ -51,7 +54,11 @@ Route::group(['middleware' => ['auth']], function () {
         'orders' => OrderController::class,
         'purchase-order' => PurchaseOrderController::class,
         'reconciliation' => ReconciliationController::class,
+        'repair' => RepairController::class,
+        'deviceType' => DeviceTypeController::class,
+        'brand' => BrandController::class,
     ]);
+
     Route::group(['prefix' => 'product-management'], function (){
        Route::Resources([
            'categories' => CategoryController::class,
@@ -59,6 +66,10 @@ Route::group(['middleware' => ['auth']], function () {
            'products' => ProductController::class,
            'stock-bin' => StockBinController::class
        ]);
+    });
+
+    Route::group(['prefix' => 'product'], function (){
+        Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
     });
 
     Route::group(['prefix' => 'reconciliation'], function () {

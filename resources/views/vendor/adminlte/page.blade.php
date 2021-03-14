@@ -2,6 +2,7 @@
 
 @inject('layoutHelper', \JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper)
 
+
 @if($layoutHelper->isLayoutTopnavEnabled())
     @php( $def_container_class = 'container' )
 @else
@@ -11,6 +12,13 @@
 @section('adminlte_css')
     @stack('css')
     @yield('css')
+    <link href="{{asset('js/app.css')}}"/>
+    <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
+    <style>
+        .main-sidebar{
+            z-index: 2;
+        }
+    </style>
 @stop
 
 @section('classes_body', $layoutHelper->makeBodyClasses())
@@ -33,7 +41,7 @@
         @endif
 
         {{-- Content Wrapper --}}
-        <div class="content-wrapper {{ config('adminlte.classes_content_wrapper') ?? '' }}">
+        <div id="app" class="content-wrapper {{ config('adminlte.classes_content_wrapper') ?? '' }}">
 
             {{-- Content Header --}}
             <div class="content-header">
@@ -43,7 +51,7 @@
             </div>
 
             {{-- Main Content --}}
-            <div class="content">
+            <div id="app" class="content">
                 <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
                     @yield('content')
                 </div>
@@ -70,5 +78,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
             crossorigin="anonymous"></script>
+    <script src="{{asset('js/app.js')}}"></script>
     @yield('js')
 @stop

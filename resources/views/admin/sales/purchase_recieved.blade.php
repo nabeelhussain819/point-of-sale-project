@@ -29,7 +29,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Vendor </label>
-                            <input class="form-control" type="text" disabled value="{{$vendor->name}}"/>
+                            <input class="form-control" type="text" disabled value="{{$vendor->name}}" />
                         </div>
                         <div class="form-group">
                             <label>Description </label>

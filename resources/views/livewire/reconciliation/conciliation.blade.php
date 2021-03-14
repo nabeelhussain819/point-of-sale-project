@@ -64,11 +64,13 @@
                     <div class="col-2" id="action" data-id="'.$inventory->id.'" data-product-id="'.$inventory->product_id.'" data-physical-quantity="'.$concileData[$inventory->product_id]['physical_quantity'].'" data-quantity="'.$inventory->quantity.'" data-concile-id="'.$conciliation->id.'">Resolve</div>
                 </div>';
                 @endphp
-
+                {{--overStock--}}
                 @if($concileData[$inventory->product_id]['physical_quantity'] > $inventory->quantity)
                     @php $overstock= $overstock .  $i;  @endphp
+                    {{--deficit--}}
                 @elseif($concileData[$inventory->product_id]['physical_quantity']<$inventory->quantity)
                     @php $deficit = $deficit . $i; @endphp
+                    {{--matched--}}
                 @elseif($concileData[$inventory->product_id]['physical_quantity']==$inventory->quantity)
                     @php    $matched = $matched . $i;@endphp
                 @endIf
