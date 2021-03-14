@@ -70,11 +70,13 @@
               @select="loadProducts(r)"
             >
               <a-select-option v-for="brand in brands" :key="brand.id">
-                {{ brand.name }}</a-select-option
+                {{ brand.name }} test {{ r }}</a-select-option
               >
             </a-select>
           </a-form-item>
         </a-col>
+        {{ r }}
+        {{ products[r] }}
         <a-col :span="4">
           <a-form-item label="Model">
             <a-select
@@ -83,10 +85,10 @@
                 { rules: [{ required: true, message: 'Please select your model!' }] },
               ]"
               placeholder="Select a option and change input text above"
-              @select="handleSelectChange"
             >
-              <a-select-option value="male"> male </a-select-option>
-              <a-select-option value="female"> female </a-select-option>
+              <a-select-option v-for="product in products[r]" :key="product.id">
+                {{ product.name }}</a-select-option
+              >
             </a-select>
           </a-form-item>
         </a-col>
@@ -143,6 +145,7 @@
 <script>
 import DeviceTypeService from "./services/API/DeviceTypeService";
 import BrandService from "./services/API/BrandService";
+import ProductService from "./services/API/ProductService";
 import { isEmpty } from "./services/helpers";
 export default {
   data() {
@@ -153,7 +156,7 @@ export default {
       row: 0,
       deviceType: [],
       brands: [],
-      products: [],
+      products: [{ brand_id: 1, device_type_id: 1 }],
     };
   },
   mounted() {
@@ -191,8 +194,20 @@ export default {
     loadProducts(index) {
       let formfields = this.form.getFieldsValue();
       let { brand_id, device_type_id } = formfields.productItem[index];
+
       if (!isEmpty(brand_id) && !isEmpty(device_type_id)) {
+        this.fetchProducts({ brand_id: brand_id, device_type_id: device_type_id }, index);
       }
+    },
+    fetchProducts(params, index) {
+      let $this = this;
+      ProductService.deviceBrand(params).then((products) => {
+        // console.log("fetch value", products);
+        // console.log("pervious", $this.products);
+        // console.log($this.products[index]);
+        // $this.products[index] = products;
+        $this.products.splice(index, 0, products);
+      });
     },
   },
 };

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -108,5 +109,14 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
         return redirect()->back()->with('success','Product Deleted');
+    }
+
+    public function deviceBrand(Request $request)
+    {
+        return Product::select(Product::defaultSelect())->whereExists(function (QueryBuilder $query) use ($request) {
+            $query->from('devices_types_brands_products')
+                ->where('brand_id', $request->get('brand_id'))
+                ->where('device_type_id', $request->get('device_type_id'));
+        })->get();
     }
 }

@@ -73,4 +73,15 @@ class Product extends Model
     {
         $this->attributes['has_serial_number'] = $hasSerial === 'on';
     }
+
+
+    public function devicesTypesBrands()
+    {
+        return $this->belongsToMany(DevicesTypesBrandsProduct::class);
+    }
+
+    public static function defaultSelect()
+    {
+        return ['id', 'name'];
+    }
 }

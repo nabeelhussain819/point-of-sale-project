@@ -68,6 +68,10 @@ Route::group(['middleware' => ['auth']], function () {
        ]);
     });
 
+    Route::group(['prefix' => 'product'], function (){
+        Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
+    });
+
     Route::group(['prefix' => 'reconciliation'], function () {
         Route::get('/conciliation/{reconciliation}', [ReconciliationController::class, 'conciliation'])->name('conciliation');
         Route::post('/conciliation', [ReconciliationController::class, 'saveConciliation'])->name('conciliation.save');
