@@ -8,6 +8,15 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
+///integrataion of ant design
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
+
+Vue.config.productionTip = false;
+
+Vue.use(Antd);
+///integrataion of ant design
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
