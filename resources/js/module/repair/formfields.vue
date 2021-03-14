@@ -75,8 +75,7 @@
             </a-select>
           </a-form-item>
         </a-col>
-        {{ r }}
-        {{ products[r] }}
+
         <a-col :span="4">
           <a-form-item label="Model">
             <a-select
@@ -156,7 +155,7 @@ export default {
       row: 0,
       deviceType: [],
       brands: [],
-      products: [{ brand_id: 1, device_type_id: 1 }],
+      products: [{}],
     };
   },
   mounted() {
@@ -202,10 +201,6 @@ export default {
     fetchProducts(params, index) {
       let $this = this;
       ProductService.deviceBrand(params).then((products) => {
-        // console.log("fetch value", products);
-        // console.log("pervious", $this.products);
-        // console.log($this.products[index]);
-        // $this.products[index] = products;
         $this.products.splice(index, 0, products);
       });
     },
