@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\DevicesType;
 
 class DeviceTypeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return DevicesType[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
-        //
+        return DevicesType::all();
     }
 
     /**

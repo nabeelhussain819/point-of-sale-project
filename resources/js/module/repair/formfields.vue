@@ -52,8 +52,9 @@
               placeholder="Select a option and change input text above"
               @change="handleSelectChange"
             >
-              <a-select-option value="male"> male </a-select-option>
-              <a-select-option value="female"> female </a-select-option>
+              <a-select-option v-for="dT in deviceType" :key="dT.id">
+                {{ dT.name }}</a-select-option
+              >
             </a-select>
           </a-form-item>
         </a-col>
@@ -138,6 +139,7 @@
 </template>
 
 <script>
+import DeviceTypeService from "./services/API/DeviceTypeService";
 export default {
   data() {
     return {
@@ -145,7 +147,11 @@ export default {
       form: this.$form.createForm(this, { name: "addRepair" }),
       productItem: [],
       row: 0,
+      deviceType: [],
     };
+  },
+  mounted() {
+    this.loadDeviceItem();
   },
   methods: {
     handleSubmit(e) {
@@ -158,12 +164,17 @@ export default {
     },
     handleSelectChange(value) {
       console.log(value);
-      this.form.setFieldsValue({
-        note: `Hi, ${value === "male" ? "man" : "lady"}!`,
-      });
+      // this.form.setFieldsValue({
+      //   note: `Hi, ${value === "male" ? "man" : "lady"}!`,
+      // });
     },
     addItem() {
       this.row = this.row + 1;
+    },
+    loadDeviceItem() {
+      DeviceTypeService.all().then((deviceType) => {
+        this.deviceType = deviceType;
+      });
     },
   },
 };
