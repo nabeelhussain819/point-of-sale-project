@@ -113,7 +113,11 @@
     </div>
 
 </div>
- 
+ <style type="text/css">
+     .card-primary:not(.card-outline)>.card-header{
+        background-color: #3d3f71;
+    }
+ </style>
 @section('js')
 <script type="text/javascript">
 var APP_URL = {!! json_encode(url('/')) !!};
