@@ -35,10 +35,23 @@ class CreateIssueType extends Migration
             $table->foreign('brand_id')->references('id')->on('brands')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreign('model_id')->references('id')->on('devices_models')
+            $table->foreign('product_id')->references('id')->on('products')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreign('issue_id')->references('id')->on('issue_types')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+        });
+
+
+        Schema::table('devices_types_brands_products', function (Blueprint $table) {
+            $table->foreign('device_type_id')->references('id')->on('devices_types')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreign('brand_id')->references('id')->on('brands')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreign('product_id')->references('id')->on('products')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
         });

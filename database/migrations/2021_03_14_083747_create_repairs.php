@@ -27,7 +27,7 @@ class CreateRepairs extends Migration
             $table->id();
             $table->unsignedBigInteger('device_type_id');
             $table->unsignedBigInteger('brand_id');
-            $table->unsignedBigInteger('model_id');
+            $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('issue_id');
             $table->longText('description')->nullable();
             $table->float('total_cost')->nullable();
