@@ -1,6 +1,9 @@
 <template>
   <div>
     <a-table :columns="columns" :data-source="data">
+      <template slot="title">
+        <a-button type="primary" v-on:click="showAddModal(true)">Add </a-button>
+      </template>
       <a slot="name" slot-scope="text">{{ text }}</a>
       <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
       <span slot="tags" slot-scope="tags">
@@ -13,17 +16,17 @@
         </a-tag>
       </span>
       <span slot="action" slot-scope="text, record">
-        <a>Invite 一 {{ record.name }}</a>
-        <a-divider type="vertical" />
-        <a>Delete</a>
-        <a-divider type="vertical" />
-        <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
+        <a-icon v-on:click="edit(record.id)" type="edit" />
       </span>
     </a-table>
+    <a-modal header="false" width="95%" v-model="addModal">
+      <form-fields />
+    </a-modal>
   </div>
 </template>
 
 <script>
+import FormFields from "./formfields";
 const columns = [
   {
     dataIndex: "name",
@@ -51,6 +54,7 @@ const columns = [
 
 const data = [
   {
+    id: 1,
     key: "1",
     name: "John Brown",
     age: 32,
@@ -58,6 +62,7 @@ const data = [
     tags: ["nice", "developer"],
   },
   {
+    id: 2,
     key: "2",
     name: "Jim Green",
     age: 42,
@@ -65,6 +70,7 @@ const data = [
     tags: ["loser"],
   },
   {
+    id: 3,
     key: "3",
     name: "Joe Black",
     age: 32,
@@ -78,7 +84,19 @@ export default {
     return {
       data,
       columns,
+      addModal: false,
     };
+  },
+  methods: {
+    edit(id) {
+      console.log(id);
+    },
+    showAddModal(value) {
+      this.addModal = value;
+    },
+  },
+  components: {
+    FormFields,
   },
 };
 </script>

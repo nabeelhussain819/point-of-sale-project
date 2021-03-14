@@ -13,6 +13,12 @@
     @stack('css')
     @yield('css')
     <link href="{{asset('js/app.css')}}"/>
+    <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
+    <style>
+        .main-sidebar{
+            z-index: 2;
+        }
+    </style>
 @stop
 
 @section('classes_body', $layoutHelper->makeBodyClasses())
