@@ -19,7 +19,7 @@
         <a-icon v-on:click="edit(record.id)" type="edit" />
       </span>
     </a-table>
-    <a-modal header="false" destroyOnClose="true" width="95%" v-model="addModal">
+    <a-modal header="false" :destroyOnClose="true" width="95%" v-model="addModal">
       <form-fields />
     </a-modal>
   </div>

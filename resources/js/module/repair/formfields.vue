@@ -45,12 +45,13 @@
         <a-col :span="4">
           <a-form-item label="Device Type">
             <a-select
+              :data-key="r"
               v-decorator="[
                 `productItem[${r}][device_type_id]`,
                 { rules: [{ required: true, message: 'Please select your gender!' }] },
               ]"
               placeholder="Select a option and change input text above"
-              @change="handleSelectChange"
+              @select="loadProducts(r)"
             >
               <a-select-option v-for="dT in deviceType" :key="dT.id">
                 {{ dT.name }}</a-select-option
@@ -66,10 +67,11 @@
                 { rules: [{ required: true, message: 'Please select your brand!' }] },
               ]"
               placeholder="Select a option and change input text above"
-              @change="handleSelectChange"
+              @select="loadProducts(r)"
             >
-              <a-select-option value="male"> male </a-select-option>
-              <a-select-option value="female"> female </a-select-option>
+              <a-select-option v-for="brand in brands" :key="brand.id">
+                {{ brand.name }}</a-select-option
+              >
             </a-select>
           </a-form-item>
         </a-col>
@@ -81,7 +83,7 @@
                 { rules: [{ required: true, message: 'Please select your model!' }] },
               ]"
               placeholder="Select a option and change input text above"
-              @change="handleSelectChange"
+              @select="handleSelectChange"
             >
               <a-select-option value="male"> male </a-select-option>
               <a-select-option value="female"> female </a-select-option>
@@ -140,6 +142,8 @@
 
 <script>
 import DeviceTypeService from "./services/API/DeviceTypeService";
+import BrandService from "./services/API/BrandService";
+import { isEmpty } from "./services/helpers";
 export default {
   data() {
     return {
@@ -148,10 +152,13 @@ export default {
       productItem: [],
       row: 0,
       deviceType: [],
+      brands: [],
+      products: [],
     };
   },
   mounted() {
     this.loadDeviceItem();
+    this.loadBrands();
   },
   methods: {
     handleSubmit(e) {
@@ -175,6 +182,17 @@ export default {
       DeviceTypeService.all().then((deviceType) => {
         this.deviceType = deviceType;
       });
+    },
+    loadBrands() {
+      BrandService.all().then((brands) => {
+        this.brands = brands;
+      });
+    },
+    loadProducts(index) {
+      let formfields = this.form.getFieldsValue();
+      let { brand_id, device_type_id } = formfields.productItem[index];
+      if (!isEmpty(brand_id) && !isEmpty(device_type_id)) {
+      }
     },
   },
 };
