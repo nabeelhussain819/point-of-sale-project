@@ -41,6 +41,7 @@
 
       <a-col :span="24"> <a-divider>Add Items</a-divider> </a-col>
       <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
+
       <div v-for="r in row" :key="r">
         <a-col :span="4">
           <a-form-item label="Device Type">
@@ -70,8 +71,8 @@
               @select="loadProducts(r)"
             >
               <a-select-option v-for="brand in brands" :key="brand.id">
-                {{ brand.name }} test {{ r }}</a-select-option
-              >
+                {{ brand.name }}
+              </a-select-option>
             </a-select>
           </a-form-item>
         </a-col>
