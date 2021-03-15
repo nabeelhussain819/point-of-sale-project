@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Repair;
+use DB;
 use Illuminate\Http\Request;
 
 class RepairController extends Controller
@@ -27,14 +29,21 @@ class RepairController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return mixed
+     * @throws \Throwable
      */
     public function store(Request $request)
     {
-        //
+        return DB::transaction(function () use ($request) {
+
+            $repair = new Repair();
+            $repair->fill(array_merge($request->all(), ['customer_id' => 1]));
+            $repair->save();
+            $repair->products()->sync(array_filter($request->get('productItem')));
+
+        });
+
     }
 
     /**

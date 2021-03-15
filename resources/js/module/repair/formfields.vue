@@ -100,10 +100,10 @@
                 { rules: [{ required: true, message: 'Please select your issue!' }] },
               ]"
               placeholder="Select a option and change input text above"
-              @change="handleSelectChange"
             >
-              <a-select-option value="male"> male </a-select-option>
-              <a-select-option value="female"> female </a-select-option>
+              <a-select-option v-for="issue in issues" :key="issue.id">
+                {{ issue.name }}</a-select-option
+              >
             </a-select>
           </a-form-item>
         </a-col>
@@ -146,6 +146,9 @@
 import DeviceTypeService from "./services/API/DeviceTypeService";
 import BrandService from "./services/API/BrandService";
 import ProductService from "./services/API/ProductService";
+import IssueTypeService from "./services/API/IssueTypeService";
+import RepairService from "./services/API/RepairService";
+
 import { isEmpty } from "./services/helpers";
 export default {
   data() {
@@ -157,17 +160,22 @@ export default {
       deviceType: [],
       brands: [],
       products: [{}],
+      issues: [],
     };
   },
   mounted() {
     this.loadDeviceItem();
     this.loadBrands();
+    this.fetchIssues();
   },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          RepairService.create(values).then((response) => {
+            console.log(response);
+          });
           console.log("Received values of form: ", values);
         }
       });
@@ -198,6 +206,11 @@ export default {
       if (!isEmpty(brand_id) && !isEmpty(device_type_id)) {
         this.fetchProducts({ brand_id: brand_id, device_type_id: device_type_id }, index);
       }
+    },
+    fetchIssues() {
+      IssueTypeService.all().then((issues) => {
+        this.issues = issues;
+      });
     },
     fetchProducts(params, index) {
       let $this = this;

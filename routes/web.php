@@ -8,6 +8,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeviceTypeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\IssueTypeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
@@ -57,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
         'repair' => RepairController::class,
         'deviceType' => DeviceTypeController::class,
         'brand' => BrandController::class,
+        'issue-type' => IssueTypeController::class,
     ]);
 
     Route::group(['prefix' => 'product-management'], function (){

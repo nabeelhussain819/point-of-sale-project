@@ -25,7 +25,9 @@ class Base extends Model
         static::creating(function (Base $baseModel) {
 
             if ($baseModel->hasGuid && empty($baseModel->guid)) {
+
                 $baseModel->setAttribute('guid', GuidHelper::getGuid());
+
             }
             if ($baseModel->autoBlame) {
                 if (empty($baseModel->created_by) || empty($baseModel->updated_by)) {

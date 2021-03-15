@@ -113,10 +113,12 @@ class ProductController extends Controller
 
     public function deviceBrand(Request $request)
     {
-        return Product::select(Product::defaultSelect())->whereExists(function (QueryBuilder $query) use ($request) {
-            $query->from('devices_types_brands_products')
+        return Product::select(Product::defaultSelect())
+            ->whereExists(function (QueryBuilder $query) use ($request) {
+                return $query->from('devices_types_brands_products')
                 ->where('brand_id', $request->get('brand_id'))
-                ->where('device_type_id', $request->get('device_type_id'));
+                    ->where('device_type_id', $request->get('device_type_id'))
+                    ->whereColumn('devices_types_brands_products.product_id', 'products.id');
         })->get();
     }
 }

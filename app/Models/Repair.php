@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Core\Base;
 /**
  * @property integer $id
  * @property integer $customer_id
@@ -15,8 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property Customer $customer
  */
-class Repair extends Model
+class Repair extends Base
 {
+    protected $autoBlame = false;
     /**
      * The "type" of the auto-incrementing ID.
      * 
@@ -35,5 +36,10 @@ class Repair extends Model
     public function customer()
     {
         return $this->belongsTo('App\Models\Customer');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(RepairsProduct::class,'repairs_products','repair_id','repair_id');
     }
 }

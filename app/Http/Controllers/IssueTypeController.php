@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\IssueType;
 use Illuminate\Http\Request;
 
 class IssueTypeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return IssueType[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
-        //
+        return IssueType::all();
     }
 
     /**

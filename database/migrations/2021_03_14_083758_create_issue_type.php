@@ -38,6 +38,10 @@ class CreateIssueType extends Migration
             $table->foreign('product_id')->references('id')->on('products')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->foreign('repair_id')->references('id')->on('repairs')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->foreign('issue_id')->references('id')->on('issue_types')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

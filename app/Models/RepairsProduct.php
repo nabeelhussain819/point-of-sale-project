@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Core\Base;
 /**
  * @property integer $id
  * @property integer $device_type_id
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Product $product
  * @property IssueType $issueType
  */
-class RepairsProduct extends Model
+class RepairsProduct extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
