@@ -69,12 +69,15 @@ class RepairController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  Repair $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Repair $repair)
     {
-        //
+        $repair->update($request->all());
+
+//        $repair->products()->sync(array_filter($request->get('productItem')));
+        return $this->genericResponse(true, " repair has been updated", 200);
     }
 
     /**

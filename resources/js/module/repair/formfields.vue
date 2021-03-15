@@ -71,14 +71,13 @@
             <a-select
               v-if="isCreated"
               v-decorator="[
-                `statues`,
+                `status`,
                 {
                   initialValue: repair.status,
                   rules: [{ required: true, message: 'Please select your gender!' }],
                 },
               ]"
               placeholder="Select a option and change input text above"
-              @select="loadProducts(r)"
             >
               <a-select-option v-for="status in statuses" :key="status.id">
                 {{ status.name }}</a-select-option
@@ -258,15 +257,28 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          RepairService.create(values).then((response) => {
-            this.$notification.open({
-              message: "Created",
-              description: response.message,
-            });
-
-            this.$emit("close", false);
-          });
+          this.isCreated ? this.update(values) : this.save(values);
         }
+      });
+    },
+    update(values) {
+      RepairService.update(this.repairId, values).then((response) => {
+        this.$notification.open({
+          message: "Updated",
+          description: response.message,
+        });
+
+        this.$emit("close", false);
+      });
+    },
+    save(values) {
+      RepairService.create(values).then((response) => {
+        this.$notification.open({
+          message: "Created",
+          description: response.message,
+        });
+
+        this.$emit("close", false);
       });
     },
     addItem() {

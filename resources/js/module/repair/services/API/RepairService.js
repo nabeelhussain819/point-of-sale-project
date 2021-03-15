@@ -39,8 +39,16 @@ function statuses(params = {}) {
     });
 }
 
+// function update(id, data) {
+//     return request({
+//         url: `${baseUrl}/${id}`,
+//         data,
+//         method: 'PATCH',
+//     });
+// }
+
 const RepairService = {
-    all, create, update, show, statuses
+    all, create, update, show, statuses ,update
 };
 
 export default RepairService

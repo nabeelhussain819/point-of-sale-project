@@ -12,7 +12,7 @@ use Carbon\Carbon;
  * @property float $total_cost
  * @property float $advance_cost
  * @property string $guid
- * @property string $created_at
+ * @property carbon $created_at
  * @property string $updated_at
  * @property Customer $customer
  */

@@ -28,6 +28,11 @@ import FormFields from "./formfields";
 import RepairService from "./services/API/RepairService";
 const columns = [
   {
+    dataIndex: "Id",
+    key: "id",
+    title: "id",
+  },
+  {
     dataIndex: "customer.name",
     key: "name",
     title: "Customer Name",
