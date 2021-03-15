@@ -1,0 +1,33 @@
+// import * as constants from '../Constants'
+import request from '../request'
+
+const baseUrl = `repair`;
+
+function all(params = {}) {
+    return request({
+        url: baseUrl,
+        params
+    });
+}
+
+function create(data) {
+    return request({
+        url: baseUrl,
+        method: 'POST',
+        data
+    });
+}
+
+function update(id, data) {
+    return request({
+        url: `${baseUrl}/${id}`,
+        method: 'PATCH',
+        data
+    });
+}
+
+const RepairService = {
+    all, create, update
+};
+
+export default RepairService
