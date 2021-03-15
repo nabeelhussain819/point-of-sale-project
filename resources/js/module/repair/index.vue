@@ -43,6 +43,16 @@ const columns = [
     key: "days",
   },
   {
+    title: "Total Cost",
+    dataIndex: "total_cost",
+    key: "total_cost",
+  },
+  {
+    title: "Advance Cost",
+    dataIndex: "advance_cost",
+    key: "advance_cost",
+  },
+  {
     title: "Status",
     key: "status",
     dataIndex: "status",
