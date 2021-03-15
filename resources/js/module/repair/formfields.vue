@@ -9,7 +9,7 @@
       <a-row :gutter="24">
         <a-col :span="24"> <a-divider>Add Customer Detail</a-divider> </a-col>
 
-        <a-col :span="8">
+        <a-col :span="4">
           <a-form-item label="Customer Name">
             <a-input
               v-decorator="[
@@ -22,7 +22,7 @@
             /> </a-form-item
         ></a-col>
 
-        <a-col :span="8">
+        <a-col :span="4">
           <a-form-item label="Customer Number">
             <a-input
               type="number"
@@ -33,6 +33,34 @@
                   rules: [
                     { required: true, message: 'Please input your customer_number!' },
                   ],
+                },
+              ]"
+            /> </a-form-item
+        ></a-col>
+
+        <a-col :span="4">
+          <a-form-item label="Total Cost">
+            <a-input
+              type="number"
+              v-decorator="[
+                'total_cost',
+                {
+                  initialValue: repair.total_cost,
+                  rules: [{ required: true, message: 'Please input your total cost!' }],
+                },
+              ]"
+            /> </a-form-item
+        ></a-col>
+
+        <a-col :span="4">
+          <a-form-item label="Advance Cost">
+            <a-input
+              type="number"
+              v-decorator="[
+                'advance_cost',
+                {
+                  initialValue: repair.advance_cost,
+                  rules: [{ required: true, message: 'Please input your advance cost!' }],
                 },
               ]"
             /> </a-form-item
@@ -168,7 +196,7 @@
                 :min="0.1"
                 type="number"
                 v-decorator="[
-                  'total_cost',
+                  'productItem[${r}][total_cost]',
                   {
                     initialValue: product.total_cost,
                     rules: [{ message: 'Please input your Cost!' }],
@@ -182,7 +210,7 @@
         </div>
         <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
         <a-col :span="12">
-          <a-form-item :wrapper-col="{ span: 12, offset: 12 }">
+          <a-form-item :wrapper-col="{ span: 2 }">
             <a-button type="primary" html-type="submit"> Submit </a-button>
           </a-form-item>
         </a-col>
