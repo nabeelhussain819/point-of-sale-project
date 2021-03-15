@@ -43,4 +43,8 @@ class Repair extends Base
     {
         return $this->belongsToMany(RepairsProduct::class,'repairs_products','repair_id','repair_id');
     }
+
+    public function relatedProducts(){
+        return $this->hasMany(RepairsProduct::class);
+    }
 }

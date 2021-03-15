@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Reconciliation List')
+@section('title','Repair Module')
 
 @section('content')
 

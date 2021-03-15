@@ -47,14 +47,11 @@ class RepairController extends Controller
     }
 
     /**
-     * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Repair $repair)
     {
-        //
+        return $repair->load(['relatedProducts', 'customer']);
     }
 
     /**
@@ -94,6 +91,6 @@ class RepairController extends Controller
     public function fetch(Request $request)
     {
         return Repair::where('status', Repair::IN_PROGRESS_STATUS)
-            ->with("customer")->get();
+            ->with("customer")->orderBy('created_at')->get();
     }
 }

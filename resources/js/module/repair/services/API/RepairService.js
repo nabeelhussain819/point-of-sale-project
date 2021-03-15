@@ -26,8 +26,15 @@ function update(id, data) {
     });
 }
 
+
+function show(id) {
+    return request({
+        url:  `${baseUrl}/${id}`        
+    });
+}
+
 const RepairService = {
-    all, create, update
+    all, create, update,show
 };
 
 export default RepairService
