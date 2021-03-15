@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Core\Base;
+
 /**
  * @property integer $id
  * @property integer $customer_id
@@ -30,6 +30,7 @@ class Repair extends Base
      */
     protected $fillable = ['customer_id', 'status', 'total_cost', 'advance_cost', 'guid', 'created_at', 'updated_at'];
 
+    const IN_PROGRESS_STATUS = "INPROGRESS";
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

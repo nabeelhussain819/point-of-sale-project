@@ -41,7 +41,7 @@ class RepairController extends Controller
             $repair->fill(array_merge($request->all(), ['customer_id' => 1]));
             $repair->save();
             $repair->products()->sync(array_filter($request->get('productItem')));
-
+            return $this->genericResponse(true, " repair has been created", 201);
         });
 
     }
@@ -89,5 +89,11 @@ class RepairController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function fetch(Request $request)
+    {
+        return Repair::where('status', Repair::IN_PROGRESS_STATUS)
+            ->with("customer")->get();
     }
 }

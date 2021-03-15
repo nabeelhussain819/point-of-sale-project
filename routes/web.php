@@ -45,34 +45,14 @@ Route::group(['middleware' => ['auth']], function () {
         return view('admin.dashboard');
     })->middleware('changedPassword');
     Route::post('/home',[HomeController::class,'getStoreId'])->name('store.id');
-    Route::Resources([
-        'users' => UserController::class,
-        'stores' => StoreController::class,
-        'roles' => RoleController::class,
-        'user-store' => UserStoreController::class,
-        'customers' => CustomerController::class,
-        'sales' => SalesController::class,
-        'orders' => OrderController::class,
-        'purchase-order' => PurchaseOrderController::class,
-        'reconciliation' => ReconciliationController::class,
-        'repair' => RepairController::class,
-        'deviceType' => DeviceTypeController::class,
-        'brand' => BrandController::class,
-        'issue-type' => IssueTypeController::class,
-    ]);
 
-    Route::group(['prefix' => 'product-management'], function (){
-       Route::Resources([
-           'categories' => CategoryController::class,
-           'departments' => DepartmentController::class,
-           'products' => ProductController::class,
-           'stock-bin' => StockBinController::class
-       ]);
-    });
 
     Route::group(['prefix' => 'product'], function (){
         Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
     });
+
+    Route::get('/repair/fetch', [RepairController::class, 'fetch']);
+
 
     Route::group(['prefix' => 'reconciliation'], function () {
         Route::get('/conciliation/{reconciliation}', [ReconciliationController::class, 'conciliation'])->name('conciliation');
@@ -112,5 +92,29 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
 
+    Route::Resources([
+        'users' => UserController::class,
+        'stores' => StoreController::class,
+        'roles' => RoleController::class,
+        'user-store' => UserStoreController::class,
+        'customers' => CustomerController::class,
+        'sales' => SalesController::class,
+        'orders' => OrderController::class,
+        'purchase-order' => PurchaseOrderController::class,
+        'reconciliation' => ReconciliationController::class,
+        'repair' => RepairController::class,
+        'deviceType' => DeviceTypeController::class,
+        'brand' => BrandController::class,
+        'issue-type' => IssueTypeController::class,
+    ]);
+
+    Route::group(['prefix' => 'product-management'], function (){
+        Route::Resources([
+            'categories' => CategoryController::class,
+            'departments' => DepartmentController::class,
+            'products' => ProductController::class,
+            'stock-bin' => StockBinController::class
+        ]);
+    });
 
 });

@@ -5,7 +5,7 @@ const baseUrl = `repair`;
 
 function all(params = {}) {
     return request({
-        url: baseUrl,
+        url:  `${baseUrl}/fetch`,
         params
     });
 }

@@ -7,12 +7,8 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
       <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
       <span slot="tags" slot-scope="tags">
-        <a-tag
-          v-for="tag in tags"
-          :key="tag"
-          :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-        >
-          {{ tag.toUpperCase() }}
+        <a-tag color="volcano">
+          {{ tags.toUpperCase() }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="text, record">
@@ -20,29 +16,29 @@
       </span>
     </a-table>
     <a-modal header="false" :destroyOnClose="true" width="95%" v-model="addModal">
-      <form-fields />
+      <form-fields @close="showAddModal()" />
     </a-modal>
   </div>
 </template>
 
 <script>
 import FormFields from "./formfields";
+import RepairService from "./services/API/RepairService";
 const columns = [
   {
-    dataIndex: "name",
+    dataIndex: "customer.name",
     key: "name",
-    slots: { title: "Cusomer Name" },
-    scopedSlots: { customRender: "name" },
+    title: "Customer Name",
   },
   {
     title: "Customer Number",
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "customer.phone",
+    key: "customer.phone",
   },
   {
     title: "Status",
-    key: "tags",
-    dataIndex: "tags",
+    key: "status",
+    dataIndex: "status",
     scopedSlots: { customRender: "tags" },
   },
   {
@@ -90,12 +86,21 @@ export default {
       products: [],
     };
   },
+  mounted() {
+    this.fetchList();
+  },
   methods: {
     edit(id) {
       console.log(id);
     },
     showAddModal(value) {
       this.addModal = value;
+    },
+    fetchList() {
+      RepairService.all().then((data) => {
+        this.data = data;
+        console.log(data);
+      });
     },
   },
   components: {

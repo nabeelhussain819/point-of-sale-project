@@ -15,7 +15,7 @@
     <link href="{{asset('js/app.css')}}"/>
     <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
     <style>
-        .main-sidebar{
+        .main-sidebar,.main-header{
             z-index: 2;
         }
     </style>

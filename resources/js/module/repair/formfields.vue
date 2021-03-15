@@ -121,6 +121,7 @@
           <a-form-item label="Prices">
             <a-input
               :step="0.1"
+              :min="0.1"
               type="number"
               v-decorator="[
                 'total_cost',
@@ -174,9 +175,13 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           RepairService.create(values).then((response) => {
-            console.log(response);
+            this.$notification.open({
+              message: "Created",
+              description: response.message,
+            });
+
+            this.$emit("close", false);
           });
-          console.log("Received values of form: ", values);
         }
       });
     },
