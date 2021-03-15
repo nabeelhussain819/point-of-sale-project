@@ -42,19 +42,18 @@
           <a-form-item label="Status">
             <a-select
               v-if="isCreated"
-              :data-key="r"
               v-decorator="[
-                `productItem[${r}][device_type_id]`,
+                `statues`,
                 {
-                  initialValue: repair.customer && repair.customer.phone,
+                  initialValue: repair.status,
                   rules: [{ required: true, message: 'Please select your gender!' }],
                 },
               ]"
               placeholder="Select a option and change input text above"
               @select="loadProducts(r)"
             >
-              <a-select-option v-for="dT in deviceType" :key="dT.id">
-                {{ dT.name }}</a-select-option
+              <a-select-option v-for="status in statuses" :key="status.id">
+                {{ status.name }}</a-select-option
               >
             </a-select>
             <span v-else>
@@ -217,6 +216,7 @@ export default {
       loading: false,
       repair: {},
       isCreated: false,
+      statuses: [],
     };
   },
   mounted() {
@@ -267,6 +267,11 @@ export default {
         this.issues = issues;
       });
     },
+    fetchStatues() {
+      RepairService.statuses().then((statuses) => {
+        this.statuses = statuses;
+      });
+    },
     fetchProducts(params, index) {
       let $this = this;
       ProductService.deviceBrand(params).then((products) => {
@@ -277,11 +282,11 @@ export default {
       if (repairId) {
         this.isCreated = true;
         this.loading = true;
+        this.fetchStatues();
         RepairService.show(repairId)
           .then((repair) => {
             this.repair = repair;
             this.row = repair.related_products;
-            console.log(repair);
           })
           .then(() => (this.loading = false));
       }

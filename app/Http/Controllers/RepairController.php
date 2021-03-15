@@ -93,4 +93,9 @@ class RepairController extends Controller
         return Repair::where('status', Repair::IN_PROGRESS_STATUS)
             ->with("customer")->orderBy('created_at')->get();
     }
+
+    public function statuses()
+    {
+        return Repair::statuses();
+    }
 }

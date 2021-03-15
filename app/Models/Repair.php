@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use Carbon\Carbon;
 
 /**
  * @property integer $id
@@ -30,7 +31,21 @@ class Repair extends Base
      */
     protected $fillable = ['customer_id', 'status', 'total_cost', 'advance_cost', 'guid', 'created_at', 'updated_at'];
 
+    protected $appends = ['days'];
     const IN_PROGRESS_STATUS = "INPROGRESS";
+    const IN_COMPLETED_STATUS = "COMPLETED";
+    const IN_COLLECTED_STATUS = "COLLECTED";
+    const IN_CANCELLED_STATUS = "CANCELLED";
+
+    public static function statuses()
+    {
+        return [
+            ['id' => self::IN_PROGRESS_STATUS, 'name' => 'In Progress'],
+            ['id' => self::IN_COMPLETED_STATUS, 'name' => 'Completed'],
+            ['id' => self::IN_COLLECTED_STATUS, 'name' => 'Collected'],
+            ['id' => self::IN_CANCELLED_STATUS, 'name' => 'Cancelled']
+        ];
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -46,5 +61,10 @@ class Repair extends Base
 
     public function relatedProducts(){
         return $this->hasMany(RepairsProduct::class);
+    }
+
+    public function getDaysAttribute()
+    {
+        return  $this->created_at->diffInDays(Carbon::now(), false);
     }
 }

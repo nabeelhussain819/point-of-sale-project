@@ -51,7 +51,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
     });
 
-    Route::get('/repair/fetch', [RepairController::class, 'fetch']);
+    Route::group(['prefix' => 'repair'], function () {
+        Route::get('/fetch', [RepairController::class, 'fetch']);
+        Route::get('/statuses', [RepairController::class, 'statuses']);
+    });
+
 
 
     Route::group(['prefix' => 'reconciliation'], function () {

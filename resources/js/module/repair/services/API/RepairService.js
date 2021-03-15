@@ -5,7 +5,7 @@ const baseUrl = `repair`;
 
 function all(params = {}) {
     return request({
-        url:  `${baseUrl}/fetch`,
+        url: `${baseUrl}/fetch`,
         params
     });
 }
@@ -26,15 +26,21 @@ function update(id, data) {
     });
 }
 
-
 function show(id) {
     return request({
-        url:  `${baseUrl}/${id}`        
+        url: `${baseUrl}/${id}`
+    });
+}
+
+function statuses(params = {}) {
+    return request({
+        url: `${baseUrl}/statuses`,
+        params
     });
 }
 
 const RepairService = {
-    all, create, update,show
+    all, create, update, show, statuses
 };
 
 export default RepairService

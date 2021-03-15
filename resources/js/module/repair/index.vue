@@ -38,6 +38,11 @@ const columns = [
     key: "customer.phone",
   },
   {
+    title: "Days",
+    dataIndex: "days",
+    key: "days",
+  },
+  {
     title: "Status",
     key: "status",
     dataIndex: "status",
