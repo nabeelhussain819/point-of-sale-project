@@ -12,3 +12,12 @@ export const isEmpty = (value, depth = 1, level = 0) => {
                 || Object.keys(value).every(key => isEmpty(value[key], depth, level + 1))))
         || (typeof value === 'string' && value.trim().length === 0)
 };
+
+
+export const  filterOption=(input, option) =>{
+    return (
+      option.componentOptions.children[0].text
+        .toLowerCase()
+        .indexOf(input.toLowerCase()) >= 0
+    );
+  };

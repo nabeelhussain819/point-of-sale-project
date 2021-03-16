@@ -56,7 +56,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/statuses', [RepairController::class, 'statuses']);
     });
 
-
+    Route::group(['prefix' => 'customers'], function () {
+        Route::get('/search', [CustomerController::class, 'search']);
+        Route::get('/statuses', [RepairController::class, 'statuses']);
+    });
 
     Route::group(['prefix' => 'reconciliation'], function () {
         Route::get('/conciliation/{reconciliation}', [ReconciliationController::class, 'conciliation'])->name('conciliation');

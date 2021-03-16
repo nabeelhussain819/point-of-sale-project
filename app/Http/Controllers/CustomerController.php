@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -95,5 +94,12 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $customer->delete();
         return redirect()->back()->with('success',"Customer $customer->name Deleted");
+    }
+
+    public function search(Request $request)
+    {
+        //Todo AppyQuery Params
+        return Customer::where($this->applyFilters($request))
+            ->paginate();
     }
 }

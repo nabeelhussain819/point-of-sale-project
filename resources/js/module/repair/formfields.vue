@@ -11,7 +11,13 @@
 
         <a-col :span="4">
           <a-form-item label="Customer Name">
-            <a-input
+            <a-select
+              mode="tags"
+              :filter-option="filterOption"
+              :maxTagCount="maxCustomer"
+              @search="customerSearch"
+              @select="customerSelect"
+              :loading="customerSearchLoading"
               v-decorator="[
                 'customer_name',
                 {
@@ -19,8 +25,17 @@
                   initialValue: repair.customer && repair.customer.name,
                 },
               ]"
-            /> </a-form-item
-        ></a-col>
+            >
+              <a-select-option
+                v-for="customer in customers"
+                :key="customer.id.toString()"
+                :customer="customer"
+              >
+                {{ customer.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item></a-col
+        >
 
         <a-col :span="4">
           <a-form-item label="Customer Number">
@@ -56,6 +71,7 @@
           <a-form-item label="Advance Cost">
             <a-input
               type="number"
+              @search="customerSearch"
               v-decorator="[
                 'advance_cost',
                 {
@@ -224,8 +240,8 @@ import BrandService from "./services/API/BrandService";
 import ProductService from "./services/API/ProductService";
 import IssueTypeService from "./services/API/IssueTypeService";
 import RepairService from "./services/API/RepairService";
-
-import { isEmpty } from "./services/helpers";
+import CustomerService from "./services/API/CustomerService";
+import { isEmpty, filterOption } from "./services/helpers";
 export default {
   props: {
     repairId: { default: null },
@@ -244,6 +260,10 @@ export default {
       repair: {},
       isCreated: false,
       statuses: [],
+      customers: [],
+      maxCustomer: 1,
+      filterOption,
+      customerSearchLoading: false,
     };
   },
   mounted() {
@@ -329,6 +349,20 @@ export default {
             this.row = repair.related_products;
           })
           .then(() => (this.loading = false));
+      }
+    },
+    customerSearch(value, event) {
+      if (value.length > 3) {
+        this.customerSearchLoading = true;
+        CustomerService.search({ search: value }).then((customers) => {
+          this.customers = customers.data;
+        });
+        this.customerSearchLoading = false;
+      }
+    },
+    customerSelect(value, option) {
+      if (option.data.attrs.customer) {
+        this.form.setFieldsValue({ phone: option.data.attrs.customer.phone });
       }
     },
   },

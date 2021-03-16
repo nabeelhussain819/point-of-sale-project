@@ -3,7 +3,7 @@
     <a-skeleton :loading="loading">
       <a-table :columns="columns" :data-source="data">
         <template slot="title">
-          <a-button type="primary" v-on:click="showAddModal(true)">Add </a-button>
+          <a-button type="primary" v-on:click="add()">Add </a-button>
         </template>
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
@@ -28,9 +28,9 @@ import FormFields from "./formfields";
 import RepairService from "./services/API/RepairService";
 const columns = [
   {
-    dataIndex: "Id",
+    dataIndex: "id",
     key: "id",
-    title: "id",
+    title: "Id",
   },
   {
     dataIndex: "customer.name",
@@ -70,37 +70,11 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    id: 1,
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    id: 2,
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    id: 3,
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
 export default {
   name: "index.vue",
   data() {
     return {
-      data,
+      data: [],
       columns,
       addModal: false,
       deviceTypes: [],
@@ -131,6 +105,10 @@ export default {
           this.data = data;
         })
         .finally(() => (this.loading = false));
+    },
+    add() {
+      this.repairId = null;
+      this.showAddModal(true);
     },
   },
   components: {
