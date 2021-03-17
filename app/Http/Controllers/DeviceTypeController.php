@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\DevicesType;
+use Illuminate\Http\Request;
 
 class DeviceTypeController extends Controller
 {
@@ -15,6 +15,10 @@ class DeviceTypeController extends Controller
         return DevicesType::all();
     }
 
+    public function lists()
+    {
+        return view('admin.deviceType.index');
+    }
     /**
      * Show the form for creating a new resource.
      *
