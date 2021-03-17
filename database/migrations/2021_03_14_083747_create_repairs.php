@@ -16,6 +16,7 @@ class CreateRepairs extends Migration
         Schema::create('repairs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('store_id');
             $table->string('status')->default("INPROGRESS");
             $table->float('total_cost')->nullable();
             $table->float('advance_cost')->nullable();

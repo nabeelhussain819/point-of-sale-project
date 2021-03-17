@@ -25,7 +25,10 @@ class CreateIssueType extends Migration
                 ->references('id')->on('customers')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-
+            $table->foreign('store_id')
+                ->references('id')->on('stores')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
 
         Schema::table('repairs_products', function (Blueprint $table) {
