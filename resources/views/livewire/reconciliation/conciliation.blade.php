@@ -1,4 +1,7 @@
 <div>
+
+    <div class="card shadow rounded">
+        <div class="card-body">
     <div class="table-responsive">
         <h1>#{{$conciliation->id}} {{$conciliation->name}}</h1>
         <table class="table">
@@ -28,29 +31,7 @@
             </tfoot>
         </table>
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                        data-bs-target="#home" type="button"
-                        role="tab" aria-controls="home" aria-selected="true">Overstock
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                        data-bs-target="#profile" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">Deficit
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                        data-bs-target="#contact" type="button"
-                        role="tab" aria-controls="contact" aria-selected="false">Matched
-                </button>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-
-            @php $overstock='';
+       @php $overstock='';
             $deficit='';
             $matched='' ;
             @endphp
@@ -76,34 +57,69 @@
                 @endIf
             @endforeach
 
-            <div class="tab-pane fade show active" data-name="overstocks" id="home" role="tabpanel" aria-labelledby="home-tab">
-                @if($overstock) 
-                    <div class="" id=""> Match All OverStocks
-                    </div>
-                    {!! $overstock !!}
-                @else 
-                    No OverStock Record Found 
-                @endif
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="card card-primary card-tabs">
+              <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+
+                  <li class="nav-item">
+                     
+                    <a class="nav-link active" id="custom-tabs-one-overstock-tab" data-toggle="pill" href="#custom-tabs-one-overstock" role="tab" aria-controls="custom-tabs-one-overstock" aria-selected="true">Overstock</a>
+
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" id="custom-tabs-one-deficit-tab" data-toggle="pill" href="#custom-tabs-one-deficit" role="tab" aria-controls="custom-tabs-one-deficit" aria-selected="false">Deficit</a>    
+
+                </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-matched-tab" data-toggle="pill" href="#custom-tabs-one-matched" role="tab" aria-controls="custom-tabs-one-matched" aria-selected="false">Matched</a>
+ 
+                  </li>
+                   
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-one-tabContent">
+                  <div class="tab-pane fade show active" id="custom-tabs-one-overstock" role="tabpanel" aria-labelledby="custom-tabs-one-overstock-tab" data-name="overstocks">
+                     @if($overstock) 
+                        {!! $overstock !!}
+                    @else 
+                        No OverStock Record Found 
+                    @endif
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-one-deficit" role="tabpanel" aria-labelledby="custom-tabs-one-deficit-tab" data-name="deficit">
+                     @if($deficit)  
+                        {!! $deficit !!}
+                    @else 
+                        No Deficit Record Found 
+                    @endif
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-one-matched" role="tabpanel" aria-labelledby="custom-tabs-one-matched-tab" >
+                    @if($matched) 
+                        {!! $matched !!}
+                    @else 
+                        No Record Found 
+                    @endif
+                  </div> 
+                </div>
+              </div>
+              <!-- /.card -->
             </div>
-            <div class="tab-pane fade" data-name="deficit" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                @if($deficit)  
-                    {!! $deficit !!}
-                @else 
-                    No Deficit Record Found 
-                @endif
-            </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                @if($matched) 
-                    {!! $matched !!}
-                @else 
-                    No Record Found 
-                @endif
-            </div>
+          </div>
+          </div>
+        </div>
+    </div>
         </div>
     </div>
 
 </div>
- 
+ <style type="text/css">
+    .card-primary:not(.card-outline)>.card-header{
+        background-color: #3d3f71 !important;
+    }
+ </style>
 @section('js')
 <script type="text/javascript">
 var APP_URL = {!! json_encode(url('/')) !!};
@@ -111,5 +127,3 @@ var APP_URL = {!! json_encode(url('/')) !!};
 <script src="{{ asset('/js/common.js') }}"></script> 
 <script src="{{ asset('/js/reconcillation.js') }}"></script> 
 @endsection
-     
- 

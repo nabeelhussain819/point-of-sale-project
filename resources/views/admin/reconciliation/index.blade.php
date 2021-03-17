@@ -2,7 +2,7 @@
 
 @section('title','Reconciliation List')
 
-@section('content')
+@section('content') 
 
 <div class="container">
     <div class="card shadow-lg rounded">
@@ -44,3 +44,4 @@
 
 </div>
 @endsection
+=======

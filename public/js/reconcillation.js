@@ -17,7 +17,7 @@ obj.confirm = function(data){
 $(document).ready(function(){
 
 
-    $("#contact div#action").remove();
+    $("#custom-tabs-one-matched div#action").remove();
 
     $("#action").on('click' , function(){
         obj.confirm($(this));
