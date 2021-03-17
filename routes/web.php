@@ -92,6 +92,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 
     Route::get('deviceType/lists', [DeviceTypeController::class, 'lists']);
+    Route::get('brand/lists', [BrandController::class, 'lists']);
+    Route::get('issue-type/lists', [IssueTypeController::class, 'lists']);
 
     Route::group(['prefix' => 'purchase-order'], function () {
         Route::get('/received-form/{purchaseOrder}', [PurchaseOrderController::class, 'receivedForm'])

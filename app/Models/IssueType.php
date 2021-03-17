@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Core\Base;
 
 /**
  * @property integer $id
@@ -12,8 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property RepairsProduct[] $repairsProducts
  */
-class IssueType extends Model
+class IssueType extends Base
 {
+    protected $autoBlame = false;
     /**
      * The "type" of the auto-incrementing ID.
      * 
