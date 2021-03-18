@@ -98,8 +98,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'purchase-order'], function () {
         Route::get('/received-form/{purchaseOrder}', [PurchaseOrderController::class, 'receivedForm'])
             ->name('purchaseOrder.received');
-        Route::get('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])
-            ->name('purchaseOrder.received-done');
+        // Route::get('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])->name('purchaseOrder.received-done');
+        Route::post('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])->name('purchaseOrder.received-done');
 
     });
 

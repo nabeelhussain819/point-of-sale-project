@@ -25,7 +25,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>Purchase Order Received</b>
                     </div>
-                    <form method="POST">
+                    <form action="{{route('purchaseOrder.received-done',$purchaseOrder)}}" method="POST">
                         @csrf
                         <table class="table" id="products_table">
                             <thead>
@@ -38,8 +38,17 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @php 
+                                $sReceivedDate = $bHashSerialNumber ='' ;
+                                $iQuantity = $iProductId = '0' ;
+                            @endphp
                             @foreach($purchaseOrder->products as $key => $value)
-
+                                @php 
+                                    $bHashSerialNumber =  $value->product->has_serial_number; 
+                                    $iQuantity = $value->quantity;
+                                    $iProductId = $value->product->id;
+                                    $sReceivedDate = $purchaseOrder->received_date;
+                                @endphp
                                 <tr id="product0">
                                     <td>
                                         <div class="input-group spinner">
@@ -73,28 +82,67 @@
                                 </tr>
                             @endforeach
                         </table>
-                    </form>
+                        @if($bHashSerialNumber && $sReceivedDate == "")
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Serial No</th>
+                                        <th scope="col">IMEI #</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for($i=1;$i<=$iQuantity; $i++)
+                                        <input type="hidden" name="product_serial[{{$i}}][product_id]" id="product_id" value="{{$iProductId}}" class="form-control required"/>
+                                        <tr>
+                                            <td>{{$i}}</td>
+                                            <td>
+                                                <input type="text" name="product_serial[{{$i}}][serial_no]" id="serial_no" class="form-control required"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="product_serial[{{$i}}][imei_no]" id="imei_no" class="form-control required"/>    
+                                            </td>
+                                        </tr>
+                                        @endfor
+                                    </tbody>
 
-                    <div class="row">
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+
+                                </div>
+                        </div>
+                    @endif
+
+                    
+                   
+                   <!--  <div class="row">
                             <div class="col-md-12">
                                 <button class="btn text-white btn-info "><i class="fa fa-plus"></i></button>
                                 <button id='delete_row' class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
                             </div>
-                        </div>
+                        </div> -->
                        {{-- @livewire('stock-transfer-product-field',
                       ['products'=>$products,'dbProducts'=>$transfer->products]) --}}
 
                         <br>
-                        <div>
+<!--                         <div>
                             <a href="{{route('purchaseOrder.received-done',$purchaseOrder)}}" class="btn btn-success font-weight-bold shadow rounded float-left">
                               Edit
                             </a>
-                        </div>
+                        </div> -->
                         <div>
-                            <a href="{{route('purchaseOrder.received-done',$purchaseOrder)}}" class="btn btn-success font-weight-bold shadow rounded float-right">
-                                Mark As Received
-                            </a>
+
+                            <button type="submit" class="btn btn-block btn-success"> Mark As Received </button>
+
+                            <!-- <a href="{{route('purchaseOrder.received-done',$purchaseOrder)}}" class="btn btn-success font-weight-bold shadow rounded float-right"> -->
+                                <!-- Mark As Received {{$bHashSerialNumber}} -->
+                            <!-- </a> -->
                         </div>
+                        
+                    </form>
                 </div>
             </div>
         </div>

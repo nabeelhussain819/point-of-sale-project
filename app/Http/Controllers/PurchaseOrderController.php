@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
 use App\Models\Vendor;
+use App\Models\ProductSerialNumbers;
+use App\Models\Store;
 use App\Observers\PurchaseOrderObserver;
 use Carbon\Carbon;
 use DB;
@@ -146,17 +148,39 @@ class PurchaseOrderController extends Controller
      */
     public function receivedForm(PurchaseOrder $purchaseOrder)
     {
-
         return view('admin.purchase_order.received', ['purchaseOrder' => $purchaseOrder]);
     }
 
-    public function received(PurchaseOrder $purchaseOrder)
+    public function received(Request $request, PurchaseOrder $purchaseOrder)
     {
-        DB::transaction(function () use ($purchaseOrder) {
-            $purchaseOrder->isReceiving = true;
-            $purchaseOrder->update(['received_date' => Carbon::now()]);
+        $aRequestParams = $request->input('product_serial');
+
+     // dd($purchaseOrder);
+     //    dd($request);
+     //    die("her");
+        DB::transaction(function () use ($aRequestParams, $purchaseOrder) {
+            if(is_null($purchaseOrder->received_date)){
+                $this->storeSerialNo($aRequestParams);
+                $purchaseOrder->isReceiving = true;
+                $purchaseOrder->update(['received_date' => Carbon::now()]);
+            }
 
         });
         return redirect()->back()->with('success', 'Purchase Order received');
+    }
+
+    public function storeSerialNo($aRequestParams){
+        if(!empty($aRequestParams)){
+            foreach($aRequestParams as $key => $value){
+                $aTempData = $value;
+                // dd($value);
+                $aTempData['store_id'] = Store::currentId();
+                $aTempData['created_at'] = Carbon::now();
+                $aTempData['updated_at'] = Carbon::now();
+                $aData[] = $aTempData;
+            }
+            // dd($aData);
+            return ProductSerialNumbers::insert($aData);
+        }
     }
 }
