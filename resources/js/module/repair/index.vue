@@ -24,9 +24,10 @@
 </template>
 
 <script>
-import FormFields from "./formfields";
-import RepairService from "./services/API/RepairService";
-const columns = [
+    import FormFields from "./formfields";
+    import RepairService from "./services/API/RepairService";
+
+    const columns = [
   {
     dataIndex: "id",
     key: "id",
@@ -48,14 +49,9 @@ const columns = [
     key: "days",
   },
   {
-    title: "Total Cost",
-    dataIndex: "total_cost",
-    key: "total_cost",
-  },
-  {
-    title: "Advance Cost",
-    dataIndex: "advance_cost",
-    key: "advance_cost",
+      title: "Remaining Cost",
+      dataIndex: "remaining",
+      key: "remaining",
   },
   {
     title: "Status",
