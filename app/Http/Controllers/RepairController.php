@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
+use App\Helpers\GuidHelper;
 use App\Models\Repair;
 use App\Models\Store;
 use DB;
@@ -38,9 +40,15 @@ class RepairController extends Controller
     {
         return DB::transaction(function () use ($request) {
             $repair = new Repair();
-            $repair->fill(array_merge($request->all(), ['customer_id' => 1, 'store_id', Store::currentId()]));
+
+            $repair->fill(array_merge($request->all(), ['customer_id' => 1, 'store_id' => Store::currentId()]));
+            $products = array_filter($request->get('productItem'));
+            $products = collect($products)->map(function ($product) {
+                return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
+            })->all();
+
             $repair->save();
-            $repair->products()->sync(array_filter($request->get('productItem')));
+            $repair->products()->sync($products);
             return $this->genericResponse(true, " repair has been created", 201);
         });
 

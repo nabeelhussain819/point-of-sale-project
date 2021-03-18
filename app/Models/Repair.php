@@ -29,7 +29,7 @@ class Repair extends Base
     /**
      * @var array
      */
-    protected $fillable = ['customer_id', 'status', 'total_cost', 'advance_cost', 'guid', 'created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'status', 'total_cost', 'advance_cost', 'guid', 'store_id', 'created_at', 'updated_at'];
 
     protected $appends = ['days'];
     const IN_PROGRESS_STATUS = "INPROGRESS";
