@@ -22,14 +22,13 @@ class Customers extends Component
             'name' => 'required',
             'email' => 'required|unique:customers',
             'phone' => 'required',
-            'telephone' => 'required'
+
         ]);
 
         Customer::insert([
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'telephone' => $this->telephone,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

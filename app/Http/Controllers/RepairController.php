@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repair;
+use App\Models\Store;
 use DB;
 use Illuminate\Http\Request;
 
@@ -36,9 +37,8 @@ class RepairController extends Controller
     public function store(Request $request)
     {
         return DB::transaction(function () use ($request) {
-
             $repair = new Repair();
-            $repair->fill(array_merge($request->all(), ['customer_id' => 1]));
+            $repair->fill(array_merge($request->all(), ['customer_id' => 1, 'store_id', Store::currentId()]));
             $repair->save();
             $repair->products()->sync(array_filter($request->get('productItem')));
             return $this->genericResponse(true, " repair has been created", 201);

@@ -73,13 +73,13 @@ class Inventory extends Base
 
     public static function storeProducts()
     {
-        return Inventory::where('store_id', Store::current())
+        return Inventory::where('store_id', Store::currentId())
             ->get()->pluck('product');
     }
 
     public static function storeProductsById(array $products)
     {
-        return Inventory::where('store_id', Store::current())
+        return Inventory::where('store_id', Store::currentId())
             ->whereIn('product_id', $products)
             ->with(['product' => function ($query) {
                 $query->select(['id', 'name']);
@@ -92,7 +92,7 @@ class Inventory extends Base
             [
                 ['id' , '=', $id],
                 ['product_id',  '=', $product_id],
-                ['store_id',  '=', Store::current()]
+                ['store_id',  '=', Store::currentId()]
             ]
         )->update(
             array(

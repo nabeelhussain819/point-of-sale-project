@@ -5,9 +5,9 @@
                 @if(auth()->user()->hasPermissionTo('category-create'))
                     @if($updateMode)
 
-                        @include('livewire.customer.edit')
+                        @include('livewire.device-type.edit')
                     @else
-                        @include('livewire.customer.create')
+                        @include('livewire.device-type.create')
                     @endif
                 @endif
 
@@ -26,10 +26,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Telephone</th>
-                        {{--                    <th scope="col">Created At</th>--}}
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -37,29 +33,26 @@
                     @php
                         $count = 1;
                     @endphp
-                    @forelse($customers as $item)
+                    @forelse($devicesType as $deviceType)
                         <tr>
-                            <td>{{$count++}}</td>
-                            <td>{{$item->name}}</td>
-                            <td>{{$item->email}}</td>
-                            <td>{{$item->phone}}</td>
-                            <td>{{$item->telephone}}</td>
-                            {{--                        <td>{{$item->created_at}}</td>--}}
+                            <td>{{$deviceType->id}}</td>
+                            <td>{{$deviceType->name}}</td>
                             <td>
                                 <div style="display: flex">
                                     @if(auth()->user()->hasPermissionTo('customer-edit'))
-                                        <button class="btn btn-info mr-1" wire:click="edit({{$item->id}})"><i
+                                        <button class="btn btn-info mr-1" wire:click="edit({{$deviceType->id}})"><i
                                                     class="fa fa-pen"></i></button>
                                     @endif
                                     @if(auth()->user()->hasPermissionTo('customer-delete'))
-                                        <button type="submit" class="btn btn-danger ml-1" wire:click="delete({{$item->id}})">
+                                        <button type="submit" class="btn btn-danger ml-1"
+                                                wire:click="delete({{$deviceType->id}})">
                                             <i class="fa fa-trash"></i></button>
                                     @endif
                                 </div>
                             </td>
                         </tr>
                     @empty
-                        <p>No customers</p>
+                        <p>No Brand</p>
                     @endforelse
                     </tbody>
                 </table>

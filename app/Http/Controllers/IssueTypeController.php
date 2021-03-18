@@ -15,6 +15,11 @@ class IssueTypeController extends Controller
         return IssueType::all();
     }
 
+    public function lists()
+    {
+        return view('admin.issueType.index');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

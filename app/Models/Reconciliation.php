@@ -54,7 +54,7 @@ class Reconciliation extends Model
 
     public function scopeStores($query)
     {
-        return $query->where('store_id', Store::current());
+        return $query->where('store_id', Store::currentId());
     }
 
     public function withProducts()

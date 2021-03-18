@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Core\Base;
 
 /**
  * @property integer $id
@@ -13,8 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property RepairsProduct[] $repairsProducts
  * @property DevicesTypesBrandsProduct[] $devicesTypesBrandsProducts
  */
-class Brand extends Model
+class Brand extends Base
 {
+    protected $autoBlame = false;
     /**
      * The "type" of the auto-incrementing ID.
      * 

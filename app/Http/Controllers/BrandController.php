@@ -15,6 +15,11 @@ class BrandController extends Controller
         return Brand::all();
     }
 
+    public function lists()
+    {
+        return view('admin.brand.index');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
