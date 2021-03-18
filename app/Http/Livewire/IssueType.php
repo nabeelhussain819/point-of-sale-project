@@ -13,7 +13,8 @@ class IssueType extends Component
 
     public function render()
     {
-        return view('livewire.issue-type', ['devicesType' => IssueTypeModel::all()]);
+
+        return view('livewire.issue-type.index', ['devicesType' => IssueTypeModel::all()]);
     }
 
     public function store()

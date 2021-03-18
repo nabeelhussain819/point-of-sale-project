@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
-@section('title','Device Type')
+@section('title','Issue Type')
 
 @section('content')
-    @livewire('brand')
+    @livewire('issue-type')
 @endsection
