@@ -46,7 +46,7 @@ class StoreTableSeeder extends Seeder
 
         $i = 0;
         $aData = array();
-        foreach ($aUserIds as $iUserId) {
+        foreach ($aUserIds as $iUserId=>$key) {
         	$aData[] = [
         		'user_id' => $iUserId,
         		'role_id' => $aRoleIds[$i],

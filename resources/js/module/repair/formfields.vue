@@ -235,13 +235,13 @@
 </template>
 
 <script>
-import DeviceTypeService from "./services/API/DeviceTypeService";
-import BrandService from "./services/API/BrandService";
-import ProductService from "./services/API/ProductService";
-import IssueTypeService from "./services/API/IssueTypeService";
-import RepairService from "./services/API/RepairService";
-import CustomerService from "./services/API/CustomerService";
-import { isEmpty, filterOption } from "./services/helpers";
+import DeviceTypeService from "../../services/API/DeviceTypeService";
+import BrandService from "../../services/API/BrandService";
+import ProductService from "../../services/API/ProductService";
+import IssueTypeService from "../../services/API/IssueTypeService";
+import RepairService from "../../services/API/RepairService";
+import CustomerService from "../../services/API/CustomerService";
+import { isEmpty, filterOption } from "../../services/helpers";
 export default {
   props: {
     repairId: { default: null },
