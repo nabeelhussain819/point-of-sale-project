@@ -82,7 +82,7 @@
                                 </tr>
                             @endforeach
                         </table>
-                        @if($bHashSerialNumber && $sReceivedDate == "")
+                        <!-- @if($bHashSerialNumber && $sReceivedDate == "")
                         <div class="row">
                             <div class="table-responsive">
                                 <table class="table">
@@ -114,7 +114,7 @@
 
                                 </div>
                         </div>
-                    @endif
+                    @endif -->
 
                     
                    
