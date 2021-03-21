@@ -38,6 +38,7 @@ Vue.component('sales', require('./module/sales/index.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.prototype.$eventBus = new Vue(); // custom adding event bus if any issue in looping 
 const app = new Vue({
     el: '#app',
 });

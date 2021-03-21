@@ -2,11 +2,13 @@
   <div>
     <a-row :gutter="23">
       <a-col :span="1"><strong>Id</strong></a-col>
-      <a-col :span="7"><strong>Description</strong></a-col>
+      <a-col :span="3"><strong>Name</strong></a-col>
+      <a-col :span="6"><strong>Description</strong></a-col>
       <a-col :span="4"><strong>Serial</strong></a-col>
-      <a-col :span="4"><strong>Quantity</strong></a-col>
-      <a-col :span="4"><strong>Unit Prices</strong></a-col>
-      <a-col :span="4"><strong>Extended Prices</strong></a-col>
+      <a-col :span="3"><strong>Quantity</strong></a-col>
+      <a-col :span="3"><strong>Unit Prices</strong></a-col>
+      <a-col :span="3"><strong>Extended Prices</strong></a-col>
+      <a-col :span="1"><strong></strong></a-col>
     </a-row>
     <a-form
       :form="form"
@@ -14,15 +16,28 @@
       :wrapper-col="{ span: 24 }"
       @submit="handleSubmit"
     >
-      <a-row :gutter="23">
-        <a-col :span="1"></a-col>
-        <a-col :span="7">
+      <a-row v-for="(product, key) in products" :key="key" :gutter="23">
+        <a-col :span="1"> {{ product.id }}</a-col>
+        <a-col :span="3"> {{ product.name }}</a-col>
+        <a-col :span="6">
           <a-form-item>
             <a-input
               disabled
               v-decorator="[
-                'id',
+                `productItem[${key}][description]`,
                 {
+                  initialValue: product.description,
+                  rules: [],
+                },
+              ]"
+            />
+            <a-input
+              disabled
+              class="d-none"
+              v-decorator="[
+                `productItem[${key}][id]`,
+                {
+                  initialValue: product.id,
                   rules: [],
                 },
               ]"
@@ -33,48 +48,56 @@
             <a-input
               disabled
               v-decorator="[
-                'description',
+                `productItem[${key}][serial_number]`,
                 {
+                  initialValue: product.serial_number,
                   rules: [],
                 },
               ]"
             /> </a-form-item
         ></a-col>
-        <a-col :span="4">
+        <a-col :span="3">
           <a-form-item>
             <a-input
               type="number"
               v-decorator="[
-                'quantity',
+                `productItem[${key}][quantity]`,
                 {
+                  initialValue: product.quantity,
                   rules: [],
                 },
               ]"
             /> </a-form-item
         ></a-col>
-        <a-col :span="4">
+        <a-col :span="3">
           <a-form-item>
             <a-input
               type="number"
               v-decorator="[
-                'price',
+                `productItem[${key}][price]`,
                 {
+                  initialValue: product.cost,
                   rules: [],
                 },
               ]"
             /> </a-form-item
         ></a-col>
-        <a-col :span="4">
+        <a-col :span="3">
           <a-form-item>
             <a-input
               type="number"
               v-decorator="[
-                'extended_price',
+               `productItem[${key}][extended_price]`,
                 {
+                  initialValue: product.retail_price,
                   rules: [],
                 },
               ]"
             /> </a-form-item
+        ></a-col>
+        <a-col :span="1"
+          ><a-button v-on:click="removeRow(key)" type="link"
+            ><a-icon type="delete" /></a-button
         ></a-col>
       </a-row>
     </a-form>
@@ -85,11 +108,49 @@ export default {
   data() {
     return {
       formLayout: "horizontal",
-      form: this.$form.createForm(this, { name: "customer" }),
+      form: this.$form.createForm(this, { name: "orders" }),
+      products: {},
+      uuid: 0,
+      uuidString: "uuid-",
     };
   },
   methods: {
     handleSubmit() {},
+    getUid() {
+      this.uuid = this.uuid + 1;
+      return this.uuidString + this.uuid;
+    },
+    setProducts(product) {
+      let uuidT = this.getUid();
+      this.products = { ...this.products, [uuidT]: product };
+    },
+    removeRow(key) {
+      let products = this.products;
+
+      delete products[key];
+
+      let a = JSON.stringify(products);
+
+      this.products = JSON.parse(a);
+      console.log(this.products);
+    },
+  },
+  mounted() {
+    let setProducts = this.setProducts;
+
+    this.$eventBus.$on("PRODUCTEVENT", function (product) {
+      setProducts(product);
+    });
+  },
+  computed: {
+    postedProducts: function () {
+      return this.products;
+    },
   },
 };
 </script>
+<style scoped>
+.d-none {
+  display: none;
+}
+</style>

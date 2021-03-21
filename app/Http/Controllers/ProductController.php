@@ -121,4 +121,13 @@ class ProductController extends Controller
                     ->whereColumn('devices_types_brands_products.product_id', 'products.id');
         })->get();
     }
+
+    /**
+     * @param Request $request
+     */
+    public function all(Request $request)
+    {
+       return Product::where($this->applyFilters($request))
+            ->paginate($this->pageSize);
+    }
 }
