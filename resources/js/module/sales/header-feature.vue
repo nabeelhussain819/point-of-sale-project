@@ -1,5 +1,5 @@
 <template>
-     <a-row :gutter="24">
+     <a-row class="sales-header" :gutter="24">
           <a-col :span="10">
             <a-divider orientation="left"> Product & Service </a-divider>
           </a-col>
@@ -38,3 +38,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.sales-header{
+      background-color: #cbcdff;
+}
+</style>
