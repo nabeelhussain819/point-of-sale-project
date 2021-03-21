@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'product'], function (){
         Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
+        Route::get('/all', [ProductController::class, 'all']);
     });
 
     Route::group(['prefix' => 'repair'], function () {

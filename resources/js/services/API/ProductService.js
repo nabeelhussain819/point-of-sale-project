@@ -10,9 +10,15 @@ function deviceBrand(params = {}) {
     });
 }
 
+function all(params = {}) {
+    return request({
+        url: `${baseUrl}/all`,
+        params
+    });
+}
 
 const ProductService = {
-    deviceBrand
+    deviceBrand,all
 };
 
 export default ProductService
