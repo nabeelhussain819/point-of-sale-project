@@ -41,6 +41,6 @@ export default {
 
 <style scoped>
 .sales-header{
-      background-color: #cbcdff;
+      /* background-color: #cbcdff; */
 }
 </style>
