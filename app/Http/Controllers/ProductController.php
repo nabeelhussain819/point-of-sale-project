@@ -124,6 +124,7 @@ class ProductController extends Controller
 
     /**
      * @param Request $request
+     * @return mixed
      */
     public function all(Request $request)
     {

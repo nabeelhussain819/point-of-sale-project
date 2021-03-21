@@ -59,11 +59,15 @@
         <a-col :span="3">
           <a-form-item>
             <a-input
+              @change="
+                (e) => {
+                  computedTotal(e, key);
+                }
+              "
               type="number"
               v-decorator="[
                 `productItem[${key}][quantity]`,
                 {
-                  initialValue: product.quantity,
                   rules: [],
                 },
               ]"
@@ -87,7 +91,7 @@
             <a-input
               type="number"
               v-decorator="[
-               `productItem[${key}][extended_price]`,
+                `productItem[${key}][extended_price]`,
                 {
                   initialValue: product.retail_price,
                   rules: [],
@@ -100,6 +104,7 @@
             ><a-icon type="delete" /></a-button
         ></a-col>
       </a-row>
+      {{ total }}
     </a-form>
   </div>
 </template>
@@ -112,6 +117,8 @@ export default {
       products: {},
       uuid: 0,
       uuidString: "uuid-",
+      total: 0,
+      expendedTotal: 0,
     };
   },
   methods: {
@@ -133,6 +140,26 @@ export default {
 
       this.products = JSON.parse(a);
       console.log(this.products);
+    },
+    computedTotal(event, key) {
+      let quantity = event.target.value;
+
+      // let products = this.products;
+      const fieldsValue = this.form.getFieldsValue();
+      let total = 0;
+      for (const product in fieldsValue.productItem) {
+        let productQuantity = fieldsValue.productItem[product].quantity;
+        if (product !== key && productQuantity) {
+          total =
+            total +
+            parseFloat(productQuantity) * parseFloat(fieldsValue.productItem[key].price);
+          console.log("in", total);
+        }
+      }
+      let currentQuantity = quantity * parseFloat(fieldsValue.productItem[key].price);
+      console.log("currentQuantity", currentQuantity);
+      this.total = total + currentQuantity;
+      console.log("final", total);
     },
   },
   mounted() {
