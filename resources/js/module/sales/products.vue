@@ -3,11 +3,13 @@
     <a-row :gutter="23">
       <a-col :span="1"><strong>Id</strong></a-col>
       <a-col :span="3"><strong>Name</strong></a-col>
-      <a-col :span="6"><strong>Description</strong></a-col>
+
       <a-col :span="4"><strong>Serial</strong></a-col>
-      <a-col :span="3"><strong>Quantity</strong></a-col>
+      <a-col :span="2"><strong>Quantity</strong></a-col>
+      <a-col :span="3"><strong>Discount</strong></a-col>
       <a-col :span="3"><strong>Unit Prices</strong></a-col>
       <a-col :span="3"><strong>Extended Prices</strong></a-col>
+      <a-col :span="2"><strong>Total</strong></a-col>
       <a-col :span="1"><strong></strong></a-col>
     </a-row>
     <a-form
@@ -19,30 +21,7 @@
       <a-row v-for="(product, key) in products" :key="key" :gutter="23">
         <a-col :span="1"> {{ product.id }}</a-col>
         <a-col :span="3"> {{ product.name }}</a-col>
-        <a-col :span="6">
-          <a-form-item>
-            <a-input
-              disabled
-              v-decorator="[
-                `productItem[${key}][description]`,
-                {
-                  initialValue: product.description,
-                  rules: [],
-                },
-              ]"
-            />
-            <a-input
-              disabled
-              class="d-none"
-              v-decorator="[
-                `productItem[${key}][id]`,
-                {
-                  initialValue: product.id,
-                  rules: [],
-                },
-              ]"
-            /> </a-form-item
-        ></a-col>
+
         <a-col :span="4">
           <a-form-item>
             <a-input
@@ -56,7 +35,7 @@
               ]"
             /> </a-form-item
         ></a-col>
-        <a-col :span="3">
+        <a-col :span="2">
           <a-form-item>
             <a-input
               @change="
@@ -76,11 +55,25 @@
         <a-col :span="3">
           <a-form-item>
             <a-input
+              :max="100"
+              prefix="%"
+              type="number"
+              v-decorator="[
+                `productItem[${key}][discount]`,
+                {
+                  rules: [],
+                },
+              ]"
+            /> </a-form-item
+        ></a-col>
+        <a-col :span="3">
+          <a-form-item>
+            <a-input
               type="number"
               v-decorator="[
                 `productItem[${key}][price]`,
                 {
-                  initialValue: product.cost,
+                  initialValue: product.retail_price,
                   rules: [],
                 },
               ]"
@@ -99,6 +92,7 @@
               ]"
             /> </a-form-item
         ></a-col>
+        <a-col :span="2"> <a-form-item> {{200}} </a-form-item></a-col>
         <a-col :span="1"
           ><a-button v-on:click="removeRow(key)" type="link"
             ><a-icon type="delete" /></a-button

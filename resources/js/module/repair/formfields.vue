@@ -70,8 +70,7 @@
         <a-col :span="4">
           <a-form-item label="Advance Cost">
             <a-input
-              type="number"
-              @search="customerSearch"
+              type="number"           
               v-decorator="[
                 'advance_cost',
                 {

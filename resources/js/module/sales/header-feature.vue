@@ -9,12 +9,13 @@
     </a-col>
     <a-col :span="5">
       <a-form-item
+        placeholder="insert id and press enter"
         :validate-status="fetchProductsErrors.validateStatus"
         :help="fetchProductsErrors.errorMsg"
         label="Scan Product Number"
       >
         <a-input
-          @pressEnter="getProductById"          
+          @pressEnter="getProductById"
           v-decorator="[
             'product_id',
             {
