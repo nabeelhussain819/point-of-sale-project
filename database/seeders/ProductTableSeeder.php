@@ -26,7 +26,7 @@ class ProductTableSeeder extends Seeder
         	[
 				"guid" 				=> Str::uuid(),
 				"name" 				=> "Apple iPhoneX",
-				"description" 		=> "Apple Mobile Phone",
+				"description" 		=> "Demo Product Apple Mobile Phone",
 				"UPC" 				=> "apple",
 				"department_id" 	=> $oDepartment->id,
 				"category_id" 		=> $oCategory->id,
@@ -41,7 +41,7 @@ class ProductTableSeeder extends Seeder
 			],[
 				"guid" 				=> Str::uuid(),
 				"name" 				=> "Motrolla PhoneX",
-				"description" 		=> "Motrolla Mobile Phone",
+				"description" 		=> "Demo Product Motrolla Mobile Phone",
 				"UPC" 				=> "moto",
 				"department_id" 	=> $oDepartment->id,
 				"category_id" 		=> $oCategory->id,
@@ -56,7 +56,7 @@ class ProductTableSeeder extends Seeder
 			],[
 				"guid" 				=> Str::uuid(),
 				"name" 				=> "Huawei PhoneX",
-				"description" 		=> "Huawei Mobile Phone",
+				"description" 		=> "Demo Product Huawei Mobile Phone",
 				"UPC" 				=> "huawei",
 				"department_id" 	=> $oDepartment->id,
 				"category_id" 		=> $oCategory->id,
