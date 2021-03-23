@@ -14,10 +14,27 @@ export const isEmpty = (value, depth = 1, level = 0) => {
 };
 
 
-export const  filterOption=(input, option) =>{
+export const filterOption = (input, option) => {
     return (
-      option.componentOptions.children[0].text
-        .toLowerCase()
-        .indexOf(input.toLowerCase()) >= 0
+        option.componentOptions.children[0].text
+            .toLowerCase()
+            .indexOf(input.toLowerCase()) >= 0
     );
-  };
+};
+
+export const errorNotification = ($this, err) => {
+    let genricError = err.response.data.errors;
+
+    let description = "";
+    if (!isEmpty(genricError)) {
+        for (var key in genricError) {
+            description += `${genricError[key][0]},`;
+        }
+    }
+
+    $this.$notification.open({
+        message: `Error`,
+        description: () => description,
+        placement: "bottomLeft",
+    });
+}

@@ -26,7 +26,6 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
         return view('admin.customers.create',['products' => Product::all()]);
     }
 
@@ -38,9 +37,16 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $customer = new Customer();
-        $customer->fill($request->all())->save();
+        $request->validate([
+            'phone' => 'unique:customers',
+            'email' => 'unique:customers',
+        ]);
+
+        $customer = Customer::create($request);
+        
+        if ($request->get("isApi")) {
+            return $customer;
+        }
         return redirect('customers')->with('success','Customer Created');
     }
 

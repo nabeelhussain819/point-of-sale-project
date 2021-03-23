@@ -31,24 +31,28 @@
       </a-form-item>
     </a-col>
 
-    <a-col :span="12"><customer /></a-col>
+    <a-col :span="12"><customer @getCustomer="getCustomer" /></a-col>
   </a-row>
 </template>
 <script>
 import customer from "./customer";
 import ProductService from "../../services/API/ProductService";
 import { isEmpty } from "../../services/helpers";
-import { app } from "../../app";
+
 export default {
   data() {
     return {
       fetchProductsErrors: {},
+      customer: null,
     };
   },
   components: {
     customer,
   },
   methods: {
+    getCustomer(customer) {
+      this.customer = customer;
+    },
     getProductById(e) {
       this.resetValidation();
       let productId = e.target.value;

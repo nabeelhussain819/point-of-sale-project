@@ -1,17 +1,28 @@
 <template>
   <a-card hoverable>
-    <div v-if="!isCreated">
+    <div v-if="!isCreated()">
       <a-button slot="extra" @click="showModal(true)" icon="user-add" type="primary"
         >Add Customer</a-button
       >
     </div>
     <span v-else>
-      <a-button slot="extra" type="link">edit</a-button>
+      <a-button slot="extra" @click="showModal(true)" type="link">edit</a-button>
       <div slot="title">
-        <span> Naveed Nasib</span> <br /><a-icon type="phone" /> 03323606922
+        {{ currentCustomer.name_phone }}
       </div>
     </span>
     <a-modal v-model="visible" title="Associate Customer ">
+      <template slot="footer">
+        <a-button key="back" @click="showModal(false)"> Cancel </a-button>
+        <a-button
+          key="submit"
+          type="primary"
+          :loading="customerSearchLoading"
+          @click="handleSubmit"
+        >
+          Add
+        </a-button>
+      </template>
       <a-form
         :form="form"
         :label-col="{ span: 24 }"
@@ -20,25 +31,36 @@
       >
         <a-col :span="24">
           <a-form-item label="Customer Name">
-            <a-auto-complete
+            <!-- ------------------- -->
+
+            <a-select
+              mode="tags"
+              :filter-option="filterOption"
+              :maxTagCount="maxCustomer"
+              @select="onCustomerSelect"
+              @search="customerSearch"
+              :loading="customerSearchLoading"
               v-decorator="[
                 'name',
                 {
                   initialValue: selectedCustomer.name,
                   rules: [
-                    { required: true, message: 'Please input your customer_number!' },
+                    { required: true, message: 'Please input your customer number!' },
                   ],
                 },
               ]"
-              v-model="value"
-              :data-source="customers"
-              style="width: 200px"
-              placeholder="input here"
-              @select="handleChange"
-              @search="customerSearch"
-              @change="handleChange"
-            /> </a-form-item
-        ></a-col>
+            >
+              <a-select-option
+                v-for="customer in customers"
+                :key="customer.id.toString()"
+                :customer="customer"
+              >
+                {{ customer.name_phone }}
+              </a-select-option>
+            </a-select>
+            <!-- ------------------------------ -->
+          </a-form-item></a-col
+        >
         <a-col :span="24">
           <a-form-item label="Customer Phone">
             <a-input
@@ -58,35 +80,80 @@
   </a-card>
 </template>
 <script>
-import { filterOption } from "../../services/helpers";
+import { filterOption, isEmpty, errorNotification } from "../../services/helpers";
 import CustomerService from "../../services/API/CustomerService";
 export default {
   data() {
     return {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "addCustomer" }),
-      isCreated: false,
+
       visible: false,
       customers: [],
       filterOption,
       selectedCustomer: [],
+      customerSearchLoading: false,
+      maxCustomer: 1,
+      currentCustomer: null,
     };
   },
   methods: {
+    isCreated() {
+      return !isEmpty(this.currentCustomer);
+    },
+    emitCustomerId(customer) {
+      this.currentCustomer = customer;
+      this.$emit("getCustomer", customer);
+      this.showModal(false);
+    },
     showModal(show) {
       this.visible = show;
     },
-    handleChange() {},
-    handleSubmit() {},
+    onCustomerSelect(value, options) {
+      // on selectif the current customer is from database
+      let selectedCustomer = options.data.attrs.customer;
+      if (!isEmpty(selectedCustomer) && !isEmpty(selectedCustomer.phone)) {
+        this.currentCustomer = selectedCustomer;
+        this.form.setFieldsValue({ phone: selectedCustomer.phone });
+      } else {
+        this.currentCustomer = null;
+        this.form.setFieldsValue({ phone: null });
+      }
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err && this.currentCustomer === null) {
+          this.customerSearchLoading = true;
+          CustomerService.create({ ...values, isApi: true })
+            .then((customer) => {
+              this.emitCustomerId(customer);
+            })
+            .catch((err) => errorNotification(this, err));
+        }
+
+        if (!isEmpty(this.currentCustomer)) {
+          this.emitCustomerId(this.currentCustomer);
+        }
+
+        this.customerSearchLoading = false;
+      });
+    },
     customerSearch(searchText, event) {
-      this.customers = !searchText ? [] : searchText;
-      // if (value.length > 3) {
-      //   this.customerSearchLoading = true;
-      //   CustomerService.search({ search: value }).then((customers) => {
-      //     this.customers = customers.data;
-      //   });
-      //   this.customerSearchLoading = false;
-      // }
+      if (!isEmpty(searchText) && searchText.length > 3) {
+        this.customerSearchLoading = true;
+        CustomerService.search({ search: searchText })
+          .then((customers) => {
+            this.customers = customers.data;
+          })
+          .catch((err) => {
+            console.log("error", err.response.data);
+          })
+          .finally(() => {
+            this.customerSearchLoading = false;
+          });
+        this.customerSearchLoading = false;
+      }
     },
   },
 };

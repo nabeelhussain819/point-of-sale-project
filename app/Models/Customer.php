@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Helpers\ArrayHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 /**
  * @property integer $id
@@ -18,7 +20,7 @@ class Customer extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -27,6 +29,7 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = ['name', 'email', 'phone', 'telephone', 'created_at', 'updated_at'];
+    protected $appends = ['name_phone'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -34,5 +37,26 @@ class Customer extends Model
     public function orderProducts()
     {
         return $this->hasMany(OrderProduct::class);
+    }
+
+    public static function create(Request $request)
+    {
+        $customer = new Customer();
+        $customer->fill($request->all())->save();
+        return $customer;
+    }
+
+    public function setNameAttribute($value)
+    {
+        if (ArrayHelper::isArray($value)) {
+            $this->attributes['name'] = strtolower($value[0]);
+        } else {
+            $this->attributes['name'] = strtolower($value);
+        }
+    }
+
+    public function getNamePhoneAttribute()
+    {
+        return $this->name . " (" . $this->phone . ")";
     }
 }

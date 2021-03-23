@@ -17,8 +17,16 @@ function search(params = {}) {
     });
 }
 
+function create(data) {
+    return request({
+        url: baseUrl,
+        method: 'POST',
+        data
+    });
+}
+
 const CustomerService = {
-    all, search
+    all, search,create
 };
 
 export default CustomerService
