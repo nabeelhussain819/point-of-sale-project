@@ -47,6 +47,7 @@
               v-decorator="[
                 `productItem[${key}][quantity]`,
                 {
+                  initialValue: 1,
                   rules: [],
                 },
               ]"
@@ -58,9 +59,11 @@
               :max="100"
               prefix="%"
               type="number"
+              @change="(e) => discount(e, key)"
               v-decorator="[
                 `productItem[${key}][discount]`,
                 {
+                  initialValue: 0,
                   rules: [],
                 },
               ]"
@@ -73,6 +76,7 @@
               v-decorator="[
                 `productItem[${key}][price]`,
                 {
+                  initialValue: 0,
                   initialValue: product.retail_price,
                   rules: [],
                 },
@@ -92,7 +96,11 @@
               ]"
             /> </a-form-item
         ></a-col>
-        <a-col :span="2"> <a-form-item> {{200}} </a-form-item></a-col>
+        <a-col :span="2">
+          <a-form-item>
+            {{ products[key].total }}
+          </a-form-item></a-col
+        >
         <a-col :span="1"
           ><a-button v-on:click="removeRow(key)" type="link"
             ><a-icon type="delete" /></a-button
@@ -151,9 +159,25 @@ export default {
         }
       }
       let currentQuantity = quantity * parseFloat(fieldsValue.productItem[key].price);
-      console.log("currentQuantity", currentQuantity);
+
       this.total = total + currentQuantity;
-      console.log("final", total);
+
+      let ss = this.form.getFieldsValue();
+      console.log(ss);
+    },
+    discount(value, key) {
+      // let fields = this.form.getFieldsValue();
+      // console.log(fields);
+      // let u = this.form.getFieldDecorator(`productItem[${key}][quantity]`);
+      // console.log(u);
+      // // console.log(fields.productItem[key]['total']);
+      // let $this = this;
+      // this.form.setFieldsValue({ productItem: { [key]: { total: 123 } } });
+      let pp = this.products;
+      pp[key].extended_price = 1;
+      pp = JSON.stringify(pp);
+      this.products = JSON.parse(pp);
+      //this.products[key].total;
     },
   },
   mounted() {
