@@ -142,14 +142,12 @@ export default {
       let a = JSON.stringify(products);
 
       this.products = JSON.parse(a);
-      console.log(this.products);
     },
     computedTotal(event, key) {
       let quantity = event.target.value;
       this.updateQuantity(quantity, key);
     },
     updateQuantity(quantity, key) {
-      console.log(quantity, key);
       let pp = this.products;
 
       pp[key].total = quantity * pp[key].min_price;
