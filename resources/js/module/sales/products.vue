@@ -47,7 +47,7 @@
               v-decorator="[
                 `productItem[${key}][quantity]`,
                 {
-                  initialValue: 1,
+                  initialValue: product.quantity,
                   rules: [],
                 },
               ]"
@@ -106,7 +106,6 @@
             ><a-icon type="delete" /></a-button
         ></a-col>
       </a-row>
-      {{ total }}
     </a-form>
   </div>
 </template>
@@ -131,6 +130,8 @@ export default {
     },
     setProducts(product) {
       let uuidT = this.getUid();
+      product.total = product.min_price;
+      product.quantity = 1;
       this.products = { ...this.products, [uuidT]: product };
     },
     removeRow(key) {
@@ -145,24 +146,15 @@ export default {
     },
     computedTotal(event, key) {
       let quantity = event.target.value;
+      this.updateQuantity(quantity, key);
+    },
+    updateQuantity(quantity, key) {
+      console.log(quantity, key);
+      let pp = this.products;
 
-      // let products = this.products;
-      const fieldsValue = this.form.getFieldsValue();
-      let total = 0;
-      for (const product in fieldsValue.productItem) {
-        let productQuantity = fieldsValue.productItem[product].quantity;
-        if (product !== key && productQuantity) {
-          total =
-            total +
-            parseFloat(productQuantity) * parseFloat(fieldsValue.productItem[key].price);
-          console.log("in", total);
-        }
-      }
-      let currentQuantity = quantity * parseFloat(fieldsValue.productItem[key].price);
+      pp[key].total = quantity * pp[key].min_price;
 
-      this.total = total + currentQuantity;
-
-      let ss = this.form.getFieldsValue();
+      this.updateProducts(pp);
     },
     discount(value, key) {
       value = value.target.value;
@@ -171,12 +163,16 @@ export default {
 
       pp[key].min_price = this.dicountFormula(price, value);
 
-      pp = JSON.stringify(pp);
-      this.products = JSON.parse(pp);
+      this.updateProducts(pp);
+      this.updateQuantity(value, key);
     },
     dicountFormula(prices, discountPrices) {
       let dicountFormula = (prices / 100) * discountPrices;
       return prices - dicountFormula;
+    },
+    updateProducts(products) {
+      products = JSON.stringify(products);
+      this.products = JSON.parse(products);
     },
   },
   mounted() {
