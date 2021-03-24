@@ -36,7 +36,6 @@
 </template>
 <script>
 import customer from "./customer";
-import ProductService from "../../services/API/ProductService";
 import InventoryService from "../../services/API/InventoryService";
 
 import { isEmpty } from "../../services/helpers";

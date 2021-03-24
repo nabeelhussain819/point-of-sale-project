@@ -3,8 +3,8 @@
     <a-row>
       <a-col :span="12">
         <a-descriptions>
-          <a-descriptions-item label="Sub Total"> $90.00 </a-descriptions-item>
-          <a-descriptions-item label="Discount"> $00.00 </a-descriptions-item>
+          <a-descriptions-item label="Sub Total"> ${{ subTotal }} </a-descriptions-item>
+          <a-descriptions-item label="Discount"> ${{ discount }} </a-descriptions-item>
           <a-descriptions-item label="Tax"> $00 </a-descriptions-item>
         </a-descriptions></a-col
       >
@@ -39,21 +39,33 @@ import productTable from "./products-table";
 export default {
   components: { productTable },
   data() {
-    return { showOrderInvoice: false };
+    return { showOrderInvoice: false, products: {}, subTotal: 0, discount: 0 };
   },
   methods: {
     toggleModal($show) {
-      console.log($show);
       this.showOrderInvoice = $show;
     },
     confirm(e) {
-      console.log(e);
       this.$message.success("Click on Yes");
     },
     cancel(e) {
-      console.log(e);
       this.$message.error("Click on No");
     },
+    calculate(products) {
+      let total = 0;
+      for (const key in products) {
+        console.log(products[key]);
+        total += products[key].total;
+      }
+      this.subTotal = total;
+    },
+  },
+  mounted() {
+    let calc = this.calculate;
+    this.$eventBus.$on("PRODUCTSUMMARYEVENT", function (products) {
+      calc(products);
+      // this.products = products;
+    });
   },
 };
 </script>

@@ -4,9 +4,9 @@
       <div class="product-detail">
         <header-feature />
         <a-divider orientation="left"> Shoping List </a-divider>
-        <products />
+        <products @updatedProducts="updatedProducts" />
         <a-divider orientation="left"> Order Summary </a-divider>
-        <product-summary/>
+        <product-summary />
       </div>
     </a-card>
   </div>
@@ -16,11 +16,21 @@ import headerFeature from "./header-feature";
 import products from "./products";
 import productSummary from "./product-summary";
 export default {
+  data() {
+    return {
+      products: {},
+    };
+  },
   components: {
     headerFeature,
     products,
-    productSummary
+    productSummary,
   },
-  
+  methods: {
+    updatedProducts(products) {
+      
+      console.log(products);
+    },
+  },
 };
 </script>

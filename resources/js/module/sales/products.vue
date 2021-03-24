@@ -171,6 +171,8 @@ export default {
     updateProducts(products) {
       products = JSON.stringify(products);
       this.products = JSON.parse(products);
+
+      this.$eventBus.$emit("PRODUCTSUMMARYEVENT", this.products);
     },
   },
   mounted() {
