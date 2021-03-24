@@ -37,6 +37,8 @@
 <script>
 import customer from "./customer";
 import ProductService from "../../services/API/ProductService";
+import InventoryService from "../../services/API/InventoryService";
+
 import { isEmpty } from "../../services/helpers";
 
 export default {
@@ -56,10 +58,10 @@ export default {
     getProductById(e) {
       this.resetValidation();
       let productId = e.target.value;
-      ProductService.all({ id: productId }).then((products) => {
-        this.noProductFound(products.data);
-        if (!isEmpty(products.data) && products.data[0]) {
-          this.$eventBus.$emit("PRODUCTEVENT", products.data[0]);
+      InventoryService.products({ product_id: productId }).then((inventory) => {
+        this.noProductFound(inventory.data);
+        if (!isEmpty(inventory.data) && inventory.data[0]) {
+          this.$eventBus.$emit("PRODUCTEVENT", inventory.data[0].product);
         }
       });
     },

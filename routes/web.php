@@ -104,6 +104,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
 
+    Route::group(['prefix' => 'inventory'], function () {
+        Route::get('/products', [InventoryController::class, 'products']);
+    });
+
+
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,

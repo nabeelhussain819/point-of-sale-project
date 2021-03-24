@@ -34,6 +34,8 @@ trait AppliesQueryParams
             })->when($request->get('search'), function (Builder $builder, $search) {
                 $search = strtolower($search);
                 return $builder->where('name', 'like', "%".$search."%");
+            })->when($request->get('product_id'), function (Builder $builder, $productId) {
+                return $builder->where('product_id', $productId);
             });
         };
     }

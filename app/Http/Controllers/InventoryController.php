@@ -114,4 +114,11 @@ class InventoryController extends Controller
         $inventory->delete();
         return redirect()->back()->with('success','Inventory Deleted');
     }
+
+    public function products(Request $request)
+    {
+        return Inventory::where($this->applyFilters($request))
+            ->with('product')
+            ->paginate($this->pageSize);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Observers\InventoryObserver;
+use App\Scopes\StoreGlobalScope;
 
 /**
  * @property integer $id
@@ -67,7 +68,7 @@ class Inventory extends Base
     public static function boot()
     {
         parent::boot();
-
+        static::addGlobalScope(new StoreGlobalScope);
         Inventory::observe(InventoryObserver::class);
     }
 
