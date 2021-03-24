@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Helpers\GuidHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -12,7 +13,21 @@ use Illuminate\Support\Facades\Auth;
  * @properties AttributesValue[] $attributesValues
  * @properties ProductAttribute[] $productAttributes
  * @mixin Builder
+ * /**
+ * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static Builder create(array $attributes = [])
+ * @method public Builder update(array $values)
+ * @method static Builder find($values)
+ * @method  Builder fill()
+ * @method static Builder delete()(array $values)
+ * @method static Builder with($relations)
+ *
+ * /**
+ * App\Core\Base
+ *
+ * @mixin \Eloquent
  */
+
 
 class Base extends Model
 {

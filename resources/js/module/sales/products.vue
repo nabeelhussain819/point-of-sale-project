@@ -88,9 +88,9 @@
             <a-input
               type="number"
               v-decorator="[
-                `productItem[${key}][extended_price]`,
+                `productItem[${key}][min_price]`,
                 {
-                  initialValue: product.retail_price,
+                  initialValue: product.min_price,
                   rules: [],
                 },
               ]"
@@ -163,21 +163,20 @@ export default {
       this.total = total + currentQuantity;
 
       let ss = this.form.getFieldsValue();
-      console.log(ss);
     },
     discount(value, key) {
-      // let fields = this.form.getFieldsValue();
-      // console.log(fields);
-      // let u = this.form.getFieldDecorator(`productItem[${key}][quantity]`);
-      // console.log(u);
-      // // console.log(fields.productItem[key]['total']);
-      // let $this = this;
-      // this.form.setFieldsValue({ productItem: { [key]: { total: 123 } } });
+      value = value.target.value;
       let pp = this.products;
-      pp[key].extended_price = 1;
+      let price = pp[key].retail_price;
+
+      pp[key].min_price = this.dicountFormula(price, value);
+
       pp = JSON.stringify(pp);
       this.products = JSON.parse(pp);
-      //this.products[key].total;
+    },
+    dicountFormula(prices, discountPrices) {
+      let dicountFormula = (prices / 100) * discountPrices;
+      return prices - dicountFormula;
     },
   },
   mounted() {
