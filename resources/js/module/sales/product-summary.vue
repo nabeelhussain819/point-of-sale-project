@@ -26,18 +26,19 @@
         @cancel="toggleModal(false)"
         title=""
         footer=""
-        ><product-table
+        ><product-table :products="products"
       /></a-modal>
     </a-row>
   </div>
 </template>
 
 <script>
+import { objectToArray } from "../../services/helpers";
 import productTable from "./products-table";
 export default {
   components: { productTable },
   data() {
-    return { showOrderInvoice: false, products: {}, subTotal: 0, discount: 0 };
+    return { showOrderInvoice: false, products: [], subTotal: 0, discount: 0 };
   },
   methods: {
     toggleModal($show) {
@@ -51,9 +52,9 @@ export default {
     },
     calculate(products) {
       let total = 0;
+      this.products = objectToArray(products);
       for (const key in products) {
-        console.log(products[key]);
-        total += products[key].total;
+        total += parseInt(products[key].total);
       }
       this.subTotal = total;
     },

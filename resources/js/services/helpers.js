@@ -38,3 +38,7 @@ export const errorNotification = ($this, err) => {
         placement: "bottomLeft",
     });
 }
+
+export const objectToArray = (objOfObjs) => {
+    return Object.entries(objOfObjs).map(e => e[1]);
+}

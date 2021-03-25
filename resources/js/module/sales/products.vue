@@ -133,7 +133,9 @@ export default {
       let uuidT = this.getUid();
       product.total = product.min_price;
       product.quantity = 1;
-      this.products = { ...this.products, [uuidT]: product };
+      let products = { ...this.products, [uuidT]: product };
+      this.products = products;
+      this.updateProducts(products);
     },
     removeRow(key) {
       let products = this.products;
@@ -163,7 +165,7 @@ export default {
       pp[key].min_price = this.dicountFormula(price, value);
 
       this.updateProducts(pp);
-      this.updateQuantity(value, key);
+      this.updateQuantity(pp[key].quantity, key);
     },
     dicountFormula(prices, discountPrices) {
       let dicountFormula = (prices / 100) * discountPrices;
