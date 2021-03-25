@@ -9,9 +9,7 @@
         </a-descriptions></a-col
       >
       <a-col :span="12">
-        <a-button v-on:click="toggleModal(true)" type="primary"
-          >Apply Discount / CheckOut</a-button
-        >
+        <a-button v-on:click="toggleModal(true)" type="primary"> CheckOut</a-button>
         <a-popconfirm
           title="Are you sure cancel this transaction?"
           ok-text="Yes"

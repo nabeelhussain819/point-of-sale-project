@@ -25,7 +25,7 @@
         <a-col :span="4">
           <a-form-item>
             <a-input
-              disabled
+              :disabled="!product.has_serial_number"
               v-decorator="[
                 `productItem[${key}][serial_number]`,
                 {
@@ -43,6 +43,7 @@
                   computedTotal(e, key);
                 }
               "
+              :disabled="product.has_serial_number"
               type="number"
               v-decorator="[
                 `productItem[${key}][quantity]`,
