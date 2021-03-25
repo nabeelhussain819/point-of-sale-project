@@ -2,16 +2,18 @@
   <div>
     Customer :
     <span>
-      <span v-if="!isEmpty(customer)">customer.name_phone</span>
+      <span v-if="!isEmpty(customer)">{{ customer.name_phone }}</span>
       <span v-else>No Customer</span>
     </span>
     <a-table :columns="columns" :pagination="false" :data-source="products">
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table>
+    <checkout />
   </div>
 </template>
 <script>
 import { isEmpty } from "../../services/helpers";
+import checkout from "./checkout";
 const columns = [
   {
     title: "Name",
@@ -42,6 +44,9 @@ const columns = [
 ];
 
 export default {
+  components: {
+    checkout,
+  },
   props: {
     products: { default: () => [] },
     customer: { default: () => {} },
