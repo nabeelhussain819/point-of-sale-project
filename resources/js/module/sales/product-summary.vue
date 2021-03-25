@@ -21,12 +21,13 @@
         </a-popconfirm>
       </a-col>
       <a-modal
+        :destroyOnClose="true"
         width="100%"
         :visible="showOrderInvoice"
         @cancel="toggleModal(false)"
         title=""
         footer=""
-        ><product-table :products="products"
+        ><product-table :products="products" :customer="customer"
       /></a-modal>
     </a-row>
   </div>
@@ -34,12 +35,21 @@
 
 <script>
 import { objectToArray } from "../../services/helpers";
-import { EVENT_CUSTOMERSALE_PRODUCT_SUMMARY } from "../../services/constants";
+import {
+  EVENT_CUSTOMERSALE_PRODUCT_SUMMARY,
+  EVENT_CUSTOMERSALE_CUSTOMER_DETAIL,
+} from "../../services/constants";
 import productTable from "./products-table";
 export default {
   components: { productTable },
   data() {
-    return { showOrderInvoice: false, products: [], subTotal: 0, discount: 0 };
+    return {
+      showOrderInvoice: false,
+      products: [],
+      subTotal: 0,
+      discount: 0,
+      customer: null,
+    };
   },
   methods: {
     toggleModal($show) {
@@ -59,12 +69,20 @@ export default {
       }
       this.subTotal = total;
     },
+    setCustomer(customer) {
+      this.customer = customer;
+    },
   },
   mounted() {
     let calc = this.calculate;
+    let setCustomer = this.setCustomer;
     this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_SUMMARY, function (products) {
       calc(products);
       // this.products = products;
+    });
+    this.$eventBus.$on(EVENT_CUSTOMERSALE_CUSTOMER_DETAIL, function (customer) {
+      console.log(customer);
+      setCustomer(customer);
     });
   },
 };

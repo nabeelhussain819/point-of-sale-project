@@ -82,12 +82,12 @@
 <script>
 import { filterOption, isEmpty, errorNotification } from "../../services/helpers";
 import CustomerService from "../../services/API/CustomerService";
+import { EVENT_CUSTOMERSALE_CUSTOMER_DETAIL } from "../../services/constants";
 export default {
   data() {
     return {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "addCustomer" }),
-
       visible: false,
       customers: [],
       filterOption,
@@ -103,7 +103,8 @@ export default {
     },
     emitCustomerId(customer) {
       this.currentCustomer = customer;
-      this.$emit("getCustomer", customer);
+      this.$eventBus.$emit(EVENT_CUSTOMERSALE_CUSTOMER_DETAIL, customer);
+
       this.showModal(false);
     },
     showModal(show) {
