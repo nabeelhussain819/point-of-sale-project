@@ -34,6 +34,7 @@
 
 <script>
 import { objectToArray } from "../../services/helpers";
+import { EVENT_CUSTOMERSALE_PRODUCT_SUMMARY } from "../../services/constants";
 import productTable from "./products-table";
 export default {
   components: { productTable },
@@ -61,7 +62,7 @@ export default {
   },
   mounted() {
     let calc = this.calculate;
-    this.$eventBus.$on("PRODUCTSUMMARYEVENT", function (products) {
+    this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_SUMMARY, function (products) {
       calc(products);
       // this.products = products;
     });

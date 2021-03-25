@@ -39,6 +39,7 @@ import customer from "./customer";
 import InventoryService from "../../services/API/InventoryService";
 
 import { isEmpty } from "../../services/helpers";
+import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
 
 export default {
   data() {
@@ -60,7 +61,7 @@ export default {
       InventoryService.products({ product_id: productId }).then((inventory) => {
         this.noProductFound(inventory.data);
         if (!isEmpty(inventory.data) && inventory.data[0]) {
-          this.$eventBus.$emit("PRODUCTEVENT", inventory.data[0].product);
+          this.$eventBus.$emit(EVENT_CUSTOMERSALE_PRODUCT_ADD, inventory.data[0].product);
         }
       });
     },
@@ -78,13 +79,7 @@ export default {
     emitProductDetail() {},
   },
   beforeDestroy() {
-    window.removeEventListener("PRODUCTEVENT", "asd");
+    window.removeEventListener(EVENT_CUSTOMERSALE_PRODUCT_ADD, "asd");
   },
 };
 </script>
-
-<style scoped>
-.sales-header {
-  /* background-color: #cbcdff; */
-}
-</style>

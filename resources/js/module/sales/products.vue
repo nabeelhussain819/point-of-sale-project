@@ -111,6 +111,10 @@
   </div>
 </template>
 <script>
+import {
+  EVENT_CUSTOMERSALE_PRODUCT_SUMMARY,
+  EVENT_CUSTOMERSALE_PRODUCT_ADD,
+} from "../../services/constants";
 export default {
   data() {
     return {
@@ -175,13 +179,13 @@ export default {
       products = JSON.stringify(products);
       this.products = JSON.parse(products);
 
-      this.$eventBus.$emit("PRODUCTSUMMARYEVENT", this.products);
+      this.$eventBus.$emit(EVENT_CUSTOMERSALE_PRODUCT_SUMMARY, this.products);
     },
   },
   mounted() {
     let setProducts = this.setProducts;
 
-    this.$eventBus.$on("PRODUCTEVENT", function (product) {
+    this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function (product) {
       setProducts(product);
     });
   },
