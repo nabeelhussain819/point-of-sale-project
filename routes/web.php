@@ -22,6 +22,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStoreController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\FinanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -123,6 +124,7 @@ Route::group(['middleware' => ['auth']], function () {
         'deviceType' => DeviceTypeController::class,
         'brand' => BrandController::class,
         'issue-type' => IssueTypeController::class,
+        'finance' => FinanceController::class,
     ]);
 
     Route::group(['prefix' => 'product-management'], function (){

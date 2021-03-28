@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $id
+ * @property integer $customer_id
+ * @property integer $store_id
+ * @property integer $type
+ * @property string $status
+ * @property float $total
+ * @property float $advance
+ * @property float $payable
+ * @property float $duration_period
+ * @property string $duration_period_unit
+ * @property float $duration_due_date
+ * @property string $start_date
+ * @property string $end_date
+ * @property float $installment
+ * @property string $created_at
+ * @property string $updated_at
+ * @property Customer $customer
+ * @property Store $store
+ * @property FinancesSchedule[] $financesSchedules
+ */
+class Finance extends Model
+{
+    /**
+     * The "type" of the auto-incrementing ID.
+     * 
+     * @var string
+     */
+    protected $keyType = 'integer';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['customer_id', 'store_id', 'type', 'status', 'total', 'advance', 'payable', 'duration_period', 'duration_period_unit', 'duration_due_date', 'start_date', 'end_date', 'installment', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function store()
+    {
+        return $this->belongsTo('App\Store');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function financesSchedules()
+    {
+        return $this->hasMany('App\FinancesSchedule');
+    }
+}
