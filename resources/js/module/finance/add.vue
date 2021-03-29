@@ -15,11 +15,12 @@
         @submit="handleSubmit"
       >
         <a-row :gutter="24">
-          <a-col :span="4">
+          <a-col :span="8">
             <a-divider>Customer Detail</a-divider>
             <a-form-item> <customer-lookup /></a-form-item>
           </a-col>
-          <a-col :span="20">
+          <a-col :span="12" :offset="4"> <a-divider>Products Detail</a-divider><add-product /></a-col>
+          <a-col :span="24">
             <a-divider>Finance Detail</a-divider>
             <!-- ------------------- Finance form ----------------------- -->
             <a-col :span="4">
@@ -120,7 +121,13 @@
         </a-row>
 
         <a-divider>Installments</a-divider>
-        <a-row v-for="(installment, key) in installments" :key="key">
+        <a-row v-if="!isEmpty(installments)">
+          <a-col :span="4"><strong>Date of payment</strong></a-col>
+          <a-col :span="4"><strong>Due Date</strong></a-col>
+          <a-col :span="4"><strong>Amount</strong></a-col>
+          <a-col :span="4"><strong>Status</strong></a-col>
+        </a-row>
+        <a-row :gutter="16" v-for="(installment, key) in installments" :key="key">
           <a-col :span="4"
             ><a-date-picker
               v-decorator="[
@@ -184,10 +191,11 @@
 </template>
 <script>
 import CustomerLookup from "../customer/lookup";
+import AddProduct from "../product/add";
 import moment from "moment";
 import { isEmpty } from "../../services/helpers";
 export default {
-  components: { CustomerLookup },
+  components: { CustomerLookup, AddProduct },
   data() {
     this.dateFormat = "YYYY-MM-DD";
     return {
@@ -210,6 +218,7 @@ export default {
       uuid: 0,
       uuidString: "uuid-",
       installments: {},
+      isEmpty,
     };
   },
   methods: {
@@ -240,9 +249,7 @@ export default {
       this.handleInsatalmentsDates(values);
       let startDate = values.start_date.format(this.dateFormat);
       startDate = moment(startDate, this.dateFormat);
-      console.log(
-        moment("2021-04-20", this.dateFormat).add(1, "M").format(this.dateFormat)
-      );
+
       for (let i = 0; i < values.duration_period; i++) {
         let uuid = this.getUid();
         let month = startDate.format(this.dateFormat);
@@ -258,7 +265,6 @@ export default {
             .format(this.dateFormat),
         };
       }
-      console.log("installments", installments);
       this.installments = installments;
     },
     getInstallmentAmount(values) {
