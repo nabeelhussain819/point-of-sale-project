@@ -47,7 +47,6 @@ Route::group(['middleware' => ['auth']], function () {
     })->middleware('changedPassword');
     Route::post('/home',[HomeController::class,'getStoreId'])->name('store.id');
 
-
     Route::group(['prefix' => 'product'], function (){
         Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
         Route::get('/all', [ProductController::class, 'all']);

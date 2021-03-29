@@ -38,7 +38,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <a href="{{route('inventory.create')}}" style="color: #fff;">
+                    <a href="{{route('finance.index')}}" style="color: #fff;">
                         <div class="card shadow-lg bg-white rounded" style="height: 120px; background-image: linear-gradient(87deg, #6da252 0%, #b8d3a9 100%); border-radius: .375rem;">
                             <div class="card-body text-center">
                                 <div class="row">
