@@ -80,8 +80,7 @@ export default {
       calc(products);
       // this.products = products;
     });
-    this.$eventBus.$on(EVENT_CUSTOMERSALE_CUSTOMER_DETAIL, function (customer) {
-      console.log(customer);
+    this.$eventBus.$on(EVENT_CUSTOMERSALE_CUSTOMER_DETAIL, function (customer) {      
       setCustomer(customer);
     });
   },

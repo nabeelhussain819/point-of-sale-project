@@ -8,6 +8,25 @@
       width="98%"
       title="Add Finance"
     >
+      <a-row :gutter="24">
+        <!-- ================ Customer Detail=========== -->
+        <a-col :span="8">
+          <a-divider>Customer Detail</a-divider>
+          <a-form-item> <customer-lookup /></a-form-item>
+        </a-col>
+        <!-- ================ Customer Detail=========== -->
+
+        <!-- ================ Product Detail=========== -->
+        <a-col :span="12" :offset="4">
+          <a-divider class="no-print">Products Detail</a-divider>
+          <span class="no-print"> <add-product /></span>
+          <span v-if="!isEmpty(product)">
+            <a-divider>Selected Products Detail</a-divider
+            ><strong>{{ product.name }} , ${{ product.retail_price }}</strong></span
+          >
+        </a-col>
+        <!-- ================ Product Detail=========== -->
+      </a-row>
       <a-form
         :form="form"
         :label-col="{ span: 24 }"
@@ -15,11 +34,6 @@
         @submit="handleSubmit"
       >
         <a-row :gutter="24">
-          <a-col :span="8">
-            <a-divider>Customer Detail</a-divider>
-            <a-form-item> <customer-lookup /></a-form-item>
-          </a-col>
-          <a-col :span="12" :offset="4"> <a-divider>Products Detail</a-divider><add-product /></a-col>
           <a-col :span="24">
             <a-divider>Finance Detail</a-divider>
             <!-- ------------------- Finance form ----------------------- -->
@@ -112,7 +126,12 @@
               </a-form-item>
             </a-col>
             <a-col :span="2">
-              <a-form-item label="Actions">
+              <a-form-item
+                class="no-print"
+                :validate-status="finalErrors.validateStatus"
+                :help="finalErrors.errorMsg"
+                label="Actions"
+              >
                 <a-button html-type="submit" type="primary">Schedule </a-button>
               </a-form-item>
             </a-col>
@@ -138,7 +157,6 @@
                 },
               ]"
               :default-value="moment(installment.date_of_payment, dateFormat)"
-              disabled
           /></a-col>
           <a-col :span="4"
             ><a-date-picker
@@ -150,14 +168,13 @@
                 },
               ]"
               :default-value="moment(installment.due_date, dateFormat)"
-              disabled
           /></a-col>
           <a-col :span="4">
             <a-input
+              disabled
               type="number"
               :min="1"
               :default-value="installment.amount"
-              disabled
               v-decorator="[
                 `installmentItem[${key}][amount]`,
                 {
@@ -168,7 +185,7 @@
           /></a-col>
           <a-col :span="4">
             <a-select
-              disabled
+              :disabled="!isCreated"
               :default-value="!isCreated ? 1 : installment.status"
               v-decorator="[
                 `installmentItem[${key}][status]`,
@@ -184,7 +201,19 @@
               >
             </a-select></a-col
           >
+          <a-col :span="24"> <br /></a-col> <br />
         </a-row>
+        <a-row v-if="!isEmpty(installments)">
+          <a-form-item
+            class="no-print"
+            :validate-status="finalErrors.validateStatus"
+            :help="finalErrors.errorMsg"
+            label="Actions"
+          >
+            <a-button @click="print" type="default">Print </a-button>
+            <a-button @click="handleInstallments" type="primary">Settle </a-button>
+          </a-form-item></a-row
+        >
       </a-form>
     </a-modal>
   </div>
@@ -194,6 +223,10 @@ import CustomerLookup from "../customer/lookup";
 import AddProduct from "../product/add";
 import moment from "moment";
 import { isEmpty } from "../../services/helpers";
+import {
+  EVENT_CUSTOMERSALE_PRODUCT_ADD,
+  EVENT_CUSTOMERSALE_CUSTOMER_DETAIL,
+} from "../../services/constants";
 export default {
   components: { CustomerLookup, AddProduct },
   data() {
@@ -215,13 +248,35 @@ export default {
       ],
       eachMonthPayable: 0,
       totalErros: {},
+      finalErrors: {},
       uuid: 0,
       uuidString: "uuid-",
       installments: {},
       isEmpty,
+      product: null,
+      customer: null,
     };
   },
+  mounted() {
+    let setProduct = this.setProduct;
+    let setCustomer = this.setCustomer;
+    this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function (product) {
+      setProduct(product);
+    });
+    this.$eventBus.$on(EVENT_CUSTOMERSALE_CUSTOMER_DETAIL, function (customer) {
+      setCustomer(customer);
+    });
+  },
   methods: {
+    setProduct(product) {
+      this.product = product;
+    },
+    setCustomer(customer) {
+      this.customer = customer;
+    },
+    print() {
+      window.print();
+    },
     getUid() {
       this.uuid = this.uuid + 1;
       return this.uuidString + this.uuid;
@@ -230,18 +285,27 @@ export default {
     show(show) {
       this.visible = show;
     },
-    handleSubmit(e) {
+    validated(e, callback) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (this.validation(values)) {
           return false;
         }
+        this.resetValidation();
         if (!err) {
-          this.createInstalments(values);
-
-          // this.isCreated ? this.update(values) : this.save(values);
+          callback(values);
         }
       });
+    },
+    handleInstallments(e) {
+      this.validated(e, this.create);
+    },
+    create(values) {
+      console.log("han bhaikesa dia ", values);
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.validated(e, this.createInstalments);
     },
     createInstalments(values) {
       let instalmentAmount = this.getInstallmentAmount(values);
@@ -285,8 +349,28 @@ export default {
         };
         return true;
       }
+      if (isEmpty(this.product) && isEmpty(this.customer)) {
+        this.finalErrors = {
+          validateStatus: "error",
+          errorMsg: "Customer Or Product not selected",
+        };
+        return true;
+      }
       return false;
+    },
+    resetValidation() {
+      this.totalErros = {};
+      this.finalErrors = {};
     },
   },
 };
 </script>
+
+<style>
+@media print {
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+}
+</style>
