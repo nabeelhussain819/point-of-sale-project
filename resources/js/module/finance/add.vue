@@ -148,7 +148,7 @@
         </a-row>
         <a-row :gutter="16" v-for="(installment, key) in installments" :key="key">
           <a-col :span="4"
-            ><a-date-picker
+            ><a-form-item><a-date-picker
               v-decorator="[
                 `installmentItem[${key}][date_of_payment]`,
                 {
@@ -156,10 +156,10 @@
                   initialValue: moment(installment.date_of_payment, dateFormat),
                 },
               ]"
-              :default-value="moment(installment.date_of_payment, dateFormat)"
-          /></a-col>
+            
+          /></a-form-item></a-col>
           <a-col :span="4"
-            ><a-date-picker
+            ><a-form-item><a-date-picker
               v-decorator="[
                 `installmentItem[${key}][due_date]`,
                 {
@@ -167,14 +167,14 @@
                   initialValue: moment(installment.date_of_payment, dateFormat),
                 },
               ]"
-              :default-value="moment(installment.due_date, dateFormat)"
-          /></a-col>
+           
+          /></a-form-item></a-col>
           <a-col :span="4">
-            <a-input
+           <a-form-item> <a-input
               disabled
               type="number"
               :min="1"
-              :default-value="installment.amount"
+             
               v-decorator="[
                 `installmentItem[${key}][amount]`,
                 {
@@ -182,11 +182,11 @@
                   rules: [{ required: true, message: 'Please insert advance !' }],
                 },
               ]"
-          /></a-col>
+          /></a-form-item></a-col>
           <a-col :span="4">
-            <a-select
+           <a-form-item> <a-select
               :disabled="!isCreated"
-              :default-value="!isCreated ? 1 : installment.status"
+          
               v-decorator="[
                 `installmentItem[${key}][status]`,
                 {
@@ -199,7 +199,7 @@
               <a-select-option v-for="status in installmentStatus" :key="status.id">
                 {{ status.name }}</a-select-option
               >
-            </a-select></a-col
+            </a-select></a-form-item></a-col
           >
           <a-col :span="24"> <br /></a-col> <br />
         </a-row>
