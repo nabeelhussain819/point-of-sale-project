@@ -108,6 +108,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/products', [InventoryController::class, 'products']);
     });
 
+    Route::group(['prefix' => 'finance'], function () {
+        Route::get('/fetch', [FinanceController::class, 'fetch']);
+    });
 
     Route::Resources([
         'users' => UserController::class,

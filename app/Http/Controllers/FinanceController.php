@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ArrayHelper;
 use App\Models\Finance;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 
 class FinanceController extends Controller
@@ -93,5 +94,14 @@ class FinanceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function fetch(Request $request)
+    {
+        return Finance::where($this->applyFilters($request))
+            ->with(['customer' => function (BelongsTo $query) {
+                $query->select(["id", "name", "phone"]);
+            }])
+            ->orderBy('created_at')->paginate();
     }
 }

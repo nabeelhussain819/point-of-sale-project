@@ -6,11 +6,11 @@
       style="padding: 8px"
     >
       <a-input
-        v-ant-ref="c => (searchInput = c)"
+        v-ant-ref="(c) => (searchInput = c)"
         :placeholder="`Search ${column.dataIndex}`"
         :value="selectedKeys[0]"
-        style="width: 188px; margin-bottom: 8px; display: block;"
-        @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+        style="width: 188px; margin-bottom: 8px; display: block"
+        @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
         @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
       />
       <a-button
@@ -56,30 +56,31 @@
 </template>
 
 <script>
+import FinanceService from "../../services/API/FinanceService";
 const data = [
   {
-    key: '1',
-    name: 'John Brown',
+    key: "1",
+    name: "John Brown",
     age: 32,
-    address: 'New York No. 1 Lake Park',
+    address: "New York No. 1 Lake Park",
   },
   {
-    key: '2',
-    name: 'Joe Black',
+    key: "2",
+    name: "Joe Black",
     age: 42,
-    address: 'London No. 1 Lake Park',
+    address: "London No. 1 Lake Park",
   },
   {
-    key: '3',
-    name: 'Jim Green',
+    key: "3",
+    name: "Jim Green",
     age: 32,
-    address: 'Sidney No. 1 Lake Park',
+    address: "Sidney No. 1 Lake Park",
   },
   {
-    key: '4',
-    name: 'Jim Red',
+    key: "4",
+    name: "Jim Red",
     age: 32,
-    address: 'London No. 2 Lake Park',
+    address: "London No. 2 Lake Park",
   },
 ];
 
@@ -87,25 +88,22 @@ export default {
   data() {
     return {
       data,
-      searchText: '',
+      searchText: "",
       searchInput: null,
-      searchedColumn: '',
+      searchedColumn: "",
       columns: [
         {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
+          title: "Name",
+          dataIndex: "name",
+          key: "name",
           scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
           },
           onFilter: (value, record) =>
-            record.name
-              .toString()
-              .toLowerCase()
-              .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
+            record.name.toString().toLowerCase().includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
             if (visible) {
               setTimeout(() => {
                 this.searchInput.focus();
@@ -114,20 +112,17 @@ export default {
           },
         },
         {
-          title: 'Age',
-          dataIndex: 'age',
-          key: 'age',
+          title: "Age",
+          dataIndex: "age",
+          key: "age",
           scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
           },
           onFilter: (value, record) =>
-            record.age
-              .toString()
-              .toLowerCase()
-              .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
+            record.age.toString().toLowerCase().includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
             if (visible) {
               setTimeout(() => {
                 this.searchInput.focus();
@@ -136,20 +131,17 @@ export default {
           },
         },
         {
-          title: 'Address',
-          dataIndex: 'address',
-          key: 'address',
+          title: "Address",
+          dataIndex: "address",
+          key: "address",
           scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
           },
           onFilter: (value, record) =>
-            record.address
-              .toString()
-              .toLowerCase()
-              .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
+            record.address.toString().toLowerCase().includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
             if (visible) {
               setTimeout(() => {
                 this.searchInput.focus();
@@ -168,8 +160,17 @@ export default {
     },
     handleReset(clearFilters) {
       clearFilters();
-      this.searchText = '';
+      this.searchText = "";
     },
+    fetch(params = {}) {
+      FinanceService.all().then((finance) => {
+        this.data =finance.data
+        console.log(finance.data);
+      });
+    },
+  },
+  mounted() {
+    this.fetch();
   },
 };
 </script>

@@ -47,7 +47,7 @@ class Finance extends Model
      */
     public function customer()
     {
-        return $this->belongsTo('App\Customer');
+        return $this->belongsTo('App\Models\Customer');
     }
 
     protected $dates = ['start_date', 'end_date'];

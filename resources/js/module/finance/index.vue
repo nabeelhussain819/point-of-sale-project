@@ -1,7 +1,6 @@
 <template>
-  <a-card title="Finance"  :bordered="false">
+  <a-card title="Finance" :bordered="false">
     <div slot="extra"><add /></div>
-
     <list />
   </a-card>
 </template>
