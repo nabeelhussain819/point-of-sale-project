@@ -60,7 +60,7 @@ export default {
     },
   },
   beforeDestroy() {
-    window.removeEventListener(EVENT_CUSTOMERSALE_PRODUCT_ADD);
+    window.removeEventListener(EVENT_CUSTOMERSALE_PRODUCT_ADD, "asd");
   },
 };
 </script>

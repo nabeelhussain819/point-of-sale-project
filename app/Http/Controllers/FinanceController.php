@@ -34,7 +34,7 @@ class FinanceController extends Controller
      */
     public function store(Request $request)
     {
-        \DB::transaction(function () use ($request) {
+        return \DB::transaction(function () use ($request) {
             $finance = new Finance();
 
             $financeData = ArrayHelper::merge($request->all(), ['type' => 1]);
@@ -45,8 +45,8 @@ class FinanceController extends Controller
             });
             $finance->save();
             $finance->schedules()->sync($installments);
+            return $this->genericResponse(true, " repair has been updated", 200);
         });
-
 
     }
 
