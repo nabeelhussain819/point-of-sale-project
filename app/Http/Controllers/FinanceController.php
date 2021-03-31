@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
+use App\Models\Finance;
 use Illuminate\Http\Request;
 
 class FinanceController extends Controller
@@ -27,14 +29,25 @@ class FinanceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @throws \Throwable
      */
     public function store(Request $request)
     {
-        //
+        return \DB::transaction(function () use ($request) {
+            $finance = new Finance();
+
+            $financeData = ArrayHelper::merge($request->all(), ['type' => 1]);
+            $finance->fill($financeData);
+            $installments = [];
+            collect($request->get('installmentItem'))->each(function ($installment) use (&$installments) {
+                $installments[] = $installment;
+            });
+            $finance->save();
+            $finance->schedules()->sync($installments);
+            return $this->genericResponse(true, " repair has been updated", 200);
+        });
+
     }
 
     /**

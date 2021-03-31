@@ -19,8 +19,8 @@ class CreateFinancesSchedules extends Migration
             $table->date("date_of_payment");
             $table->date("due_date");
             $table->float("amount");
-            $table->float("received_amount");
-            $table->float("received_date");
+            $table->float("received_amount")->nullable();
+            $table->float("received_date")->nullable();
             $table->string("status");
             $table->timestamps();
         });

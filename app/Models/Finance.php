@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Observers\FinanceObserver;
+use App\Scopes\StoreGlobalScope;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,8 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $duration_period
  * @property string $duration_period_unit
  * @property float $duration_due_date
- * @property string $start_date
- * @property string $end_date
+ * @property Carbon $start_date
+ * @property Carbon $end_date
  * @property float $installment
  * @property string $created_at
  * @property string $updated_at
@@ -29,7 +32,7 @@ class Finance extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -47,6 +50,8 @@ class Finance extends Model
         return $this->belongsTo('App\Customer');
     }
 
+    protected $dates = ['start_date', 'end_date'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -61,5 +66,17 @@ class Finance extends Model
     public function financesSchedules()
     {
         return $this->hasMany('App\FinancesSchedule');
+    }
+
+    public function schedules()
+    {
+        return $this->belongsToMany(FinancesSchedules::class, 'finances_schedules', 'finance_id', 'finance_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new StoreGlobalScope());
+        Finance::observe(FinanceObserver::class);
     }
 }

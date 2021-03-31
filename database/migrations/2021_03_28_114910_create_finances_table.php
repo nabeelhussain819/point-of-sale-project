@@ -27,7 +27,6 @@ class CreateFinancesTable extends Migration
             $table->float('duration_due_date')->nullable()->comment("due date of duration");
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->float('installment');
             $table->timestamps();
         });
 

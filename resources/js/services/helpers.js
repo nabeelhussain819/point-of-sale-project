@@ -39,6 +39,14 @@ export const errorNotification = ($this, err) => {
     });
 }
 
+export const notification = ($this, description, message = "success") => {
+    $this.$notification.open({
+        message,
+        description: () => description,
+        placement: "bottomLeft",
+    });
+}
+
 export const objectToArray = (objOfObjs) => {
     return Object.entries(objOfObjs).map(e => e[1]);
 }
