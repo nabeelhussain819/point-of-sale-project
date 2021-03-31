@@ -41,15 +41,15 @@
               <a-form-item label="Type">
                 <a-select
                   v-decorator="[
-                    `status`,
+                    `type`,
                     {
                       rules: [{ required: true, message: 'Please insert status!' }],
                     },
                   ]"
                   placeholder="Select a option and change input text above"
                 >
-                  <a-select-option v-for="status in statuses" :key="status.id">
-                    {{ status.name }}</a-select-option
+                  <a-select-option v-for="type in types" :key="type.id">
+                    {{ type.name }}</a-select-option
                   >
                 </a-select>
               </a-form-item>
@@ -148,58 +148,59 @@
         </a-row>
         <a-row :gutter="16" v-for="(installment, key) in installments" :key="key">
           <a-col :span="4"
-            ><a-form-item><a-date-picker
-              v-decorator="[
-                `installmentItem[${key}][date_of_payment]`,
-                {
-                  rules: [],
-                  initialValue: moment(installment.date_of_payment, dateFormat),
-                },
-              ]"
-            
-          /></a-form-item></a-col>
+            ><a-form-item
+              ><a-date-picker
+                v-decorator="[
+                  `installmentItem[${key}][date_of_payment]`,
+                  {
+                    rules: [],
+                    initialValue: moment(installment.date_of_payment, dateFormat),
+                  },
+                ]" /></a-form-item
+          ></a-col>
           <a-col :span="4"
-            ><a-form-item><a-date-picker
-              v-decorator="[
-                `installmentItem[${key}][due_date]`,
-                {
-                  rules: [],
-                  initialValue: moment(installment.date_of_payment, dateFormat),
-                },
-              ]"
-           
-          /></a-form-item></a-col>
+            ><a-form-item
+              ><a-date-picker
+                v-decorator="[
+                  `installmentItem[${key}][due_date]`,
+                  {
+                    rules: [],
+                    initialValue: moment(installment.date_of_payment, dateFormat),
+                  },
+                ]" /></a-form-item
+          ></a-col>
           <a-col :span="4">
-           <a-form-item> <a-input
-              disabled
-              type="number"
-              :min="1"
-             
-              v-decorator="[
-                `installmentItem[${key}][amount]`,
-                {
-                  initialValue: installment.amount,
-                  rules: [{ required: true, message: 'Please insert advance !' }],
-                },
-              ]"
-          /></a-form-item></a-col>
+            <a-form-item>
+              <a-input
+                disabled
+                type="number"
+                :min="1"
+                v-decorator="[
+                  `installmentItem[${key}][amount]`,
+                  {
+                    initialValue: installment.amount,
+                    rules: [{ required: true, message: 'Please insert advance !' }],
+                  },
+                ]" /></a-form-item
+          ></a-col>
           <a-col :span="4">
-           <a-form-item> <a-select
-              :disabled="!isCreated"
-          
-              v-decorator="[
-                `installmentItem[${key}][status]`,
-                {
-                  initialValue: !isCreated ? 1 : installment.status,
-                  rules: [{ required: true, message: 'Please insert status!' }],
-                },
-              ]"
-              placeholder="Select a option and change input text above"
-            >
-              <a-select-option v-for="status in installmentStatus" :key="status.id">
-                {{ status.name }}</a-select-option
+            <a-form-item>
+              <a-select
+                :disabled="!isCreated"
+                v-decorator="[
+                  `installmentItem[${key}][status]`,
+                  {
+                    initialValue: !isCreated ? 1 : installment.status,
+                    rules: [{ required: true, message: 'Please insert status!' }],
+                  },
+                ]"
+                placeholder="Select a option and change input text above"
               >
-            </a-select></a-form-item></a-col
+                <a-select-option v-for="status in installmentStatus" :key="status.id">
+                  {{ status.name }}</a-select-option
+                >
+              </a-select></a-form-item
+            ></a-col
           >
           <a-col :span="24"> <br /></a-col> <br />
         </a-row>
@@ -223,9 +224,12 @@ import CustomerLookup from "../customer/lookup";
 import AddProduct from "../product/add";
 import moment from "moment";
 import { isEmpty } from "../../services/helpers";
+import FinanceService from "../../services/API/FinanceService";
 import {
   EVENT_CUSTOMERSALE_PRODUCT_ADD,
   EVENT_CUSTOMERSALE_CUSTOMER_DETAIL,
+  FINANCE_TYPE,
+  FINANCE_INSTALLMENT_STATUS,
 } from "../../services/constants";
 export default {
   components: { CustomerLookup, AddProduct },
@@ -236,16 +240,8 @@ export default {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "addFinance" }),
       isCreated: false,
-      statuses: [
-        { id: 1, name: "Layaway" },
-        { id: 2, name: "In Store Finance" },
-      ],
-      installmentStatus: [
-        { id: 1, name: "Pending" },
-        { id: 2, name: "Payment Due" },
-        { id: 3, name: "Completed" },
-        { id: 4, name: "Cancelled/ Void" },
-      ],
+      types: FINANCE_TYPE,
+      installmentStatus: FINANCE_INSTALLMENT_STATUS,
       eachMonthPayable: 0,
       totalErros: {},
       finalErrors: {},
@@ -301,6 +297,13 @@ export default {
       this.validated(e, this.create);
     },
     create(values) {
+      FinanceService.create({
+        ...values,
+        product_id: this.product.id,
+        customer_id: this.customer.id,
+      }).then((response) => {
+        console.log(response);
+      });
       console.log("han bhaikesa dia ", values);
     },
     handleSubmit(e) {
