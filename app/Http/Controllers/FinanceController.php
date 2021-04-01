@@ -101,6 +101,8 @@ class FinanceController extends Controller
         return Finance::where($this->applyFilters($request))
             ->with(['customer' => function (BelongsTo $query) {
                 $query->select(["id", "name", "phone"]);
+            }, 'product' => function (BelongsTo $query) {
+                $query->select(["id", "name"]);
             }])
             ->orderBy('created_at')->paginate();
     }

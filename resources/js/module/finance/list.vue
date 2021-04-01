@@ -1,5 +1,5 @@
 <template>
-  <a-table :data-source="data" :columns="columns">
+  <a-table :data-source="data" :loading="loading" :columns="columns">
     <div
       slot="filterDropdown"
       slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -52,50 +52,29 @@
         {{ text }}
       </template>
     </template>
+
+    <span slot="action" slot-scope="text, record">
+      <a-button v-on:click="showModal(record)" type="link">delete</a-button>
+    </span>
   </a-table>
 </template>
 
 <script>
 import FinanceService from "../../services/API/FinanceService";
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Joe Black",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Jim Green",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-];
+import { EVENT_FINANCE_ADD_RECORD } from "../../services/constants";
 
 export default {
   data() {
     return {
-      data,
+      data: [],
       searchText: "",
       searchInput: null,
       searchedColumn: "",
       columns: [
         {
           title: "Name",
-          dataIndex: "name",
-          key: "name",
+          dataIndex: "customer.name",
+          key: "customer.name",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
@@ -112,9 +91,9 @@ export default {
           },
         },
         {
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
+          title: "customer Number",
+          dataIndex: "customer.phone",
+          key: "customer.phone",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
@@ -131,8 +110,8 @@ export default {
           },
         },
         {
-          title: "Address",
-          dataIndex: "address",
+          title: "Product",
+          dataIndex: "product.name",
           key: "address",
           scopedSlots: {
             filterDropdown: "filterDropdown",
@@ -149,10 +128,62 @@ export default {
             }
           },
         },
+        {
+          title: "Next Payment",
+          dataIndex: "nextPayment",
+          key: "nextPayment",
+        },
+        {
+          title: "Status",
+          dataIndex: "status",
+          key: "status",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
+          },
+          onFilter: (value, record) =>
+            record.address.toString().toLowerCase().includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: "Type",
+          dataIndex: "type",
+          key: "type",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
+          },
+          onFilter: (value, record) =>
+            record.address.toString().toLowerCase().includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: "action",
+          key: "action",
+          scopedSlots: { customRender: "action" },
+        },
       ],
+      loading: false,
     };
   },
   methods: {
+    showModal(id) {
+      console.log(id);
+    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
@@ -163,13 +194,21 @@ export default {
       this.searchText = "";
     },
     fetch(params = {}) {
-      FinanceService.all().then((finance) => {
-        this.data =finance.data
-        console.log(finance.data);
-      });
+      this.loading = true;
+      FinanceService.all()
+        .then((finance) => {
+          this.data = finance.data;
+        })
+        .finally(() => (this.loading = false));
     },
   },
   mounted() {
+    let fetch = this.fetch;
+    this.$eventBus.$on(EVENT_FINANCE_ADD_RECORD, function (product) {
+      if (product) {
+        fetch();
+      }
+    });
     this.fetch();
   },
 };

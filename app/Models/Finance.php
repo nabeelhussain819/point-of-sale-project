@@ -40,7 +40,7 @@ class Finance extends Model
     /**
      * @var array
      */
-    protected $fillable = ['customer_id', 'store_id', 'type', 'status', 'total', 'advance', 'payable', 'duration_period', 'duration_period_unit', 'duration_due_date', 'start_date', 'end_date', 'installment', 'created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'store_id', 'product_id', 'type', 'status', 'total', 'advance', 'payable', 'duration_period', 'duration_period_unit', 'duration_due_date', 'start_date', 'end_date', 'installment', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -48,6 +48,14 @@ class Finance extends Model
     public function customer()
     {
         return $this->belongsTo('App\Models\Customer');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo('App\Models\product');
     }
 
     protected $dates = ['start_date', 'end_date'];

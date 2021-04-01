@@ -17,6 +17,7 @@ class CreateFinancesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('product_id');
             $table->tinyInteger('type')->comment("Layaway or InStore");
             $table->string("status")->default("PENDING");
             $table->float('total');
@@ -37,6 +38,10 @@ class CreateFinancesTable extends Migration
                 ->cascadeOnDelete();
             $table->foreign('store_id')
                 ->references('id')->on('stores')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreign('product_id')
+                ->references('id')->on('products')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
         });
