@@ -54,14 +54,17 @@
     </template>
 
     <span slot="action" slot-scope="text, record">
-      <a-button v-on:click="showModal(record)" type="link">delete</a-button>
+      <a-button v-on:click="showModal(record)" type="link">edit</a-button>
     </span>
   </a-table>
 </template>
 
 <script>
 import FinanceService from "../../services/API/FinanceService";
-import { EVENT_FINANCE_ADD_RECORD } from "../../services/constants";
+import {
+  EVENT_FINANCE_ADD_RECORD,
+  EVENT_FINANCE_SHOWING_EDIT_MODAL,
+} from "../../services/constants";
 
 export default {
   data() {
@@ -181,8 +184,8 @@ export default {
     };
   },
   methods: {
-    showModal(id) {
-      console.log(id);
+    showModal(finance) {
+      this.$eventBus.$emit(EVENT_FINANCE_SHOWING_EDIT_MODAL, finance);
     },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
@@ -213,9 +216,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.highlight {
-  background-color: rgb(255, 192, 105);
-  padding: 0px;
-}
-</style>

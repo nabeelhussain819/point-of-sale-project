@@ -18,6 +18,12 @@ function create(data) {
     });
 }
 
+function get(id) {
+    return request({
+        url: `${baseUrl}/${id}`,
+    });
+}
+
 function update(id, data) {
     return request({
         url: `${baseUrl}/${id}`,
@@ -40,7 +46,7 @@ function statuses(params = {}) {
 }
 
 const FinanceService = {
-    all, create, update, show, statuses ,update
+    all, create, update, show, statuses, update, get
 };
 
 export default FinanceService

@@ -6,6 +6,8 @@ use App\Observers\FinanceObserver;
 use App\Scopes\StoreGlobalScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\FinancesSchedules;
 
 /**
  * @property integer $id
@@ -81,10 +83,37 @@ class Finance extends Model
         return $this->belongsToMany(FinancesSchedules::class, 'finances_schedules', 'finance_id', 'finance_id');
     }
 
+    public function releatedSchedules()
+    {
+        return $this->hasMany(FinancesSchedules::class);
+    }
+
     public static function boot()
     {
         parent::boot();
         static::addGlobalScope(new StoreGlobalScope());
         Finance::observe(FinanceObserver::class);
+    }
+
+    public function withCustomer()
+    {
+        $this->load(['customer' => function (BelongsTo $query) {
+            $query->select(["id", "name", "phone"]);
+        }]);
+        return $this;
+    }
+
+    public function withProduct()
+    {
+        $this->load(['product' => function (BelongsTo $query) {
+            $query->select(["id", "name"]);
+        }]);
+        return $this;
+    }
+
+    public function withSchedules()
+    {
+        $this->load('releatedSchedules');
+        return $this;
     }
 }
