@@ -9,7 +9,7 @@
       title="Add Finance"
       :destroyOnClose="true"
     >
-      <formFields :finance="finance" @onClose="show" />
+      <formFields :finance="finance" :isCreated="isCreated" @onClose="show" />
     </a-modal>
   </div>
 </template>
@@ -21,15 +21,22 @@ export default {
   data() {
     return {
       visible: false,
-      finance: null,
+      finance: {},
+      isCreated: false,
     };
   },
   methods: {
     show(show) {
       this.visible = show;
+
+      if (!show) {
+        this.isCreated = false;
+        this.finance = {};
+      }
     },
     setFinance(finance) {
       this.finance = finance;
+      this.isCreated = true;
     },
   },
   mounted() {

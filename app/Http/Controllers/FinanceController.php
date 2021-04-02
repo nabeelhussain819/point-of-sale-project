@@ -106,6 +106,7 @@ class FinanceController extends Controller
             }, 'product' => function (BelongsTo $query) {
                 $query->select(["id", "name"]);
             }])
-            ->orderBy('created_at')->paginate();
+            ->orderBy('created_at','desc')
+            ->paginate();
     }
 }
