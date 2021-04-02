@@ -31,6 +31,7 @@ class FinancesSchedules extends Model
      */
     protected $fillable = ['finance_id', 'date_of_payment', 'due_date', 'amount', 'received_amount', 'received_date', 'status', 'created_at', 'updated_at'];
 
+    protected $dates = ['due_date', 'received_date', 'date_of_payment'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

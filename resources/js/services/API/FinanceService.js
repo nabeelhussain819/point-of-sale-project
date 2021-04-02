@@ -45,8 +45,17 @@ function statuses(params = {}) {
     });
 }
 
+function updateInstallment(id, data) {
+    return request({
+        url: `${baseUrl}/installment/${id}`,
+        method: 'PATCH',
+        data
+    });
+}
+
+
 const FinanceService = {
-    all, create, update, show, statuses, update, get
+    all, create, update, show, statuses, update, get, updateInstallment
 };
 
 export default FinanceService

@@ -109,4 +109,12 @@ class FinanceController extends Controller
             ->orderBy('created_at','desc')
             ->paginate();
     }
+
+    public function installment(Request $request, Finance $finance)
+    {
+        $instalment = $finance->releatedSchedules->where('id', $request->get('id'))->first();
+        $instalment = $instalment->fill($request->all());
+        $instalment->update();
+        return $finance;
+    }
 }

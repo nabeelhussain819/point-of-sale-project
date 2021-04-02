@@ -6,6 +6,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeviceTypeController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\IssueTypeController;
@@ -22,7 +23,6 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStoreController;
 use App\Http\Controllers\VendorController;
-use App\Http\Controllers\FinanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -110,6 +110,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'finance'], function () {
         Route::get('/fetch', [FinanceController::class, 'fetch']);
+        Route::patch('/installment/{finance}', [FinanceController::class, 'installment']);
     });
 
     Route::Resources([
