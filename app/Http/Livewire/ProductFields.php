@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\ArrayHelper;
-use App\Models\Inventory;
 use App\Models\Product;
 use Livewire\Component;
 
@@ -36,16 +35,23 @@ class ProductFields extends Component
         ArrayHelper::push($this->inputs, $this->i);
     }
 
+    public function lookUp($key)
+    {
+        $this->products[$key]['product_id'] = $this->products[$key]['lookup'];
+        $this->setPrice($key);
+    }
+
     public function store()
     {
-        dd("ad");
+
     }
 
     public function setPrice($i)
     {
-        $product = Product::getPrice($this->products[$i]['id']);
+        $product = Product::getPrice($this->products[$i]['product_id']);
 
         $this->products[$i]['price'] = $product;
+        $this->products[$i]['quantity'] = 1;
         $this->productPrices[$i] = 0;
         $this->setQuantity($i);
     }
@@ -53,6 +59,7 @@ class ProductFields extends Component
     public function quantity($i)
     {
         $this->setQuantity($i);
+
     }
 
     private function setQuantity($i)

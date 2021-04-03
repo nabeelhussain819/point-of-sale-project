@@ -15,7 +15,7 @@
 
             <tr id="product0">
                 <td>
-                    <input type="text" class="form-control"
+                    <input wire:blur="lookUp({{$key}})"  wire:model="products.{{$key}}.lookup" type="text" class="form-control"
                            placeholder="Enter Lookup"/>
                 </td>
                 <td>
@@ -23,7 +23,7 @@
                         <div class="row">
                             {{--@todo optimize quqery do not repeat --}}
                             <select wire:change="setPrice({{$key}})" class="form-control"
-                                    wire:model="products.{{$key}}.id"
+                                    wire:model="products.{{$key}}.product_id"
                                     name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>
                                 @foreach(\App\Models\Product::all() as $item)

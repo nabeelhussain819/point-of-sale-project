@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->uuid('guid');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('UPC')->nullable();
+            $table->string('UPC')->unique();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->float('cost',36);
