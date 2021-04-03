@@ -84,9 +84,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Has Serial</label>
+                        <label for="checkbox">Has Serial</label>
                         {{--@todo Armash please handle the checkbox--}}
-                        <input id="checkbox" type="checkbox" name="has_serial_number" {{$product->has_serial_number == 1 ? 'checked' : ''}}>
+                        <input type="hidden" name="has_serial_number" value="0">
+                        <input type="checkbox" name="has_serial_number" {{$product->has_serial_number == 1 ? 'checked' : ''}}>
+
+                        {{--<input id="checkbox" type="checkbox" name="has_serial_number" {{$product->has_serial_number == 1 ? 'checked' : ''}}>--}}
                     </div>
                     <button type="submit" class="btn btn-primary float-right">Submit</button>
                 </div>

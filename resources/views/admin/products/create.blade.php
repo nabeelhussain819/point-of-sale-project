@@ -85,7 +85,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Has Serial</label>
-                                <input id="" type="checkbox" name="has_serial_number" value="">
+                                <input id="" type="checkbox" name="has_serial_number" >
                             </div>
 
                         </div>
