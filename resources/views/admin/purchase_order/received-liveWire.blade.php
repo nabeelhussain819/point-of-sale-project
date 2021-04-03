@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Received Purchase Order')
+@section('title','Received Transfer')
 
 @section('content')
 
@@ -25,8 +25,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>Purchase Order Received</b>
                     </div>
-                    @livewire('purchase-order.received')
-                </div>
+                    @livewire('purchase-order.received', ['vendors'=>$vendors])
+               </div>
             </div>
         </div>
     </div>
