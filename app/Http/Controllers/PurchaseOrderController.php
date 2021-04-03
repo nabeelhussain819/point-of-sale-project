@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductSerialNumbers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
-use App\Models\Vendor;
-use App\Models\ProductSerialNumbers;
 use App\Models\Store;
+use App\Models\Vendor;
 use App\Observers\PurchaseOrderObserver;
 use Carbon\Carbon;
 use DB;
@@ -151,21 +151,24 @@ class PurchaseOrderController extends Controller
         return view('admin.purchase_order.received', ['purchaseOrder' => $purchaseOrder]);
     }
 
+    /**
+     * @param Request $request
+     * @param PurchaseOrder $purchaseOrder
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function received(Request $request, PurchaseOrder $purchaseOrder)
     {
         $aRequestParams = $request->input('product_serial');
 
-     // dd($purchaseOrder);
-     //    dd($request);
-     //    die("her");
         DB::transaction(function () use ($aRequestParams, $purchaseOrder) {
             if(is_null($purchaseOrder->received_date)){
                 $this->storeSerialNo($aRequestParams);
                 $purchaseOrder->isReceiving = true;
                 $purchaseOrder->update(['received_date' => Carbon::now()]);
             }
-
         });
+
         return redirect()->back()->with('success', 'Purchase Order received');
     }
 

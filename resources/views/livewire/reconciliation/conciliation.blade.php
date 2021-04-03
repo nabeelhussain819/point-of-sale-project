@@ -64,45 +64,45 @@
                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
 
                   <li class="nav-item">
-                     
+
                     <a class="nav-link active" id="custom-tabs-one-overstock-tab" data-toggle="pill" href="#custom-tabs-one-overstock" role="tab" aria-controls="custom-tabs-one-overstock" aria-selected="true">Overstock</a>
 
                 </li>
                 <li class="nav-item" >
-                    <a class="nav-link" id="custom-tabs-one-deficit-tab" data-toggle="pill" href="#custom-tabs-one-deficit" role="tab" aria-controls="custom-tabs-one-deficit" aria-selected="false">Deficit</a>    
+                    <a class="nav-link" id="custom-tabs-one-deficit-tab" data-toggle="pill" href="#custom-tabs-one-deficit" role="tab" aria-controls="custom-tabs-one-deficit" aria-selected="false">Deficit</a>
 
                 </li>
 
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-matched-tab" data-toggle="pill" href="#custom-tabs-one-matched" role="tab" aria-controls="custom-tabs-one-matched" aria-selected="false">Matched</a>
- 
+
                   </li>
-                   
+
                 </ul>
               </div>
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-one-tabContent">
                   <div class="tab-pane fade show active" id="custom-tabs-one-overstock" role="tabpanel" aria-labelledby="custom-tabs-one-overstock-tab" data-name="overstocks">
-                     @if($overstock) 
+                     @if($overstock)
                         {!! $overstock !!}
-                    @else 
-                        No OverStock Record Found 
+                    @else
+                        No OverStock Record Found
                     @endif
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-one-deficit" role="tabpanel" aria-labelledby="custom-tabs-one-deficit-tab" data-name="deficit">
-                     @if($deficit)  
+                     @if($deficit)
                         {!! $deficit !!}
-                    @else 
-                        No Deficit Record Found 
+                    @else
+                        No Deficit Record Found
                     @endif
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-one-matched" role="tabpanel" aria-labelledby="custom-tabs-one-matched-tab" >
-                    @if($matched) 
+                    @if($matched)
                         {!! $matched !!}
-                    @else 
-                        No Record Found 
+                    @else
+                        No Record Found
                     @endif
-                  </div> 
+                  </div>
                 </div>
               </div>
               <!-- /.card -->
@@ -116,8 +116,8 @@
 
 </div>
  <style type="text/css">
-    .card-primary:not(.card-outline)>.card-header{
-        background-color: #3d3f71 !important;
+     .card-primary:not(.card-outline)>.card-header{
+        background-color: #3d3f71;
     }
  </style>
 @section('js')
