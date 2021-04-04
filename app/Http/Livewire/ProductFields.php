@@ -30,8 +30,6 @@ class ProductFields extends Component
     {
         if (!empty($purchaseOrder->products->first())) {
             $this->isCreated = true;
-
-
             $purchaseOrder->products->each(function (PurchaseOrdersProduct $product, $index) {
                 $this->i = $index;
                 $this->products[$index] =
@@ -45,10 +43,9 @@ class ProductFields extends Component
 
                 $this->i = $index + 1;
                 ArrayHelper::push($this->inputs, $this->i);
-
             });
         }
-        // dd($this->inputs);
+
         $this->productDropDown = Product::all();
     }
 
@@ -91,7 +88,6 @@ class ProductFields extends Component
     public function quantity($i)
     {
         $this->setQuantity($i);
-
     }
 
     private function setQuantity($i)

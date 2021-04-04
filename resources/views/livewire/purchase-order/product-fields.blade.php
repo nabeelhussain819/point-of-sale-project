@@ -63,9 +63,11 @@
         @endforeach
     </table>
     <div class="row">
+        @if(!$isCreated)
         <div class="col-md-12">
-            <button class="btn text-white btn-info " {{$isCreated ?'disabled': ''}} wire:click.prevent="add({{$i}})"><i class="fa fa-plus"></i></button>
+            <button class="btn text-white btn-info "  wire:click.prevent="add({{$i}})"><i class="fa fa-plus"></i></button>
             <button id='delete_row' class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
         </div>
+       @endif
     </div>
 </div>
