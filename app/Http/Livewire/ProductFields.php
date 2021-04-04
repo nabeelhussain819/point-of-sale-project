@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Helpers\ArrayHelper;
 use App\Models\Product;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrdersProduct;
 use Livewire\Component;
 
 class ProductFields extends Component
@@ -14,15 +16,40 @@ class ProductFields extends Component
     public $productPrices = [];
     public $quantity = [];
     public $lookup;
+    public $productDropDown;
+    public $isCreated = false;
+
 
     public function render()
     {
         return view('livewire.purchase-order.product-fields');
     }
 
-    public function mount()
-    {
 
+    public function mount(PurchaseOrder $purchaseOrder)
+    {
+        if (!empty($purchaseOrder->products->first())) {
+            $this->isCreated = true;
+
+
+            $purchaseOrder->products->each(function (PurchaseOrdersProduct $product, $index) {
+                $this->i = $index;
+                $this->products[$index] =
+                    [
+                        'price' => $product->price,
+                        'product_id' => $product->product_id,
+                        'quantity' => $product->quantity,
+                        'lookup' => $product->product_id,
+                    ];
+                $this->setQuantity($index);
+
+                $this->i = $index + 1;
+                ArrayHelper::push($this->inputs, $this->i);
+
+            });
+        }
+        // dd($this->inputs);
+        $this->productDropDown = Product::all();
     }
 
     public function add($i)
@@ -30,7 +57,7 @@ class ProductFields extends Component
         $this->productPrices[$i] = 0;
         $this->quantity[$i] = 0;
         $this->products[$i] = 0;
-        $this->products[$i] = ['price' => 0];
+        $this->products[$i] = ['price' => 0,'lookUp'=>null];
         $this->i = $i + 1;
         ArrayHelper::push($this->inputs, $this->i);
     }
@@ -42,6 +69,11 @@ class ProductFields extends Component
     }
 
     public function store()
+    {
+
+    }
+
+    private function settingProducts(int $index, Product $product)
     {
 
     }

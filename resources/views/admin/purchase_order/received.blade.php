@@ -25,7 +25,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>Purchase Order Received</b>
                     </div>
-                    @livewire('purchase-order.received')
+                    @livewire('purchase-order.received',["purchaseOrder"=>$purchaseOrder])
                 </div>
             </div>
         </div>

@@ -1,3 +1,4 @@
 <div>
-    {{-- The best athlete wants his opponent at his best. --}}
+    @livewire('product-fields',["purchaseOrder"=>$purchaseOrder])
+
 </div>
