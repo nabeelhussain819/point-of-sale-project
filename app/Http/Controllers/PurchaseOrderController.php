@@ -161,15 +161,9 @@ class PurchaseOrderController extends Controller
     {
         $aRequestParams = $request->input('product_serial');
 
-        DB::transaction(function () use ($aRequestParams, $purchaseOrder) {
-            if(is_null($purchaseOrder->received_date)){
-                $this->storeSerialNo($aRequestParams);
-                $purchaseOrder->isReceiving = true;
-                $purchaseOrder->update(['received_date' => Carbon::now()]);
-            }
-        });
 
-        return redirect()->back()->with('success', 'Purchase Order received');
+        return redirect()->route('purchaseOrder.show-associate-product-serial', $purchaseOrder->id);
+//        return redirect()->back()->with('success', 'Purchase Order received');
     }
 
     public function storeSerialNo($aRequestParams){
@@ -186,4 +180,64 @@ class PurchaseOrderController extends Controller
             return ProductSerialNumbers::insert($aData);
         }
     }
+
+    /**
+     * @param PurchaseOrder $purchaseOrder
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
+    public function showAssociateProductSerial(PurchaseOrder $purchaseOrder)
+    {
+        $products = $purchaseOrder->products->filter(function (PurchaseOrdersProduct $product) {
+            return $product->product->has_serial_number;
+        });
+
+        // if purchase order has
+        if ($products->count() > 0) {
+            return view('admin.purchase_order.associate-serial-product', ['purchaseOrder' => $purchaseOrder,
+                'pOProducts' => $products]);
+        }
+
+        DB::transaction(function () use ($purchaseOrder) {
+            if (is_null($purchaseOrder->received_date)) {
+                $purchaseOrder->isReceiving = true;
+                $purchaseOrder->update(['received_date' => Carbon::now()]);
+            }
+        });
+
+        return redirect()->route('purchase-order.index')->with('success', 'Purchase Order received');
+    }
+
+    /**
+     * @param Request $request
+     * @param PurchaseOrder $purchaseOrder
+     * @throws \Throwable
+     */
+    public function associateProductSerial(Request $request, PurchaseOrder $purchaseOrder)
+    {
+        $products = [];
+        collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $purchaseOrder) {
+
+            collect($productSerials)->each(function ($serial) use (&$products, $productId, $purchaseOrder) {
+                $products[] = [
+                    'product_id' => $productId,
+                    'store_id' => $purchaseOrder->store_id,
+                    'serial_no' => $serial,
+                    'purchase_order_id' => $purchaseOrder->id,
+                ];
+            });
+        });
+
+        return DB::transaction(function () use ($purchaseOrder, $products) {
+            if (is_null($purchaseOrder->received_date)) {
+                $purchaseOrder->isReceiving = true;
+                $purchaseOrder->update(['received_date' => Carbon::now()]);
+                $purchaseOrder->save();
+                $purchaseOrder->productSerialNumbers()->sync($products);
+            }
+            return redirect()->route('purchase-order.index')->with('success', 'Purchase Order received');
+        });
+
+    }
+
 }

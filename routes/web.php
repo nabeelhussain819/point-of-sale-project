@@ -103,6 +103,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])
             ->name('purchaseOrder.received-done');
 
+        Route::get('/associate-product-serial/{purchaseOrder}', [PurchaseOrderController::class, 'showAssociateProductSerial'])
+            ->name('purchaseOrder.show-associate-product-serial');
+
+        Route::Post('/associate-product-serial/{purchaseOrder}', [PurchaseOrderController::class, 'associateProductSerial'])
+            ->name('purchaseOrder.associate-product-serial');
     });
 
     Route::group(['prefix' => 'inventory'], function () {

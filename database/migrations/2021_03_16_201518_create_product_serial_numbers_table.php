@@ -17,7 +17,7 @@ class CreateProductSerialNumbersTable extends Migration
             $table->id()->autoIncrement()->unsigned();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('store_id');
-            $table->longText('serial_no')->nullable();
+            $table->text('serial_no')->unique();
             $table->longText('imei_no')->nullable();
             $table->tinyInteger('is_sold')->default("0")->comment("0 => unsold, 1 => sold");
             $table->timestamps();

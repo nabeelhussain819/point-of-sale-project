@@ -22,7 +22,7 @@
                 Your order has been received
             </div>
         @endif
-        <button class="btn btn-success" type="submit">submit</button>
+
     </form>
 
 </div>

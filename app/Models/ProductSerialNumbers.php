@@ -11,6 +11,6 @@ class ProductSerialNumbers extends Model
      /**
      * @var array
      */
-    protected $fillable = ['store_id', 'product_id', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at'];
+    protected $fillable = ['store_id', 'product_id', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at', 'purchase_order_id', 'stock_transfer_id'];
 
 }

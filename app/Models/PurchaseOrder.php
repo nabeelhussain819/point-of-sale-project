@@ -72,4 +72,10 @@ class PurchaseOrder extends Model
 
         PurchaseOrder::observe(PurchaseOrderObserver::class);
     }
+
+    public function productSerialNumbers()
+    {
+        return $this->belongsToMany(ProductSerialNumbers::class, 'product_serial_numbers', 'purchase_order_id', 'purchase_order_id');
+    }
+
 }
