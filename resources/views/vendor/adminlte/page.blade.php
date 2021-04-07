@@ -52,6 +52,9 @@
 
             {{-- Main Content --}}
             <div id="app" class="content">
+                <div class="p-2">
+                    <a href="{{ url()->previous() }}" class="btn btn-info"><i class="fas fa-arrow-left"></i> Back</a>
+                </div>
                 <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
                     @yield('content')
                 </div>
