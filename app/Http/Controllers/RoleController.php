@@ -64,12 +64,9 @@ class RoleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(\App\Models\Role $role)
     {
-        //
-        return view('admin.roles.edit', ['role' => Role::find($id), 'rolePermissions' => Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
-            ->where("role_has_permissions.role_id", $id)
-            ->get()]);
+        return view('admin.roles.edit', ['role' => $role]);
     }
 
     /**
@@ -79,16 +76,17 @@ class RoleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
         //
         $request->validate([
             'name' => 'required',
             'permission' => 'required'
         ]);
-        $role = Role::find($id)->update(['name' => $request->name]);
+
+        $role->update(['name' => $request->name]);
         $role->syncPermissions($request->get('permission'));
-        return redirect('admin/roles')->with('success', 'Role Updated');
+        return redirect()->back()->with('success', 'Role Updated');
 
     }
 
