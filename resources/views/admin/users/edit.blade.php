@@ -132,13 +132,13 @@
                     <form action="{{route('addroletouser')}}" method="POST">
                         @csrf
                         <div class="form-group" style="display: inline">
-                                {{-- <select name="role_id" class="form-control">
-                                    <option value="">Please Select Role</option> --}}
+                       {{--//@todo optimize--}}
                                     @foreach(\Spatie\Permission\Models\Role::where('id','!=',1)->get() as $item)
-                                    <label>
-                                        {{$item->name}}
-                                    </label>
-                                    <input value="{{$item->id}}" type="checkbox" name="role_id[]" />
+
+                                    <input value="{{$item->id}}" {{ $user->getRolesChecked($item->id) }} type="checkbox" name="role_id[]" />
+                                <label>
+                                    {{$item->name}}
+                                </label>
                                         {{-- <option value="{{$item->id}}" {{$item->id == $user->roles->pluck('id')->first() ? 'selected' : ''}}>{{$item->name}}</option> --}}
                                     @endforeach
                                 {{-- </select> --}}
@@ -147,43 +147,8 @@
                         <button type="submit" class="btn btn-primary float-right" name="assign">Assign</button>
                     </form>
                 </div>
-                <div class="container">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="thead">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $count = 1;
-                                @endphp
-    
-                                @forelse($user->getRoleNames() as $item)
-                                <tr>
-                                    <td>{{$count++}}</td>
-                                    <td>
-                                        {{$item}}
-                                    </td>
-                                    <td>
-                                        <form action="{{route('remove.role')}}" method="POST">
-                                            @csrf
-                                            <input type="hidden" value="{{$user->id}}" name="user_id"/>
-                                            <input type="hidden" value="{{$item}}" name="role" />
-                                            <button type="submit" class="btn btn-danger" name="removeRole"><i class="fa fa-trash"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <p>No Roles assigned.</p>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
+
+
             </div>
     </div>
 </div>

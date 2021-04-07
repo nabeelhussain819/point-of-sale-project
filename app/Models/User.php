@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Models;
+
+use App\Helpers\ArrayHelper;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -20,6 +21,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasRoles, Notifiable;
+
+    private $RolesId;
 
     /**
      * The "type" of the auto-incrementing ID.
@@ -49,5 +52,19 @@ class User extends Authenticatable
     public static function isSuperAdmin()
     {
         return \auth()->user()->hasRole('super-admin');
+    }
+
+    private function getRolesIds(): array
+    {
+        if (empty($this->RolesId)) {
+            $this->RolesId = $this->roles->pluck('id')->toArray();
+        }
+        return $this->RolesId;
+
+    }
+
+    public function getRolesChecked(int $roleId): string
+    {
+        return ArrayHelper::inArray($roleId, $this->getRolesIds()) ? 'checked' : '';
     }
 }

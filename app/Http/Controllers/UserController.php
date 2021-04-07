@@ -104,10 +104,9 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
     public function destroy(User $user)
     {
@@ -116,10 +115,14 @@ class UserController extends Controller
         return redirect('users')->with('success',"$user->name Deleted");
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function assignRole(Request $request)
     {
         $user = User::where('id',$request->input('user_id'))->first();
-        $user->assignRole($request->input('role_id'));
+        $user->syncRoles($request->input('role_id'));
         return redirect()->back()->with('success','Role Assigned ');
     }
 
