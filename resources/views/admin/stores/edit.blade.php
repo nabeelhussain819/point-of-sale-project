@@ -16,7 +16,7 @@
                     @endif
                     <div class="card-title"> <h1>Store Details</h1></div>
                     <button type="button" class="btn btn-primary float-right mt-2" data-toggle="modal" data-target="#exampleModalCenter{{$store->id}}">
-                        Assign Store
+                        Assign User
                     </button>
                     @include('partials.modal',['modalId' => $store->id, 'id' => $store->id,
                     'name' => 'store_id','route' =>'addusertostore' ,'nameO' => $store->name, 'description' => $store->description])
@@ -34,8 +34,22 @@
                             <input type="text" value="{{$store->location}}" class="form-control" name="location" id="exampleInputPassword1" placeholder="Enter Location" required>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Description</label>
-                            <textarea type="text" class="form-control" {{$store->description}} name="description" id="exampleInputPassword1" placeholder="Enter Description" required>{{$store->description}}</textarea>
+                            <label for="exampleInputPassword1">Location</label>
+                            <input type="text"  value="{{$store->location}}" class="form-control" name="location" placeholder="Location" value="{{old('location')}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">City</label>
+                            <input type="text"  value="{{$store->city}}" class="form-control" name="city" placeholder="City"  value="{{old('city')}}"required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">State</label>
+                            <input type="text"  value="{{$store->state}}" class="form-control" name="state" placeholder="State" value="{{old('state')}}" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Primary Phone</label>
+                            <input type="text"  value="{{$store->primary_phone}}" class="form-control" name="primary_phone" value="{{old('primary_phone')}}" placeholder="Primary Phone"/>
                         </div>
                         <div class="form-group ">
                             <label>Status</label>

@@ -225,7 +225,7 @@ return [
     'menu' => [
         [
             'text' => 'Store',
-            'url' => 'home',
+            'url' => 'stores',
             'icon' => 'fas fa-tachometer-alt',
         ],
         [

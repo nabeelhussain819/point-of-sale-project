@@ -27,31 +27,22 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">City</label>
-                                <input type="text" class="form-control" name="city" placeholder="Location"  value="{{old('city')}}"required>
+                                <input type="text" class="form-control" name="city" placeholder="City"  value="{{old('city')}}"required>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">State</label>
-                                <input type="text" class="form-control" name="state" placeholder="Location" value="{{old('state')}}" required>
+                                <input type="text" class="form-control" name="state" placeholder="State" value="{{old('state')}}" required>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Zip</label>
-                                <input type="text" class="form-control" name="zip" placeholder="Location" value="{{old('zip')}}" required>
+                                <input type="text" class="form-control" name="zip" placeholder="Zip" value="{{old('zip')}}" required>
                             </div>
-
-
-                            <div class="form-group">
-                            <label>Timezone</label>
-                            <input type="date" class="form-control" name="timezone" value="{{old('timezone')}}" placeholder="Timezone" required>
-                        </div>
 
                         <div class="form-group">
                             <label>Primary Phone</label>
                             <input type="text" class="form-control" name="primary_phone" value="{{old('primary_phone')}}" placeholder="Primary Phone"/>
                         </div>
-                        <div class="form-group">
-                            <label>Secondary Phone</label>
-                            <input type="text" class="form-control" name="contact_info"  value="{{old('contact_info')}}"  placeholder="Contact Info"/>
-                        </div>
+
                         <div class="form-group">
                             <label>Fax</label>
                             <input type="text" class="form-control" name="fax"  value="{{old('fax')}}" placeholder="Fax"/>
@@ -63,13 +54,7 @@
                                 <option value="1">ACTIVE</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Description</label>
-                            <textarea type="text" class="form-control" name="description" placeholder="Description"
-                                      required>
-                                {{old('description')}}
-                            </textarea>
-                        </div>
+
 
                         <button type="submit" class="btn btn-success float-right font-weight-bold shadow-lg rounded">Add New</button>
                         </form>
