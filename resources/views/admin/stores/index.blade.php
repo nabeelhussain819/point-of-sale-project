@@ -95,7 +95,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         {{--<th scope="col">Location</th>--}}
-                        <th scope="col">Description</th>
+                        {{--<th scope="col">Description</th>--}}
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -109,7 +109,7 @@
                             <td>{{$count++}}</td>
                             <td><a href="{{route('stores.edit',$item->id)}}">{{$item->name}}</a></td>
                             {{--<td>{{$item->location}}</td>--}}
-                            <td>{{$item->description}}</td>
+                            {{--<td>{{$item->description}}</td>--}}
                             <td>
                                 <span class="{!! $item->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span>
                             </td>
