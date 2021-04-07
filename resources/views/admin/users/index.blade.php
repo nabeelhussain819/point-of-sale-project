@@ -52,11 +52,25 @@
                                             class="fa fa-pen mr-1"></i></a>
                             @endif
                             @if(auth()->user()->hasPermissionTo('user-delete'))
-                                <form action="{{ route('users.destroy',$item->user->id) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger ml-1"><i class="fa fa-trash"></i></button>
-                                </form>
+                                <div class="btn-group ">
+                                    <button type="button"
+                                            class="btn btn-danger ml-1"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                                class="fa fa-trash"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right text-center">
+                                        <span>Are You Sure</span>
+                                        <form action="{{ route('users.destroy',$item->user->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button class="btn btn-link" type="submit"> Yes</button>
+                                            <button class="btn btn-link" type="button">No</button>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+
                             @endif
                         </div>
                     </td>

@@ -35,12 +35,7 @@
                                         value="{{ $user->userDetail->pluck('last_name')->first() }}"
                                         placeholder="Enter Last Name" required />
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Full Name</label>
-                                    <input type="name" class="form-control" name="name" id=""
-                                        value="{{ $user->name }}" aria-describedby="emailHelp"
-                                        placeholder="Enter Full Name" required />
-                                </div>
+
                                 <div class="form-group">
                                     <label for="">Phone Number</label>
                                     <input type="name" class="form-control" name="phone" id=""
@@ -192,5 +187,5 @@
             </div>
     </div>
 </div>
-
+</div>
 @endsection

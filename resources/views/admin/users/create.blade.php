@@ -23,11 +23,7 @@
                         <label for="">Last Name</label>
                         <input type="text" class="form-control" value="{{old('last_name')}}" name="last_name" placeholder="Enter Last Name" required/>
                     </div>
-                    <div class="form-group">
-                        <label for="">Full Name</label>
-                        <input type="name" class="form-control" name="name" value="{{old('name')}}" id="" aria-describedby="emailHelp"
-                            placeholder="Enter Full Name" required />
-                    </div>
+
                     <div class="form-group">
                         <label for="">Phone Number</label>
                         <input type="name" class="form-control" name="phone" value="{{old('phone')}}" id="" aria-describedby="emailHelp"
