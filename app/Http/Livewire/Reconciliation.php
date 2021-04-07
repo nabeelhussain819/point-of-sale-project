@@ -27,16 +27,15 @@ class Reconciliation extends Component
         ]);
     }
 
+    public function mount()
+    {
+        $this->store_id = Store::currentId();
+        $this->storeProducts();
+    }
+
     public function submit()
     {
         $this->validate();
-
-        // Execution doesn't reach here if validation fails.
-
-//        Contact::create([
-//            'name' => $this->name,
-//            'email' => $this->email,
-//        ]);
     }
 
     public function add($i)
@@ -44,7 +43,9 @@ class Reconciliation extends Component
         $this->productPrices[$i] = 0;
         $this->quantity[$i] = 0;
         $this->products[$i] = 0;
+        $this->products[$i] = ['lookup' => null];
         $this->i = $i + 1;
+
         ArrayHelper::push($this->inputs, $this->i);
     }
 
@@ -72,18 +73,28 @@ class Reconciliation extends Component
             'name' => $this->name,
             'is_reconciled' => false
         ]);
+        $products = collect($this->products)->map(function ($product) {
+            unset($product['lookup']);
+            return $product;
+        })->all();
+
         $reconciliation->save();
-        $reconciliation->reconciliationProducts()->sync($this->products);
+        $reconciliation->reconciliationProducts()->sync($products);
         $this->resetFields();
         session()->flash('success', 'Physical Quantity counted');
 
     }
 
+    public function lookUp($key)
+    {
+        $this->products[$key]['product_id'] = $this->products[$key]['lookup'];
+    }
+
+
+
     public function resetFields()
     {
-        //IDK yar heelllll thisis
         $this->name = null;
-        $this->store_id = null;
         $this->products = [];
         $this->inputs = [];
         $this->i = 0;

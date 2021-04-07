@@ -6,20 +6,21 @@
       </div>
     @endif
     <div class="form-group">
-      <label for="exampleInputEmail1" class="font-weight-normal">Name</label>
+      <label for="exampleInputEmail1" class="font-weight-normal">Store</label>
+
       <select wire:change="storeProducts" wire:model="store_id" wire:model="selectedStore" class="form-control"
               name="store_id">
         <option value="">Please Select Store</option>
 
         @foreach($stores as $store)
-          <option value="{{$store->id}}">{{$store->name}}</option>
+          <option   value="{{$store->id}}">{{$store->name}}{{$store->id}}</option>
         @endforeach
       </select>
       @error('store_id') <span class="error">{{ $message }}</span> @enderror
     </div>
 
     <div class="form-group">
-      <label for="exampleInputEmail1" class="font-weight-normal">Title</label>
+      <label for="exampleInputEmail1" class="font-weight-normal">Name your Stock count</label>
       <input type="text" class="form-control" wire:model="name" id="exampleInputEmail1" aria-describedby="emailHelp"
              placeholder="Name" required>
       @error('name') <span class="error">{{ $message }}</span> @enderror
@@ -40,6 +41,8 @@
         <tr id="product0">
           <td>
             <input type="text" class="form-control"
+                   wire:blur="lookUp({{$key}})"
+                   wire:model="products.{{$key}}.lookup"
                    placeholder="Enter Lookup"/>
           </td>
           <td>
