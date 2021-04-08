@@ -60,7 +60,7 @@
                             </select>
                         </div>
                         @livewire('stock-transfer-product-field',
-                        ['products'=>$products,'dbProducts'=>$transfer->products])
+                        ['products'=>$products,'stores'=>$stores,'dbProducts'=>$transfer->products])
 
                         <br>
                         <div>

@@ -1,4 +1,44 @@
 <div>
+    <div class="form-group">
+        <label for="">Request #</label>
+        <input type="text" class="form-control" name="request_id"
+               placeholder="Request #" value="{{old('request_id')}}"/>
+    </div>
+
+    <div class="form-group">
+        <label for="">Date</label>
+        <input type="date" class="form-control" name="transfer_date" value="{{old('transfer_date')}}"
+               required
+        />
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="">Store Out</label>
+                <select name="store_out_id" id="" class="form-control" required>
+                    <option value="">Please Select Store Out</option>
+                    @foreach($stores as $item)
+                        <option value="{{$item->id}}" selected>{{$item->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <p class="mt-3 text-center" style="font-size: 2.5rem">========></p>
+        <div class="col">
+            <div class="form-group">
+                <label>Store In</label>
+                <select name="store_in_id" id="" class="form-control" required>
+                    <option value="">Please Select Store In</option>
+                    @foreach($stores as $item)
+                        <option value="{{$item->id}}" selected>{{$item->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+
     <table class="table" id="products_table">
         <thead>
         <tr>

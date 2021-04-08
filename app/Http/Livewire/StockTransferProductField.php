@@ -8,17 +8,17 @@ use Livewire\Component;
 
 class StockTransferProductField extends Component
 {
-    public $products, $formFields = [], $row = 0;
+    public $products, $formFields = [], $row = 0, $stores;
 
     public function render()
     {
         return view('livewire.transfer-stock.stock-transfer-product-field');
     }
 
-    public function mount($products, $dbProducts = null)
+    public function mount($products, $stores, $dbProducts = null)
     {
         $this->products = $products;
-
+        $this->stores = $stores;
         if (!empty($dbProducts)) {
             $this->formFields = collect($dbProducts)->map(function (StockTransferProduct $product) {
                 return $product->getAttributes();
