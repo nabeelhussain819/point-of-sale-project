@@ -1,27 +1,19 @@
 <?php
 
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeviceTypeController;
-use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\IssueTypeController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ReconciliationController;
 use App\Http\Controllers\RepairController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesController;
-use App\Http\Controllers\StockBinController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserStoreController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
@@ -92,9 +84,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('change-password', [ChangePasswordController::class, 'index'])->name('password.change');
     Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 
-    Route::get('deviceType/lists', [DeviceTypeController::class, 'lists']);
-    Route::get('brand/lists', [BrandController::class, 'lists']);
-    Route::get('issue-type/lists', [IssueTypeController::class, 'lists']);
+    Route::get('deviceType/lists', [DeviceTypeController::class, 'lists'])->name('deviceType');
+    Route::get('brand/lists', [BrandController::class, 'lists'])->name('brand');
+    Route::get('issue-type/lists', [IssueTypeController::class, 'lists'])->name('issue-type');
 
     Route::group(['prefix' => 'purchase-order'], function () {
         Route::get('/received-form/{purchaseOrder}', [PurchaseOrderController::class, 'receivedForm'])
