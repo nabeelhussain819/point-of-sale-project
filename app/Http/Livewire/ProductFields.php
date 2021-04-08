@@ -54,15 +54,17 @@ class ProductFields extends Component
         $this->productPrices[$i] = 0;
         $this->quantity[$i] = 0;
         $this->products[$i] = 0;
-        $this->products[$i] = ['price' => 0,'lookUp'=>null];
+        $this->products[$i] = ['price' => 0, 'lookUp' => 0];
         $this->i = $i + 1;
         ArrayHelper::push($this->inputs, $this->i);
     }
 
     public function lookUp($key)
     {
-        $this->products[$key]['product_id'] = $this->products[$key]['lookup'];
-        $this->setPrice($key);
+        if (!empty($this->products[$key]['lookup'])) {
+            $this->products[$key]['product_id'] = $this->products[$key]['lookup'];
+            $this->setPrice($key);
+        }
     }
 
     public function store()
