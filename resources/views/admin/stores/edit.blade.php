@@ -34,10 +34,6 @@
                             <input type="text" value="{{$store->location}}" class="form-control" name="location" id="exampleInputPassword1" placeholder="Enter Location" required>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Location</label>
-                            <input type="text"  value="{{$store->location}}" class="form-control" name="location" placeholder="Location" value="{{old('location')}}" required>
-                        </div>
-                        <div class="form-group">
                             <label for="exampleInputPassword1">City</label>
                             <input type="text"  value="{{$store->city}}" class="form-control" name="city" placeholder="City"  value="{{old('city')}}"required>
                         </div>
