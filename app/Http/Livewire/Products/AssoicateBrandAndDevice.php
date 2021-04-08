@@ -38,11 +38,13 @@ class AssoicateBrandAndDevice extends Component
             'product_id' => 'required',
         ]);
 
-        DevicesTypesBrandsProduct::create([
+        DevicesTypesBrandsProduct::updateOrCreate([
             'device_type_id' => $this->device_type_id,
             'brand_id' => $this->brand_id,
             'product_id' => $this->product_id,
-        ]);
+        ], ['device_type_id' => $this->device_type_id,
+            'brand_id' => $this->brand_id,
+            'product_id' => $this->product_id,]);
         $this->resetField();
         session()->flash('success', 'Added');
     }
