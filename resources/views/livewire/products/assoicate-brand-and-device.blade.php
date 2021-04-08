@@ -25,7 +25,9 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Device Type</th>
+                        <th scope="col">Brand</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -33,19 +35,23 @@
                     @php
                         $count = 1;
                     @endphp
-                    @forelse($devices as $deviceType)
+                    @forelse($associations as $association)
                         <tr>
-                            <td>{{$deviceType->id}}</td>
-                            <td>{{$deviceType->name}}</td>
+                            <td>{{$association->id}}</td>
+                            <td>{{$association->product->name}}</td>
+                            <td>{{$association->brand->name}}</td>
+                            <td>{{$association->devicesType->name}}</td>
+
+
                             <td>
                                 <div style="display: flex">
                                     @if(auth()->user()->hasPermissionTo('customer-edit'))
-                                        <button class="btn btn-info mr-1" wire:click="edit({{$deviceType->id}})"><i
+                                        <button class="btn btn-info mr-1" wire:click="edit({{$association->id}})"><i
                                                     class="fa fa-pen"></i></button>
                                     @endif
                                     @if(auth()->user()->hasPermissionTo('customer-delete'))
                                         <button type="submit" class="btn btn-danger ml-1"
-                                                wire:click="delete({{$deviceType->id}})">
+                                                wire:click="delete({{$association->id}})">
                                             <i class="fa fa-trash"></i></button>
                                     @endif
                                 </div>
@@ -58,7 +64,7 @@
 
                     </tbody>
                 </table>
-                {{ $devices->links() }}
+                {{ $associations->links() }}
             </div>
         </div>
     </div>

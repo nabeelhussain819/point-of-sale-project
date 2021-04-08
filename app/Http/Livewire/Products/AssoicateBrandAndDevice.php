@@ -2,19 +2,26 @@
 
 namespace App\Http\Livewire\Products;
 
+use App\Models\Brand;
 use App\Models\DevicesType;
 use App\Models\DevicesTypesBrandsProduct;
+use App\Models\Product;
 use Livewire\Component;
 
 class AssoicateBrandAndDevice extends Component
 {
-    public $name, $selected_id;
+    public $device_type_id, $brand_id, $product_id;
     public $updateMode = false;
 //    public $devices;
 
     public function render()
     {
-        return view('livewire.products.assoicate-brand-and-device', ['devices' => DevicesTypesBrandsProduct::paginate(10)]);
+        return view('livewire.products.assoicate-brand-and-device',
+            ['associations' => DevicesTypesBrandsProduct::paginate(10),
+                'devicesTypes' => DevicesType::all(),
+                'products' => Product::all(),
+                'brands' => Brand::all()]
+        );
     }
 
     public function mount()
@@ -26,11 +33,15 @@ class AssoicateBrandAndDevice extends Component
     public function store()
     {
         $this->validate([
-            'name' => 'required',
+            'device_type_id' => 'required',
+            'brand_id' => 'required',
+            'product_id' => 'required',
         ]);
 
-        DeviceType::create([
-            'name' => $this->name
+        DevicesTypesBrandsProduct::create([
+            'device_type_id' => $this->device_type_id,
+            'brand_id' => $this->brand_id,
+            'product_id' => $this->product_id,
         ]);
         $this->resetField();
         session()->flash('success', 'Added');

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Core\Base;
 
 /**
  * @property integer $id
@@ -13,8 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property Brand $brand
  * @property Product $product
  */
-class DevicesTypesBrandsProduct extends Model
+class DevicesTypesBrandsProduct extends Base
 {
+    protected $autoBlame = false;
+    protected $hasGuid = false;
+    public $timestamps = false;
     /**
      * The "type" of the auto-incrementing ID.
      * 
