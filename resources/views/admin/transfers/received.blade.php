@@ -59,9 +59,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        @livewire('stock-transfer-product-field',
-                        ['products'=>$products,'stores'=>$stores,'dbProducts'=>$transfer->products])
-
+                        @livewire('stock-transfer-product-field', ['stores'=>$stores,'dbProducts'=>$transfer->products])
                         <br>
                         <div>
                             <button class="btn btn-success font-weight-bold shadow rounded float-right" type="submit">

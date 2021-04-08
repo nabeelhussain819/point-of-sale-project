@@ -15,7 +15,7 @@
         <div class="col">
             <div class="form-group">
                 <label for="">Store Out</label>
-                <select name="store_out_id" id="" class="form-control" required>
+                <select   wire:model="storeOutId" wire:change="storeOutSelect" name="store_out_id" id="" class="form-control" required>
                     <option value="">Please Select Store Out</option>
                     @foreach($stores as $item)
                         <option value="{{$item->id}}" selected>{{$item->name}}</option>
@@ -66,10 +66,10 @@
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
+
                             <select class="form-control" name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>
                                 @foreach($products as $item)
-
                                     <option
                                             {{(!empty( $value['product_id']) ?? $item->id == $value['product_id']? 'selected':'')}}
                                             {{--selected="{{!empty($value['product_id']) ? ($item->id == $value['product_id']? true:false):null}}"--}}

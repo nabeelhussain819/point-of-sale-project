@@ -31,7 +31,7 @@
                         @csrf
 
                         <input type="hidden" name="type_id" value="1"/>
-                        @livewire('stock-transfer-product-field', ['products'=>$products,'stores'=>$stores])
+                        @livewire('stock-transfer-product-field', ['stores'=>$stores])
                         <br>
                         <div>
                             <button class="btn btn-success font-weight-bold shadow rounded float-right" type="submit">
@@ -43,5 +43,5 @@
             </div>
         </div>
     </div>
-   
+
 @endsection
