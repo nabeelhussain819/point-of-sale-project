@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DevicesTypesBrandsProduct;
 use App\Models\Product;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
@@ -90,7 +91,7 @@ class ProductController extends Controller
             'retail_price' => 'required|numeric|min:0',
             'min_price' => 'required|numeric|min:0',
         ]);
-        
+
         $product = Product::find($id);
         $product->fill($request->all())->update();
         return redirect()->back()->with('success',"$product->name Updated");
@@ -115,10 +116,10 @@ class ProductController extends Controller
         return Product::select(Product::defaultSelect())
             ->whereExists(function (QueryBuilder $query) use ($request) {
                 return $query->from('devices_types_brands_products')
-                ->where('brand_id', $request->get('brand_id'))
+                    ->where('brand_id', $request->get('brand_id'))
                     ->where('device_type_id', $request->get('device_type_id'))
                     ->whereColumn('devices_types_brands_products.product_id', 'products.id');
-        })->get();
+            })->get();
     }
 
     /**
@@ -127,7 +128,13 @@ class ProductController extends Controller
      */
     public function all(Request $request)
     {
-       return Product::where($this->applyFilters($request))
+        return Product::where($this->applyFilters($request))
             ->paginate($this->pageSize);
+    }
+
+    public function associateDeviceBrand(Request $request)
+    {
+        $device = DevicesTypesBrandsProduct::all();
+        return view('admin.products.associate_product', ['device' => $device]);
     }
 }
