@@ -19,7 +19,8 @@
                         Assign User
                     </button>
                     @include('partials.modal',['modalId' => $store->id, 'id' => $store->id,
-                    'name' => 'store_id','route' =>'addusertostore' ,'nameO' => $store->name, 'description' => $store->description])
+                    'name' => 'store_id','route' =>'addusertostore' ,'nameO' => $store->name,
+                     'description' => $store->description])
                 </div>
                 <div class="card-body">
                     <form action="{{route('stores.update',$store->id)}}" method="POST">

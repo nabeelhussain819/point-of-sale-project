@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="container">
-
         <div class="container">
             <div class="card shadow rounded">
                 <div class="card-body">

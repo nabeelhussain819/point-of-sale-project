@@ -23,10 +23,7 @@
                         <label>Select User</label>
                         @include('partials.user_look_up')
                     </div>
-                    <div class="form-group">
-                        <label>Select Role</label>
-                        @include('partials.roles_lookup')
-                    </div>
+
                     @if (isset($errors) && count($errors) > 0)
                         <div class="alert alert-danger">
                             <ul>

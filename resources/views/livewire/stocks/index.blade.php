@@ -39,11 +39,11 @@
                                                     <td>{{$item->created_at}}</td>
                             <td>
                                 <div style="display: flex">
-                                    @if(auth()->user()->hasPermissionTo('customer-edit'))
+                                    @if(auth()->user()->hasPermissionTo('customer-edit') && !$item->system)
                                         <button class="btn btn-info mr-1" wire:click="edit({{$item->id}})"><i
                                                     class="fa fa-pen"></i></button>
                                     @endif
-                                    @if(auth()->user()->hasPermissionTo('customer-delete'))
+                                    @if(auth()->user()->hasPermissionTo('customer-delete') && !$item->system)
                                         <button type="submit" class="btn btn-danger ml-1"
                                                 wire:click="delete({{$item->id}})">
                                             <i class="fa fa-trash"></i></button>
