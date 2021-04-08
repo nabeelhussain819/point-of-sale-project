@@ -46,7 +46,7 @@ class StoreController extends Controller
         $store->guid = Str::uuid();
         $store->code = Store::code();
         $store->fill($request->all())->save();
-        return redirect('home')->with('success','Store Created');
+        return back()->with('success','Store Created');
     }
 
     /**
@@ -130,15 +130,7 @@ class StoreController extends Controller
         $request->validate([
             'name' => 'required',
             'full_name' => 'required',
-            'timezone' => 'required',
-            'city' => 'required',
-            'zip' => 'required',
-            'state' => 'required',
-            'location' => 'required',
-            'description' => 'required',
-            'contact_info' => 'required',
             'primary_phone' => 'required',
-            'fax' => 'required',
         ]);
     }
 }
