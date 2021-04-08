@@ -104,11 +104,11 @@
                             <td>{{$count++}}</td>
                                 <td>
                                     {{$item->user->name}}
-                                    <span class="badge badge-primary">{{$item->user->roles->pluck('name')->first()}}</span>
+                                    {{--<span class="badge badge-primary">{{$item->user->roles->pluck('name')->first()}}</span>--}}
                                 </td>
                                 <td>{{$item->user->email}}</td>
                                 <td>{{$item->user->userDetail->pluck('phone')->first() ?? 'No Number Added'}}</td>
-                                <td>{{$item->role->name}}</td>
+
                                 <td><span class="{!! $item->store->active == 0 ? 'badge badge-danger' : 'badge badge-success' !!}">{!!$item->store->active == 0 ? 'IN-ACTIVE' : 'ACTIVE'  !!}</span></td>
                                 <td>
                                     <div style="display: flex">

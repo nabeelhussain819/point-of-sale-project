@@ -117,7 +117,6 @@ class StoreController extends Controller
     {
         $userStore = new UserStore();
         $request->validate([
-            'role_id' => 'required',
             'user_id' => 'required'
         ]);
         $userStore->fill($request->all())->save();
