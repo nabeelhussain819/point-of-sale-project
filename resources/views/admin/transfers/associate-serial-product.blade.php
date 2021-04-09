@@ -7,7 +7,7 @@
     <div class="container">
         <div class="card shadow rounded">
             <div class="card-body">
-                <form action="{{route('purchaseOrder.associate-product-serial',$transfer->id)}}" method="POST">
+                <form action="{{route('transfer.associate-product-serial',$transfer->id)}}" method="POST">
                     <table class="table">
                         @foreach($pOProducts as  $key=>$pOProduct)
                             @for($index=0; $index < $pOProduct->quantity ;$index++)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TransferRequest;
 use App\Models\Product;
+use App\Models\ProductSerialNumbers;
 use App\Models\StockTransfer;
 use App\Models\StockTransferProduct;
 use App\Models\Store;
@@ -131,20 +132,26 @@ class TransferController extends Controller
      * @throws \Throwable
      */
     public function associateProductSerial(Request $request, StockTransfer $transfer)
-
     {
         $products = [];
-        collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $purchaseOrder) {
+        collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $transfer) {
 
-            collect($productSerials)->each(function ($serial) use (&$products, $productId, $purchaseOrder) {
+            collect($productSerials)->each(function ($serial) use (&$products, $productId, $transfer) {
+
                 $products[] = [
                     'product_id' => $productId,
-                    'store_id' => $purchaseOrder->store_id,
+                    'store_id' => $transfer->store_in_id,
                     'serial_no' => $serial,
-                    'purchase_order_id' => $purchaseOrder->id,
+                    'stock_transfer_id' => $transfer->id,
                 ];
             });
         });
+
+        //ProductSerialNumbers::upsert($products, ['serial_no', 'product_id'], ['store_id', 'stock_transfer_id']);
+
+
+        dd($products);
+
 
         return DB::transaction(function () use ($purchaseOrder, $products) {
             if (is_null($purchaseOrder->received_date)) {
