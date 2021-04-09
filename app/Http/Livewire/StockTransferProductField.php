@@ -41,6 +41,7 @@ class StockTransferProductField extends Component
 
     public function storeOutSelect()
     {
-        $this->products = Inventory::storeProducts($this->storeOutId);
+        $this->products = Inventory::getProducts($this->storeOutId);
+        dd($this->products);
     }
 }

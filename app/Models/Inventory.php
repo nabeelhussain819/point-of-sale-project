@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Base;
 use App\Observers\InventoryObserver;
 use App\Scopes\StoreGlobalScope;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property integer $id
@@ -72,13 +73,28 @@ class Inventory extends Base
         Inventory::observe(InventoryObserver::class);
     }
 
-    public static function storeProducts(int $storeId = null)
+    public static function storeProducts(int $storeId = null, $select = ['id', 'name'])
+    {
+        if (empty($storeId)) {
+            $storeId = Store::currentId();
+        }
+        return self::getStoreProductsQuery($storeId, $select)->pluck('product');
+    }
+
+    public static function getProducts(int $storeId = null, $select = ['id', 'name'])
+    {
+        return self::getStoreProductsQuery($storeId, $select);
+    }
+
+    private static function getStoreProductsQuery(int $storeId = null, $select = ['id', 'name'])
     {
         if (empty($storeId)) {
             $storeId = Store::currentId();
         }
         return Inventory::where('store_id', $storeId)
-            ->get()->pluck('product');
+            ->with(['product' => function (BelongsTo $belongsTO) use ($select) {
+                $belongsTO->select($select);
+            }])->get();
     }
 
     public static function storeProductsById(array $products)

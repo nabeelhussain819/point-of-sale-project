@@ -16,6 +16,11 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserStoreController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PurchaseOrderController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
