@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\ArrayHelper;
+use App\Helpers\StringHelper;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
@@ -79,13 +80,11 @@ class ProductFields extends Component
 
     public function setPrice($i)
     {
-        if (!is_string($this->products[$i]['product_id'])) {
-            $product = Product::getPrice($this->products[$i]['product_id']);
-            $this->products[$i]['price'] = $product;
-            $this->products[$i]['quantity'] = 1;
-            $this->productPrices[$i] = 0;
-            $this->setQuantity($i);
-        };
+        $product = Product::getPrice($this->products[$i]['product_id']);
+        $this->products[$i]['price'] = $product;
+        $this->products[$i]['quantity'] = 1;
+        $this->productPrices[$i] = 0;
+        $this->setQuantity($i);
     }
 
     public function quantity($i)

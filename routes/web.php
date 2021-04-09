@@ -1,32 +1,30 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeviceTypeController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\IssueTypeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ReconciliationController;
 use App\Http\Controllers\RepairController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\StockBinController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VendorController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserStoreController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PurchaseOrderController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\StockBinController;
-
-
-
+use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +84,17 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/stock-transfer',[TransferController::class,'transfer'])->name('transfer.store');
         Route::get('/stock-transfer/{transfer}',[TransferController::class,'received'])->name('transfer.received');
         Route::delete('/stock-transfer/{transfer}',[TransferController::class,'delete'])->name('transfer.delete');
+
         Route::post('/stock-transfer-received/{transfer}', [TransferController::class, 'markAsReceived'])->name('transfer.markasreceived');
+
+        Route::group(['prefix' => 'stock-transfer'], function () {
+            Route::get('/associate-product-serial/{transfer}', [TransferController::class, 'showAssociateProductSerial'])
+                ->name('transfer.show-associate-product-serial');
+
+            Route::Post('/associate-product-serial/{purchaseOrder}', [TransferController::class, 'associateProductSerial'])
+                ->name('transfer.associate-product-serial');
+        });
+
 //        revamp
     });
 

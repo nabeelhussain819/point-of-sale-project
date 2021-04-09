@@ -33,7 +33,7 @@ class StockTransferProduct extends Base
      */
     public function product()
     {
-        return $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Models\Product');
     }
 
     /**
@@ -41,6 +41,6 @@ class StockTransferProduct extends Base
      */
     public function stockTransfer()
     {
-        return $this->belongsTo('App\StockTransfer');
+        return $this->belongsTo('App\Models\StockTransfer');
     }
 }

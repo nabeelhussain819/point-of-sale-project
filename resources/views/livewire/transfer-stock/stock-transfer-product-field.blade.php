@@ -18,11 +18,11 @@
         <div class="col">
             <div class="form-group">
                 <label for="">Store Out</label>
-                {{$transfer->store_out_id}}
+
                 <select   wire:model="storeOutId" wire:change="storeOutSelect" name="store_out_id" id="" class="form-control" required>
                     <option value="">Please Select Store Out</option>
                     @foreach($stores as $item)
-                        <option value="{{$item->id}}" {{$transfer->store_out_id == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                        <option value="{{$item->id}}" {{(!empty($transfer)&& $transfer->store_out_id) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -34,7 +34,7 @@
                 <select name="store_in_id" id="" class="form-control" required>
                     <option value="">Please Select Store In</option>
                     @foreach($stores as $item)
-                        <option value="{{$item->id}}" {{$transfer->store_in_id == $item->id ? 'selected' : '' }} >{{$item->name}}</option>
+                        <option value="{{$item->id}}" {{(!empty($transfer)&&$transfer->store_in_id == $item->id) ? 'selected' : '' }} >{{$item->name}}</option>
                     @endforeach
                 </select>
             </div>

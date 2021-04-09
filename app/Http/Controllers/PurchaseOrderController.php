@@ -166,20 +166,7 @@ class PurchaseOrderController extends Controller
 //        return redirect()->back()->with('success', 'Purchase Order received');
     }
 
-    public function storeSerialNo($aRequestParams){
-        if(!empty($aRequestParams)){
-            foreach($aRequestParams as $key => $value){
-                $aTempData = $value;
-                // dd($value);
-                $aTempData['store_id'] = Store::currentId();
-                $aTempData['created_at'] = Carbon::now();
-                $aTempData['updated_at'] = Carbon::now();
-                $aData[] = $aTempData;
-            }
-            // dd($aData);
-            return ProductSerialNumbers::insert($aData);
-        }
-    }
+
 
     /**
      * @param PurchaseOrder $purchaseOrder
