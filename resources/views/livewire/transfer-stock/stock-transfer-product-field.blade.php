@@ -53,6 +53,7 @@
         </thead>
         <tbody>
         @foreach($formFields as $key=>$value)
+
             <tr>
                 <td>
                     <div class="input-group spinner">
@@ -62,22 +63,28 @@
                                    value="{{!empty($value['id']) ? $value['id']:null}}"/>
 
                             <input type="number" class="form-control"
+                                   wire:change="validateProduct({{$key}})"
+                                   wire:model="formFields.{{$key}}.quantity"
                                    value="{{!empty($value['quantity']) ? $value['quantity']:null}}"
                                    name="products[{{$key}}][quantity]" required/>
+                            @if($formFields[$key]['error']) <span
+                                    class="error">{{ $formFields[$key]['message'] }}</span> @endif
                         </div>
                     </div>
                 </td>
 
                 <td>
+
                     <div class="input-group spinner">
                         <div class="row">
-                            <select class="form-control" wire:change="productChange"
-                                    wire:model="selectedProduct.{{$key}}.product"
+                            <select class="form-control"
+                                    wire:change.debounce.1000ms="validateProduct({{$key}})"
+                                    wire:model="formFields.{{$key}}.product"
                                     name="products[{{$key}}][product_id]">
                                 <option>Please Select Product</option>
                                 @foreach($products as $item)
                                     <option
-                                            {{(!empty( $value['product_id']) ?? $item->product->id == $value['product_id']? 'selected':'')}}
+                                            {{--{{(!empty( $value['product_id']) ?? $item->product->id == $value['product_id']? 'selected':'')}}--}}
                                             value="{{$item->product->id}}">{{$item->product->name}}
                                     </option>
                                 @endforeach
@@ -92,6 +99,7 @@
                     </button>
                 </td>
             </tr>
+
         @endforeach
         </tbody>
     </table>
@@ -103,8 +111,7 @@
                     class="btn btn-primary float-left shadow-lg">
                 <i class="fa fa-plus"></i>
             </button>
-                <button id='delete_row' wire:click.prevent="deleteRow({{$row}})"
-                        class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
+
             @else
                 <div class="alert alert-info">
                     Please select store to adding products or selected store does not have products
@@ -113,5 +120,16 @@
 
 
         </div>
+    </div>
+    <div class="text-right">
+        <button {{$shouldSubmit ?'': 'disabled'}} class="btn btn-success font-weight-bold shadow rounded"
+                type="submit">
+            Save
+        </button>
+
+        @if(!$shouldSubmit)
+            <span
+                    class="error d-block">Please remove all the error</span>
+        @endif
     </div>
 </div>

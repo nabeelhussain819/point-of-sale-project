@@ -128,4 +128,19 @@ class Inventory extends Base
          $this->withoutGlobalScope(new StoreGlobalScope);
          return $this;
     }
+
+    private static function defaultSelect(): array
+    {
+        return ['id', 'quantity', 'store_id'];
+    }
+
+    public static function getProductQuantity($storeId, $productId, $bin = 1)
+    {
+        return Inventory::select(self::defaultSelect())
+            ->withoutGlobalScope(new StoreGlobalScope)
+            ->where('store_id', $storeId)
+            ->where('product_id', $productId)
+            ->where('stock_bin_id',$bin)
+            ->first();
+    }
 }

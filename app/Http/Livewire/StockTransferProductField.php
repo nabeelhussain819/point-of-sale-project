@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Helpers\ArrayHelper;
 use App\Models\Inventory;
 use App\Models\StockTransferProduct;
 use Livewire\Component;
@@ -14,6 +13,7 @@ class StockTransferProductField extends Component
     public $transfer;
     public $isCreated = false;
     public $selectedProduct;
+    public $shouldSubmit = true;
 
     public function render()
     {
@@ -37,8 +37,8 @@ class StockTransferProductField extends Component
 
     public function addRow($row)
     {
+        $this->formFields[$this->row] = ['quantity' => null, 'product' => null, 'error' => false];
         $this->row = $row + 1;
-        ArrayHelper::push($this->formFields, $this->row);
     }
 
     public function deleteRow($row)
@@ -51,14 +51,28 @@ class StockTransferProductField extends Component
         $this->products = Inventory::getProducts($this->storeOutId);
     }
 
-    public function productChange()
+    public function validateProduct($key)
     {
-        dd($this->selectedProduct);
+        $currentRow = $this->formFields[$key];
+        if (!empty($currentRow['product']) && !empty($currentRow['quantity'])) {
+
+            $inventory = Inventory::getProductQuantity($this->storeOutId, $currentRow['product']);
+            $quantity = $currentRow['quantity'] - $inventory->quantity;
+            if ($quantity > 0) {
+                $this->formFields[$key]['error'] = true;
+                $this->formFields[$key]['message'] = "please reduce {$quantity} quantity for process";
+                $this->shouldSubmit = false;
+            } else {
+
+                $this->formFields[$key]['error'] = false;
+                $this->shouldSubmit = true;
+
+            }
+        }
     }
 
     public function removeRow($key)
     {
-
         unset($this->formFields[$key]);
     }
 }

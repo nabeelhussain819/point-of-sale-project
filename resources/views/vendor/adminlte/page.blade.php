@@ -13,6 +13,7 @@
     @stack('css')
     @yield('css')
     <link href="{{asset('js/app.css')}}"/>
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
     <style>
         .main-sidebar,.main-header{
