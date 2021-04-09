@@ -122,6 +122,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::Post('/associate-product-serial/{purchaseOrder}', [PurchaseOrderController::class, 'associateProductSerial'])
             ->name('purchaseOrder.associate-product-serial');
+
     });
 
     Route::group(['prefix' => 'inventory'], function () {

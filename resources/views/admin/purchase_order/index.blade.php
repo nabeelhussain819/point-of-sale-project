@@ -44,7 +44,7 @@
                                 <a href="{{route('purchaseOrder.received',$po->id)}}" class="btn btn-info mr-1">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <form action="{{route('purchase-vendor.delete',$po->id)}}" method="POST">
+                                <form action="{{route('purchase-order.destroy',$po->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger ml-1" type="submit"><i
@@ -66,7 +66,6 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Products</th>
-                                    <th scope="col">Product Price</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Total Price</th>
                                 </tr>
@@ -75,7 +74,7 @@
                                 @foreach($po->products as $product)
                                     <tr>
                                         <td>{{$product->id}}</td>
-                                        <td>{{$product->id}}</td>
+
                                         <td>{{$product->product->name}}</td>
                                         <td>{{$product->quantity}}</td>
                                         <td>{{$product->total}}</td>

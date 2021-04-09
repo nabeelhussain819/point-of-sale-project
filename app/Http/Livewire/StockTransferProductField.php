@@ -13,6 +13,7 @@ class StockTransferProductField extends Component
     public $storeOutId;
     public $transfer;
     public $isCreated = false;
+    public $selectedProduct;
 
     public function render()
     {
@@ -48,5 +49,16 @@ class StockTransferProductField extends Component
     public function storeOutSelect()
     {
         $this->products = Inventory::getProducts($this->storeOutId);
+    }
+
+    public function productChange()
+    {
+        dd($this->selectedProduct);
+    }
+
+    public function removeRow($key)
+    {
+
+        unset($this->formFields[$key]);
     }
 }

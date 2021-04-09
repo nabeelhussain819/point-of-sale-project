@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProductSerialNumbers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
-use App\Models\Store;
 use App\Models\Vendor;
 use App\Observers\PurchaseOrderObserver;
 use Carbon\Carbon;
@@ -139,7 +137,8 @@ class PurchaseOrderController extends Controller
      */
     public function destroy(PurchaseOrder $purchaseOrder)
     {
-        //
+        $purchaseOrder->delete();
+        return redirect()->back()->with('success', 'Purchase Order delete');
     }
 
     /**
@@ -226,5 +225,6 @@ class PurchaseOrderController extends Controller
         });
 
     }
+
 
 }

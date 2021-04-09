@@ -71,7 +71,9 @@
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
-                            <select class="form-control" name="products[{{$key}}][product_id]">
+                            <select class="form-control" wire:change="productChange"
+                                    wire:model="selectedProduct.{{$key}}.product"
+                                    name="products[{{$key}}][product_id]">
                                 <option>Please Select Product</option>
                                 @foreach($products as $item)
                                     <option
@@ -86,7 +88,8 @@
 
 
                 <td>
-
+                    <button type="button" class=" btn btn-danger shadow-lg" wire:click="removeRow({{$key}})">remove
+                    </button>
                 </td>
             </tr>
         @endforeach
@@ -96,7 +99,7 @@
         <div class="col-md-12">
 
             @if(!empty($this->products))
-            <button id="add_row" wire:click.prevent="addRow({{$row}})"
+            <button type="button" id="add_row" wire:click.prevent="addRow({{$row}})"
                     class="btn btn-primary float-left shadow-lg">
                 <i class="fa fa-plus"></i>
             </button>

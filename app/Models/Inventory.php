@@ -93,6 +93,7 @@ class Inventory extends Base
         }
         return Inventory::where('store_id', $storeId)
             ->where('stock_bin_id', 1)
+            ->withoutGlobalScope(new StoreGlobalScope)
             ->with(['product' => function (BelongsTo $belongsTO) use ($select) {
                 $belongsTO->select($select);
             }])->get();
@@ -120,5 +121,11 @@ class Inventory extends Base
                 'quantity' => $quantity 
             )
         );
+    }
+
+    private function removeStoreScope()
+    {
+         $this->withoutGlobalScope(new StoreGlobalScope);
+         return $this;
     }
 }
