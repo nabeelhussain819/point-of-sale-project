@@ -92,6 +92,7 @@ class Inventory extends Base
             $storeId = Store::currentId();
         }
         return Inventory::where('store_id', $storeId)
+            ->where('stock_bin_id', 1)
             ->with(['product' => function (BelongsTo $belongsTO) use ($select) {
                 $belongsTO->select($select);
             }])->get();

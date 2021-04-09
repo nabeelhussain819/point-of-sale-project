@@ -19,7 +19,12 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserStoreController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\StockBinController;
+
+
 
 use Illuminate\Support\Facades\Route;
 

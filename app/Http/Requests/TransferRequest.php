@@ -25,7 +25,7 @@ class TransferRequest extends FormRequest
     {
         return [
             //
-            'request_id' => 'required|numeric',
+
             'transfer_date' => 'required',
             'store_out_id' => 'required',
             'store_in_id' => 'required',
