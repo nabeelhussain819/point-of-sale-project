@@ -34,7 +34,9 @@
                 <select name="store_in_id" id="" class="form-control" required>
                     <option value="">Please Select Store In</option>
                     @foreach($stores as $item)
+                        @if($storeOutId !=$item->id)
                         <option value="{{$item->id}}" {{(!empty($transfer)&&$transfer->store_in_id == $item->id) ? 'selected' : '' }} >{{$item->name}}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -128,8 +130,8 @@
         </button>
 
         @if(!$shouldSubmit)
-            <span
-                    class="error d-block">Please remove all the error</span>
+            <span class="error d-block">Please remove all the error</span>
         @endif
     </div>
 </div>
+
