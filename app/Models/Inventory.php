@@ -143,4 +143,9 @@ class Inventory extends Base
             ->where('stock_bin_id',$bin)
             ->first();
     }
+
+    public static function getSerialProducts($productId, $storeId)
+    {
+        return ProductSerialNumbers::getByStoreId($productId, $storeId);
+    }
 }

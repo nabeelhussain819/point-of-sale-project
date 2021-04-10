@@ -14,6 +14,10 @@ class StockTransferProductField extends Component
     public $isCreated = false;
     public $selectedProduct;
     public $shouldSubmit = true;
+    public $productSerials = [];
+    public $showModal = false;
+    public $serialFetchParams = [];
+
 
     public function render()
     {
@@ -37,7 +41,7 @@ class StockTransferProductField extends Component
 
     public function addRow($row)
     {
-        $this->formFields[$this->row] = ['quantity' => null, 'product' => null, 'error' => false];
+        $this->formFields[$this->row] = ['quantity' => null, 'product_id' => null, 'error' => false, 'hasSerial' => false];
         $this->row = $row + 1;
     }
 
@@ -54,9 +58,9 @@ class StockTransferProductField extends Component
     public function validateProduct($key)
     {
         $currentRow = $this->formFields[$key];
-        if (!empty($currentRow['product']) && !empty($currentRow['quantity'])) {
+        if (!empty($currentRow['product_id']) && !empty($currentRow['quantity'])) {
 
-            $inventory = Inventory::getProductQuantity($this->storeOutId, $currentRow['product']);
+            $inventory = Inventory::getProductQuantity($this->storeOutId, $currentRow['product_id']);
             $quantity = $currentRow['quantity'] - $inventory->quantity;
             if ($quantity > 0) {
                 $this->formFields[$key]['error'] = true;
@@ -66,13 +70,41 @@ class StockTransferProductField extends Component
 
                 $this->formFields[$key]['error'] = false;
                 $this->shouldSubmit = true;
-
             }
+
+            $this->hasSerial($key, $inventory);
         }
+    }
+
+    private function hasSerial($key, $inventory)
+    {
+        $products = $this->products->pluck('product');
+        $product = $products->where('id', $this->formFields[$key]['product_id'])->first();
+
+        $this->formFields[$key]['hasSerial'] = $product->has_serial_number;
     }
 
     public function removeRow($key)
     {
         unset($this->formFields[$key]);
     }
+
+    public function associateSerial($key)
+    {
+        $this->showModal = true;
+        $this->serialFetchParams = [
+            'product_id' => $this->formFields[$key]['product_id'],
+            'store_id' => $this->storeOutId,
+            'quantity' => $this->formFields[$key]['quantity']
+        ];
+//        $productId = $this->formFields[$key]['product_id'];
+//        $this->formFields[$key]['quantity'];
+//
+        //$this->getSerialProduct($productId, $this->storeOutId);
+    }
+
+//    public function getSerialProduct($productId, $storeId)
+//    {
+//        $this->productSerials = Inventory::getSerialProducts($productId, $storeId)->paginate(25);
+//    }
 }

@@ -56,7 +56,7 @@
         <tbody>
         @foreach($formFields as $key=>$value)
 
-            <tr>
+            <tr wire:key="{{ $key }}">
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
@@ -79,18 +79,31 @@
 
                     <div class="input-group spinner">
                         <div class="row">
-                            <select class="form-control"
-                                    wire:change.debounce.1000ms="validateProduct({{$key}})"
-                                    wire:model="formFields.{{$key}}.product"
-                                    name="products[{{$key}}][product_id]">
-                                <option>Please Select Product</option>
-                                @foreach($products as $item)
-                                    <option
-                                            {{--{{(!empty( $value['product_id']) ?? $item->product->id == $value['product_id']? 'selected':'')}}--}}
-                                            value="{{$item->product->id}}">{{$item->product->name}}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div class="input-group mb-3">
+                                @if($formFields[$key]['hasSerial'])
+                                    <div class="input-group-append">
+                                        <button
+                                                wire:click.prevent="associateSerial({{$key}})"
+                                                data-target="#serialNumber"
+                                                data-toggle="modal"
+                                                class="btn btn-primary"
+                                                type="button">Serial numbers
+                                        </button>
+                                    </div>
+                                @endIf
+                                <select class="form-control"
+                                        wire:change.debounce.1000ms="validateProduct({{$key}})"
+                                        wire:model="formFields.{{$key}}.product_id"
+                                        name="products[{{$key}}][product_id]">
+                                    <option>Please Select Product</option>
+                                    @foreach($products as $item)
+                                        <option
+                                                {{--{{(!empty( $value['product_id']) ?? $item->product->id == $value['product_id']? 'selected':'')}}--}}
+                                                value="{{$item->product->id}}">{{$item->product->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -133,5 +146,30 @@
             <span class="error d-block">Please remove all the error</span>
         @endif
     </div>
+
+    {{--MOdal --}}
+
+
+    <div class="modal fade" wire:ignore.self id="serialNumber" tabindex="-1" role="dialog"
+         aria-labelledby="serialNumber" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+
+                </div>
+                <div class="modal-body">
+                    @if($showModal)
+                        @livewire('transfer.serial-number-livewire',['params'=>$serialFetchParams])
+                    @endif
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--Modal--}}
 </div>
 
