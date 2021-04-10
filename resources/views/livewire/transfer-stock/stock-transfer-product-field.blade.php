@@ -80,7 +80,7 @@
                     <div class="input-group spinner">
                         <div class="row">
                             <div class="input-group mb-3">
-                                @if($formFields[$key]['hasSerial'])
+                                @if(isset($formFields[$key]['hasSerial'])&& $formFields[$key]['hasSerial'])
                                     <div class="input-group-append">
                                         <button
                                                 wire:click.prevent="associateSerial({{$key}})"
@@ -137,11 +137,12 @@
         </div>
     </div>
     <div class="text-right">
+        @if(!$isCreated)
         <button {{$shouldSubmit ?'': 'disabled'}} class="btn btn-success font-weight-bold shadow rounded"
                 type="submit">
             Save
         </button>
-
+        @endif
         @if(!$shouldSubmit)
             <span class="error d-block">Please remove all the error</span>
         @endif
@@ -166,7 +167,10 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title">Select Product Serials Number</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
                 </div>
                 <div class="modal-body">
@@ -189,7 +193,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Done</button>
+                    <button data-dismiss="modal" type="button" class="btn btn-primary">Done</button>
                 </div>
             </div>
         </div>

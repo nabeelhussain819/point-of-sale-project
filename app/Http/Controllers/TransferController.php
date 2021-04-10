@@ -34,17 +34,32 @@ class TransferController extends Controller
             ]);
     }
 
+    /**
+     * @param TransferRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function transfer(TransferRequest $request)
     {
-        dd($request->all());
-        $transfer = new StockTransfer();
-        $productData = collect($request->get('products'))->map(function ($product) {
-            unset($product['id']); // hot fix
-            return $product;
-        });
+        DB::transaction(function () use ($request) {
+            $transfer = new StockTransfer();
+            $productData = collect($request->get('products'))->map(function ($product) {
+                unset($product['id']); // hot fix
+                return $product;
+            });
+            $transfer->fill($request->all())->save();
+            $transfer->transferProducts()->sync($productData);
 
-        $transfer->fill($request->all())->save();
-        $transfer->transferProducts()->sync($productData);
+            collect($request->all('postSerial'))->each(function ($product, $productId) use ($transfer) {
+                collect($product)->each(function ($serials, $productId) use ($transfer) {
+
+                    ProductSerialNumbers::where('product_id', $productId)
+                        ->whereIn('serial_no', $serials)
+                        ->update(['stock_transfer_id' => $transfer->id]);
+                });
+
+            });
+        });
         return redirect()->back()->with('success', 'Transfer Created');
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Helpers\ArrayHelper;
 use App\Models\Inventory;
 use App\Models\StockTransferProduct;
 use Livewire\Component;
@@ -32,7 +33,7 @@ class StockTransferProductField extends Component
         if (!empty($transfer)) {
             $this->transfer = $transfer;
             $this->formFields = collect($transfer->products)->map(function (StockTransferProduct $product) {
-                return $product->getAttributes();
+                return ArrayHelper::merge($product->getAttributes(), ['error' => false]);
             })->all();
             $this->storeOutId = $transfer->store_out_id;
             $this->storeOutSelect();
@@ -117,6 +118,6 @@ class StockTransferProductField extends Component
         }
         array_push($this->postSerials[$serial['product_id']], $serial['serial_no']);
 
-        
+
     }
 }
