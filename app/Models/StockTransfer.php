@@ -98,4 +98,8 @@ class StockTransfer extends Base
     {
         return $this->belongsToMany(ProductSerialNumbers::class, 'product_serial_numbers', 'stock_transfer_id', 'stock_transfer_id');
     }
+
+    public function productsSerials(){
+        return $this->hasMany(ProductSerialNumbers::class);
+    }
 }

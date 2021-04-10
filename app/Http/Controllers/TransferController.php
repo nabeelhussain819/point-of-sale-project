@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
 use App\Http\Requests\TransferRequest;
 use App\Models\Product;
 use App\Models\ProductSerialNumbers;
@@ -82,27 +83,24 @@ class TransferController extends Controller
      */
     public function markAsReceived(StockTransfer $transfer, Request $request)
     {
-
         //todo Some centric logic
-//        DB::transaction(function () use ($transfer, $request) {
-//            $productData = collect($request->get('products'))->map(function ($product) {
-//                return $product;
-//            });
-//
-//            $transfer->isReceiving = true;
-//
-//            $transfer->fill(ArrayHelper::merge([
-//                'received_date' => Carbon::now()
-//            ], $request->all())
-//            )->update();
-//
+        DB::transaction(function () use ($transfer, $request) {
+            $productData = collect($request->get('products'))->map(function ($product) {
+                return $product;
+            });
+
+            $transfer->isReceiving = true;
+            $transfer->productsSerials()->update(['store_id' => $transfer->store_in_id]);
+
+            $transfer->fill(ArrayHelper::merge([
+                'received_date' => Carbon::now()
+            ], $request->all())
+            )->update();
+
 //            $transfer->transferProducts()->sync($productData);
-//        });
+        });
 
-        //  return redirect('/inventory-management/stock-transfer')->with('success', 'Transfer Created');
-
-        return redirect()->route('transfer.show-associate-product-serial', $transfer->id);
-
+        return redirect('/inventory-management/stock-transfer')->with('success', 'Transfer Created');
     }
 
     /**
@@ -150,35 +148,35 @@ class TransferController extends Controller
      */
     public function associateProductSerial(Request $request, StockTransfer $transfer)
     {
-        $products = [];
-        collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $transfer) {
-
-            collect($productSerials)->each(function ($serial) use (&$products, $productId, $transfer) {
-
-                $products[] = [
-                    'product_id' => $productId,
-                    'store_id' => $transfer->store_in_id,
-                    'serial_no' => $serial,
-                    'stock_transfer_id' => $transfer->id,
-                ];
-            });
-        });
-
-        //ProductSerialNumbers::upsert($products, ['serial_no', 'product_id'], ['store_id', 'stock_transfer_id']);
-
-
-        dd($products);
-
-
-        return DB::transaction(function () use ($purchaseOrder, $products) {
-            if (is_null($purchaseOrder->received_date)) {
-                $purchaseOrder->isReceiving = true;
-                $purchaseOrder->update(['received_date' => Carbon::now()]);
-                $purchaseOrder->save();
-                $purchaseOrder->productSerialNumbers()->sync($products);
-            }
-            return redirect()->route('purchase-order.index')->with('success', 'Purchase Order received');
-        });
+//        $products = [];
+//        collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $transfer) {
+//
+//            collect($productSerials)->each(function ($serial) use (&$products, $productId, $transfer) {
+//
+//                $products[] = [
+//                    'product_id' => $productId,
+//                    'store_id' => $transfer->store_in_id,
+//                    'serial_no' => $serial,
+//                    'stock_transfer_id' => $transfer->id,
+//                ];
+//            });
+//        });
+//
+//        //ProductSerialNumbers::upsert($products, ['serial_no', 'product_id'], ['store_id', 'stock_transfer_id']);
+//
+//
+//        dd($products);
+//
+//
+//        return DB::transaction(function () use ($purchaseOrder, $products) {
+//            if (is_null($purchaseOrder->received_date)) {
+//                $purchaseOrder->isReceiving = true;
+//                $purchaseOrder->update(['received_date' => Carbon::now()]);
+//                $purchaseOrder->save();
+//                $purchaseOrder->productSerialNumbers()->sync($products);
+//            }
+//            return redirect()->route('purchase-order.index')->with('success', 'Purchase Order received');
+//        });
 
     }
 }
