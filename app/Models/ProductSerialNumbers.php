@@ -20,4 +20,11 @@ class ProductSerialNumbers extends Model
             ->where('is_sold', '!=', true)
             ->where('product_id', $productId);
     }
+
+    public static function getTransferSerialProduct(int $productId, int $transferId)
+    {
+        return ProductSerialNumbers::select(['id', 'store_id', 'product_id', 'serial_no',])
+            ->where('stock_transfer_id', $transferId)
+            ->where('product_id', $productId);
+    }
 }

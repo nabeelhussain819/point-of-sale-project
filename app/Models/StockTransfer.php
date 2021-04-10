@@ -93,4 +93,9 @@ class StockTransfer extends Base
 
         StockTransfer::observe(StockTransferObserver::class);
     }
+
+    public function productSerialNumbers()
+    {
+        return $this->belongsToMany(ProductSerialNumbers::class, 'product_serial_numbers', 'stock_transfer_id', 'stock_transfer_id');
+    }
 }

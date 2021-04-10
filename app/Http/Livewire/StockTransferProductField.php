@@ -19,6 +19,7 @@ class StockTransferProductField extends Component
     public $showModal = false;
     public $serialFetchParams = [];
     public $postSerials = [];
+    public $savedSerials = [];
 
 
     public function render()
@@ -33,7 +34,7 @@ class StockTransferProductField extends Component
         if (!empty($transfer)) {
             $this->transfer = $transfer;
             $this->formFields = collect($transfer->products)->map(function (StockTransferProduct $product) {
-                return ArrayHelper::merge($product->getAttributes(), ['error' => false]);
+                return ArrayHelper::merge($product->getAttributes(), ['error' => false, 'hasSerial' => $product->product->has_serial_number]);
             })->all();
             $this->storeOutId = $transfer->store_out_id;
             $this->storeOutSelect();
@@ -103,6 +104,12 @@ class StockTransferProductField extends Component
 //        $this->formFields[$key]['quantity'];
 //
         $this->getSerialProduct($this->formFields[$key]['product_id'], $this->storeOutId);
+    }
+
+    public function showSerials($key)
+    {
+        $this->showModal = true;
+        $this->savedSerials = Inventory::getTransferSerialProduct($this->formFields[$key]['product_id'], $this->transfer->id)->get();
     }
 
     public function getSerialProduct($productId, $storeId)

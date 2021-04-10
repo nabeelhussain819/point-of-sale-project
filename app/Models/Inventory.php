@@ -148,4 +148,9 @@ class Inventory extends Base
     {
         return ProductSerialNumbers::getByStoreId($productId, $storeId);
     }
+
+    public static function getTransferSerialProduct($productId, $transferId)
+    {
+        return ProductSerialNumbers::getTransferSerialProduct($productId, $transferId);
+    }
 }

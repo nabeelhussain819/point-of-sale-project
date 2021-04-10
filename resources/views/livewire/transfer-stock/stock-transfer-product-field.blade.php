@@ -65,6 +65,7 @@
                                    value="{{!empty($value['id']) ? $value['id']:null}}"/>
 
                             <input type="number" class="form-control"
+                                   {{$isCreated ?'disabled':''}}
                                    wire:change="validateProduct({{$key}})"
                                    wire:model="formFields.{{$key}}.quantity"
                                    value="{{!empty($value['quantity']) ? $value['quantity']:null}}"
@@ -80,7 +81,7 @@
                     <div class="input-group spinner">
                         <div class="row">
                             <div class="input-group mb-3">
-                                @if(isset($formFields[$key]['hasSerial'])&& $formFields[$key]['hasSerial'])
+                                @if(isset($formFields[$key]['hasSerial'])&& $formFields[$key]['hasSerial']  && !$isCreated)
                                     <div class="input-group-append">
                                         <button
                                                 wire:click.prevent="associateSerial({{$key}})"
@@ -91,7 +92,19 @@
                                         </button>
                                     </div>
                                 @endIf
+                                @if(isset($formFields[$key]['hasSerial'])&& $isCreated)
+                                    <div class="input-group-append">
+                                        <button
+                                                wire:click.prevent="showSerials({{$key}})"
+                                                data-target="#showSerialNumber"
+                                                data-toggle="modal"
+                                                class="btn btn-primary"
+                                                type="button">Show Serial numbers
+                                        </button>
+                                    </div>
+                                @endIf
                                 <select class="form-control"
+                                        {{$isCreated ?'disabled':''}}
                                         wire:change.debounce.1000ms="validateProduct({{$key}})"
                                         wire:model="formFields.{{$key}}.product_id"
                                         name="products[{{$key}}][product_id]">
@@ -110,8 +123,10 @@
 
 
                 <td>
+                    @if(!$isCreated)
                     <button type="button" class=" btn btn-danger shadow-lg" wire:click="removeRow({{$key}})">remove
                     </button>
+                    @endif
                 </td>
             </tr>
 
@@ -186,6 +201,42 @@
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{$serial->serial_no}}
                                 </label>
+                            </div>
+                        @endforeach
+                        {{--@livewire('transfer.serial-number-livewire',['params'=>$serialFetchParams])--}}
+                    @endif
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" type="button" class="btn btn-primary">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--Modal--}}
+
+    {{--MOdal show --}}
+
+
+    <div class="modal fade" wire:ignore.self id="showSerialNumber" tabindex="-1" role="dialog"
+         aria-labelledby="showSerialNumber" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Serial Numbers</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    @if($showModal)
+                        @foreach($savedSerials as  $key=>$serial)
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{$serial->serial_no}}
+                                </label>
+
                             </div>
                         @endforeach
                         {{--@livewire('transfer.serial-number-livewire',['params'=>$serialFetchParams])--}}
