@@ -8,6 +8,7 @@ use Livewire\Component;
 class SerialNumberLivewire extends Component
 {
     public $serials = [];
+    public $postSerial = [];
 
     public function render()
     {
@@ -22,5 +23,10 @@ class SerialNumberLivewire extends Component
     public function getSerialProduct($productId, $storeId)
     {
         $this->serials = Inventory::getSerialProducts($productId, $storeId)->get(25);
+    }
+
+    public function handleSerial($serialKey,$productId)
+    {
+
     }
 }

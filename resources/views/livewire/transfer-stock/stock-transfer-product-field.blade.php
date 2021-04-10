@@ -147,6 +147,17 @@
         @endif
     </div>
 
+
+    {{--====Serial number===--}}
+    @foreach($postSerials as $productId =>$serials)
+        @foreach($serials as $serial)
+            <input type="hidden"
+                   value="{{$serial}}"
+                   name="postSerial[{{$productId}}][]"
+            >
+        @endforeach
+    @endforeach
+    {{--====Serial number===--}}
     {{--MOdal --}}
 
 
@@ -160,7 +171,20 @@
                 </div>
                 <div class="modal-body">
                     @if($showModal)
-                        @livewire('transfer.serial-number-livewire',['params'=>$serialFetchParams])
+                        @foreach($productSerials as  $key=>$serial)
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       wire:click="handleSerial({{$serial}},{{$key}})"
+                                       type="checkbox"
+                                       wire.model="postSerials.{{$serial->product_id}}.{{$key}}"
+                                       value="{{$serial->serial_no}}"
+                                       id="serial-{{$serial->serial_no}}">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{$serial->serial_no}}
+                                </label>
+                            </div>
+                        @endforeach
+                        {{--@livewire('transfer.serial-number-livewire',['params'=>$serialFetchParams])--}}
                     @endif
                 </div>
 

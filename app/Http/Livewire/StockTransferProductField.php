@@ -17,6 +17,7 @@ class StockTransferProductField extends Component
     public $productSerials = [];
     public $showModal = false;
     public $serialFetchParams = [];
+    public $postSerials = [];
 
 
     public function render()
@@ -100,11 +101,22 @@ class StockTransferProductField extends Component
 //        $productId = $this->formFields[$key]['product_id'];
 //        $this->formFields[$key]['quantity'];
 //
-        //$this->getSerialProduct($productId, $this->storeOutId);
+        $this->getSerialProduct($this->formFields[$key]['product_id'], $this->storeOutId);
     }
 
-//    public function getSerialProduct($productId, $storeId)
-//    {
-//        $this->productSerials = Inventory::getSerialProducts($productId, $storeId)->paginate(25);
-//    }
+    public function getSerialProduct($productId, $storeId)
+    {
+        $this->productSerials = Inventory::getSerialProducts($productId, $storeId)->take(25)->get();
+
+    }
+
+    public function handleSerial($serial, $key)
+    {
+        if (!isset($this->postSerials[$serial['product_id']])) {
+            $this->postSerials[$serial['product_id']] = [];
+        }
+        array_push($this->postSerials[$serial['product_id']], $serial['serial_no']);
+
+        
+    }
 }

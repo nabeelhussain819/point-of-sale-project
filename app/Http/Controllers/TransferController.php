@@ -36,6 +36,7 @@ class TransferController extends Controller
 
     public function transfer(TransferRequest $request)
     {
+        dd($request->all());
         $transfer = new StockTransfer();
         $productData = collect($request->get('products'))->map(function ($product) {
             unset($product['id']); // hot fix
@@ -66,6 +67,7 @@ class TransferController extends Controller
      */
     public function markAsReceived(StockTransfer $transfer, Request $request)
     {
+
         //todo Some centric logic
 //        DB::transaction(function () use ($transfer, $request) {
 //            $productData = collect($request->get('products'))->map(function ($product) {
