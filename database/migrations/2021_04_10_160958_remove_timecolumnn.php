@@ -14,7 +14,7 @@ class RemoveTimecolumnn extends Migration
     public function up()
     {
         Schema::table('stores', function (Blueprint $table) {
-            $table->removeColumn('timezone');
+            $table->dropColumn('timezone');
         });
     }
 
