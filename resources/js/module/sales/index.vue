@@ -27,8 +27,7 @@ export default {
     productSummary,
   },
   methods: {
-    updatedProducts(products) {
-      
+    updatedProducts(products) {      
       console.log(products);
     },
   },

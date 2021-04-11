@@ -4,8 +4,13 @@
       <a-col :span="12">
         <a-descriptions>
           <a-descriptions-item label="Sub Total"> ${{ subTotal }} </a-descriptions-item>
-          <a-descriptions-item label="Discount"> ${{ discount }} </a-descriptions-item>
-          <a-descriptions-item label="Tax"> $00 </a-descriptions-item>
+          <a-descriptions-item label="Without Tax">
+            {{ withoutTax }}
+          </a-descriptions-item>
+          <a-descriptions-item label="Total Discount">
+            $ {{ discount }}
+          </a-descriptions-item>
+          <a-descriptions-item label="Tax"> {{ tax }} % </a-descriptions-item>
         </a-descriptions></a-col
       >
       <a-col :span="12">
@@ -40,6 +45,7 @@ import {
   EVENT_CUSTOMERSALE_CUSTOMER_DETAIL,
 } from "../../services/constants";
 import productTable from "./products-table";
+import StoreService from "../../services/API/StoreService";
 export default {
   components: { productTable },
   data() {
@@ -49,6 +55,9 @@ export default {
       subTotal: 0,
       discount: 0,
       customer: null,
+      tax: 5,
+      withoutTax: 0,
+      withoutDiscount: 0,
     };
   },
   methods: {
@@ -63,14 +72,29 @@ export default {
     },
     calculate(products) {
       let total = 0;
+      let withoutDiscount = 0;
       this.products = objectToArray(products);
       for (const key in products) {
+        withoutDiscount += products[key].quantity * parseInt(products[key].retail_price);       
         total += parseInt(products[key].total);
       }
-      this.subTotal = total;
+      this.withoutDiscount = withoutDiscount;
+     
+      this.discount = withoutDiscount - total;
+      this.withoutTax = total;
+      this.subTotal = this.getTotalwithTax(total);
+    },
+    getTotalwithTax(total) {
+      let taxunit = (this.tax * 100) / total;
+      return (total + taxunit).toFixed(3);
     },
     setCustomer(customer) {
       this.customer = customer;
+    },
+    getTax() {
+      StoreService.currentTax().then((data) => {
+        this.tax = data.tax;
+      });
     },
   },
   mounted() {
@@ -80,9 +104,10 @@ export default {
       calc(products);
       // this.products = products;
     });
-    this.$eventBus.$on(EVENT_CUSTOMERSALE_CUSTOMER_DETAIL, function (customer) {      
+    this.$eventBus.$on(EVENT_CUSTOMERSALE_CUSTOMER_DETAIL, function (customer) {
       setCustomer(customer);
     });
+    this.getTax();
   },
 };
 </script>

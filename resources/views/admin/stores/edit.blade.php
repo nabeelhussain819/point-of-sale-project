@@ -42,7 +42,11 @@
                             <label for="exampleInputPassword1">State</label>
                             <input type="text"  value="{{$store->state}}" class="form-control" name="state" placeholder="State" value="{{old('state')}}" required>
                         </div>
-
+                        <div class="form-group">
+                            <label>Tax %</label>
+                            <input type="number" class="form-control" name="tax" value="{{$store->tax}}"
+                                   placeholder="Tax %"/>
+                        </div>
 
                         <div class="form-group">
                             <label>Primary Phone</label>

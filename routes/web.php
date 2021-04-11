@@ -134,6 +134,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/installment/{finance}', [FinanceController::class, 'installment']);
     });
 
+    Route::group(['prefix' => 'store'], function () {
+        Route::get('/tax', [StoreController::class, 'getTax']);
+    });
+
+
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,

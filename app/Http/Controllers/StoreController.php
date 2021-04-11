@@ -132,4 +132,10 @@ class StoreController extends Controller
             'primary_phone' => 'required',
         ]);
     }
+
+    public function getTax()
+    {
+        return Store::select(['id', 'tax'])->where('id', Store::currentId())->first();
+
+    }
 }

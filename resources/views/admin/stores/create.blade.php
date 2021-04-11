@@ -43,7 +43,13 @@
                             <input type="text" class="form-control" name="primary_phone" value="{{old('primary_phone')}}" placeholder="Primary Phone"/>
                         </div>
 
-                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Tax %</label>
+                                <input type="text" class="form-control" name="tax" value="{{old('number')}}"
+                                       placeholder="Tax %"/>
+                            </div>
+
+                            <div class="form-group">
                             <label>Fax</label>
                             <input type="text" class="form-control" name="fax"  value="{{old('fax')}}" placeholder="Fax"/>
                         </div>

@@ -33,7 +33,7 @@ class Store extends Model
     /**
      * @var array
      */
-    protected $fillable = ['guid', 'name', 'full_name', 'city','state','zip','code', 'location', 'timezone', 'contact_info', 'primary_phone', 'fax', 'description', 'active', 'created_at', 'updated_at'];
+    protected $fillable = ['guid', 'name', 'full_name', 'city', 'state', 'zip', 'code', 'location', 'timezone', 'contact_info', 'primary_phone', 'fax', 'description', 'active', 'created_at', 'updated_at', 'tax'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
