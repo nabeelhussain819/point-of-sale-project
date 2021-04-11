@@ -15,13 +15,15 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->unsignedBigInteger('product_id')->nullable();
+            $table->float('discount')->nullable();
+            $table->float('without_tax')->nullable();
+            $table->float('sub_total')->nullable();
+            $table->float('without_discount')->nullable();
             $table->timestamps();
         });
 
         Schema::table('orders', function (Blueprint $table){
-            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
+
         });
     }
 

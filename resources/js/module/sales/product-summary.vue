@@ -33,6 +33,7 @@
         title=""
         footer=""
         ><product-table :products="products" :customer="customer"
+        :billSummary="billSummary"
       /></a-modal>
     </a-row>
   </div>
@@ -58,6 +59,7 @@ export default {
       tax: 5,
       withoutTax: 0,
       withoutDiscount: 0,
+      billSummary: {},
     };
   },
   methods: {
@@ -75,14 +77,21 @@ export default {
       let withoutDiscount = 0;
       this.products = objectToArray(products);
       for (const key in products) {
-        withoutDiscount += products[key].quantity * parseInt(products[key].retail_price);       
+        withoutDiscount += products[key].quantity * parseInt(products[key].retail_price);
         total += parseInt(products[key].total);
       }
       this.withoutDiscount = withoutDiscount;
-     
+
       this.discount = withoutDiscount - total;
       this.withoutTax = total;
       this.subTotal = this.getTotalwithTax(total);
+
+      this.billSummary = {
+        discount: this.discount,
+        wihtoutTax: this.withoutTax,
+        subTotal: this.subTotal,
+        withoutDiscount: this.withoutDiscount,
+      };
     },
     getTotalwithTax(total) {
       let taxunit = (this.tax * 100) / total;

@@ -23,6 +23,13 @@ class CreateOrderProductsTable extends Migration
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('inventory_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('stock_bin_id')->default(1);
+            $table->unsignedBigInteger('type_id')->nullable();
+            $table->string('serial_number')->nullable();
+            $table->float('retail_price')->nullable();
+            $table->float('total')->nullable();
+            $table->float('min_price')->nullable();
             $table->timestamps();
         });
 
@@ -32,6 +39,9 @@ class CreateOrderProductsTable extends Migration
            $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('stock_bin_id')->references('id')->on('stock_bins')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('type_id')->references('id')->on('types')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

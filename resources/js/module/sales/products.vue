@@ -30,7 +30,7 @@
                 `productItem[${key}][serial_number]`,
                 {
                   initialValue: product.serial_number,
-                  rules: [],
+                   rules: [{ required: true, message: 'Please insert status!' }],
                 },
               ]"
               @search="serialModal(product, key)"
@@ -53,8 +53,7 @@
               v-decorator="[
                 `productItem[${key}][quantity]`,
                 {
-                  initialValue: product.quantity,
-                  rules: [],
+                  initialValue: product.quantity,                
                 },
               ]"
             /> </a-form-item

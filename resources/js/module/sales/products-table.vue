@@ -9,6 +9,8 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table>
     <checkout />
+    <a-button @click="checkout" type="button">Checkout</a-button>
+    <a-button type="button">Print</a-button>
   </div>
 </template>
 <script>
@@ -23,8 +25,8 @@ const columns = [
   },
   {
     title: "Serial",
-    dataIndex: "serial",
-    key: "serial",
+    dataIndex: "serial_number",
+    key: "serial_number",
   },
   {
     title: "Unit Prices",
@@ -50,6 +52,7 @@ export default {
   props: {
     products: { default: () => [] },
     customer: { default: () => {} },
+    billSummary: { default: () => {} },
   },
   data() {
     return {
@@ -57,6 +60,15 @@ export default {
       isEmpty,
     };
   },
-  mounted() {},
+  methods: {
+    checkout() {
+      console.log('products',this.products);
+      console.log('customer',this.customer);
+      console.log('billSummary',this.billSummary);
+    },
+  },
+  mounted() {
+    console.log(this.products);
+  },
 };
 </script>

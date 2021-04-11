@@ -1,8 +1,8 @@
 <template>
   <div>
-    <a-row gutter="2">
+    <a-row :gutter="2">
       <a-form :form="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
-        <a-tabs :animated="false" default-active-key="1" @change="callback">
+        <a-tabs :animated="false" default-active-key="1" >
           <a-tab-pane key="1" tab="Cash"> </a-tab-pane>
           <a-tab-pane key="2" tab="Card" force-render>
             <a-col :span="4">
