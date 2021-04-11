@@ -9,6 +9,7 @@
 namespace App\Traits;
 
 
+use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,6 @@ trait AppliesQueryParams
             })->when($request->get('active'), function (Builder $query, $active) {
                 return $query->where('active', $active);
             })->when($request->get('categories'), function (Builder $query, $categories) {
-
                 if (is_array($categories)) {
                     return $query->whereHas('categories', function (Builder $query) use ($categories) {
                         $query->whereIn('category_id', $categories);
@@ -31,13 +31,23 @@ trait AppliesQueryParams
                 return $query->whereHas('categories', function (Builder $query) use ($categories) {
                     $query->where('category_id', $categories);
                 });
-            })->when($request->get('type'),function (Builder $builder,$type){
+            })->when($request->get('type'), function (Builder $builder, $type) {
                 return    $builder->where('type', $type);
             })->when($request->get('search'), function (Builder $builder, $search) {
                 $search = strtolower($search);
                 return $builder->where('name', 'like', "%".$search."%");
             })->when($request->get('product_id'), function (Builder $builder, $productId) {
-                return $builder->where('product_id', $productId);
+                if (StringHelper::isInt($productId)) {
+                    return $builder->where('product_id', $productId);
+                }
+            })->when($request->get('OrUPC'), function (Builder $builder, $upc) {
+                if (StringHelper::isInt($upc)) {
+                    $builder->orWhere('product_id', $upc);
+                }
+                return $builder->orWhere
+                    ->whereHas('product', function (Builder $query) use ($upc) {
+                        $query->where('UPC', $upc);
+                    });
             });
         };
     }

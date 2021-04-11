@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OrderProduct;
+use App\Helpers\ArrayHelper;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -29,14 +31,33 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
     public function store(Request $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $order = new Order();
+            $customerId = null;
+            if (!empty($request->get('customer'))) {
+                $customerId = $request->get('customer')['id'];
+            }
+            $summary = [];
+
+            if (!empty($request->get('summary'))) {
+                $summaryData = $request->get('summary');
+                $summary = ['discount' => $summaryData['discount'],
+                    'without_tax' => $summaryData['wihtoutTax'],
+                    'sub_total' => $summaryData['subTotal'],
+                    'without_discount' => $summaryData['withoutDiscount']
+                ];
+            }
+
+            $data = ArrayHelper::merge($summary, [
+                'customer_id' => $customerId,
+            ]);
+
+            $order->fill($data)->save();
+        });
     }
 
     /**

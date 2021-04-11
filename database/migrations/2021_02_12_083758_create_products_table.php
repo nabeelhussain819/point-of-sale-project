@@ -34,6 +34,7 @@ class CreateProductsTable extends Migration
             $table->foreign('department_id')->references('id')->on('departments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
         });
+
     }
 
     /**

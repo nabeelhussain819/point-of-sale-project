@@ -144,11 +144,11 @@
                     </thead>
                     <tbody>
                     @php
-                        $count = 1;
+
                     @endphp
                     @forelse(\App\Models\Product::all() as $item)
                         <tr>
-                            <td>{{$count++}}</td>
+                            <td>{{$item->id}}</td>
                             <td><a href="{{route('products.edit',$item->id)}}">{{$item->name}}</a></td>
                             <td>{{$item->description}}</td>
                             <td>{{$item->UPC}}</td>

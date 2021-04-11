@@ -40,7 +40,7 @@ export default {
     getProductById(e) {
       this.resetValidation();
       let productId = e.target.value;
-      InventoryService.products({ product_id: productId }).then((inventory) => {
+      InventoryService.products({ product_id: productId,OrUPC:productId }).then((inventory) => {
         this.noProductFound(inventory.data);
         if (!isEmpty(inventory.data) && inventory.data[0]) {
           this.$eventBus.$emit(EVENT_CUSTOMERSALE_PRODUCT_ADD, inventory.data[0].product);

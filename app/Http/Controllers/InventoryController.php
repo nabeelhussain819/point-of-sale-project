@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -119,6 +120,7 @@ class InventoryController extends Controller
     {
         return Inventory::where($this->applyFilters($request))
             ->with('product')
+            ->where('store_id', Store::currentId())
             ->paginate($this->pageSize);
     }
 }

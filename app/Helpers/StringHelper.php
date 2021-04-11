@@ -51,8 +51,8 @@ class StringHelper extends Str
         return intval($string) === intval($string1);
     }
 
-    public static function isInt(string $string):int
+    public static function isInt(string $string): bool
     {
-        return is_int($string);
+        return is_numeric($string);
     }
 }

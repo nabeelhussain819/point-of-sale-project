@@ -9,12 +9,13 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table>
     <checkout />
-    <a-button @click="checkout" type="button">Checkout</a-button>
+    <a-button @click="checkout" type="primary">Checkout</a-button>
     <a-button type="button">Print</a-button>
   </div>
 </template>
 <script>
 import { isEmpty } from "../../services/helpers";
+import OrderService from "../../services/API/OrderServices";
 import checkout from "./checkout";
 const columns = [
   {
@@ -62,9 +63,15 @@ export default {
   },
   methods: {
     checkout() {
-      console.log('products',this.products);
-      console.log('customer',this.customer);
-      console.log('billSummary',this.billSummary);
+      let data = {
+        products: this.products,
+        customer: this.customer,
+        summary: this.billSummary,
+      };
+      OrderService.create(data).then((response) => {
+        console.log(response);
+      });
+     
     },
   },
   mounted() {

@@ -94,7 +94,7 @@ export default {
       };
     },
     getTotalwithTax(total) {
-      let taxunit = (this.tax * 100) / total;
+      let taxunit = (total / 100) * this.tax;
       return (total + taxunit).toFixed(3);
     },
     setCustomer(customer) {
