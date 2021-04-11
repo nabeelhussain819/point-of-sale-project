@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DevicesTypesBrandsProduct;
 use App\Models\Product;
+use App\Models\ProductSerialNumbers;
+use App\Models\Store;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -136,5 +138,11 @@ class ProductController extends Controller
     {
         $device = DevicesTypesBrandsProduct::all();
         return view('admin.products.associate_product', ['device' => $device]);
+    }
+
+    public function getSerials(Product $product)
+    {
+        return ProductSerialNumbers::getByStoreId($product->id, Store::currentId())
+            ->paginate($this->pageSize);
     }
 }

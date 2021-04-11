@@ -17,8 +17,14 @@ function all(params = {}) {
     });
 }
 
+function getSerials(id){
+    return request({
+        url: `${baseUrl}/serials/${id}`,        
+    });
+}
+
 const ProductService = {
-    deviceBrand,all
+    deviceBrand,all,getSerials
 };
 
 export default ProductService

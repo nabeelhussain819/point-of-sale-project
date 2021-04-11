@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/all', [ProductController::class, 'all']);
         Route::get('/associate-device-brand', [ProductController::class, 'associateDeviceBrand'])
             ->name('associate-device-brand');
+        Route::get('/serials/{product}', [ProductController::class, 'getSerials']);
     });
 
     Route::group(['prefix' => 'repair'], function () {
@@ -128,6 +129,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'inventory'], function () {
         Route::get('/products', [InventoryController::class, 'products']);
     });
+
 
     Route::group(['prefix' => 'finance'], function () {
         Route::get('/fetch', [FinanceController::class, 'fetch']);

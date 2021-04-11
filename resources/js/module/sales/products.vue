@@ -24,7 +24,7 @@
 
         <a-col :span="4">
           <a-form-item>
-            <a-input
+            <a-input-search
               :disabled="!product.has_serial_number"
               v-decorator="[
                 `productItem[${key}][serial_number]`,
@@ -33,7 +33,12 @@
                   rules: [],
                 },
               ]"
-            /> </a-form-item
+              @search="serialModal(product, key)"
+            >
+              <a-button type="primary" slot="enterButton">
+                <a-icon type="mobile" />
+              </a-button>
+            </a-input-search> </a-form-item
         ></a-col>
         <a-col :span="2">
           <a-form-item>
@@ -108,6 +113,9 @@
         ></a-col>
       </a-row>
     </a-form>
+    <a-modal v-model="showSerialModal" width="70%" title="Select Serial">
+      <serials v-if="showSerialModal" @getSerial="getSerial" :product="selectedProduct" />
+    </a-modal>
   </div>
 </template>
 <script>
@@ -115,7 +123,10 @@ import {
   EVENT_CUSTOMERSALE_PRODUCT_SUMMARY,
   EVENT_CUSTOMERSALE_PRODUCT_ADD,
 } from "../../services/constants";
+import serials from "./../product/serials";
+
 export default {
+  components: { serials },
   data() {
     return {
       formLayout: "horizontal",
@@ -125,6 +136,8 @@ export default {
       uuidString: "uuid-",
       total: 0,
       expendedTotal: 0,
+      showSerialModal: false,
+      selectedProduct: {},
     };
   },
   methods: {
@@ -181,10 +194,24 @@ export default {
 
       this.$eventBus.$emit(EVENT_CUSTOMERSALE_PRODUCT_SUMMARY, this.products);
     },
+    serialModal(product, key) {
+      product.key = key;
+      this.selectedProduct = product;
+
+      this.handleSearialModal(true);
+    },
+    handleSearialModal(show) {
+      this.showSerialModal = show;
+    },
+    getSerial(product) {
+      let products = this.products;
+      products[this.selectedProduct.key].serial_number = product.serial_no;
+      this.updateProducts(products);
+      this.handleSearialModal(false);
+    },
   },
   mounted() {
     let setProducts = this.setProducts;
-
     this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function (product) {
       setProducts(product);
     });
