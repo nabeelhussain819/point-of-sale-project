@@ -21,7 +21,7 @@
           </a-tab-pane>
         </a-tabs>
 
-        <a-col :span="4">
+        <a-col :span="24">
           <a-form-item label="Amount">
             <!-- ------------------- -->
 

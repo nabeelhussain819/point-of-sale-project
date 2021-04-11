@@ -1,22 +1,65 @@
 <template>
-  <div>
-    Customer :
-    <span>
-      <span v-if="!isEmpty(customer)">{{ customer.name_phone }}</span>
-      <span v-else>No Customer</span>
-    </span>
+  <div class="checkout-container">
+    <a-row class="m-2">
+      <a-col :span="12">
+         <h1 class="heading only-for-print">XYZ COmpany</h1>
+        <span class="customer-detail">
+          Customer :
+          <span>
+            <span v-if="!isEmpty(customer)">{{ customer.name_phone }}</span>
+            <span v-else>No Customer</span>
+          </span>
+         
+        </span>
+      </a-col>
+      <a-col :span="12">
+        <h1 class="heading only-for-print">Invoice</h1>
+        <a-descriptions class="only-for-print" bordered >
+          <a-descriptions-item label="Date" :span="24">
+           {{ currentDateTime }}
+          </a-descriptions-item>          
+          <a-descriptions-item :span="24" label="Due Date">
+           {{ currentDateTime }}
+          </a-descriptions-item>
+         
+        </a-descriptions>
+      </a-col>
+    </a-row>
+
     <a-table :columns="columns" :pagination="false" :data-source="products">
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table>
-    <checkout />
-    <a-button @click="checkout" type="primary">Checkout</a-button>
-    <a-button type="button">Print</a-button>
+    <a-row>
+      <a-col :span="8">
+        <checkout />
+        <a-button class="no-print" @click="checkout" type="primary">Checkout</a-button>
+        <a-button class="no-print" @click="print" type="button">Print</a-button>
+      </a-col>
+      <a-col :span="8"></a-col>
+      <a-col :span="8">
+        <a-descriptions bordered title="Bill summary">
+          <a-descriptions-item label="Sub Total" :span="24">
+            ${{ this.billSummary.subTotal }}
+          </a-descriptions-item>
+          <a-descriptions-item :span="24" label="Without Tax">
+            {{ this.billSummary.withoutTax }}
+          </a-descriptions-item>
+          <a-descriptions-item :span="24" label="Total Discount">
+            $ {{ this.billSummary.discount }}
+          </a-descriptions-item>
+          <a-descriptions-item :span="24" label="Tax">
+            {{ this.billSummary.tax }} %
+          </a-descriptions-item>
+        </a-descriptions>
+      </a-col>
+    </a-row>
   </div>
 </template>
 <script>
 import { isEmpty } from "../../services/helpers";
 import OrderService from "../../services/API/OrderServices";
 import checkout from "./checkout";
+import moment from "moment";
 const columns = [
   {
     title: "Name",
@@ -59,6 +102,7 @@ export default {
     return {
       columns,
       isEmpty,
+      currentDateTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
     };
   },
   methods: {
@@ -71,7 +115,9 @@ export default {
       OrderService.create(data).then((response) => {
         console.log(response);
       });
-     
+    },
+    print() {
+      window.print();
     },
   },
   mounted() {
@@ -79,3 +125,36 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+
+.only-for-print{
+  display: none;
+}
+.m-2{
+  margin:15px;
+}
+@media print {
+  .only-for-print{
+  display: block;
+}
+  .checkout-container {
+    .ant-table-thead > tr > th,
+    .ant-descriptions-title {
+      background-color: #1890ff !important;
+      -webkit-print-color-adjust: exact;
+      color:white;
+    }
+    .customer-detail {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .ant-tabs-tab {
+      display: none !important;
+    }
+    .ant-descriptions {
+      margin-top: 15px;
+    }
+  }
+}
+</style>
