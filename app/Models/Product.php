@@ -84,6 +84,4 @@ class Product extends Model
     {
         return ['id', 'name'];
     }
-
-    
 }

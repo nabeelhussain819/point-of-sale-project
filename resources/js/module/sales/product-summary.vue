@@ -69,26 +69,20 @@ export default {
       this.showOrderInvoice = $show;
     },
     confirm(e) {
-      this.$message.success("Click on Yes");
+      //this.$message.success("Click on Yes");
     },
     cancel(e) {
-      this.$message.error("Click on No");
+      //this.$message.error("Click on No");
     },
     calculate(products) {
       let total = 0;
       let withoutDiscount = 0;
       this.products = objectToArray(products);
       for (const key in products) {
-        console.log("retail_price",parseFloat(products[key].retail_price));
-        console.log("products[key].quantity" ,products[key].quantity);
         withoutDiscount +=
           products[key].quantity * parseFloat(products[key].retail_price);
         total += parseFloat(products[key].total);
       }
-
-      console.log("withoutDiscount",withoutDiscount);
-      console.log("total",total);
-
       this.withoutDiscount = withoutDiscount;
 
       this.discount = withoutDiscount - total; // total value discount

@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->float('discount')->nullable();
             $table->float('without_tax')->nullable();
             $table->float('sub_total')->nullable();
+            $table->float('tax')->nullable()->comment("save the % of tax at that time ");
             $table->float('without_discount')->nullable();
             $table->timestamps();
         });

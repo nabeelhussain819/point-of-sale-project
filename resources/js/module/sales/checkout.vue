@@ -22,7 +22,7 @@
         </a-tabs>
 
         <a-col :span="4">
-          <a-form-item label="Cash">
+          <a-form-item label="Amount">
             <!-- ------------------- -->
 
             <a-input

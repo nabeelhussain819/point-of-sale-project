@@ -37,18 +37,17 @@ class Order extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function product()
+    public function ordersProducts()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(OrderProduct::class, 'order_products', 'order_id', 'order_id');
     }
 
-    public function orderProducts()
+    public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_products');
+        return $this->hasMany(OrderProduct::class);
     }
-
 
 //    public function stock()
 //    {

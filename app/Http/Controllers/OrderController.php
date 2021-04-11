@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ArrayHelper;
 use App\Models\Order;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -37,6 +38,7 @@ class OrderController extends Controller
     {
         DB::transaction(function () use ($request) {
             $order = new Order();
+
             $customerId = null;
             if (!empty($request->get('customer'))) {
                 $customerId = $request->get('customer')['id'];
@@ -45,18 +47,35 @@ class OrderController extends Controller
 
             if (!empty($request->get('summary'))) {
                 $summaryData = $request->get('summary');
-                $summary = ['discount' => $summaryData['discount'],
+                $summary = [
+                    'discount' => $summaryData['discount'],
                     'without_tax' => $summaryData['wihtoutTax'],
                     'sub_total' => $summaryData['subTotal'],
                     'without_discount' => $summaryData['withoutDiscount']
                 ];
             }
 
+            $productsData = [];
+            collect($request->get('products'))->each(function ($product) use (&$productsData, $customerId) {
+
+                $productsData[] = [
+                    'product_id' => $product['id'],
+                    'customer_id' => $customerId,
+                    'store_id' => Store::currentId(),
+                    'retail_price' => $product['retail_price'],
+                    'serial_number' => $product['serial_number'],
+                    'total' => $product['total'],
+                    'min_price' => $product['min_price'],
+                    'quantity' => $product['quantity'],
+                ];
+            });
+
             $data = ArrayHelper::merge($summary, [
                 'customer_id' => $customerId,
             ]);
 
             $order->fill($data)->save();
+            $order->ordersProducts()->sync($productsData);
         });
     }
 
