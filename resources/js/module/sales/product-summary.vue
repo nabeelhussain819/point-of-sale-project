@@ -32,8 +32,10 @@
         @cancel="toggleModal(false)"
         title=""
         footer=""
-        ><product-table :products="products" :customer="customer"
-        :billSummary="billSummary"
+        ><product-table
+          :products="products"
+          :customer="customer"
+          :billSummary="billSummary"
       /></a-modal>
     </a-row>
   </div>
@@ -77,14 +79,15 @@ export default {
       let withoutDiscount = 0;
       this.products = objectToArray(products);
       for (const key in products) {
-        withoutDiscount += products[key].quantity * parseInt(products[key].retail_price);
-        total += parseInt(products[key].total);
+        withoutDiscount += products[key].quantity * products[key].retail_price;
+        total += products[key].total;
       }
+
       this.withoutDiscount = withoutDiscount;
 
-      this.discount = withoutDiscount - total;
+      this.discount = withoutDiscount - total; // total value discount
       this.withoutTax = total;
-      this.subTotal = this.getTotalwithTax(total);
+      this.subTotal = this.getTotalwithTax(total,this.getTaxValue(this.withoutDiscount));
 
       this.billSummary = {
         discount: this.discount,
@@ -93,9 +96,12 @@ export default {
         withoutDiscount: this.withoutDiscount,
       };
     },
-    getTotalwithTax(total) {
-      let taxunit = (total / 100) * this.tax;
-      return (total + taxunit).toFixed(3);
+    getTotalwithTax(total,taxPrice) {
+      taxPrice = parseInt(total + taxPrice);
+      return taxPrice.toFixed(3);
+    },
+    getTaxValue(retailPrice) {
+      return (retailPrice / 100) * this.tax;
     },
     setCustomer(customer) {
       this.customer = customer;

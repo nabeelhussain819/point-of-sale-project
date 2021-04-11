@@ -30,7 +30,7 @@
                 `productItem[${key}][serial_number]`,
                 {
                   initialValue: product.serial_number,
-                   rules: [{ required: true, message: 'Please insert status!' }],
+                  rules: [{ required: true, message: 'Please insert status!' }],
                 },
               ]"
               @search="serialModal(product, key)"
@@ -53,7 +53,7 @@
               v-decorator="[
                 `productItem[${key}][quantity]`,
                 {
-                  initialValue: product.quantity,                
+                  initialValue: product.quantity,
                 },
               ]"
             /> </a-form-item
@@ -167,7 +167,7 @@ export default {
       let pp = this.products;
 
       pp[key].total = quantity * pp[key].min_price;
-
+      
       this.updateProducts(pp);
     },
     discount(value, key) {
