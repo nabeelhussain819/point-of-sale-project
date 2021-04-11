@@ -26,7 +26,7 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'customer_id', 'description', 'created_at', 'updated_at'];
+    protected $fillable = ['product_id', 'customer_id', 'discount', 'without_tax', 'sub_total', 'without_discount', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

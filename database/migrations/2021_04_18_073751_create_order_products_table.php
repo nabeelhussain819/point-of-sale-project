@@ -15,7 +15,6 @@ class CreateOrderProductsTable extends Migration
     {
         Schema::create('order_products', function (Blueprint $table) {
             $table->id();
-            $table->string('lookup');
             $table->bigInteger('quantity');
 //            $table->string('order_id'); Horrible
             $table->unsignedBigInteger('order_id');

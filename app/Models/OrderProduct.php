@@ -30,7 +30,9 @@ class OrderProduct extends Model
     /**
      * @var array
      */
-    protected $fillable = ['customer_id','lookup','inventory_id', 'store_id', 'stock_id', 'quantity', 'order_id','type_id' ,'vendor_id','created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'lookup', 'inventory_id', 'store_id', 'stock_id',
+        'retail_price', 'serial_number', 'total', 'min_price',
+        'quantity', 'order_id', 'type_id', 'vendor_id', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
