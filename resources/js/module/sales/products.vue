@@ -158,10 +158,7 @@ export default {
       let products = this.products;
 
       delete products[key];
-
-      let a = JSON.stringify(products);
-
-      this.products = JSON.parse(a);
+      this.updateProducts(products);
     },
     computedTotal(event, key) {
       let quantity = event.target.value;
