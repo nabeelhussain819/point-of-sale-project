@@ -79,15 +79,19 @@ export default {
       let withoutDiscount = 0;
       this.products = objectToArray(products);
       for (const key in products) {
-        withoutDiscount += products[key].quantity * products[key].retail_price;
-        total += products[key].total;
+        console.log(typeof(products[key].quantity));
+        console.log(typeof(products[key].retail_price));
+        withoutDiscount +=  products[key].quantity * parseFloat(products[key].retail_price);
+        total += parseFloat(products[key].total);
       }
 
+    
       this.withoutDiscount = withoutDiscount;
 
       this.discount = withoutDiscount - total; // total value discount
+      this.discount = parseFloat(this.discount).toFixed(2);
       this.withoutTax = total;
-      this.subTotal = this.getTotalwithTax(total,this.getTaxValue(this.withoutDiscount));
+      this.subTotal = this.getTotalwithTax(total, this.getTaxValue(this.withoutDiscount));
 
       this.billSummary = {
         discount: this.discount,
@@ -96,9 +100,9 @@ export default {
         withoutDiscount: this.withoutDiscount,
       };
     },
-    getTotalwithTax(total,taxPrice) {
+    getTotalwithTax(total, taxPrice) {
       taxPrice = parseInt(total + taxPrice);
-      return taxPrice.toFixed(3);
+      return taxPrice.toFixed(2);
     },
     getTaxValue(retailPrice) {
       return (retailPrice / 100) * this.tax;
