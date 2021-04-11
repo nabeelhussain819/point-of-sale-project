@@ -167,7 +167,7 @@ export default {
       let pp = this.products;
 
       pp[key].total = quantity * pp[key].min_price;
-      
+      pp[key].quantity = parseFloat(quantity);
       this.updateProducts(pp);
     },
     discount(value, key) {

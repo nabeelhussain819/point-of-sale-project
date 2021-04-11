@@ -79,13 +79,16 @@ export default {
       let withoutDiscount = 0;
       this.products = objectToArray(products);
       for (const key in products) {
-        console.log(typeof(products[key].quantity));
-        console.log(typeof(products[key].retail_price));
-        withoutDiscount +=  products[key].quantity * parseFloat(products[key].retail_price);
+        console.log("retail_price",parseFloat(products[key].retail_price));
+        console.log("products[key].quantity" ,products[key].quantity);
+        withoutDiscount +=
+          products[key].quantity * parseFloat(products[key].retail_price);
         total += parseFloat(products[key].total);
       }
 
-    
+      console.log("withoutDiscount",withoutDiscount);
+      console.log("total",total);
+
       this.withoutDiscount = withoutDiscount;
 
       this.discount = withoutDiscount - total; // total value discount
