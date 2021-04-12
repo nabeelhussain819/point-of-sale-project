@@ -125,6 +125,7 @@ export default {
             products: this.products,
             customer: this.customer,
             summary: this.billSummary,
+            sales:values
           };
           OrderService.create(data).then((response) => {
             console.log(response);

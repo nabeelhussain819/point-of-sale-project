@@ -37,7 +37,7 @@ class Inventory extends Base
         SCENARIO_TRANSFER = 'TRANSFER',
         SCENARIO_PURCHASE = 'PURCHASE';
 
-    public $INCOMING_PRODUCTS = false;
+    public static $INCOMING_PRODUCTS = false;
     public $OUTGOING_PRODUCTS = false;
 
     /**

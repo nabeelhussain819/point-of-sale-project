@@ -20,6 +20,7 @@ class PurchaseOrderObserver
             $purchaseOrder->products->each(function (PurchaseOrdersProduct $purchaseOrdersProduct) use ($purchaseOrder) {
 
                 //That method should be in inventory model optimization after 3 moduel integration
+                
                 Inventory::updateOrCreate([
                     'product_id' => $purchaseOrdersProduct->product_id,
                     'store_id' => $purchaseOrder->store_id

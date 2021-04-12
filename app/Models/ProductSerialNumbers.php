@@ -27,4 +27,12 @@ class ProductSerialNumbers extends Model
             ->where('stock_transfer_id', $transferId)
             ->where('product_id', $productId);
     }
+
+    public static function updateStatusSold(int $productId, int $storeId, string $serialNo)
+    {
+        return ProductSerialNumbers::where('store_id', $storeId)
+            ->where('product_id', $productId)
+            ->where('serial_no', $serialNo)
+            ->update(['is_sold' => true]);
+    }
 }
