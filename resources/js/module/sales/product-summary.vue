@@ -92,9 +92,10 @@ export default {
 
       this.billSummary = {
         discount: this.discount,
-        wihtoutTax: this.withoutTax,
+        withoutTax: this.withoutTax,
         subTotal: this.subTotal,
         withoutDiscount: this.withoutDiscount,
+        tax:this.tax
       };
     },
     getTotalwithTax(total, taxPrice) {

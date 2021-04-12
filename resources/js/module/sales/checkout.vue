@@ -1,69 +1,95 @@
 <template>
   <div>
     <a-row :gutter="2">
-      <a-form :form="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
-        <a-tabs :animated="false" default-active-key="1" >
-          <a-tab-pane key="1" tab="Cash"> </a-tab-pane>
-          <a-tab-pane key="2" tab="Card" force-render>
-            <a-col :span="4">
-              <a-form-item label="Card number">
-                <a-input
-                  type="card_number"
-                  v-decorator="[
-                    'card_number',
-                    {
-                      rules: [
-                        { required: true, message: 'Please input your customer_number!' },
-                      ],
-                    },
-                  ]" /></a-form-item
-            ></a-col>
-          </a-tab-pane>
-        </a-tabs>
+      <!-- <a-form :form="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }"> -->
+      <a-radio-group
+        class="no-print"
+        name="radioGroup"
+        @change="paymentMode"
+        default-value="cash"
+      >
+        <a-radio value="cash"> Cash </a-radio>
+        <a-radio value="card"> Card </a-radio>
+      </a-radio-group>
+      <br /><br />
 
-        <a-col :span="24">
-          <a-form-item label="Amount">
-            <!-- ------------------- -->
+      <a-col v-if="!isCash" :span="24">
+        <a-form-item label="Card number">
+          <a-input
+            type="card_number"
+            v-decorator="[
+              'customer_card_number',
+              {
+                rules: [
+                  { required: true, message: 'Please input your customer_number!' },
+                ],
+              },
+            ]" /></a-form-item
+      ></a-col>
+      <a-col :span="24">
+        <a-form-item label="Amount">
+          <!-- ------------------- -->
 
-            <a-input
-              type="number"
-              v-decorator="[
-                'price',
-                {
-                  rules: [
-                    { required: true, message: 'Please input your customer_number!' },
-                  ],
-                },
-              ]"
-            />
-            <!-- ------------------------------ -->
-          </a-form-item></a-col
-        >
-        <!-- <a-col :span="4">
-          <a-form-item label="Customer Phone">
-            <a-input
-              type="number"
-              v-decorator="[
-                'phone',
-                {
-                  rules: [
-                    { required: true, message: 'Please input your customer_number!' },
-                  ],
-                },
-              ]" /></a-form-item
-        ></a-col> -->
-      </a-form>
+          <a-input
+            v-on:change="getAmount"
+            type="number"
+            v-decorator="[
+              'cash_paid',
+              {
+                rules: [
+                  { required: true, message: 'Please input your customer_number!' },
+                ],
+              },
+            ]"
+          />
+          <!-- ------------------------------ -->
+        </a-form-item></a-col
+      >
+      <a-col v-if="isCash" :span="24">
+        <a-form-item label="Cash Back">
+          <!-- ------------------- -->
+          <a-input
+            :disabled="true"
+            type="number"
+            v-decorator="[
+              'cash_back',
+              {
+                rules: [],
+              },
+            ]"
+          />
+          <!-- ------------------------------ -->
+        </a-form-item></a-col
+      >
+
+      <!-- </a-form> -->
     </a-row>
   </div>
 </template>
 
 <script>
 export default {
+  props: { summary: { default: () => {} } },
   data() {
     return {
-      formLayout: "horizontal",
-      form: this.$form.createForm(this, { name: "addCustomer" }),
+      isCash: true,
     };
+  },
+  methods: {
+    paymentMode(e) {
+      this.isCash = e.target.value === "cash";
+    },
+    getAmount(e) {
+     
+      let cash = e.target.value;
+      let total = this.summary.subTotal;
+      let cashBack = cash - total;
+      if (cashBack > 0) {
+        this.$emit("cashBack", cashBack);
+      } else {
+        this.$emit("cashBack", 0);
+      }
+    },
   },
 };
 </script>
