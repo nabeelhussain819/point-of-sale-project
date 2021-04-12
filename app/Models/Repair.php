@@ -41,7 +41,7 @@ class Repair extends Base
     {
         return [
             ['id' => self::IN_PROGRESS_STATUS, 'name' => 'In Progress'],
-            ['id' => self::IN_COMPLETED_STATUS, 'name' => 'Completed'],
+            ['id' => self::IN_COMPLETED_STATUS, 'name' => 'Ready For Pickup'],
             ['id' => self::IN_COLLECTED_STATUS, 'name' => 'Collected'],
             ['id' => self::IN_CANCELLED_STATUS, 'name' => 'Cancelled']
         ];

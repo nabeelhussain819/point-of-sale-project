@@ -42,7 +42,7 @@
                     <div class="col-2">'.$inventory->product->name.'</div>
                     <div class="col-2">'.$concileData[$inventory->product_id]['physical_quantity'].'</div>
                     <div class="col-2">'.$inventory->quantity.'</div>
-                    <div class="col-2" id="action" data-id="'.$inventory->id.'" data-product-id="'.$inventory->product_id.'" data-physical-quantity="'.$concileData[$inventory->product_id]['physical_quantity'].'" data-quantity="'.$inventory->quantity.'" data-concile-id="'.$conciliation->id.'">Resolve</div>
+                    <div class="col-2" id="action" data-id="'.$inventory->id.'" data-product-id="'.$inventory->product_id.'" data-physical-quantity="'.$concileData[$inventory->product_id]['physical_quantity'].'" data-quantity="'.$inventory->quantity.'" data-concile-id="'.$conciliation->id.'"><button class="btn btn-primary">Resolve</button></div>
                 </div>';
                 @endphp
                 {{--overStock--}}

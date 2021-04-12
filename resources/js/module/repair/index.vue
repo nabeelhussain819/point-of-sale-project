@@ -9,7 +9,7 @@
         <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
         <span slot="tags" slot-scope="tags">
           <a-tag color="volcano">
-            {{ tags.toUpperCase() }}
+            {{ tags.toUpperCase()==="COMPLETED"?"Ready For Pickup":tags.toUpperCase() }}
           </a-tag>
         </span>
         <span slot="action" slot-scope="text, record">

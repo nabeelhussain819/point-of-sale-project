@@ -203,7 +203,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :span="4">
+          <!-- <a-col :span="4">
             <a-form-item label="Prices">
               <a-input
                 :step="0.1"
@@ -220,7 +220,7 @@
                 <a-icon suffix slot="suffix" type="dollar" />
               </a-input>
             </a-form-item>
-          </a-col>
+          </a-col> -->
         </div>
         <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
         <a-col :span="12">
