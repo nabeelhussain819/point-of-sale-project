@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="no-print">
     <a-row :gutter="2">
       <!-- <a-form :form="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }"> -->
       <a-radio-group
@@ -14,7 +14,7 @@
       <br /><br />
 
       <a-col v-if="!isCash" :span="24">
-        <a-form-item label="Card number">
+        <a-form-item label="Card Number">
           <a-input
             type="card_number"
             v-decorator="[

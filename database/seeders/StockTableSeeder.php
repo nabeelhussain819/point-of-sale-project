@@ -19,9 +19,9 @@ class StockTableSeeder extends Seeder
         //
         $stockItems = [
             'Retail',
-            'Return',
-            'Repair'
+            'Return'
         ];
+
         $types = [
             'Simple-Order',
             'Purchase-Order',

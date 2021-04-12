@@ -54,7 +54,9 @@
             {{-- Main Content --}}
             <div id="app" class="content">
                 <div class="p-2">
+                    @if(Route::currentRouteName()!=="home")
                     <a href="{{ url()->previous() }}" class="btn btn-info"><i class="fas fa-arrow-left"></i> Back</a>
+                    @endif
                 </div>
                 <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
                     @yield('content')

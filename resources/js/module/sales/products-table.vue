@@ -2,7 +2,7 @@
   <div class="checkout-container">
     <a-row class="m-2">
       <a-col :span="12">
-        <h1 class="heading only-for-print">XYZ COmpany</h1>
+        <h1 class="heading only-for-print">XYZ Company</h1>
         <span class="customer-detail">
           Customer :
           <span>
@@ -17,9 +17,9 @@
           <a-descriptions-item label="Date" :span="24">
             {{ currentDateTime }}
           </a-descriptions-item>
-          <a-descriptions-item :span="24" label="Due Date">
+          <!-- <a-descriptions-item :span="24" label="Due Date">
             {{ currentDateTime }}
-          </a-descriptions-item>
+          </a-descriptions-item> -->
         </a-descriptions>
       </a-col>
     </a-row>
@@ -53,9 +53,9 @@
           <a-descriptions-item :span="24" label="Total Discount">
             $ {{ billSummary.discount }}
           </a-descriptions-item>
-          <a-descriptions-item :span="24" label="Without Discount">
-            {{ billSummary.withoutDiscount }} %
-          </a-descriptions-item>
+          <!-- <a-descriptions-item :span="24" label="Without Discount">
+            ${{ billSummary.withoutDiscount }} 
+          </a-descriptions-item> -->
           <a-descriptions-item :span="24" label="Tax ">
             {{ billSummary.tax }} %
           </a-descriptions-item>

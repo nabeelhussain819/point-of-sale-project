@@ -17,12 +17,12 @@
           ]"
         /> </a-form-item
     ></a-col>
-    <a-col :span="2"> <a-form-item :colon="false" label="OR">|</a-form-item></a-col>
+    <!-- <a-col :span="2"> <a-form-item :colon="false" label="OR">|</a-form-item></a-col>
     <a-col :span="11">
       <a-form-item label="Add Item">
         <a-button type="primary">Add Item </a-button>
       </a-form-item>
-    </a-col>
+    </a-col> -->
   </a-row>
 </template>
 <script>
