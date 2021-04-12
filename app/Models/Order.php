@@ -28,8 +28,10 @@ class Order extends Model
      */
     protected $fillable = [ 'customer_id', 'discount', 'without_tax', 'sub_total',
         'cash_paid','cash_back','customer_card_number',
+        'tax',
         'without_discount', 'created_at', 'updated_at'];
 
+    protected $appends = ["date"];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -51,6 +53,22 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
+    public function getDateAttribute()
+    {
+        return $this->created_at->format('Y-m-d');
+    }
+
+    public function withCustomer()
+    {
+        $this->load('customer');
+        return $this;
+    }
+
+    public function withProducts()
+    {
+        $this->load('products');
+        return $this;
+    }
 //    public function stock()
 //    {
 //        return $this->belongsTo(StockBin::class);

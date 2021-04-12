@@ -60,6 +60,7 @@ class OrderController extends Controller
                     'cash_paid' => $cashDetail['cash_paid'],
                     'cash_back' => empty($cashDetail['cash_paid']) ? null : $cashDetail['cash_paid'],
                     'customer_card_number' => empty($cashDetail['customer_card_number']) ? null : $cashDetail['customer_card_number'],
+                    'tax' => empty($summaryData['tax']) ? null : $summaryData['tax'],
                 ];
             }
 
@@ -139,9 +140,11 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        return $order->withCustomer()
+            ->withProducts();
+
     }
 
     /**
@@ -176,5 +179,12 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function fetch(Request $request)
+    {
+        return Order::with("customer")
+            ->orderBy('created_at')
+            ->paginate($this->pageSize);
     }
 }

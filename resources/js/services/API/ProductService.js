@@ -1,7 +1,7 @@
 // import * as constants from '../Constants'
 import request from '../request'
 
-const baseUrl = `product`;
+const baseUrl = `/product`;
 
 function deviceBrand(params = {}) {
     return request({

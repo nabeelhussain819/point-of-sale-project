@@ -1,7 +1,7 @@
 // import * as constants from '../Constants'
 import request from '../request'
 
-const baseUrl = `store`;
+const baseUrl = `/store`;
 
 function currentTax(params = {}) {
     return request({

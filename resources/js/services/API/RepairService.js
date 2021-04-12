@@ -1,7 +1,7 @@
 // import * as constants from '../Constants'
 import request from '../request'
 
-const baseUrl = `repair`;
+const baseUrl = `/repair`;
 
 function all(params = {}) {
     return request({

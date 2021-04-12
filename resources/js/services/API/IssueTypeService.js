@@ -1,6 +1,6 @@
 import request from '../request'
 
-const baseUrl = `issue-type`;
+const baseUrl = `/issue-type`;
 
 function all(params = {}) {
     return request({

@@ -1,7 +1,7 @@
 // import * as constants from '../Constants'
 import request from '../request'
 
-const baseUrl = `inventory`;
+const baseUrl = `/inventory`;
 
 function products(params = {}) {
     return request({

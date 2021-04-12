@@ -31,6 +31,7 @@ Vue.use(Antd);
 
 Vue.component('repair', require('./module/repair/index.vue').default);
 Vue.component('sales', require('./module/sales/index.vue').default);
+Vue.component('sales-listing', require('./module/sales/listing.vue').default);
 Vue.component('finance', require('./module/finance/index.vue').default);
 
 /**

@@ -6,7 +6,7 @@
 
     <div class="container bg-white ">
         <div class="">
-            <sales></sales>
+            <sales-listing></sales-listing>
         </div>
 
     </div>

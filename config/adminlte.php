@@ -239,6 +239,11 @@ return [
             'icon' => 'fas fa-boxes',
         ],
         [
+            'text' => 'Sales',
+            'url' => 'sales',
+            'icon' => 'fas fa-barcode',
+        ],
+        [
             'text' => 'Reports',
             'url' => '',
             'icon' => 'fas fa-file',
