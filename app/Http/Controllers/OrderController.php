@@ -50,11 +50,16 @@ class OrderController extends Controller
 
             if (!empty($request->get('summary'))) {
                 $summaryData = $request->get('summary');
+                $cashDetail = $request->get('sales');
+
                 $summary = [
                     'discount' => $summaryData['discount'],
-                    'withoutTax' => $summaryData['withoutTax'],
-                    'sub_total' => $summaryData['subTotal'],
-                    'without_discount' => $summaryData['withoutDiscount']
+                    'withoutTax' => $summaryData['without_tax'],
+                    'sub_total' => $summaryData['sub_total'],
+                    'without_discount' => $summaryData['without_discount'],
+                    'cash_paid' => $cashDetail['cash_paid'],
+                    'cash_back' => empty($cashDetail['cash_paid']) ? null : $cashDetail['cash_paid'],
+                    'customer_card_number' => empty($cashDetail['customer_card_number']) ? null : $cashDetail['customer_card_number'],
                 ];
             }
 
@@ -124,6 +129,7 @@ class OrderController extends Controller
 
             $order->fill($data)->save();
             $order->ordersProducts()->sync($productsData);
+            return $order;
         });
     }
 
