@@ -39,7 +39,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        return DB::transaction(function () use ($request) {
             $order = new Order();
 
             $customerId = null;
@@ -54,9 +54,9 @@ class OrderController extends Controller
 
                 $summary = [
                     'discount' => $summaryData['discount'],
-                    'withoutTax' => $summaryData['without_tax'],
-                    'sub_total' => $summaryData['sub_total'],
-                    'without_discount' => $summaryData['without_discount'],
+                    'without_tax' => $summaryData['withoutTax'],
+                    'sub_total' => $summaryData['subTotal'],
+                    'without_discount' => $summaryData['withoutDiscount'],
                     'cash_paid' => $cashDetail['cash_paid'],
                     'cash_back' => empty($cashDetail['cash_paid']) ? null : $cashDetail['cash_paid'],
                     'customer_card_number' => empty($cashDetail['customer_card_number']) ? null : $cashDetail['customer_card_number'],
