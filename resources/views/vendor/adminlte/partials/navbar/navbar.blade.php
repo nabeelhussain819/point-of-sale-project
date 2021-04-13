@@ -31,7 +31,9 @@
     <ul class="navbar-nav ml-auto">
         
         <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" id="lock_screen" data-slide="true" href="#" role="button"><i class="fas fa-th-large"></i></a>
+            <a class="nav-link" data-widget="control-sidebar" id="lock_screen" data-slide="true" href="#" role="button">
+
+            </a>
           </li>
         {{-- Custom right links --}}
         @yield('content_top_nav_right')

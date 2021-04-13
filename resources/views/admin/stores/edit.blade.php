@@ -59,7 +59,7 @@
                                 <option value="1" {{$store->active == 1 ? 'selected' : ''}}>ACTIVE</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-success float-right font-weight-bold" name="edit_store">Edit</button>
+                        <button type="submit" class="btn btn-success float-right font-weight-bold" name="edit_store">Save Changes</button>
                     </form>
                 </div>    
             </div>
