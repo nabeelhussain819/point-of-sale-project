@@ -184,7 +184,7 @@ class OrderController extends Controller
     public function fetch(Request $request)
     {
         return Order::with("customer")
-            ->orderBy('created_at')
+            ->orderBy('created_at','desc')
             ->paginate($this->pageSize);
     }
 }
