@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class InventoryController extends Controller
 {
@@ -116,11 +117,20 @@ class InventoryController extends Controller
         return redirect()->back()->with('success','Inventory Deleted');
     }
 
+    /**
+     * todo not use that method on any other ways causing issue change name also
+     * @param Request $request
+     */
     public function products(Request $request)
     {
-        return Inventory::where($this->applyFilters($request))
+        $inventoryProduct = Inventory::where($this->applyFilters($request))
             ->with('product')
             ->where('store_id', Store::currentId())
-            ->paginate($this->pageSize);
+            ->firstOrFail();
+
+        if ($inventoryProduct->quantity <= 0) {
+            throw new ConflictHttpException('Out of stock');
+        }
+        return $inventoryProduct;
     }
 }

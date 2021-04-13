@@ -12,7 +12,7 @@
         </span>
       </a-col>
       <a-col :span="12">
-        <h1 class="heading only-for-print">Invoice #{{order.id}}</h1>
+        <h1 class="heading only-for-print">Invoice #{{ order.id }}</h1>
         <a-descriptions class="only-for-print" bordered>
           <a-descriptions-item label="Date" :span="24">
             {{ currentDateTime }}
@@ -37,7 +37,13 @@
           :wrapper-col="{ span: 24 }"
         >
           <checkout @cashBack="cashBack" :summary="billSummary" />
-          <a-button  v-if="isEmpty(order)" class="no-print" type="primary" html-type="submit">Checkout</a-button>
+          <a-button
+            v-if="isEmpty(order)"
+            class="no-print"
+            type="primary"
+            html-type="submit"
+            >Checkout</a-button
+          >
           <a-button class="no-print" @click="print" type="button">Print</a-button>
         </a-form>
       </a-col>
@@ -114,7 +120,7 @@ export default {
       columns,
       isEmpty,
       currentDateTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
-      order:{}
+      order: {},
     };
   },
   methods: {
@@ -125,13 +131,15 @@ export default {
           let data = {
             products: this.products,
             customer: this.customer,
-            summary: this.billSummary,            
-            sales:values
+            summary: this.billSummary,
+            sales: values,
           };
           OrderService.create(data).then((response) => {
-            
-          this.order =response;
-         setTimeout(function(){ this.print() }, 2000);
+            this.$emit("orderCreated", true);
+            this.order = response;
+            setTimeout(function () {
+              this.print();
+            }, 2000);
           });
         }
       });

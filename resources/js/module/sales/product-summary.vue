@@ -33,6 +33,7 @@
         title=""
         footer=""
         ><product-table
+          @orderCreated="orderCreated"
           :products="products"
           :customer="customer"
           :billSummary="billSummary"
@@ -62,10 +63,17 @@ export default {
       withoutTax: 0,
       withoutDiscount: 0,
       billSummary: {},
+      isOrderCreated: false,
     };
   },
   methods: {
+    orderCreated(created) {
+      this.isOrderCreated = created;
+    },
     toggleModal($show) {
+      if (false === $show && this.isOrderCreated) {
+        location.reload();
+      }
       this.showOrderInvoice = $show;
     },
     confirm(e) {
@@ -95,7 +103,7 @@ export default {
         withoutTax: this.withoutTax,
         subTotal: this.subTotal,
         withoutDiscount: this.withoutDiscount,
-        tax:this.tax
+        tax: this.tax,
       };
     },
     getTotalwithTax(total, taxPrice) {

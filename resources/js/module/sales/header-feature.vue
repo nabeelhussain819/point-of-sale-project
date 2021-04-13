@@ -37,12 +37,30 @@ export default {
     getProductById(e) {
       this.resetValidation();
       let productId = e.target.value;
-      InventoryService.products({ product_id: productId }).then((inventory) => {
-        this.noProductFound(inventory.data);
-        if (!isEmpty(inventory.data) && inventory.data[0]) {
-          this.$eventBus.$emit(EVENT_CUSTOMERSALE_PRODUCT_ADD, inventory.data[0].product);
-        }
-      });
+      InventoryService.products({ product_id: productId })
+        .then((inventory) => {
+          this.noProductFound(inventory);
+          if (!isEmpty(inventory)) {
+            this.$eventBus.$emit(
+              EVENT_CUSTOMERSALE_PRODUCT_ADD,
+              inventory.product
+            );
+          }
+        }).catch((ex) => {
+          if (ex.response.status === 409) {
+            this.fetchProductsErrors = {
+              validateStatus: "error",
+              errorMsg: ex.response.data.message,
+            };
+          }
+          if (ex.response.status === 404) {
+            this.fetchProductsErrors = {
+              validateStatus: "error",
+              errorMsg: "No Product Found Against Key",
+            };
+          }
+        });
+        
     },
     noProductFound(data) {
       if (isEmpty(data)) {
