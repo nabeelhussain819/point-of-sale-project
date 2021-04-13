@@ -31,14 +31,15 @@
     <a-row>
       <a-col :span="8">
         <a-form
+          
           :form="form"
           @submit="handleSubmit"
           :label-col="{ span: 24 }"
           :wrapper-col="{ span: 24 }"
         >
-          <checkout @cashBack="cashBack" :summary="billSummary" />
+          <checkout v-if="!isCreated" @cashBack="cashBack" :summary="billSummary" />
           <a-button
-            v-if="isEmpty(order)"
+            v-if="isEmpty(order) && !isCreated"
             class="no-print"
             type="primary"
             html-type="submit"
@@ -49,7 +50,7 @@
       </a-col>
       <a-col :span="8"></a-col>
       <a-col :span="8">
-        <a-descriptions bordered title="Bill summary">         
+        <a-descriptions bordered title="Bill summary">
           <a-descriptions-item :span="24" label="Without Tax">
             {{ billSummary.withoutTax }}
           </a-descriptions-item>
@@ -62,7 +63,7 @@
           <a-descriptions-item :span="24" label="Tax">
             {{ billSummary.tax }} %
           </a-descriptions-item>
-           <a-descriptions-item label="Sub Total" :span="24">
+          <a-descriptions-item label="Sub Total" :span="24">
             ${{ billSummary.subTotal }}
           </a-descriptions-item>
         </a-descriptions>
@@ -78,8 +79,8 @@ import moment from "moment";
 const columns = [
   {
     title: "Name",
-    dataIndex: "description",
-    key: "description",
+    dataIndex: "name",
+    key: "name",
     ellipsis: true,
   },
   {
@@ -109,9 +110,11 @@ export default {
     checkout,
   },
   props: {
+    isCreated: { default: false },
     products: { default: () => [] },
     customer: { default: () => {} },
     billSummary: { default: () => {} },
+    createdOrder: { default: () => {} },
   },
   data() {
     return {
@@ -139,7 +142,7 @@ export default {
             this.order = response;
             setTimeout(function () {
               this.print();
-            }, 2000);
+            }, 1000);
           });
         }
       });
@@ -152,7 +155,9 @@ export default {
     },
   },
   mounted() {
-    console.log(this.products);
+    if (!isEmpty(this.createdOrder)) {
+      this.order = this.createdOrder;
+    }
   },
 };
 </script>

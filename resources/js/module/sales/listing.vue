@@ -17,15 +17,32 @@
           </a-tag>
         </span>
         <span slot="action" slot-scope="text, record">
-          <a-icon v-on:click="print(record.id)" type="printer" />
+          <a-icon v-on:click="showPrintModal(record.id)" type="printer" />
         </span>
       </a-table>
     </a-skeleton>
+
+    <a-modal
+      :destroyOnClose="true"
+      width="100%"
+      :visible="showOrderInvoice"
+      @cancel="toggleModal(false)"
+      title=""
+      footer=""
+      ><product-table
+        :createdOrder="order"
+        :isCreated="true"
+        @orderCreated="orderCreated"
+        :products="products"
+        :customer="customer"
+        :billSummary="billSummary"
+    /></a-modal>
   </div>
 </template>
 
 <script>
 import OrderService from "../../services/API/OrderServices";
+import productTable from "./products-table";
 
 const columns = [
   {
@@ -56,19 +73,31 @@ const columns = [
 ];
 
 export default {
+  components: { productTable },
   name: "index.vue",
   data() {
     return {
       data: [],
+      showOrderInvoice: false,
       columns,
       loading: false,
       pagination: {},
+      products: {},
+      customer: {},
+      billSummary: {},
+      order: {},
     };
   },
   mounted() {
     this.fetchList();
   },
   methods: {
+    toggleModal(show) {
+      this.showOrderInvoice = show;
+    },
+    orderCreated(created) {
+      this.isOrderCreated = created;
+    },
     fetchList() {
       this.loading = true;
       OrderService.all()
@@ -77,13 +106,22 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    print(orderId) {
+    showPrintModal(orderId) {
       OrderService.show(orderId).then((order) => {
-        console.log(order);
+        this.customer = order.customer;
+        this.products = order.products;
+        this.billSummary = {
+          discount: order.discount,
+          withoutTax: order.without_tax,
+          subTotal: order.sub_total,
+          withoutDiscount: order.without_discount,
+          tax: order.tax,
+        };
+        this.toggleModal(true);
+        this.order = order;
       });
     },
   },
-  components: {},
 };
 </script>
 
