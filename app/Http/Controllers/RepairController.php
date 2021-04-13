@@ -41,7 +41,7 @@ class RepairController extends Controller
         return DB::transaction(function () use ($request) {
             $repair = new Repair();
 
-            $repair->fill(array_merge($request->all(), ['customer_id' => 1, 'store_id' => Store::currentId()]));
+            $repair->fill(array_merge($request->all(), ['store_id' => Store::currentId()]));
             $products = array_filter($request->get('productItem'));
             $products = collect($products)->map(function ($product) {
                 return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
