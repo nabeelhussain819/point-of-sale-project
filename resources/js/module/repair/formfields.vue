@@ -18,8 +18,10 @@
               @search="customerSearch"
               @select="customerSelect"
               :loading="customerSearchLoading"
+              
+              :disabled="!isEmpty(repair.customer)"
               v-decorator="[
-                'customer_name',
+                'customer_id',
                 {
                   rules: [{ required: true, message: 'Please input your customer!' }],
                   initialValue: repair.customer && repair.customer.name,
@@ -263,6 +265,7 @@ export default {
       maxCustomer: 1,
       filterOption,
       customerSearchLoading: false,
+      isEmpty
     };
   },
   mounted() {
@@ -281,6 +284,7 @@ export default {
       });
     },
     update(values) {
+      delete values.customer_id;
       RepairService.update(this.repairId, values).then((response) => {
         this.$notification.open({
           message: "Updated",

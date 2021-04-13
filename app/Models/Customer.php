@@ -59,4 +59,22 @@ class Customer extends Model
     {
         return $this->name . " (" . $this->phone . ")";
     }
+
+    /**
+     * @param string $name
+     * @param string $phone
+     * @return Customer
+     */
+    public static function basicCreate(string $name, string $phone)
+    {
+        $customer = new Customer();
+
+        $customer->fill([
+            'name' => $name,
+            'phone' => $phone
+        ]);
+
+        $customer->save();
+        return $customer;
+    }
 }

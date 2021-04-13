@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ArrayHelper;
 use App\Helpers\GuidHelper;
+use App\Helpers\StringHelper;
+use App\Models\Customer;
 use App\Models\Repair;
 use App\Models\Store;
 use DB;
@@ -40,8 +42,16 @@ class RepairController extends Controller
     {
         return DB::transaction(function () use ($request) {
             $repair = new Repair();
+            $customerId = $request->get('customer_id')[0]; //
 
-            $repair->fill(array_merge($request->all(), ['store_id' => Store::currentId()]));
+            if (!StringHelper::isInt($customerId)) {
+                $customer = Customer::basicCreate($customerId, $request->get('phone'));
+                $customerId = $customer->id;
+
+            }
+
+            $repair->fill(array_merge($request->all(), ['customer_id' => $customerId, 'store_id' => Store::currentId()]));
+
             $products = array_filter($request->get('productItem'));
             $products = collect($products)->map(function ($product) {
                 return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
