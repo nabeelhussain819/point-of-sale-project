@@ -49,10 +49,7 @@
       </a-col>
       <a-col :span="8"></a-col>
       <a-col :span="8">
-        <a-descriptions bordered title="Bill summary">
-          <a-descriptions-item label="Sub Total" :span="24">
-            ${{ billSummary.subTotal }}
-          </a-descriptions-item>
+        <a-descriptions bordered title="Bill summary">         
           <a-descriptions-item :span="24" label="Without Tax">
             {{ billSummary.withoutTax }}
           </a-descriptions-item>
@@ -62,8 +59,11 @@
           <!-- <a-descriptions-item :span="24" label="Without Discount">
             ${{ billSummary.withoutDiscount }} 
           </a-descriptions-item> -->
-          <a-descriptions-item :span="24" label="Tax ">
+          <a-descriptions-item :span="24" label="Tax">
             {{ billSummary.tax }} %
+          </a-descriptions-item>
+           <a-descriptions-item label="Sub Total" :span="24">
+            ${{ billSummary.subTotal }}
           </a-descriptions-item>
         </a-descriptions>
       </a-col>

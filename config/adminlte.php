@@ -245,7 +245,7 @@ return [
         ],
         [
             'text' => 'Reports',
-            'url' => '',
+            'url' => 'welcome',
             'icon' => 'fas fa-file',
         ],
         [

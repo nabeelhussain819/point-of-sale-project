@@ -47,6 +47,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('admin.dashboard');
     })->middleware('changedPassword')
     ->name('home');
+
+    Route::get('/welcome', function () {
+        return view('common.comingsoon');
+    })->name('welcome');
+
     Route::post('/home',[HomeController::class,'getStoreId'])->name('store.id');
 
     Route::group(['prefix' => 'product'], function (){
