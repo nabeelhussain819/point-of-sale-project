@@ -14,6 +14,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ReconciliationController;
+use App\Http\Controllers\RefundController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesController;
@@ -150,6 +151,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/tax', [StoreController::class, 'getTax']);
     });
 
+    Route::group(['prefix' => 'refund'], function () {
+        Route::get('/order/{order}', [RefundController::class, 'order']);
+    });
 
     Route::Resources([
         'users' => UserController::class,
@@ -166,6 +170,7 @@ Route::group(['middleware' => ['auth']], function () {
         'brand' => BrandController::class,
         'issue-type' => IssueTypeController::class,
         'finance' => FinanceController::class,
+        'refund' => RefundController::class,
     ]);
 
     Route::group(['prefix' => 'product-management'], function (){

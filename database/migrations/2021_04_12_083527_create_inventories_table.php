@@ -24,8 +24,8 @@ class CreateInventoriesTable extends Migration
         });
 
         Schema::table('inventories', function (Blueprint $table){
-            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate();
+            $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate();
         });
     }
 

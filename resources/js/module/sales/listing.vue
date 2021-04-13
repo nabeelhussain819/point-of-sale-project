@@ -18,6 +18,7 @@
         </span>
         <span slot="action" slot-scope="text, record">
           <a-icon v-on:click="showPrintModal(record.id)" type="printer" />
+          <a :href="href(record.id)" >refund</a>
         </span>
       </a-table>
     </a-skeleton>
@@ -92,6 +93,9 @@ export default {
     this.fetchList();
   },
   methods: {
+    href(id){
+      return `refund/order/${id}`;
+    },
     toggleModal(show) {
       this.showOrderInvoice = show;
     },
