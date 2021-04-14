@@ -69,6 +69,16 @@ class Order extends Model
         $this->load('products');
         return $this;
     }
+
+    public function withProductsProduct()
+    {
+        $this->load(['products' => function ($query) {
+            $query->with(['product' => function ($query) {
+                $query->select(['id','name']);
+            }]);
+        }]);
+        return $this;
+    }
 //    public function stock()
 //    {
 //        return $this->belongsTo(StockBin::class);

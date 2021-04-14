@@ -86,7 +86,7 @@ class RefundController extends Controller
 
     public function order(Order $order)
     {
-        $order = $order->withProducts()->withCustomer();
+        $order = $order->withProductsProduct()->withCustomer();
         return view('admin.refund.order', ['order' => $order]);
     }
 }
