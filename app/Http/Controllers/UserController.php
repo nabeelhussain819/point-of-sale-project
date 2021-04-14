@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\UserDetail;
-use App\Models\UserStore;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -44,7 +44,9 @@ class UserController extends Controller
         $user = new User();
         $user->password = bcrypt('password');
         $user->assignRole($request->input('role_id'));
-        $user->fill($request->validated())->save();
+        $name = $request->input('first_name') . $request->input('last_name');
+        $userData = ArrayHelper::merge($request->validated(), ['name' => $name]);
+        $user->fill($userData)->save();
         $detail = new UserDetail();
         $detail->user()->associate($user);
         $detail->fill($request->validated())->save();
@@ -85,21 +87,17 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
-        if($request->input('assign'))
-        {
+        if ($request->input('assign')) {
             $this->assignRole($request);
-        }
-        elseif($request->input('removeRole'))
-        {
+        } elseif ($request->input('removeRole')) {
             $this->deassignRole($request);
+        } else {
+            $user->fill($request->all())->save();
+            $user->assignRole($request->input('role_id'));
+            $detail = UserDetail::where('user_id', $user->id)->first();
+            $detail->user()->associate($user);
+            $detail->fill($request->all())->save();
         }
-        else{
-        $user->fill($request->all())->save();
-        $user->assignRole($request->input('role_id'));
-        $detail = UserDetail::where('user_id', $user->id)->first();
-        $detail->user()->associate($user);
-        $detail->fill($request->all())->save();
-    }
         return redirect()->back()->with('success',"$user->name Updated");
     }
 

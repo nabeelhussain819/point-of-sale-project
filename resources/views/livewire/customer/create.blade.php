@@ -18,10 +18,10 @@
                         <label for="exampleInputEmail1">Phone</label>
                         <input type="text" class="form-control" id="exampleInputEmail1" wire:model="phone" placeholder="Phone" required>
                     </div>
-                    <div class="form-group ">
-                        <label>Telephone</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" wire:model="telephone" placeholder="Telephone " required>
-                    </div>
+                    {{--<div class="form-group ">--}}
+                        {{--<label>Telephone</label>--}}
+                        {{--<input type="text" class="form-control" id="exampleInputEmail1" wire:model="telephone" placeholder="Telephone " required>--}}
+                    {{--</div>--}}
                 </div>
             </div>
             <button wire:click="store()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Add New</button>

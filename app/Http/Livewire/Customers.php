@@ -53,15 +53,16 @@ class Customers extends Component
             'name' => 'required',
             'email' => 'required',
             'phone' => 'required',
-            'telephone' => 'required'
         ]);
+
         $customer = Customer::findOrFail($this->selected_id);
+
         $customer->update([
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'telephone' => $this->telephone,
         ]);
+
         $this->updateMode = false;
         session()->flash('success','Customer Updated');
     }
@@ -78,6 +79,5 @@ class Customers extends Component
         $this->name = null;
         $this->email = null;
         $this->phone = null;
-        $this->telephone = null;
     }
 }

@@ -21,7 +21,8 @@
 
             <tr id="product0">
                 <td>
-                    <input {{$isCreated ?'disabled': ''}}  wire:blur="lookUp({{$key}})"
+                    <input {{$isCreated ?'disabled': ''}}
+                           wire:blur="lookUp({{$key}})"
                            wire:model="products.{{$key}}.lookup"
                            type="text"
                            class="form-control"

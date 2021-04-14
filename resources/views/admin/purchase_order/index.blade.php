@@ -42,7 +42,7 @@
                             <div style="display: flex;">
 
                                 <a href="{{route('purchaseOrder.received',$po->id)}}" class="btn btn-info mr-1">
-                                    <i class="fa fa-pen"></i>
+                                    Received
                                 </a>
                                 <form action="{{route('purchase-order.destroy',$po->id)}}" method="POST">
                                     @csrf
