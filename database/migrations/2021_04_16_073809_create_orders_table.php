@@ -23,6 +23,10 @@ class CreateOrdersTable extends Migration
             $table->string('customer_card_number')->nullable();
             $table->float('tax')->nullable()->comment("save the % of tax at that time ");
             $table->float('without_discount')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

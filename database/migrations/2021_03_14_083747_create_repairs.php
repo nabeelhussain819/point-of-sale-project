@@ -21,6 +21,10 @@ class CreateRepairs extends Migration
             $table->float('total_cost')->nullable();
             $table->float('advance_cost')->nullable();
             $table->uuid('guid');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

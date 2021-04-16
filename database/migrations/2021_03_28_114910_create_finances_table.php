@@ -28,6 +28,10 @@ class CreateFinancesTable extends Migration
             $table->float('duration_due_date')->nullable()->comment("due date of duration");
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

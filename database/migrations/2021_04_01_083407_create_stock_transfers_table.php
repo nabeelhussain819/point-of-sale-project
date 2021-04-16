@@ -24,6 +24,8 @@ class CreateStockTransfersTable extends Migration
             $table->unsignedBigInteger('store_out_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

@@ -20,6 +20,10 @@ class CreateInventoriesTable extends Migration
             $table->bigInteger('quantity');
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

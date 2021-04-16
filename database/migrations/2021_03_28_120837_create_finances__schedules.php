@@ -22,6 +22,10 @@ class CreateFinancesSchedules extends Migration
             $table->float("received_amount")->nullable();
             $table->date("received_date")->nullable();
             $table->string("status");
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

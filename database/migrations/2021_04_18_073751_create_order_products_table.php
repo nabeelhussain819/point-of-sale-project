@@ -29,6 +29,10 @@ class CreateOrderProductsTable extends Migration
             $table->float('retail_price')->nullable();
             $table->float('total')->nullable();
             $table->float('min_price')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

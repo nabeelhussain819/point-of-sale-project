@@ -18,6 +18,10 @@ class CreateRefund extends Migration
             $table->unsignedBigInteger('order_id');
             $table->float('return_cost');
             $table->string('reason')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 
@@ -29,6 +33,10 @@ class CreateRefund extends Migration
             $table->string('serial_no')->nullable();
             $table->float('return_cost');
             $table->float('quantity')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

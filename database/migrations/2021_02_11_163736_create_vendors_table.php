@@ -23,7 +23,14 @@ class CreateVendorsTable extends Migration
             $table->string('contact_number')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('description')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('vendors', function (Blueprint $table){
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
         });
     }
 

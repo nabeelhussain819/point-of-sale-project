@@ -19,8 +19,15 @@ class CreateCategoriesTable extends Migration
             $table->string('full_name')->nullable();
             $table->string('reference')->nullable();
             $table->boolean('active')->default(false);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
+
             $table->timestamps();
         });
+
+
     }
 
     /**

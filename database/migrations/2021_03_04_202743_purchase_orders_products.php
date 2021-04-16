@@ -22,6 +22,10 @@ class PurchaseOrdersProducts extends Migration
             $table->unsignedBigInteger('purchase_order_id');
             $table->float('total')->nullable();
             $table->float('expected_total')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
         });
 
         Schema::table('purchase_orders_products', function (Blueprint $table) {

@@ -29,7 +29,15 @@ class CreateStoresTable extends Migration
             $table->string('fax')->nullable();
             $table->string('description')->nullable();
             $table->boolean('active')->default(false);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
+
+        });
+
+        Schema::table('stores', function (Blueprint $table){
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
         });
     }
 

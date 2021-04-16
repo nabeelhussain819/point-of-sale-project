@@ -27,6 +27,10 @@ class CreateProductsTable extends Migration
             $table->float('min_price',36);
             $table->boolean('taxable')->default(false);
             $table->boolean('active')->default(false);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

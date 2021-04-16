@@ -18,6 +18,10 @@ class CreateReconciliationTable extends Migration
             $table->unsignedBigInteger('store_id');
             $table->string('name');
             $table->boolean('is_reconciled');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 

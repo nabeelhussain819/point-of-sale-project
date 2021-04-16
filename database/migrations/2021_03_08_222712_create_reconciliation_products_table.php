@@ -20,6 +20,10 @@ class CreateReconciliationProductsTable extends Migration
             $table->float('physical_quantity')->nullable();
             $table->float('system_quantity')->nullable();
             $table->float('adjust_quantity')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
         });
 
         Schema::table('reconciliation_products', function (Blueprint $table) {
