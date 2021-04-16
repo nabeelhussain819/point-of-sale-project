@@ -48,6 +48,17 @@ trait AppliesQueryParams
                     ->whereHas('product', function (Builder $query) use ($upc) {
                         $query->where('UPC', $upc);
                     });
+            })->when($request->get('customerName'), function (Builder $builder, $customerName) {
+                $search = StringHelper::trimLower($customerName);
+                return $builder->whereHas('customer', function (Builder $builder) use ($search) {
+                    $builder->where('name', 'like', "%" . $search . "%");
+                });
+            })
+            ->when($request->get('customerPhone'), function (Builder $builder, $customerPhone) {
+
+                return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
+                    $builder->where('phone', 'like', "%" . $customerPhone . "%");
+                });
             });
         };
     }

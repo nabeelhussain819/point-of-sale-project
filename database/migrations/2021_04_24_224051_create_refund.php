@@ -17,6 +17,7 @@ class CreateRefund extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('order_id');
             $table->float('return_cost');
+            $table->string('reason')->nullable();
             $table->timestamps();
         });
 

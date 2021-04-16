@@ -41,9 +41,12 @@ class StringHelper extends Str
             || $value === false;
     }
 
-    public static function trimLower(?string $str): string
+    public static function trimLower($str): string
     {
-        return static::lower(trim($str));
+        if (self::isString($str)) {
+            return static::lower(trim($str));
+        }
+        return $str;
     }
 
     public static function compareInt($string, $string1)
@@ -54,5 +57,10 @@ class StringHelper extends Str
     public static function isInt(string $string): bool
     {
         return is_numeric($string);
+    }
+
+    public static function isString($string): bool
+    {
+        return is_string($string);
     }
 }

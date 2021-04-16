@@ -1,13 +1,14 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\Store; 
-use App\Models\User; 
-use App\Models\UserStore; 
-use Spatie\Permission\Models\Role;
+
+use App\Models\Store;
+use App\Models\User;
+use App\Models\UserStore;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class StoreTableSeeder extends Seeder
 {
@@ -48,7 +49,7 @@ class StoreTableSeeder extends Seeder
         $aData = array();
         foreach ($aUserIds as $iUserId=>$key) {
         	$aData[] = [
-        		'user_id' => $iUserId,
+                'user_id' => $iUserId === 0 ? 1 : $iUserId,
         		'role_id' => $aRoleIds[$i],
         		'store_id' => $iStoreId,
         		'created_at' 	=> Carbon::now(0),

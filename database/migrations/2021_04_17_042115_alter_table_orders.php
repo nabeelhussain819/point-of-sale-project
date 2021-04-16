@@ -15,7 +15,9 @@ class AlterTableOrders extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('parent_id')->references('id')->on('orders')->cascadeOnUpdate();
         });
     }
 
