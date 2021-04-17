@@ -29,14 +29,17 @@ class RefundController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @throws \Throwable
      */
     public function store(Request $request)
     {
-        //
+        \DB::transaction(function () use ($request) {
+            $refund = new Refund();
+            $refund->fill($request->all());
+            $refund->save();
+            $refund->refundsProducts()->sync($request->get('returnProducts'));
+        });
     }
 
     /**

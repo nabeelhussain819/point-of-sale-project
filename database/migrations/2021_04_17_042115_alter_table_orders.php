@@ -28,8 +28,6 @@ class AlterTableOrders extends Migration
      */
     public function down()
     {
-        Schema::table('sales', function (Blueprint $table) {
-            //
-        });
+
     }
 }

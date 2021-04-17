@@ -30,7 +30,7 @@
                 `productItem[${key}][serial_number]`,
                 {
                   initialValue: product.serial_number,
-                  rules: [{ required: true, message: 'Please insert status!' }],
+                  rules: [{ required: true, message: 'Please insert serial number!' }],
                 },
               ]"
               @search="serialModal(product, key)"

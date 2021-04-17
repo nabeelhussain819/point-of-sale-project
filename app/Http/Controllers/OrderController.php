@@ -94,7 +94,7 @@ class OrderController extends Controller
             ]);
 
 
-            //update inventory serial number @todo please use a human readable
+            //@todo update inventory serial number  please use a human readable
             $productWithSerial = collect($productsData)->filter(function ($inventoryProduct) {
                 return !empty($inventoryProduct['serial_number']);
             })->each(function ($inventoryProduct) {

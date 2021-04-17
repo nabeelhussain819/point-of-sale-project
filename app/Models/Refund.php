@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Core\Base;
+use App\Observers\RefundObserver;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Order $order
  * @property RefundsProduct[] $refundsProducts
  */
-class Refund extends Model
+class Refund extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -21,11 +23,12 @@ class Refund extends Model
      * @var string
      */
     protected $keyType = 'integer';
+    protected $hasGuid = false;
 
     /**
      * @var array
      */
-    protected $fillable = ['order_id', 'return_cost', 'created_at', 'updated_at'];
+    protected $fillable = ['order_id', 'return_cost', 'created_at', 'updated_at', 'created_by', 'updated_by'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -38,8 +41,21 @@ class Refund extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function refundsProducts()
+    public function products()
     {
         return $this->hasMany('App\Models\RefundsProduct');
+    }
+
+    public function refundsProducts()
+    {
+        return $this->belongsToMany(RefundsProduct::class, 'refunds_products', 'refund_id', 'refund_id');
+
+    
+    }
+    public static function boot()
+    {
+        parent::boot();
+
+        Refund::observe(RefundObserver::class);
     }
 }
