@@ -3,5 +3,8 @@
 @section('title','Issue Type')
 
 @section('content')
-    @livewire('issue-type')
+    <div class="container">
+        @livewire('issue-type')
+    </div>
+
 @endsection

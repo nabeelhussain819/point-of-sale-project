@@ -3,5 +3,8 @@
 @section('title','Device Type')
 
 @section('content')
-    @livewire('device-type')
+    <div class="container">
+        @livewire('device-type')
+    </div>
+
 @endsection

@@ -19,11 +19,11 @@
                 {{--</div>--}}
             {{--</div>--}}
         </form>
-        <a class="logo-header" href="/home"> <i class="fas fa-home "></i>HOME</a>
+        <a class="logo-header" href="/home"> <i class="fas fa-home "></i> HOME</a>
         <form method="POST" action="{{route('store.id')}}">
             @csrf
             <select name="store_id" class="form-control" onchange="this.form.submit()">
-                <option value="">No Store Selected</option>
+                <option disabled>No Store Selected</option>
                 @foreach(\App\Models\UserStore::getCurrentUserStore() as $item)
                     <option value="{{$item->store_id}}"
                             type="submit" {{$item->store_id == \Illuminate\Support\Facades\Session::get('store_id') ? 'selected' : ''}}>{{$item->store->name}}</option>

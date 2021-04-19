@@ -3,5 +3,8 @@
 @section('title','All Categories')
 
 @section('content')
-  <livewire:test/>
+  <div class="container">
+    <livewire:test/>
+  </div>
+
 @endsection

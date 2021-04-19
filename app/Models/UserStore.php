@@ -51,7 +51,8 @@ class UserStore extends Model
 
     public static function getCurrentUserStore()
     {
-        return UserStore::where('user_id', auth()->user()->id)->get();
+        
+        return UserStore::where('user_id', auth()->user()->id)->get()->unique('store_id');
     }
 
 }

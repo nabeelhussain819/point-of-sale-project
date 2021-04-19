@@ -3,5 +3,8 @@
 @section('title','Coming Soon')
 
 @section('content')
-   Coming Soon
+   <div class="container">
+      Coming Soon
+   </div>
+
 @endsection
