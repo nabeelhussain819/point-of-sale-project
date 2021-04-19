@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Observers\RefundObserver;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
@@ -24,6 +23,7 @@ class Refund extends Base
      */
     protected $keyType = 'integer';
     protected $hasGuid = false;
+    public $PostedProducts;
 
     /**
      * @var array
