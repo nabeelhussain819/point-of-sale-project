@@ -4,8 +4,9 @@
 
     {{-- Navbar left links --}}
     <ul class="navbar-nav">
+
         {{-- Left sidebar toggler link --}}
-        @include('adminlte::partials.navbar.menu-item-left-sidebar-toggler')
+        {{--@include('adminlte::partials.navbar.menu-item-left-sidebar-toggler')--}}
         <form action="" class="form-inline mx-2">
             {{ csrf_field() }}
             {{--<div class="input-group">--}}
@@ -17,6 +18,17 @@
                     {{--</button>--}}
                 {{--</div>--}}
             {{--</div>--}}
+        </form>
+        <a class="logo-header" href="/home"> <i class="fas fa-home "></i>HOME</a>
+        <form method="POST" action="{{route('store.id')}}">
+            @csrf
+            <select name="store_id" class="form-control" onchange="this.form.submit()">
+                <option value="">No Store Selected</option>
+                @foreach(\App\Models\UserStore::getCurrentUserStore() as $item)
+                    <option value="{{$item->store_id}}"
+                            type="submit" {{$item->store_id == \Illuminate\Support\Facades\Session::get('store_id') ? 'selected' : ''}}>{{$item->store->name}}</option>
+                @endforeach
+            </select>
         </form>
         
 

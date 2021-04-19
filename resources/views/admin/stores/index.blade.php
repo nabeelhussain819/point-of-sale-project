@@ -66,6 +66,7 @@
                             @empty
                                 <p>No Stores</p>
                             @endforelse
+
                             </tbody>
                         </table>
                     </div>

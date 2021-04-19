@@ -36,13 +36,16 @@
             @include('adminlte::partials.navbar.navbar')
         @endif
 
-        {{-- Left Main Sidebar --}}
-        @if(!$layoutHelper->isLayoutTopnavEnabled())
-            @include('adminlte::partials.sidebar.left-sidebar')
-        @endif
+        {{--Left Main Sidebar--}}
+        {{--@if(!$layoutHelper->isLayoutTopnavEnabled())--}}
+        {{--@include('adminlte::partials.sidebar.left-sidebar')--}}
+        {{--@endif--}}
+
 
         {{-- Content Wrapper --}}
         <div id="app" class="content-wrapper {{ config('adminlte.classes_content_wrapper') ?? '' }}">
+
+            @include('adminlte::partials.navbar.navbar-top-traditional')
 
             {{-- Content Header --}}
             <div class="content-header">
@@ -54,9 +57,15 @@
             {{-- Main Content --}}
             <div id="app" class="content">
                 <div class="p-2">
-                    @if(Route::currentRouteName()!=="home")
-                    <a href="{{ url()->previous() }}" class="btn btn-info"><i class="fas fa-arrow-left"></i> Back</a>
-                    @endif
+                    <div class="container">
+                        <div class="row">
+                            @if(Route::currentRouteName()!=="home")
+                                <a href="{{ url()->previous() }}" class="btn btn-info"><i class="fas fa-arrow-left"></i>
+                                    Back</a>
+                            @endif
+                        </div>
+                    </div>
+
                 </div>
                 <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
                     @yield('content')
