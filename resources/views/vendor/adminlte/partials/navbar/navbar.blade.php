@@ -15,7 +15,7 @@
         <form method="POST" action="{{route('store.id')}}">
             @csrf
             <select name="store_id" class="form-control" onchange="this.form.submit()">
-                <option disabled>No Store Selected</option>
+                <option>No Store Selected</option>
                 @foreach(\App\Models\UserStore::getCurrentUserStore() as $item)
                     <option value="{{$item->store_id}}"
                             type="submit" {{$item->store_id == \Illuminate\Support\Facades\Session::get('store_id') ? 'selected' : ''}}>{{$item->store->name}}</option>
