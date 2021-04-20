@@ -9,15 +9,15 @@
       title="Add Finance"
       :destroyOnClose="true"
     >
-      <formFields :finance="finance" :isCreated="isCreated" @onClose="show" />
+      <basic-form :finance="finance" :isCreated="isCreated" @onClose="show" />
     </a-modal>
   </div>
 </template>
 <script>
-import formFields from "./form-fields";
+import basicForm from "./basic-form";
 import { EVENT_FINANCE_SHOWING_EDIT_MODAL } from "../../services/constants";
 export default {
-  components: { formFields },
+  components: { basicForm },
   data() {
     return {
       visible: false,
