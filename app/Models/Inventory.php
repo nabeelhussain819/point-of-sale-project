@@ -153,4 +153,12 @@ class Inventory extends Base
     {
         return ProductSerialNumbers::getTransferSerialProduct($productId, $transferId);
     }
+
+    public static function getProduct()
+    {
+        return Inventory::with('product')
+            ->where("")
+            ->where('store_id', Store::currentId())
+            ->first();
+    }
 }

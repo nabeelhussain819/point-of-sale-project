@@ -9,15 +9,7 @@
         {{--@include('adminlte::partials.navbar.menu-item-left-sidebar-toggler')--}}
         <form action="" class="form-inline mx-2">
             {{ csrf_field() }}
-            {{--<div class="input-group">--}}
-                {{--<input class="form-control form-control-navbar" type="search" name=""--}}
-                       {{--placeholder="" aria-label="">--}}
-                {{--<div class="input-group-append">--}}
-                    {{--<button class="btn btn-navbar" type="submit">--}}
-                        {{--<i class="fas fa-search"></i>--}}
-                    {{--</button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
+           
         </form>
         <a class="logo-header" href="/home"> <i class="fas fa-home "></i> HOME</a>
         <form method="POST" action="{{route('store.id')}}">

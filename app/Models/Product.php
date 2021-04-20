@@ -84,4 +84,9 @@ class Product extends Model
     {
         return ['id', 'name'];
     }
+
+    public static function get($value): Product
+    {
+        return Product::where('id', $value)->first();
+    }
 }

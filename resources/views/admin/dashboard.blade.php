@@ -69,6 +69,9 @@
                         </div>
                     </a>
                 </div>
+                <div class="col-12">
+                    <quick-sale></quick-sale>
+                </div>
             </div>
 
         <div class="row justify-content-center">

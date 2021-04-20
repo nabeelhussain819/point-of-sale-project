@@ -126,6 +126,11 @@ import serials from "./../product/serials";
 
 export default {
   components: { serials },
+  props: {
+    preloadProduct: {
+      default: null,
+    },
+  },
   data() {
     return {
       formLayout: "horizontal",
@@ -207,15 +212,16 @@ export default {
     },
   },
   mounted() {
+  //  @todo promise remove settime interval
     let setProducts = this.setProducts;
+     if (this.preloadProduct) {
+      setTimeout(() => {
+        setProducts(this.preloadProduct.product); 
+      }, 300);    
+    }
     this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function (product) {
       setProducts(product);
     });
-  },
-  computed: {
-    postedProducts: function () {
-      return this.products;
-    },
   },
 };
 </script>

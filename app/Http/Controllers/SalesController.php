@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Inventory;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Store;
 use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
@@ -73,10 +74,18 @@ class SalesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-        return view('admin.sales.create', []);
+        $preloadProduct = '';
+        if ($request->get('OrUPC')) {
+
+            $preloadProduct = Inventory::where($this->applyFilters($request))
+                ->with('product')
+                ->where('store_id', Store::currentId())
+                ->firstOrFail();
+
+        }
+        return view('admin.sales.create', ['preloadProduct' => $preloadProduct]);
     }
 
     /**

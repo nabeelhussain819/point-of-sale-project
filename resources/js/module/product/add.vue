@@ -12,7 +12,7 @@
           v-decorator="[
             'product_id',
             {
-              rules: [],
+              rules: rules,
             },
           ]"
         /> </a-form-item
@@ -30,6 +30,11 @@ import InventoryService from "../../services/API/InventoryService";
 import { isEmpty } from "../../services/helpers";
 import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
 export default {
+  props: {
+    rules: {
+      default: () => [],
+    },
+  },
   data() {
     return {
       fetchProductsErrors: {},
@@ -43,11 +48,8 @@ export default {
       InventoryService.products({ product_id: productId, OrUPC: productId })
         .then((inventory) => {
           this.noProductFound(inventory);
-          if (!isEmpty(inventory) ) {
-            this.$eventBus.$emit(
-              EVENT_CUSTOMERSALE_PRODUCT_ADD,
-              inventory.product
-            );
+          if (!isEmpty(inventory)) {
+            this.$eventBus.$emit(EVENT_CUSTOMERSALE_PRODUCT_ADD, inventory.product);
           }
         })
         .catch((ex) => {

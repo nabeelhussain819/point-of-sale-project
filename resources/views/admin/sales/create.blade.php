@@ -4,7 +4,12 @@
 @section('content')
     <div class="container bg-white ">
         <div class="">
-            <sales></sales>
+            @if(empty($preloadProduct))
+                <sales></sales>
+            @else
+                <sales :pre="{{$preloadProduct}}"></sales>
+            @endif
+
         </div>
 
     </div>
