@@ -29,10 +29,7 @@
         <a-input
           type="hidden"
           v-decorator="[
-            'customer_name',
-            {
-              initialValue: selectedCustomer.phone,
-            },
+            'customer_name'            
           ]"
         />
         <!-- ------------------------------ -->

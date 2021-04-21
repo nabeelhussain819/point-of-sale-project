@@ -41,3 +41,13 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
     padding: 4px 27px;
     font-size: 20px;
 }
+
+.error-notification {
+    background-color: #5d5858d9 !important;
+    color: white;
+}
+
+.error-notification .ant-notification-notice-message {
+    color: #ff7777;
+    font-weight: bold;
+}

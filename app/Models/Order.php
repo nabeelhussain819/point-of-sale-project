@@ -103,7 +103,8 @@ class Order extends Model
             [
                 'product_id' => $finance->product_id,
                 'quantity' => 1,
-                'serial_number' => $finance->serial_number
+                'serial_number' => $finance->serial_number,
+                'store_id' => $finance->store_id
             ]
         ];
         $order->save();

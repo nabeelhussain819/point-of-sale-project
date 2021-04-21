@@ -17,17 +17,19 @@ trait NewCustomers
 
     public static function moduleCreate(array $data): Customer
     {
+
         if (isset($data['customer_id'])) {
             $isNewCustomer = StringHelper::isInt($data['customer_id'][0]);
+
             if ($isNewCustomer) {
                 return Customer::find($data['customer_id'][0]);
             }
             $customer = new Customer();
 
             $customer->fill([
-                    'name' => isset($data['customer_name']) ? $data['customer_name'] : '',
-                    'phone' => isset($data['customer_name']) ? $data['customer_phone'] : '',
-                    'address' => isset($data['customer_name']) ? $data['customer_address'] : '',
+                    'name' => isset($data['customer_id']) ? $data['customer_id'][0] : '',
+                    'phone' => isset($data['customer_phone']) ? $data['customer_phone'] : '',
+                    'address' => isset($data['customer_address']) ? $data['customer_address'] : '',
                 ]
             );
             $customer->save();

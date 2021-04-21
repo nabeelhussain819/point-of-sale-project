@@ -31,6 +31,7 @@ export default {
 
       if (!show) {
         this.isCreated = false;
+        this.$emit("close");
         this.finance = {};
       }
     },

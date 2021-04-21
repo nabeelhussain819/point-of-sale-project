@@ -179,6 +179,7 @@ export default {
   },
   mounted() {
     let fetch = this.fetch;
+    this.$emit("getFetch", fetch);
     this.$eventBus.$on(EVENT_FINANCE_ADD_RECORD, function (product) {
       if (product) {
         fetch();
