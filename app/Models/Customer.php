@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\ArrayHelper;
+use App\Traits\NewCustomers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,7 @@ use Illuminate\Http\Request;
  */
 class Customer extends Model
 {
+    use NewCustomers;
     /**
      * The "type" of the auto-incrementing ID.
      *

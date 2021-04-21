@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ArrayHelper;
+use App\Models\Customer;
 use App\Models\Finance;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
@@ -41,8 +42,12 @@ class FinanceController extends Controller
 
             $financeData = ArrayHelper::merge($request->all());
             $finance->fill($financeData);
-            if (!empty($request->get("customer_name"))) {
-                $finance->customer_name = $request->get("customer_name")[0];
+
+            if (!empty($request->get("customer_id"))) {
+                $customer = Customer::moduleCreate($request->all());
+
+                $finance->customer_name = $customer->name;
+                $finance->customer_id = $customer->id;
             }
 
             $finance->save();
@@ -51,6 +56,7 @@ class FinanceController extends Controller
     }
 
     /**
+     * This was an old automatic scheduling
      * @param Request $request
      * @return mixed
      * @throws \Throwable

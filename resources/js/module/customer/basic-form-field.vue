@@ -12,7 +12,7 @@
           @search="customerSearch"
           :loading="customerSearchLoading"
           v-decorator="[
-            'customer_name',
+            'customer_id',
             {
               initialValue: selectedCustomer.name,
             },
@@ -26,13 +26,21 @@
             {{ customer.name }}
           </a-select-option>
         </a-select>
+        <a-input
+          type="hidden"
+          v-decorator="[
+            'customer_name',
+            {
+              initialValue: selectedCustomer.phone,
+            },
+          ]"
+        />
         <!-- ------------------------------ -->
       </a-form-item></a-col
     >
     <a-col :span="6">
       <a-form-item label="Customer Phone">
         <a-input
-          
           v-decorator="[
             'customer_phone',
             {
@@ -44,7 +52,6 @@
     <a-col :span="12">
       <a-form-item label="Customer Address">
         <a-input
-        
           v-decorator="[
             'customer_address',
             {
@@ -83,7 +90,11 @@ export default {
       let selectedCustomer = options.data.attrs.customer;
       if (!isEmpty(selectedCustomer) && !isEmpty(selectedCustomer.phone)) {
         this.currentCustomer = selectedCustomer;
-        this.form.setFieldsValue({ phone: selectedCustomer.phone });
+        this.form.setFieldsValue({
+          customer_phone: selectedCustomer.phone,
+          customer_name: selectedCustomer.name,
+          customer_address: selectedCustomer.address,
+        });
       } else {
         this.currentCustomer = null;
         this.form.setFieldsValue({ phone: null });

@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class Customers extends Component
 {
+
     public $name, $email, $telephone, $phone, $selected_id;
     public $updateMode = false;
 
