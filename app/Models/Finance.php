@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *  @property string $serial_number
  *
  * @property string $customer_name
-
+ * @property int $product_id
  * @property Customer $customer
  * @property Store $store
  * @property FinancesSchedule[] $financesSchedules
@@ -127,5 +127,10 @@ class Finance extends Model
     {
         $this->load('releatedSchedules');
         return $this;
+    }
+
+    public function order()
+    {
+        $this->belongsTo(Order::class);
     }
 }

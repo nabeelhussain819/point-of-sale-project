@@ -161,4 +161,22 @@ class Inventory extends Base
             ->where('store_id', Store::currentId())
             ->first();
     }
+
+    public static function serialNumberDetach($productsData)
+    {
+        collect($productsData)->filter(function ($inventoryProduct) {
+            return !empty($inventoryProduct['serial_number']);
+        })->each(function ($inventoryProduct) {
+            Inventory::where('store_id', Store::currentId())
+                ->where('product_id', $inventoryProduct['product_id'])
+                ->get()
+                ->each(function (Inventory $inventory) use ($inventoryProduct) {
+                    $inventory->OUTGOING_PRODUCTS = true;
+                    // because in current scenrio we sell 1 serial product at once
+                    $inventory->update(['quantity' => $inventory->quantity - $inventoryProduct['quantity']]); // inventory mai se quantity kam karhe hain
+                    ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number']);
+                });
+            return $inventoryProduct;
+        });
+    }
 }

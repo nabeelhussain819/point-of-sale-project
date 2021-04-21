@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\OrderObserver;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -28,10 +29,15 @@ class Order extends Model
      */
     protected $fillable = [ 'customer_id', 'discount', 'without_tax', 'sub_total',
         'cash_paid','cash_back','customer_card_number',
-        'tax',
+        'tax', 'finance_id',
         'without_discount', 'created_at', 'updated_at'];
-
+    /**
+     * @var array
+     */
     protected $appends = ["date"];
+
+    public $POSTEDPRODUCTS;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -79,8 +85,35 @@ class Order extends Model
         }]);
         return $this;
     }
-//    public function stock()
-//    {
-//        return $this->belongsTo(StockBin::class);
-//    }
+
+    public function finance()
+    {
+        $this->belongsTo(Finance::class);
+    }
+
+    public static function financeCreate(Finance $finance)
+    {
+        $order = new Order();
+        $order->fill([
+            'customer_id' => $finance->customer_id,
+            'sub_total' => $finance->total,
+            'finance_id' => $finance->id
+        ]);
+        $order->POSTEDPRODUCTS = [
+            [
+                'product_id' => $finance->product_id,
+                'quantity' => 1,
+                'serial_number' => $finance->serial_number
+            ]
+        ];
+        $order->save();
+        $order->ordersProducts()->sync($order->POSTEDPRODUCTS);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        Order::observe(OrderObserver::class);
+    }
 }

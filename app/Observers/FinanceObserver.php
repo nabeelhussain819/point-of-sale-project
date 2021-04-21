@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Finance;
+use App\Models\Order;
 use App\Models\ProductSerialNumbers;
 use App\Models\Store;
 use Carbon\Carbon;
@@ -21,11 +22,17 @@ class FinanceObserver
 
         $this->validationSerialNumber($finance);
 
-        // validate Serial number
-        // add customer if not exist
-        //showing Refund ID
-        //serial number se search chal jaye
+
+        //creating order and remove from inventory
+        //
+
+
         // print
+    }
+
+    public function saved(Finance $finance)
+    {
+        $this->createOrder($finance);
     }
 
     private function handleDuration(Finance &$finance)
@@ -45,9 +52,13 @@ class FinanceObserver
     private function validationSerialNumber(Finance &$finance)
     {
         $isAvailable = ProductSerialNumbers::isAvailable($finance->product_id, $finance->serial_number);
-        if ($isAvailable) {
-            $f = ProductSerialNumbers::updateStatusSold($finance->product_id, $finance->store_id, $finance->serial_number);
+//        if ($isAvailable) {
+//            ProductSerialNumbers::updateStatusSold($finance->product_id, $finance->store_id, $finance->serial_number);
+//        }
+    }
 
-        }
+    private function createOrder(Finance &$finance)
+    {
+        Order::financeCreate($finance);
     }
 }

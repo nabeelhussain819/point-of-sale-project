@@ -41,6 +41,7 @@ export const errorNotification = ($this, err) => {
         message: `Error`,
         description: () => description,
         placement: "bottomLeft",
+        class: 'error-notification'
     });
 }
 
