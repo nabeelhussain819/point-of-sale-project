@@ -23,6 +23,7 @@ export const filterOption = (input, option) => {
 };
 
 export const errorNotification = ($this, err) => {
+
     let genricError = err.response.data.errors;
 
     let description = "";
@@ -30,6 +31,10 @@ export const errorNotification = ($this, err) => {
         for (var key in genricError) {
             description += `${genricError[key][0]},`;
         }
+    }
+    let genericException = err.response.data;
+    if (!isEmpty(genericException)) {
+        description = genericException.message;
     }
 
     $this.$notification.open({

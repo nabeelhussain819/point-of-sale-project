@@ -13,8 +13,9 @@ use Illuminate\Http\Request;
  * @property string $email
  * @property string $phone
  * @property string $telephone
- * @property string $created_at
+ * @property string $created_ats
  * @property string $updated_at
+ * @property int customer_name
  * @property OrderProduct[] $orderProducts
  */
 class Customer extends Model

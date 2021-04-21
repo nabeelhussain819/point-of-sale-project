@@ -25,6 +25,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $installment
  * @property string $created_at
  * @property string $updated_at
+ *  @property string $serial_number
+ *
+ * @property string $customer_name
+
  * @property Customer $customer
  * @property Store $store
  * @property FinancesSchedule[] $financesSchedules

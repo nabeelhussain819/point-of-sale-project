@@ -19,7 +19,7 @@ class CreateProductSerialNumbersTable extends Migration
             $table->unsignedBigInteger('store_id');
             $table->text('serial_no')->unique();
             $table->longText('imei_no')->nullable();
-            $table->tinyInteger('is_sold')->default("0")->comment("0 => unsold, 1 => sold");
+            $table->boolean('is_sold')->default(false);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();

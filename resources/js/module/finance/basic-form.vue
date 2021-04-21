@@ -51,7 +51,7 @@ import CreditCardDetail from "./../../components/FormFields/credit-card-detail";
 import ProductFormField from "./product-form-field";
 import { FINANCE_TYPE } from "../../services/constants";
 import FinanceService from "../../services/API/FinanceService";
-import { isEmpty, notification } from "../../services/helpers";
+import { isEmpty, notification,errorNotification } from "../../services/helpers";
 export default {
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
             .then((response) => {
               notification(this, response.message);
               this.show(false);
-            })
+            }).catch((error)=>errorNotification(this,error))
             .finally(() => this.loading);
           console.log(err, values);
         }

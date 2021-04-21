@@ -45,7 +45,6 @@ class FinanceController extends Controller
 
             if (!empty($request->get("customer_id"))) {
                 $customer = Customer::moduleCreate($request->all());
-
                 $finance->customer_name = $customer->name;
                 $finance->customer_id = $customer->id;
             }
