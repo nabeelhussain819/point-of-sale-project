@@ -23,7 +23,7 @@
             :key="customer.id.toString()"
             :customer="customer"
           >
-            {{ customer.name_phone }}
+            {{ customer.name }}
           </a-select-option>
         </a-select>
         <!-- ------------------------------ -->
@@ -32,9 +32,9 @@
     <a-col :span="6">
       <a-form-item label="Customer Phone">
         <a-input
-          type="customer_number"
+          
           v-decorator="[
-            'phone',
+            'customer_phone',
             {
               initialValue: selectedCustomer.phone,
             },
@@ -44,9 +44,9 @@
     <a-col :span="12">
       <a-form-item label="Customer Address">
         <a-input
-          type="customer_address"
+        
           v-decorator="[
-            'phone',
+            'customer_address',
             {
               initialValue: selectedCustomer.address,
             },
