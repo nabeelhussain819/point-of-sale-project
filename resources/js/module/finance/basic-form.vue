@@ -38,7 +38,7 @@
             :product="selectedProduct"
           />
 
-          <a-button type="primary" htmlType="submit">Submit</a-button>
+          <a-button type="primary" :loading="loading" htmlType="submit">Submit</a-button>
         </a-col>
       </a-col>
     </a-form>
@@ -50,6 +50,8 @@ import CustomerLookup from "../customer/basic-form-field";
 import CreditCardDetail from "./../../components/FormFields/credit-card-detail";
 import ProductFormField from "./product-form-field";
 import { FINANCE_TYPE } from "../../services/constants";
+import FinanceService from "../../services/API/FinanceService";
+import { isEmpty, notification } from "../../services/helpers";
 export default {
   data() {
     return {
@@ -61,13 +63,22 @@ export default {
       selectedProduct: {},
       billSummary: {},
       enableDeposite: true,
+      loading: false,
     };
   },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
-        console.log(err, values);
+        if (!err) {
+          FinanceService.create(values)
+            .then((response) => {
+              notification(this, response.message);
+              this.show(false);
+            })
+            .finally(() => this.loading);
+          console.log(err, values);
+        }
       });
     },
     getProduct(selectedProduct) {
@@ -77,6 +88,10 @@ export default {
       });
       this.enableDeposite = false;
       this.selectedProduct = selectedProduct;
+    },
+    show(show) {
+      this.$emit("onClose", show);
+      this.visible = show;
     },
   },
   components: {

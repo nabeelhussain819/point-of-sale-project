@@ -7,7 +7,6 @@ use App\Scopes\StoreGlobalScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\FinancesSchedules;
 
 /**
  * @property integer $id
@@ -42,7 +41,16 @@ class Finance extends Model
     /**
      * @var array
      */
-    protected $fillable = ['customer_id', 'store_id', 'product_id', 'type', 'status', 'total', 'advance', 'payable', 'duration_period', 'duration_period_unit', 'duration_due_date', 'start_date', 'end_date', 'installment', 'created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'store_id', 'product_id', 'type',
+        'status', 'total', 'advance', 'payable', 'duration_period', 'duration_period_unit',
+        'duration_due_date', 'start_date', 'end_date', 'installment', 'created_at', 'updated_at',
+        'customer_name', 'customer_phone', 'customer_address', 'customer_card_number',
+        'customer_card_expiry', 'customer_card_ccv',
+        'comments',
+        'serial_number'
+    ];
+
+    protected  $Date=['customer_card_expiry'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

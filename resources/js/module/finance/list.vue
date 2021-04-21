@@ -76,8 +76,8 @@ export default {
       columns: [
         {
           title: "Name",
-          dataIndex: "customer.name",
-          key: "customer.name",
+          dataIndex: "customer_name",
+          key: "customer.id",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
@@ -90,25 +90,6 @@ export default {
               setTimeout(() => {
                 this.searchInput.focus();
               }, 0);
-            }
-          },
-        },
-        {
-          title: "customer Number",
-          dataIndex: "customer.phone",
-          key: "customer.phone",
-          scopedSlots: {
-            filterDropdown: "filterDropdown",
-            filterIcon: "filterIcon",
-            customRender: "customRender",
-          },
-          onFilter: (value, record) =>
-            record.age.toString().toLowerCase().includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: (visible) => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
             }
           },
         },
@@ -132,28 +113,19 @@ export default {
           },
         },
         {
-          title: "Next Payment",
-          dataIndex: "nextPayment",
-          key: "nextPayment",
+          title: "Total",
+          dataIndex: "total",
+          key: "total",
         },
         {
-          title: "Status",
-          dataIndex: "status",
-          key: "status",
-          scopedSlots: {
-            filterDropdown: "filterDropdown",
-            filterIcon: "filterIcon",
-            customRender: "customRender",
-          },
-          onFilter: (value, record) =>
-            record.address.toString().toLowerCase().includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: (visible) => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
+          title: "Paid",
+          dataIndex: "advance",
+          key: "advance",
+        },
+        {
+          title: "Remaining",
+          dataIndex: "payable",
+          key: "payable",
         },
         {
           title: "Type",

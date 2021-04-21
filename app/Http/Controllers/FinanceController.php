@@ -35,6 +35,28 @@ class FinanceController extends Controller
      */
     public function store(Request $request)
     {
+
+        return \DB::transaction(function () use ($request) {
+            $finance = new Finance();
+
+            $financeData = ArrayHelper::merge($request->all());
+            $finance->fill($financeData);
+            if (!empty($request->get("customer_name"))) {
+                $finance->customer_name = $request->get("customer_name")[0];
+            }
+
+            $finance->save();
+
+        });
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function storeFeature(Request $request)
+    {
         return \DB::transaction(function () use ($request) {
             $finance = new Finance();
 
@@ -48,15 +70,9 @@ class FinanceController extends Controller
             $finance->schedules()->sync($installments);
             return $this->genericResponse(true, " repair has been updated", 200);
         });
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Finance $finance)
     {
      return $finance->withCustomer()
