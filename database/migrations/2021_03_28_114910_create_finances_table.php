@@ -35,8 +35,8 @@ class CreateFinancesTable extends Migration
             $table->string('customer_phone')->nullable();
             $table->string('customer_address')->nullable();
             $table->string('customer_card_number')->nullable()->comment('only last 4 digits');
-            $table->string('customer_card_expiry')->nullable();
-            $table->date('customer_card_ccv')->nullable()->comment('this is not used just for further client verification');
+            $table->date('customer_card_expiry')->nullable();
+            $table->string('customer_card_ccv')->nullable()->comment('this is not used just for further client verification');
 
             //            Customer Detail
             $table->unsignedBigInteger('created_by')->nullable();
