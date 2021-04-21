@@ -25,9 +25,9 @@ trait NewCustomers
             $customer = new Customer();
 
             $customer->fill([
-                    'name' => $data['customer_name'],
-                    'phone' => $data['customer_phone'],
-                    'address' => $data['customer_address']
+                    'name' => isset($data['customer_name']) ? $data['customer_name'] : '',
+                    'phone' => isset($data['customer_name']) ? $data['customer_phone'] : '',
+                    'address' => isset($data['customer_name']) ? $data['customer_address'] : '',
                 ]
             );
             $customer->save();
