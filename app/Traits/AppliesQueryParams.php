@@ -59,7 +59,12 @@ trait AppliesQueryParams
                 return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
                     $builder->where('phone', 'like', "%" . $customerPhone . "%");
                 });
-            });
+            })->when($request->get('product_name'), function (Builder $builder, $productName) {
+
+                    return $builder->whereHas('product', function (Builder $builder) use ($productName) {
+                        $builder->where('name', 'like', "%" . $productName . "%");
+                    });
+                });
         };
     }
 }

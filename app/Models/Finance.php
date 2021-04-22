@@ -137,4 +137,9 @@ class Finance extends Model
     {
         $this->belongsTo(Order::class);
     }
+
+    public function getTypeAttribute($type)
+    {
+        return $type === 1 ? "Layaway" : "In Store Finance";
+    }
 }
