@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property string $customer_name
  * @property int $product_id
+ * @property int $order_id
  * @property Customer $customer
  * @property Store $store
  * @property FinancesSchedule[] $financesSchedules

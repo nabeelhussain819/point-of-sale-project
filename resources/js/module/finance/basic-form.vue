@@ -42,6 +42,7 @@
         </a-col>
       </a-col>
     </a-form>
+
   </a-row>
 </template>
 <script>
@@ -49,10 +50,14 @@ import Summary from "./summary";
 import CustomerLookup from "../customer/basic-form-field";
 import CreditCardDetail from "./../../components/FormFields/credit-card-detail";
 import ProductFormField from "./product-form-field";
+
 import { FINANCE_TYPE } from "../../services/constants";
 import FinanceService from "../../services/API/FinanceService";
-import { isEmpty, notification,errorNotification } from "../../services/helpers";
+import { isEmpty, notification, errorNotification } from "../../services/helpers";
 export default {
+  props: {
+    finance: { default: () => {} },
+  },
   data() {
     return {
       formLayout: "horizontal",
@@ -75,14 +80,13 @@ export default {
             .then((response) => {
               notification(this, response.message);
               this.show(false);
-            }).catch((error)=>errorNotification(this,error))
+            })
+            .catch((error) => errorNotification(this, error))
             .finally(() => this.loading);
-          console.log(err, values);
         }
       });
     },
     getProduct(selectedProduct) {
-      console.log("selectedProduct", selectedProduct);
       this.form.setFieldsValue({
         total: selectedProduct.product.retail_price,
       });

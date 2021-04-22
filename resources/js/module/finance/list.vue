@@ -54,7 +54,7 @@
     </template>
 
     <span slot="action" slot-scope="text, record">
-      <a-button v-on:click="showModal(record)" type="link">edit</a-button>
+      <a-button v-on:click="showModal(record)" type="link">view</a-button>
     </span>
   </a-table>
 </template>

@@ -109,6 +109,7 @@ class Order extends Model
         ];
         $order->save();
         $order->ordersProducts()->sync($order->POSTEDPRODUCTS);
+        return $order;
     }
 
     public static function boot()

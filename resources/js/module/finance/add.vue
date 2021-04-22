@@ -9,20 +9,31 @@
       title="Add Finance"
       :destroyOnClose="true"
     >
-      <basic-form :finance="finance" :isCreated="isCreated" @onClose="show" />
+      <a-skeleton :loading="loading">
+        <basic-form
+          v-if="!isCreated"
+          :finance="finance"
+          :isCreated="isCreated"
+          @onClose="show"
+        />
+        <invoice :finance="finance" v-else />
+      </a-skeleton>
     </a-modal>
   </div>
 </template>
 <script>
 import basicForm from "./basic-form";
+import FinanceService from "../../services/API/FinanceService";
 import { EVENT_FINANCE_SHOWING_EDIT_MODAL } from "../../services/constants";
+import Invoice from "./Invoice";
 export default {
-  components: { basicForm },
+  components: { basicForm, Invoice },
   data() {
     return {
       visible: false,
       finance: {},
       isCreated: false,
+      loading: false,
     };
   },
   methods: {
@@ -35,9 +46,14 @@ export default {
         this.finance = {};
       }
     },
-    setFinance(finance) {
-      this.finance = finance;
-      this.isCreated = true;
+    setFinance(financeId) {
+      this.loading = true;
+      FinanceService.get(financeId.id)
+        .then((finance) => {
+          this.finance = finance;
+          this.isCreated = true;
+        })
+        .finally(() => (this.loading = false));
     },
   },
   mounted() {

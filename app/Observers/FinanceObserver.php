@@ -59,6 +59,8 @@ class FinanceObserver
 
     private function createOrder(Finance &$finance)
     {
-        Order::financeCreate($finance);
+       $order = Order::financeCreate($finance);
+        $finance->order_id = $order->id;
+        $finance->saveQuietly();
     }
 }
