@@ -55,8 +55,11 @@ class Finance extends Model
         'serial_number'
     ];
 
-    protected  $Date=['customer_card_expiry'];
+    protected $Date = ['customer_card_expiry'];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
