@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ArrayHelper;
 use App\Models\Customer;
 use App\Models\Finance;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 
@@ -42,7 +43,7 @@ class FinanceController extends Controller
 
             $financeData = ArrayHelper::merge($request->all());
             $finance->fill($financeData);
-
+            $finance->scenario = Finance::SCENARIO_CREATING;
             if (!empty($request->get("customer_id"))) {
                 $customer = Customer::moduleCreate($request->all());
                 $finance->customer_name = $customer->name;
@@ -80,15 +81,15 @@ class FinanceController extends Controller
 
     public function show(Finance $finance)
     {
-     return $finance->withCustomer()
-         ->withProduct()
-         ->withSchedules();
+        return $finance->withCustomer()
+            ->withProduct()
+            ->withSchedules();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -99,8 +100,8 @@ class FinanceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -111,7 +112,7 @@ class FinanceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -126,8 +127,8 @@ class FinanceController extends Controller
                 $query->select(["id", "name", "phone"]);
             }, 'product' => function (BelongsTo $query) {
                 $query->select(["id", "name"]);
-            }])
-            ->orderBy('created_at','desc')
+            },'releatedSchedules'])
+            ->orderBy('created_at', 'desc')
             ->paginate();
     }
 
@@ -137,5 +138,20 @@ class FinanceController extends Controller
         $instalment = $instalment->fill($request->all());
         $instalment->update();
         return $finance;
+    }
+
+    public function payInstallment(Request $request, Finance $finance)
+    {
+        return \DB::transaction(function () use (&$finance, &$request) {
+
+            $finance->scenario = Finance::SCENARIO_ADD_INSTALLMENT;
+            $finance->postedScheduled = $request->all();
+            $finance->update([
+                'advance' => $finance->advance + $request->get('received_amount'),
+                'payable' => $finance->payable - $request->get('received_amount')
+            ]);
+            return $this->genericResponse(true, " repair has been updated", 200, ['finance' => $finance]);
+        });
+
     }
 }

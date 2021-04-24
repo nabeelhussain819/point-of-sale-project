@@ -16,23 +16,46 @@ class FinanceObserver
      */
     public function creating(Finance $finance)
     {
-        $finance->store_id = Store::currentId();
-
-        $this->handleDuration($finance);
-
-        $this->validationSerialNumber($finance);
-
-
-        //creating order and remove from inventory
-        //
-
-
-        // print
+        if ($finance->isCreatingScenario()) {
+            $finance->store_id = Store::currentId();
+            $this->handleDuration($finance);
+            $this->validationSerialNumber($finance);
+        }
     }
 
     public function saved(Finance $finance)
     {
-        $this->createOrder($finance);
+        if ($finance->isCreatingScenario()) {
+            $this->createOrder($finance);
+        }
+    }
+
+    public function updating(Finance $finance)
+    {
+        $this->handleSchedule($finance);
+    }
+
+    private function handleSchedule(Finance &$finance)
+    {
+
+        if ($finance->isAddInstallmentScenario()) {
+
+            if ($finance->payable <= 0) {
+                $finance->status = Finance::STATUS_COMPLETE;
+            }
+            $schedules = $finance->postedScheduled;
+            $scheduleData = [
+                [
+                    'comment' => empty($schedules['comment']) ? '' : $schedules['comment'],
+                    'received_amount' => $schedules['received_amount'],
+                    'date_of_payment' => Carbon::now(),
+                    'due_date' => Carbon::now(),
+                    'amount' => $schedules['received_amount'],
+                    'status' => $finance->status
+                ]
+            ];
+            $finance->schedules()->attach($scheduleData);
+        }
     }
 
     private function handleDuration(Finance &$finance)
@@ -59,7 +82,7 @@ class FinanceObserver
 
     private function createOrder(Finance &$finance)
     {
-       $order = Order::financeCreate($finance);
+        $order = Order::financeCreate($finance);
         $finance->order_id = $order->id;
         $finance->saveQuietly();
     }

@@ -47,15 +47,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->middleware('changedPassword')
-    ->name('home');
+        ->name('home');
 
     Route::get('/welcome', function () {
         return view('common.comingsoon');
     })->name('welcome');
 
-    Route::post('/home',[HomeController::class,'getStoreId'])->name('store.id');
+    Route::post('/home', [HomeController::class, 'getStoreId'])->name('store.id');
 
-    Route::group(['prefix' => 'product'], function (){
+    Route::group(['prefix' => 'product'], function () {
         Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
         Route::get('/all', [ProductController::class, 'all']);
         Route::get('/associate-device-brand', [ProductController::class, 'associateDeviceBrand'])
@@ -76,22 +76,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'reconciliation'], function () {
         Route::get('/conciliation/{reconciliation}', [ReconciliationController::class, 'conciliation'])->name('conciliation');
         Route::post('/conciliation', [ReconciliationController::class, 'saveConciliation'])->name('conciliation.save');
-        Route::post('/matchConciliation', [ReconciliationController::class, 'matchConciliation']) ;
+        Route::post('/matchConciliation', [ReconciliationController::class, 'matchConciliation']);
     });
-    Route::group(['prefix' => 'inventory-management'],function(){
+    Route::group(['prefix' => 'inventory-management'], function () {
         Route::Resources([
             'inventory' => InventoryController::class,
             'vendors' => VendorController::class,
         ]);
-        Route::get('/sales-purchase',[SalesController::class,'purchase'])->name('purchase.index');
-        Route::get('/sales-purchase-received/{vendor}',[SalesController::class,'purchaseReceived'])->name('purchase.received');
-        Route::delete('/sales-purchase-delete/{vendor}',[SalesController::class,'destroyVendorProduct'])->name('purchase-vendor.delete');
-        Route::post('/sales-purchase-received',[SalesController::class,'storeInInventory'])->name('purchase.received.generate');
-        Route::get('/stock-transfer',[TransferController::class,'index'])->name('transfer.index');
-        Route::get('/stock-transfer/create',[TransferController::class,'stockTransfer'])->name('transfer.create');
-        Route::post('/stock-transfer',[TransferController::class,'transfer'])->name('transfer.store');
-        Route::get('/stock-transfer/{transfer}',[TransferController::class,'received'])->name('transfer.received');
-        Route::delete('/stock-transfer/{transfer}',[TransferController::class,'delete'])->name('transfer.delete');
+        Route::get('/sales-purchase', [SalesController::class, 'purchase'])->name('purchase.index');
+        Route::get('/sales-purchase-received/{vendor}', [SalesController::class, 'purchaseReceived'])->name('purchase.received');
+        Route::delete('/sales-purchase-delete/{vendor}', [SalesController::class, 'destroyVendorProduct'])->name('purchase-vendor.delete');
+        Route::post('/sales-purchase-received', [SalesController::class, 'storeInInventory'])->name('purchase.received.generate');
+        Route::get('/stock-transfer', [TransferController::class, 'index'])->name('transfer.index');
+        Route::get('/stock-transfer/create', [TransferController::class, 'stockTransfer'])->name('transfer.create');
+        Route::post('/stock-transfer', [TransferController::class, 'transfer'])->name('transfer.store');
+        Route::get('/stock-transfer/{transfer}', [TransferController::class, 'received'])->name('transfer.received');
+        Route::delete('/stock-transfer/{transfer}', [TransferController::class, 'delete'])->name('transfer.delete');
 
         Route::post('/stock-transfer-received/{transfer}', [TransferController::class, 'markAsReceived'])->name('transfer.markasreceived');
 
@@ -145,6 +145,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'finance'], function () {
         Route::get('/fetch', [FinanceController::class, 'fetch']);
         Route::patch('/installment/{finance}', [FinanceController::class, 'installment']);
+        Route::post('/payInstallment/{finance}', [FinanceController::class, 'payInstallment']);
     });
 
     Route::group(['prefix' => 'store'], function () {
@@ -173,7 +174,7 @@ Route::group(['middleware' => ['auth']], function () {
         'refund' => RefundController::class,
     ]);
 
-    Route::group(['prefix' => 'product-management'], function (){
+    Route::group(['prefix' => 'product-management'], function () {
         Route::Resources([
             'categories' => CategoryController::class,
             'departments' => DepartmentController::class,

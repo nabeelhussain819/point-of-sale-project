@@ -21,17 +21,19 @@ class FinancesSchedules extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
 
+
     /**
      * @var array
      */
-    protected $fillable = ['finance_id', 'date_of_payment', 'due_date', 'amount', 'received_amount', 'received_date', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['finance_id', 'date_of_payment', 'due_date', 'amount', 'received_amount', 'received_date', 'status', 'created_at', 'updated_at', 'comment'];
 
     protected $dates = ['due_date', 'received_date', 'date_of_payment'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

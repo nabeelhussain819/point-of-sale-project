@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $installment
  * @property string $created_at
  * @property string $updated_at
- *  @property string $serial_number
+ * @property string $serial_number
  *
  * @property string $customer_name
  * @property int $product_id
@@ -43,6 +43,10 @@ class Finance extends Model
      */
     protected $keyType = 'integer';
 
+    const SCENARIO_ADD_INSTALLMENT = "ADD_INSTALLMENT";
+    const SCENARIO_CREATING = "CREATING";
+    const STATUS_COMPLETE = "COMPLETED";
+    public $scenario, $postedScheduled;
     /**
      * @var array
      */
@@ -60,6 +64,7 @@ class Finance extends Model
     protected $casts = [
         'created_at' => 'datetime:Y-m-d',
     ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -141,5 +146,15 @@ class Finance extends Model
     public function getTypeAttribute($type)
     {
         return $type === 1 ? "Layaway" : "In Store Finance";
+    }
+
+    public function isCreatingScenario()
+    {
+        return $this->scenario === self::SCENARIO_CREATING;
+    }
+
+    public function isAddInstallmentScenario()
+    {
+        return $this->scenario === self::SCENARIO_ADD_INSTALLMENT;
     }
 }

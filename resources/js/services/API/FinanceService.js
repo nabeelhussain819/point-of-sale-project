@@ -1,5 +1,5 @@
 // import * as constants from '../Constants'
-import request from '../request'
+import request from "../request";
 
 const baseUrl = `/finance`;
 
@@ -13,23 +13,21 @@ function all(params = {}) {
 function create(data) {
     return request({
         url: baseUrl,
-        method: 'POST',
+        method: "POST",
         data
     });
 }
 
-
-
 function get(id) {
     return request({
-        url: `${baseUrl}/${id}`,
+        url: `${baseUrl}/${id}`
     });
 }
 
 function update(id, data) {
     return request({
         url: `${baseUrl}/${id}`,
-        method: 'PATCH',
+        method: "PATCH",
         data
     });
 }
@@ -50,14 +48,29 @@ function statuses(params = {}) {
 function updateInstallment(id, data) {
     return request({
         url: `${baseUrl}/installment/${id}`,
-        method: 'PATCH',
+        method: "PATCH",
         data
     });
 }
 
+function payInstallment(id, data) {
+    return request({
+        url: `${baseUrl}/payInstallment/${id}`,
+        method: "POST",
+        data
+    });
+}
 
 const FinanceService = {
-    all, create, update, show, statuses, update, get, updateInstallment
+    all,
+    create,
+    update,
+    show,
+    statuses,
+    update,
+    get,
+    updateInstallment,
+    payInstallment
 };
 
-export default FinanceService
+export default FinanceService;
