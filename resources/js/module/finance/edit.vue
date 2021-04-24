@@ -1,58 +1,66 @@
 <template>
     <div>
-        <a-row gutter="12">
-            <a-col :span="16">
-                <a-descriptions
-                    bordered
-                    :title="`${finance.product.name} Finance Detail`"
-                >
-                    <a-descriptions-item label="Customer Name">
-                        {{ finance.customer.name }}
-                    </a-descriptions-item>
-                    <a-descriptions-item label="Telephone">
-                        {{ finance.customer.phone }}
-                    </a-descriptions-item>
-                    <a-descriptions-item label="Address">
-                        {{ finance.customer.phone }}
-                    </a-descriptions-item>
-                    <a-descriptions-item label="Item">
-                        {{ finance.product.name }}
-                    </a-descriptions-item>
-                    <a-descriptions-item label="Total">
-                        ${{ finance.total }}
-                    </a-descriptions-item>
-                    <a-descriptions-item label="Advance">
-                        ${{ finance.advance }}
-                    </a-descriptions-item>
-                    <a-descriptions-item label="Serial Number">
-                        {{ finance.serial_number }}
-                    </a-descriptions-item>
-                </a-descriptions>
-            </a-col>
-            <a-col :span="8">
-                <a-descriptions title="Summary" bordered>
-                    <a-descriptions-item :span="24" label="Invoice #">
-                        {{ finance.order_id }}
-                    </a-descriptions-item>
-                    <a-descriptions-item :span="24" label="Date">
-                        {{ finance.created_at }}
-                    </a-descriptions-item>
-                    <a-descriptions-item :span="24" label="Amount Due">
-                        ${{ finance.payable }}
-                    </a-descriptions-item>
-                </a-descriptions>
-            </a-col>
-        </a-row>
+        <Invoice :finance="stateFinance" />
+        <br/>
+        <a-card title="Payable">
+            <a-form layout="inline" :form="form" @submit="handleSubmit">
+                <a-form-item>
+                    <a-input v-decorator="['comment']" placeholder="Comments">
+                    </a-input>
+                </a-form-item>
+                <a-form-item>
+                    <a-input
+                        type="number"
+                        v-decorator="[
+                            'received_amount',
+                            {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message:
+                                            'Please input your received amount!'
+                                    }
+                                ]
+                            }
+                        ]"
+                        placeholder="Received Amount $"
+                    >
+                    </a-input>
+                </a-form-item>
+                <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+                    <a-button type="primary" html-type="submit">
+                        Submit
+                    </a-button>
+                </a-form-item>
+            </a-form>
+        </a-card>
     </div>
 </template>
 <script>
+import Invoice from "./Invoice";
 export default {
+    components: { Invoice },
     data() {
-        return {};
+        return {
+            form: this.$form.createForm(this, { name: "addCustomer" }),
+            stateFinance: {}
+        };
     },
     props: {
         finance: {
             default: () => {}
+        }
+    },
+    mounted() {
+        this.stateFinance = this.finance;
+    },
+    methods: {
+        handleSubmit(e) {
+            e.preventDefault();
+            this.form.validateFields((err, values) => {
+                if (!err) {
+                }
+            });
         }
     }
 };
