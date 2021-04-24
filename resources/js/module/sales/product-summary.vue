@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <a-row>
-      <a-col :span="12">
+    <a-row class="bg-blue-container">
+      <a-col :span="16">
         <a-descriptions>
           <a-descriptions-item label="Sub Total"> ${{ subTotal }} </a-descriptions-item>
           <a-descriptions-item label="Without Tax">
@@ -13,7 +12,7 @@
           <a-descriptions-item label="Tax"> {{ tax }} % </a-descriptions-item>
         </a-descriptions></a-col
       >
-      <a-col :span="12">
+      <a-col :span="8">
         <a-button v-on:click="toggleModal(true)" type="primary"> CheckOut</a-button>
         <a-popconfirm
           title="Are you sure cancel this transaction?"
@@ -39,7 +38,6 @@
           :billSummary="billSummary"
       /></a-modal>
     </a-row>
-  </div>
 </template>
 
 <script>

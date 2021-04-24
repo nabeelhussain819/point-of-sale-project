@@ -51,3 +51,18 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
     color: #ff7777;
     font-weight: bold;
 }
+
+/*.bg-blue-container {*/
+    /*margin-left: -12px;*/
+    /*margin-right: -12px;*/
+    /*!* background-color: #458af2; *!*/
+    /*background-image: linear-gradient(*/
+            /*87deg, #0662ec 0%, #5393f3 100%) !important;*/
+    /*color: white;*/
+    /*border-radius: 5px;*/
+
+/*}*/
+
+/*.bg-blue-container label {*/
+    /*color: white ;*/
+/*}*/

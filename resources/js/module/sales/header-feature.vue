@@ -1,5 +1,5 @@
 <template>
-  <a-row class="sales-header" :gutter="24">
+  <a-row class="sales-header bg-blue-container" :gutter="24">
     <a-col :span="10">
       <a-divider orientation="left"> Product & Service </a-divider>
     </a-col>
