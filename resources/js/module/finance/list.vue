@@ -95,7 +95,7 @@
                 placeholder="Select a option and change input text above"
                 @pressEnter="() => handleSearch(selectedKeys, column)"
             >
-                <a-select-option v-for="type in types" :key="type.id">
+                <a-select-option v-for="type in installmentStatus" :key="type.id">
                     {{ type.name }}</a-select-option
                 >
             </a-select>
@@ -126,7 +126,12 @@
         />
 
         <span slot="action" slot-scope="text, record">
-            <a-button v-on:click="showModal(record)" type="link">view</a-button>
+            <a-button v-on:click="showModal(record)" type="link">View</a-button>
+        </span>
+        <span slot="status" slot-scope="text, record">
+            <a-tag :color="record.status.color">
+                {{ record.status.name }}
+            </a-tag>
         </span>
     </a-table>
 </template>
@@ -196,14 +201,13 @@ export default {
                 },
                 {
                     title: "Status",
-                    dataIndex: "status",
-                    key: "status",
+                    key: "status_id",
                     filterMultiple: false,
                     scopedSlots: {
                         filterDropdown: "statusDropdown",
-                        filterIcon: "filterIcon"
+                        filterIcon: "filterIcon",
+                        customRender: "status"
                     },
-                    filters: []
                 },
                 {
                     title: "Action",

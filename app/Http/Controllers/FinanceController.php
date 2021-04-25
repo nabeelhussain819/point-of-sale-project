@@ -37,7 +37,6 @@ class FinanceController extends Controller
      */
     public function store(Request $request)
     {
-
         return \DB::transaction(function () use ($request) {
             $finance = new Finance();
 
@@ -78,11 +77,11 @@ class FinanceController extends Controller
         });
     }
 
-
     public function show(Finance $finance)
     {
         return $finance->withCustomer()
             ->withProduct()
+            ->withStatus()
             ->withSchedules();
     }
 
@@ -127,7 +126,9 @@ class FinanceController extends Controller
                 $query->select(["id", "name", "phone"]);
             }, 'product' => function (BelongsTo $query) {
                 $query->select(["id", "name"]);
-            },'releatedSchedules'])
+            }, 'status' => function (BelongsTo $query) {
+                $query->select(["id", "name","color"]);
+            }, 'releatedSchedules'])
             ->orderBy('created_at', 'desc')
             ->paginate();
     }
@@ -152,8 +153,8 @@ class FinanceController extends Controller
             ]);
             return $this->genericResponse(true, " Finance has been updated", 200, ['finance' =>
                 $finance->withSchedules()
-                ->withCustomer()
-                ->withProduct()
+                    ->withCustomer()
+                    ->withProduct()
             ]);
         });
 

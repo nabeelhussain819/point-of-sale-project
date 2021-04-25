@@ -32,6 +32,7 @@ class Status extends Model
      */
     protected $fillable = ['created_by', 'updated_by', 'name', 'alias', 'color', 'system', 'model', 'active', 'created_at', 'updated_at'];
 
+    Const FINANCE_PENDING = 1;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

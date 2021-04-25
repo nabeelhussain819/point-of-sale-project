@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property integer $customer_id
  * @property integer $store_id
  * @property integer $type
- * @property string $status
  * @property float $total
  * @property float $advance
  * @property float $payable
@@ -25,13 +24,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $installment
  * @property string $created_at
  * @property string $updated_at
- * @property string $serial_number
- *
+ * @property string $serial_number *
  * @property string $customer_name
  * @property int $product_id
  * @property int $order_id
  * @property Customer $customer
  * @property Store $store
+ * @property integer $status_id
+ * @property Status $status
  * @property FinancesSchedule[] $financesSchedules
  */
 class Finance extends Model
@@ -51,7 +51,7 @@ class Finance extends Model
      * @var array
      */
     protected $fillable = ['customer_id', 'store_id', 'product_id', 'type',
-        'status', 'total', 'advance', 'payable', 'duration_period', 'duration_period_unit',
+        'status_id', 'total', 'advance', 'payable', 'duration_period', 'duration_period_unit',
         'duration_due_date', 'start_date', 'end_date', 'installment', 'created_at', 'updated_at',
         'customer_name', 'customer_phone', 'customer_address', 'customer_card_number',
         'customer_card_expiry', 'customer_card_ccv',
@@ -79,6 +79,11 @@ class Finance extends Model
     public function product()
     {
         return $this->belongsTo('App\Models\Product');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo('App\Models\Status');
     }
 
     protected $dates = ['start_date', 'end_date'];
@@ -128,6 +133,14 @@ class Finance extends Model
     {
         $this->load(['product' => function (BelongsTo $query) {
             $query->select(["id", "name"]);
+        }]);
+        return $this;
+    }
+
+    public function withStatus()
+    {
+        $this->load(['status' => function (BelongsTo $query) {
+            $query->select(["id", "name", "color"]);
         }]);
         return $this;
     }

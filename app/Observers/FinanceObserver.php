@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Finance;
 use App\Models\Order;
 use App\Models\ProductSerialNumbers;
+use App\Models\Status;
 use App\Models\Store;
 use Carbon\Carbon;
 
@@ -17,6 +18,7 @@ class FinanceObserver
     public function creating(Finance $finance)
     {
         if ($finance->isCreatingScenario()) {
+            $finance->status_id = Status::FINANCE_PENDING;
             $finance->store_id = Store::currentId();
             $this->handleDuration($finance);
             $this->validationSerialNumber($finance);
@@ -40,9 +42,9 @@ class FinanceObserver
 
         if ($finance->isAddInstallmentScenario()) {
 
-            if ($finance->payable <= 0) {
-                $finance->status = Finance::STATUS_COMPLETE;
-            }
+//            if ($finance->payable <= 0) {
+//                $finance->status = Finance::STATUS_COMPLETE;
+//            }
             $schedules = $finance->postedScheduled;
             $scheduleData = [
                 [
@@ -51,7 +53,7 @@ class FinanceObserver
                     'date_of_payment' => Carbon::now(),
                     'due_date' => Carbon::now(),
                     'amount' => $schedules['received_amount'],
-                    'status' => $finance->status
+                    'status' => $finance->status->name
                 ]
             ];
             $finance->schedules()->attach($scheduleData);
