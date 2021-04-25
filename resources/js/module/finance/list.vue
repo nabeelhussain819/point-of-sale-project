@@ -10,8 +10,7 @@
             slot-scope="{
                 setSelectedKeys,
                 selectedKeys,
-                confirm,
-                clearFilters,
+
                 column
             }"
             style="padding: 8px"
@@ -45,13 +44,7 @@
         </div>
         <div
             slot="selectDropdown"
-            slot-scope="{
-                setSelectedKeys,
-                selectedKeys,
-                confirm,
-                clearFilters,
-                column
-            }"
+            slot-scope="{ setSelectedKeys, selectedKeys, column }"
             style="padding: 8px"
         >
             <a-select
@@ -95,7 +88,10 @@
                 placeholder="Select a option and change input text above"
                 @pressEnter="() => handleSearch(selectedKeys, column)"
             >
-                <a-select-option v-for="type in installmentStatus" :key="type.id">
+                <a-select-option
+                    v-for="type in installmentStatus"
+                    :key="type.id"
+                >
                     {{ type.name }}</a-select-option
                 >
             </a-select>
@@ -207,7 +203,7 @@ export default {
                         filterDropdown: "statusDropdown",
                         filterIcon: "filterIcon",
                         customRender: "status"
-                    },
+                    }
                 },
                 {
                     title: "Action",
