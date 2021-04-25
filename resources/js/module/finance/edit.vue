@@ -11,7 +11,7 @@
                 <a slot="name" slot-scope="text">{{ text }}</a>
             </a-table>
         </a-card>
-        <a-card v-if="showPayable()" class="no-print" title="Payable">
+        <a-card v-if="showPayable" class="no-print" title="Payable">
             <a-form layout="inline" :form="form" @submit="handleSubmit">
                 <a-form-item>
                     <a-input v-decorator="['comment']" placeholder="Comments">
@@ -90,10 +90,16 @@ export default {
     mounted() {
         this.stateFinance = this.finance;
     },
-    methods: {
+    computed: {
         showPayable() {
-            return this.finance.payable <= 0;
-        },
+            
+            return parseFloat(this.finance.payable) > 0;
+        }
+    },
+    methods: {
+        // showPayable() {
+        //     return this.finance.payable >= 0;
+        // },
         print() {
             window.print();
         },

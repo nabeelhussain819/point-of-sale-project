@@ -6,15 +6,16 @@
                     bordered
                     :title="`${finance.product.name} Finance Detail`"
                 >
-                    <a-descriptions-item label="Customer Name">
+               <span v-if="finance.customer">     <a-descriptions-item label="Customer Name">
                         {{ finance.customer.name }}
                     </a-descriptions-item>
                     <a-descriptions-item label="Telephone">
                         {{ finance.customer.phone }}
                     </a-descriptions-item>
                     <a-descriptions-item label="Address">
-                        {{ finance.customer.phone }}
+                        {{ finance.customer.address }}
                     </a-descriptions-item>
+               </span>
                     <a-descriptions-item label="Item">
                         {{ finance.product.name }}
                     </a-descriptions-item>
