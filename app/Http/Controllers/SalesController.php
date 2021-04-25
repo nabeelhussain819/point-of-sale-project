@@ -25,7 +25,7 @@ class SalesController extends Controller
         // Adding in inventory ,Sales Controller ,method purchase and module is Purchase Order (Optimization)
         return view('admin.sales.index',
             ['sales' => OrderProduct::with('inventory', 'customer')->get(),
-            'customers' => Customer::with('orderProducts')->get()]);
+                'customers' => Customer::with('orderProducts')->get()]);
     }
 
     public function purchase()
@@ -47,25 +47,25 @@ class SalesController extends Controller
     public function storeInInventory(Request $request)
     {
         foreach ($request->input('products', []) as $product) {
-            $lookup =str_replace('PO','',$request->get('p_order_id'));
-                $request->validate(['vendor_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
-                Inventory::insert([
-                    'product_id' => $product,
-                    'guid' => Str::uuid(),
-                    'description' => $request->get('description'),
-                    'lookup' => $lookup,
-                    'name' => $request->get('p_order_id'),
-                    'quantity' => $request->get('quantity'),
-                    'store_id' => $request->get('store_id'),
-                    'cost' => $request->get('cost'),
-                    'extended_cost' => $request->get('cost'),
-                    'vendor_id' => $request->get('vendor_id'),
-                    'bin' => $request->get('stock_id'),
-                ]);
-                OrderProduct::where('id',$request->get('order_id'))->update([
-                    'type_id' => $request->get('type_id')
-                ]);
-            }
+            $lookup = str_replace('PO', '', $request->get('p_order_id'));
+            $request->validate(['vendor_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
+            Inventory::insert([
+                'product_id' => $product,
+                'guid' => Str::uuid(),
+                'description' => $request->get('description'),
+                'lookup' => $lookup,
+                'name' => $request->get('p_order_id'),
+                'quantity' => $request->get('quantity'),
+                'store_id' => $request->get('store_id'),
+                'cost' => $request->get('cost'),
+                'extended_cost' => $request->get('cost'),
+                'vendor_id' => $request->get('vendor_id'),
+                'bin' => $request->get('stock_id'),
+            ]);
+            OrderProduct::where('id', $request->get('order_id'))->update([
+                'type_id' => $request->get('type_id')
+            ]);
+        }
         return redirect()->back()->with('success', 'Received ');
     }
 
@@ -78,11 +78,8 @@ class SalesController extends Controller
     {
         $preloadProduct = '';
         if ($request->get('OrUPC')) {
-
-            $preloadProduct = Inventory::where($this->applyFilters($request))
-                ->with('product')
-                ->where('store_id', Store::currentId())
-                ->firstOrFail();
+            $Inventory = new Inventory();
+            $preloadProduct = $Inventory->generalSearch($request);
 
         }
         return view('admin.sales.create', ['preloadProduct' => $preloadProduct]);
