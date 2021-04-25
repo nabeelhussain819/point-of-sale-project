@@ -91,9 +91,9 @@ class FinanceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, Finance $finance)
     {
-        //
+
     }
 
     /**
@@ -103,9 +103,15 @@ class FinanceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,  Finance $finance)
     {
-        //
+       
+        $finance->update($request->all());
+        return $this->genericResponse(true, " Finance has been updated", 200, ['finance' =>
+            $finance->withSchedules()
+                ->withCustomer()
+                ->withProduct()
+        ]);
     }
 
     /**
@@ -127,7 +133,7 @@ class FinanceController extends Controller
             }, 'product' => function (BelongsTo $query) {
                 $query->select(["id", "name"]);
             }, 'status' => function (BelongsTo $query) {
-                $query->select(["id", "name","color"]);
+                $query->select(["id", "name", "color"]);
             }, 'releatedSchedules'])
             ->orderBy('created_at', 'desc')
             ->paginate();
@@ -155,6 +161,7 @@ class FinanceController extends Controller
                 $finance->withSchedules()
                     ->withCustomer()
                     ->withProduct()
+                    ->withStatus()
             ]);
         });
 

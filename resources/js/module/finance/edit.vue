@@ -18,8 +18,8 @@
                     </a-input>
                 </a-form-item>
                 <a-form-item>
-                    <a-input
-                        :max="finance.total"
+                    <a-input-number
+                        :max="finance.payable"
                         type="number"
                         v-decorator="[
                             'received_amount',
@@ -35,7 +35,7 @@
                         ]"
                         placeholder="Received Amount $"
                     >
-                    </a-input>
+                    </a-input-number>
                 </a-form-item>
                 <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
                     <a-button type="primary" html-type="submit">
@@ -48,6 +48,21 @@
             <a-button @click="print" class="no-print float-right" type="primary"
                 >Print
             </a-button>
+
+            <a-select
+                :default-value="finance.status_id"
+                class="no-print float-right"
+                style="width:250px; margin-right:10px"
+                @change="value => statusChange(value)"
+                placeholder="Select a option and change input text above"
+            >
+                <a-select-option
+                    v-for="status in installmentStatus"
+                    :key="status.id"
+                >
+                    {{ status.name }}</a-select-option
+                >
+            </a-select>
         </a-card>
     </div>
 </template>
@@ -72,10 +87,12 @@ const schedulesColumns = [
 import Invoice from "./Invoice";
 import FinanceService from "../../services/API/FinanceService";
 import { notification } from "../../services/helpers";
+import { FINANCE_INSTALLMENT_STATUS } from "../../services/constants";
 export default {
     components: { Invoice },
     data() {
         return {
+            installmentStatus: FINANCE_INSTALLMENT_STATUS,
             form: this.$form.createForm(this, { name: "addCustomer" }),
             stateFinance: {},
             schedulesData: [],
@@ -91,14 +108,18 @@ export default {
         this.stateFinance = this.finance;
     },
     computed: {
-        showPayable() {            
+        showPayable() {
             return parseFloat(this.finance.payable) > 0;
         }
     },
     methods: {
-        // showPayable() {
-        //     return this.finance.payable >= 0;
-        // },
+        statusChange(status_id) {
+            FinanceService.update(this.finance.id, { status_id })
+                .then(response => {
+                    notification(this, response.message);
+                })
+                .catch(error => errorNotification(this, error));
+        },
         print() {
             window.print();
         },
@@ -111,13 +132,13 @@ export default {
             });
         },
         payInstallment(values) {
-            FinanceService.payInstallment(this.finance.id, values).then(
-                response => {
+            FinanceService.payInstallment(this.finance.id, values)
+                .then(response => {
                     notification(this, response.message);
                     this.$emit("setUpdateFinance", response.finance);
                     this.form.resetFields();
-                }
-            );
+                })
+                .catch(error => errorNotification(this, error));
         }
     }
 };

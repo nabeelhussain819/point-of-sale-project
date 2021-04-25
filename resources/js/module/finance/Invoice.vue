@@ -1,21 +1,23 @@
 <template>
     <div>
-        <a-row gutter="12">
+        <a-row :gutter="12">
             <a-col :span="16">
+              
                 <a-descriptions
                     bordered
                     :title="`${finance.product.name} Finance Detail`"
                 >
-               <span v-if="finance.customer">     <a-descriptions-item label="Customer Name">
-                        {{ finance.customer.name }}
+                    <a-descriptions-item label="Customer Name">
+                        {{
+                            !isEmpty(finance.customer) && finance.customer.name
+                        }}
                     </a-descriptions-item>
                     <a-descriptions-item label="Telephone">
-                        {{ finance.customer.phone }}
+                        {{ !isEmpty(finance.customer) &&  finance.customer.phone }}
                     </a-descriptions-item>
                     <a-descriptions-item label="Address">
-                        {{ finance.customer.address }}
+                        {{ !isEmpty(finance.customer) &&  finance.customer.address }}
                     </a-descriptions-item>
-               </span>
                     <a-descriptions-item label="Item">
                         {{ finance.product.name }}
                     </a-descriptions-item>
@@ -47,9 +49,12 @@
     </div>
 </template>
 <script>
+import { isEmpty } from "../../services/helpers";
 export default {
     data() {
-        return {};
+        return {
+            isEmpty
+        };
     },
     props: {
         finance: {

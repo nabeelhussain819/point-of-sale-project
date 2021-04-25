@@ -67,7 +67,6 @@ const FinanceService = {
     update,
     show,
     statuses,
-    update,
     get,
     updateInstallment,
     payInstallment
