@@ -199,13 +199,19 @@ class Inventory extends Base
         if (!$inventoryProduct) {
             $inventoryProduct = Inventory::whereHas('product', function (eloquentBuilder $builder) use ($request) {
                 $builder->whereHas('serials', function (eloquentBuilder $builder) use ($request) {
-                    $builder->where('serial_no', $request->get('OrUPC'));
+                    $builder->where('serial_no', $request->get('OrUPC'))
+                        ->where('is_sold', false);
                 });
             })->with('product')
                 ->firstOrFail();
 
             $inventoryProduct->serial_number = $request->get('OrUPC');
             $inventoryProduct->product->serial_number = $request->get('OrUPC');
+//            $isSoldProduct = $inventoryProduct->product->serials->where('serial_no', $request->get('OrUPC'))->first();
+//
+//            if (!empty($isSoldProduct) && $isSoldProduct->is_sold) {
+//                throw new ConflictHttpException('Item is sold');
+//            }
         }
 
         if ($inventoryProduct->quantity <= 0) {

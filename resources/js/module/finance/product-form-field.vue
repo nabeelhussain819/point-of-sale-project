@@ -2,7 +2,7 @@
   <div>
     <a-col :span="6">
       <a-form-item
-        label="Product UPC"
+        label="Lookup"
         :validate-status="fetchProductsErrors.validateStatus"
         :help="fetchProductsErrors.errorMsg"
       >

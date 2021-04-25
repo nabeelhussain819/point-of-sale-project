@@ -61,11 +61,15 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
     font-weight: bold !important;
 }
 
-.sales .checkout-box{
+.sales .checkout-box {
     padding: 15px 20px;
-    color:white;
+    color: white;
     border-radius: 11px;
-    background: rgb(13,36,0);
-    background: linear-gradient(90deg, rgba(13,36,0,1) 0%, rgba(56,162,80,1) 0%, rgba(71,199,100,1) 100%);
+    background: rgb(13, 36, 0);
+    background: linear-gradient(90deg, rgba(13, 36, 0, 1) 0%, rgba(56, 162, 80, 1) 0%, rgba(71, 199, 100, 1) 100%);
     cursor: pointer;
+}
+
+.condense-table > tr > td {
+    padding: 0px 16px !important;
 }

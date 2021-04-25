@@ -11,7 +11,7 @@
                 <a-descriptions-item label="Saving">
                     $ {{ discount }}
                 </a-descriptions-item>
-                <a-descriptions-item label="Tax">
+                <a-descriptions-item label="Tax %">
                     <a-input-number
                         :min="0"
                         :max="100"

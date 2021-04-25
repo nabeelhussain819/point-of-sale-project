@@ -1,5 +1,5 @@
 <template>
-  <a-table :data-source="data" :loading="loading" :columns="columns">
+  <a-table class="condense-table table-bordered table-condensed" :data-source="data" :loading="loading" :columns="columns">
     <div
       slot="filterDropdown"
       slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -145,7 +145,7 @@ export default {
           filters: [],
         },
         {
-          title: "action",
+          title: "Action",
           key: "action",
           scopedSlots: { customRender: "action" },
         },
