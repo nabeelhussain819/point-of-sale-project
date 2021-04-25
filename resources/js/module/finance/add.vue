@@ -16,7 +16,11 @@
                     :isCreated="isCreated"
                     @onClose="show"
                 />
-                <edit :finance="finance" v-else />
+                <edit
+                    @setUpdateFinance="setUpdateFinance"
+                    :finance="finance"
+                    v-else
+                />
             </a-skeleton>
         </a-modal>
     </div>
@@ -55,6 +59,9 @@ export default {
                     this.isCreated = true;
                 })
                 .finally(() => (this.loading = false));
+        },
+        setUpdateFinance(finance) {
+            this.finance = finance;
         }
     },
     mounted() {

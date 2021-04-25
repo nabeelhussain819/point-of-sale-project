@@ -28,7 +28,7 @@ class Product extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -89,4 +89,10 @@ class Product extends Model
     {
         return Product::where('id', $value)->first();
     }
+
+    public function serials()
+    {
+        return $this->hasMany(ProductSerialNumbers::class);
+    }
+
 }

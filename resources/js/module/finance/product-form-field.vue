@@ -70,6 +70,7 @@ export default {
             this.form.setFieldsValue({
               product_name: inventory.product.name,
               product_id: inventory.product.id,
+              serial_number:inventory.serial_number
             });
           }
         })

@@ -150,7 +150,11 @@ class FinanceController extends Controller
                 'advance' => $finance->advance + $request->get('received_amount'),
                 'payable' => $finance->payable - $request->get('received_amount')
             ]);
-            return $this->genericResponse(true, " repair has been updated", 200, ['finance' => $finance]);
+            return $this->genericResponse(true, " Finance has been updated", 200, ['finance' =>
+                $finance->withSchedules()
+                ->withCustomer()
+                ->withProduct()
+            ]);
         });
 
     }

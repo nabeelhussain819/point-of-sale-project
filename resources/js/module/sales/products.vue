@@ -151,6 +151,7 @@ export default {
       return this.uuidString + this.uuid;
     },
     setProducts(product) {
+      console.log(product);
       let uuidT = this.getUid();
       product.total = product.min_price;
       product.quantity = 1;

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\Store;
 use App\Models\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use \Illuminate\Database\Eloquent\Builder as eloquentBuilder;
 
 class InventoryController extends Controller
 {
@@ -34,8 +36,8 @@ class InventoryController extends Controller
         //
         (User::isSuperAdmin()) ?
             $inventories = Inventory::with('store')->get() : $inventories =
-            Inventory::where('store_id',Session::get('store_id'))->get() ;
-        return view('admin.inventory.create',['inventories' =>$inventories]);
+            Inventory::where('store_id', Session::get('store_id'))->get();
+        return view('admin.inventory.create', ['inventories' => $inventories]);
     }
 
     /**
@@ -57,13 +59,13 @@ class InventoryController extends Controller
         $inventory->guid = Str::uuid();
         $inventory->store_id = Session::get('store_id');
         $inventory->fill($request->all())->save();
-        return redirect('inventory-management/inventory/create')->with('success','Inventory Added');
+        return redirect('inventory-management/inventory/create')->with('success', 'Inventory Added');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
@@ -74,20 +76,20 @@ class InventoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function edit($id)
     {
         //
-        return view('admin.inventory.edit',['inventory' => Inventory::find($id)]);
+        return view('admin.inventory.edit', ['inventory' => Inventory::find($id)]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -100,13 +102,13 @@ class InventoryController extends Controller
         ]);
         $inventory = Inventory::find($id);
         $inventory->fill($request->all())->update();
-        return redirect('inventory-management/inventory/create')->with('success','Inventory Updated');
+        return redirect('inventory-management/inventory/create')->with('success', 'Inventory Updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function destroy($id)
@@ -114,7 +116,7 @@ class InventoryController extends Controller
         //
         $inventory = Inventory::find($id);
         $inventory->delete();
-        return redirect()->back()->with('success','Inventory Deleted');
+        return redirect()->back()->with('success', 'Inventory Deleted');
     }
 
     /**
@@ -123,14 +125,7 @@ class InventoryController extends Controller
      */
     public function products(Request $request)
     {
-        $inventoryProduct = Inventory::where($this->applyFilters($request))
-            ->with('product')
-            ->where('store_id', Store::currentId())
-            ->firstOrFail();
-
-        if ($inventoryProduct->quantity <= 0) {
-            throw new ConflictHttpException('Out of stock');
-        }
-        return $inventoryProduct;
+        $inventory = new Inventory();
+        return $inventory->generalSearch($request);
     }
 }

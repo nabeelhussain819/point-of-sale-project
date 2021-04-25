@@ -1,17 +1,17 @@
 <template>
     <div>
-        <Invoice :finance="stateFinance" />
+        <Invoice :finance="finance" />
         <br />
         <a-card title="Schedules">
             <a-table
                 :pagination="false"
                 :columns="schedulesColumns"
-                :data-source="stateFinance.releated_schedules"
+                :data-source="finance.releated_schedules"
             >
                 <a slot="name" slot-scope="text">{{ text }}</a>
             </a-table>
         </a-card>
-        <a-card class="no-print" title="Payable">
+        <a-card v-if="showPayable()" class="no-print" title="Payable">
             <a-form layout="inline" :form="form" @submit="handleSubmit">
                 <a-form-item>
                     <a-input v-decorator="['comment']" placeholder="Comments">
@@ -71,6 +71,7 @@ const schedulesColumns = [
 ];
 import Invoice from "./Invoice";
 import FinanceService from "../../services/API/FinanceService";
+import { notification } from "../../services/helpers";
 export default {
     components: { Invoice },
     data() {
@@ -90,6 +91,9 @@ export default {
         this.stateFinance = this.finance;
     },
     methods: {
+        showPayable() {
+            return this.finance.payable <= 0;
+        },
         print() {
             window.print();
         },
@@ -104,7 +108,9 @@ export default {
         payInstallment(values) {
             FinanceService.payInstallment(this.finance.id, values).then(
                 response => {
-                    console.log(response);
+                    notification(this, response.message);
+                    this.$emit("setUpdateFinance", response.finance);
+                    this.form.resetFields();
                 }
             );
         }

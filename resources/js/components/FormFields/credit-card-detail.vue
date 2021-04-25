@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-col :span="6">
-      <a-form-item label="Card Phone">
+      <a-form-item label="Card Number">
         <a-input v-decorator="['customer_card_number']" /></a-form-item
     ></a-col>
 

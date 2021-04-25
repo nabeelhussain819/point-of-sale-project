@@ -5,7 +5,11 @@ namespace App\Models;
 use App\Core\Base;
 use App\Observers\InventoryObserver;
 use App\Scopes\StoreGlobalScope;
+use App\Traits\AppliesQueryParams;
+use Illuminate\Database\Eloquent\Builder as eloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
  * @property integer $id
@@ -20,14 +24,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Inventory extends Base
 {
+    use AppliesQueryParams;
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
 
     protected $autoBlame = false;
+
+    public $productSerial;// attach the product serial number on searching
     /**
      * @var array
      */
@@ -109,24 +116,25 @@ class Inventory extends Base
             ->get();
     }
 
-    public static function updateProductQuantityByIdAndProductId($id , $product_id, $quantity){
+    public static function updateProductQuantityByIdAndProductId($id, $product_id, $quantity)
+    {
         return Inventory::where(
             [
-                ['id' , '=', $id],
-                ['product_id',  '=', $product_id],
-                ['store_id',  '=', Store::currentId()]
+                ['id', '=', $id],
+                ['product_id', '=', $product_id],
+                ['store_id', '=', Store::currentId()]
             ]
         )->update(
             array(
-                'quantity' => $quantity 
+                'quantity' => $quantity
             )
         );
     }
 
     private function removeStoreScope()
     {
-         $this->withoutGlobalScope(new StoreGlobalScope);
-         return $this;
+        $this->withoutGlobalScope(new StoreGlobalScope);
+        return $this;
     }
 
     private static function defaultSelect(): array
@@ -140,7 +148,7 @@ class Inventory extends Base
             ->withoutGlobalScope(new StoreGlobalScope)
             ->where('store_id', $storeId)
             ->where('product_id', $productId)
-            ->where('stock_bin_id',$bin)
+            ->where('stock_bin_id', $bin)
             ->first();
     }
 
@@ -178,5 +186,31 @@ class Inventory extends Base
                 });
             return $inventoryProduct;
         });
+    }
+
+    public function generalSearch(Request $request)
+    {
+        $inventoryProduct = Inventory::where($this->applyFilters($request))
+            ->with('product')
+            ->where('store_id', Store::currentId())
+            ->first();
+
+        // return null on serial number , serial number getting query
+        if (!$inventoryProduct) {
+            $inventoryProduct = Inventory::whereHas('product', function (eloquentBuilder $builder) use ($request) {
+                $builder->whereHas('serials', function (eloquentBuilder $builder) use ($request) {
+                    $builder->where('serial_no', $request->get('OrUPC'));
+                });
+            })->with('product')
+                ->firstOrFail();
+
+            $inventoryProduct->serial_number = $request->get('OrUPC');
+            $inventoryProduct->product->serial_number = $request->get('OrUPC');
+        }
+
+        if ($inventoryProduct->quantity <= 0) {
+            throw new ConflictHttpException('Out of stock');
+        }
+        return $inventoryProduct;
     }
 }
