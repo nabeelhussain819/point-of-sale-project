@@ -50,6 +50,7 @@
             </a-button>
 
             <a-select
+                :loading="statusLoader"
                 :default-value="finance.status_id"
                 class="no-print float-right"
                 style="width:250px; margin-right:10px"
@@ -92,6 +93,7 @@ export default {
     components: { Invoice },
     data() {
         return {
+            statusLoader: false,
             installmentStatus: FINANCE_INSTALLMENT_STATUS,
             form: this.$form.createForm(this, { name: "addCustomer" }),
             stateFinance: {},
@@ -114,11 +116,13 @@ export default {
     },
     methods: {
         statusChange(status_id) {
+            this.statusLoader = true;
             FinanceService.update(this.finance.id, { status_id })
                 .then(response => {
                     notification(this, response.message);
                 })
-                .catch(error => errorNotification(this, error));
+                .catch(error => errorNotification(this, error))
+                .finally(() => (this.statusLoader = false));
         },
         print() {
             window.print();
