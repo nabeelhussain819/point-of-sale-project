@@ -1,14 +1,14 @@
 <template>
-    <a-row class="bg-blue-container">
-        <a-col :span="16">
+    <a-row class="bg-blue-container text-bold">
+        <a-col class="mt-3" :span="14">
             <a-descriptions>
                 <a-descriptions-item label="Sub Total">
-                    ${{ subTotal }}
+                    ${{ withoutTax }}
                 </a-descriptions-item>
-                <a-descriptions-item label="Without Tax">
+                <!-- <a-descriptions-item label="Without Tax">
                     {{ withoutTax }}
-                </a-descriptions-item>
-                <a-descriptions-item label="Total Discount">
+                </a-descriptions-item> -->
+                <a-descriptions-item label="Saving">
                     $ {{ discount }}
                 </a-descriptions-item>
                 <a-descriptions-item label="Tax">
@@ -20,11 +20,15 @@
                     />
                 </a-descriptions-item> </a-descriptions
         ></a-col>
-        <a-col :span="8">
-            <a-button v-on:click="toggleModal(true)" type="primary">
-                CheckOut</a-button
-            >
-            <a-popconfirm
+        <a-col  v-on:click="toggleModal(true)" class="checkout-box" :span="10">
+            <!-- <a-button v-on:click="toggleModal(true)" type="default">
+                </a-button
+            > -->
+            <span><a-icon class="cart-icon" type="shopping-cart" /> Apply Discount & CheckOut</span>
+              <a-divider type="vertical" />
+            Total: $ <span>{{ subTotal }}</span>
+
+            <!-- <a-popconfirm
                 title="Are you sure cancel this transaction?"
                 ok-text="Yes"
                 cancel-text="No"
@@ -32,7 +36,7 @@
                 @cancel="cancel"
             >
                 <a-button type="danger"> Cancel Transcation </a-button>
-            </a-popconfirm>
+            </a-popconfirm> -->
         </a-col>
         <a-modal
             :destroyOnClose="true"
@@ -162,3 +166,9 @@ export default {
     }
 };
 </script>
+<style scoped>
+.cart-icon{
+  font-size: 2em;
+    text-align: center;
+}
+</style>

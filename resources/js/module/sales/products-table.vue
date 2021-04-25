@@ -51,9 +51,9 @@
       <a-col :span="8"></a-col>
       <a-col :span="8">
         <a-descriptions bordered title="Bill summary">
-          <a-descriptions-item :span="24" label="Without Tax">
+          <!-- <a-descriptions-item :span="24" label="Without Tax">
             {{ billSummary.withoutTax }}
-          </a-descriptions-item>
+          </a-descriptions-item> -->
           <a-descriptions-item :span="24" label="Total Discount">
             $ {{ billSummary.discount }}
           </a-descriptions-item>

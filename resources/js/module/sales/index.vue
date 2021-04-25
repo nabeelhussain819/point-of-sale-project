@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sales">
     <a-card :bordered="false">
       <div class="product-detail">
         <header-feature />

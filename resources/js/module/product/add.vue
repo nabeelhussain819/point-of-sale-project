@@ -9,6 +9,7 @@
       >
         <a-input
           @pressEnter="getProductById"
+          placeholder="Insert search key"
           v-decorator="[
             'product_id',
             {
