@@ -32,13 +32,17 @@ trait AppliesQueryParams
                     $query->where('category_id', $categories);
                 });
             })->when($request->get('type'), function (Builder $builder, $type) {
-                return    $builder->where('type', $type);
+                return $builder->where('type', $type);
             })->when($request->get('search'), function (Builder $builder, $search) {
                 $search = strtolower($search);
-                return $builder->where('name', 'like', "%".$search."%");
+                return $builder->where('name', 'like', "%" . $search . "%");
             })->when($request->get('product_id'), function (Builder $builder, $productId) {
                 if (StringHelper::isInt($productId)) {
                     return $builder->where('product_id', $productId);
+                }
+            })->when($request->get('status_id'), function (Builder $builder, $statusId) {
+                if (StringHelper::isInt($statusId)) {
+                    return $builder->where('status_id', $statusId);
                 }
             })->when($request->get('OrUPC'), function (Builder $builder, $upc) {
                 if (StringHelper::isInt($upc)) {
@@ -54,12 +58,12 @@ trait AppliesQueryParams
                     $builder->where('name', 'like', "%" . $search . "%");
                 });
             })
-            ->when($request->get('customerPhone'), function (Builder $builder, $customerPhone) {
+                ->when($request->get('customerPhone'), function (Builder $builder, $customerPhone) {
 
-                return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
-                    $builder->where('phone', 'like', "%" . $customerPhone . "%");
-                });
-            })->when($request->get('product_name'), function (Builder $builder, $productName) {
+                    return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
+                        $builder->where('phone', 'like', "%" . $customerPhone . "%");
+                    });
+                })->when($request->get('product_name'), function (Builder $builder, $productName) {
 
                     return $builder->whereHas('product', function (Builder $builder) use ($productName) {
                         $builder->where('name', 'like', "%" . $productName . "%");
