@@ -91,8 +91,7 @@ export default {
         this.stateFinance = this.finance;
     },
     computed: {
-        showPayable() {
-            
+        showPayable() {            
             return parseFloat(this.finance.payable) > 0;
         }
     },

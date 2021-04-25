@@ -19,7 +19,7 @@ class CreateFinancesTable extends Migration
             $table->unsignedBigInteger('store_id');
             $table->unsignedBigInteger('product_id');
             $table->tinyInteger('type')->comment('Layaway or InStore');
-            $table->string('status')->default('PENDING');
+            $table->unsignedBigInteger('status_id');
             $table->float('total');
             $table->float('advance');
             $table->float('payable')->comment('remaining amount should updated')->nullable();
