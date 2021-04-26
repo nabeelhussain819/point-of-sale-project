@@ -106,6 +106,14 @@ class Inventory extends Base
             }])->get();
     }
 
+
+    public function withProduct()
+    {
+        return $this->with(['product' => function (BelongsTo $belongsTo) {
+            $belongsTo->select(['id', 'name', 'has_serial_number']);
+        }]);
+    }
+
     public static function storeProductsById(array $products)
     {
         return Inventory::where('store_id', Store::currentId())
@@ -162,12 +170,18 @@ class Inventory extends Base
         return ProductSerialNumbers::getTransferSerialProduct($productId, $transferId);
     }
 
-    public static function getProduct()
+    /**
+     * @param Request $request
+     * @param int $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getAllProducts(Request $request, $pageSize = 25)
     {
-        return Inventory::with('product')
-            ->where("")
+        return Inventory::
+        withProduct()
+            ->where($this->applyFilters($request))
             ->where('store_id', Store::currentId())
-            ->first();
+            ->paginate($pageSize);
     }
 
     public static function serialNumberDetach($productsData)

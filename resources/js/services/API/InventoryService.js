@@ -1,5 +1,5 @@
 // import * as constants from '../Constants'
-import request from '../request'
+import request from "../request";
 
 const baseUrl = `/inventory`;
 
@@ -10,8 +10,16 @@ function products(params = {}) {
     });
 }
 
+function list(params = {}) {
+    return request({
+        url: `${baseUrl}/fetch`,
+        params
+    });
+}
+
 const InventoryService = {
-    products
+    products,
+    list
 };
 
-export default InventoryService
+export default InventoryService;

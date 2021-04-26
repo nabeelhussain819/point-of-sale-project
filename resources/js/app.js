@@ -35,6 +35,7 @@ Vue.component('sales-listing', require('./module/sales/listing.vue').default);
 Vue.component('finance', require('./module/finance/index.vue').default);
 Vue.component('refund', require('./module/refund/index.vue').default);
 Vue.component('quick-sale', require('./module/sales/quick-sale.vue').default);
+Vue.component('inventory', require('./module/inventory/index').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

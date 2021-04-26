@@ -4,5 +4,6 @@
 
 @section('content')
 
+
 <livewire:stock/>
 @endsection

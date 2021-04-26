@@ -139,8 +139,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'inventory'], function () {
         Route::get('/products', [InventoryController::class, 'products']);
+        Route::get('/fetch', [InventoryController::class, 'list']);
     });
-
 
     Route::group(['prefix' => 'finance'], function () {
         Route::get('/fetch', [FinanceController::class, 'fetch']);
