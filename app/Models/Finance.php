@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Base;
 use App\Observers\FinanceObserver;
 use App\Scopes\StoreGlobalScope;
 use Carbon\Carbon;
@@ -34,7 +35,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Status $status
  * @property FinancesSchedule[] $financesSchedules
  */
-class Finance extends Model
+class Finance extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -56,7 +57,9 @@ class Finance extends Model
         'customer_name', 'customer_phone', 'customer_address', 'customer_card_number',
         'customer_card_expiry', 'customer_card_ccv',
         'comments',
-        'serial_number'
+        'serial_number',
+        'guid',
+        'attachments'
     ];
 
     protected $Date = ['customer_card_expiry'];

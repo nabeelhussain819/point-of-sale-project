@@ -18,6 +18,14 @@ function create(data) {
     });
 }
 
+function uploads(id, data) {
+    return request({
+        url: `${baseUrl}/uploads/${id}`,
+        method: "POST",
+        data
+    });
+}
+
 function get(id) {
     return request({
         url: `${baseUrl}/${id}`
@@ -69,7 +77,8 @@ const FinanceService = {
     statuses,
     get,
     updateInstallment,
-    payInstallment
+    payInstallment,
+    uploads
 };
 
 export default FinanceService;

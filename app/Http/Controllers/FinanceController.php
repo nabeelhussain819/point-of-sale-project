@@ -8,6 +8,7 @@ use App\Models\Finance;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FinanceController extends Controller
 {
@@ -50,7 +51,12 @@ class FinanceController extends Controller
             }
 
             $finance->save();
-            return $this->genericResponse(true, " Finance has been created", 200);
+            return $this->genericResponse(true, " Finance has been created", 200, ['finance' =>
+                $finance->withSchedules()
+                    ->withCustomer()
+                    ->withProduct()
+                    ->withStatus()
+            ]);
         });
     }
 
@@ -73,7 +79,12 @@ class FinanceController extends Controller
             });
             $finance->save();
             $finance->schedules()->sync($installments);
-            return $this->genericResponse(true, " repair has been updated", 200);
+            return $this->genericResponse(true, " repair has been updated", 200, ['finance' =>
+                $finance->withSchedules()
+                    ->withCustomer()
+                    ->withProduct()
+                    ->withStatus()
+            ]);
         });
     }
 
@@ -103,9 +114,8 @@ class FinanceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  Finance $finance)
+    public function update(Request $request, Finance $finance)
     {
-       
         $finance->update($request->all());
         return $this->genericResponse(true, " Finance has been updated", 200, ['finance' =>
             $finance->withSchedules()
@@ -165,5 +175,15 @@ class FinanceController extends Controller
             ]);
         });
 
+    }
+
+    public function upload(Request $request, Finance $finance)
+    {
+        $file = $request->file('files')[0];
+
+        $path = 'finance/' . $finance->id;
+        //  $name = "{$path}/{$finance->guid}.{$extension}";
+        $filename = $file->store($path);
+        $finance->update(['attachments' => [$filename]]);
     }
 }

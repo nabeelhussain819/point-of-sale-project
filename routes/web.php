@@ -146,6 +146,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/fetch', [FinanceController::class, 'fetch']);
         Route::patch('/installment/{finance}', [FinanceController::class, 'installment']);
         Route::post('/payInstallment/{finance}', [FinanceController::class, 'payInstallment']);
+        Route::post('/uploads/{finance}', [FinanceController::class, 'upload']);
     });
 
     Route::group(['prefix' => 'store'], function () {
