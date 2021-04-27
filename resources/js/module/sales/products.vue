@@ -12,112 +12,105 @@
             <a-col :span="2"><strong>Total</strong></a-col>
             <a-col :span="1"><strong></strong></a-col>
         </a-row>
-        <a-form
-            :form="form"
-            :label-col="{ span: 24 }"
-            :wrapper-col="{ span: 24 }"
-            @submit="handleSubmit"
-        >
-            <a-row v-for="(product, key) in products" :key="key" :gutter="23">
-                <a-col :span="1"> {{ product.id }}</a-col>
-                <a-col :span="3"> {{ product.name }}</a-col>
+        <a-row v-for="(product, key) in products" :key="key" :gutter="23">
+            <a-col :span="1"> {{ product.id }}</a-col>
+            <a-col :span="3"> {{ product.name }}</a-col>
 
-                <a-col :span="4">
-                    <a-form-item>
-                        <a-input-search
-                            :disabled="!product.has_serial_number"
-                            v-decorator="[
-                                `productItem[${key}][serial_number]`,
-                                {
-                                    initialValue: product.serial_number,
-                                    rules: [
-                                        {
-                                            required: true,
-                                            message:
-                                                'Please insert serial number!'
-                                        }
-                                    ]
-                                }
-                            ]"
-                            @search="serialModal(product, key)"
-                        >
-                            <a-button type="primary" slot="enterButton">
-                                <a-icon type="mobile" />
-                            </a-button>
-                        </a-input-search> </a-form-item
-                ></a-col>
-                <a-col :span="2">
-                    <a-form-item>
-                        <a-input
-                            @change="
-                                e => {
-                                    computedTotal(e, key);
-                                }
-                            "
-                            :disabled="product.has_serial_number"
-                            type="number"
-                            v-decorator="[
-                                `productItem[${key}][quantity]`,
-                                {
-                                    initialValue: product.quantity
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
-                <a-col :span="3">
-                    <a-form-item>
-                        <a-input
-                            :max="100"
-                            prefix="%"
-                            type="number"
-                            @change="e => discount(e, key)"
-                            v-decorator="[
-                                `productItem[${key}][discount]`,
-                                {
-                                    initialValue: 0,
-                                    rules: []
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
-                <a-col :span="3">
-                    <a-form-item>
-                        <a-input
-                            type="number"
-                            v-decorator="[
-                                `productItem[${key}][price]`,
-                                {
-                                    initialValue: 0,
-                                    initialValue: product.retail_price,
-                                    rules: []
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
-                <a-col :span="3">
-                    <a-form-item>
-                        <a-input
-                            type="number"
-                            v-decorator="[
-                                `productItem[${key}][min_price]`,
-                                {
-                                    initialValue: product.min_price,
-                                    rules: []
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
-                <a-col :span="2">
-                    <a-form-item>
-                        {{ products[key].total }}
-                    </a-form-item></a-col
-                >
-                <a-col :span="1"
-                    ><a-button v-on:click="removeRow(key)" type="link"
-                        ><a-icon type="delete"/></a-button
-                ></a-col>
-            </a-row>
-        </a-form>
+            <a-col :span="4">
+                <a-form-item>
+                    <a-input-search
+                        v-on:blur="value => serialNumberHandling(key, value)"
+                        :disabled="!product.has_serial_number"
+                        v-decorator="[
+                            `productItem[${key}][serial_number]`,
+                            {
+                                initialValue: product.serial_number,
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Please insert serial number!'
+                                    }
+                                ]
+                            }
+                        ]"
+                        @search="serialModal(product, key)"
+                    >
+                        <a-button type="primary" slot="enterButton">
+                            <a-icon type="mobile" />
+                        </a-button>
+                    </a-input-search> </a-form-item
+            ></a-col>
+            <a-col :span="2">
+                <a-form-item>
+                    <a-input
+                        @change="
+                            e => {
+                                computedTotal(e, key);
+                            }
+                        "
+                        :disabled="product.has_serial_number"
+                        type="number"
+                        v-decorator="[
+                            `productItem[${key}][quantity]`,
+                            {
+                                initialValue: product.quantity
+                            }
+                        ]"
+                    /> </a-form-item
+            ></a-col>
+            <a-col :span="3">
+                <a-form-item>
+                    <a-input
+                        :max="100"
+                        prefix="%"
+                        type="number"
+                        @change="e => discount(e, key)"
+                        v-decorator="[
+                            `productItem[${key}][discount]`,
+                            {
+                                initialValue: 0,
+                                rules: []
+                            }
+                        ]"
+                    /> </a-form-item
+            ></a-col>
+            <a-col :span="3">
+                <a-form-item>
+                    <a-input
+                        type="number"
+                        v-decorator="[
+                            `productItem[${key}][price]`,
+                            {
+                                initialValue: 0,
+                                initialValue: product.retail_price,
+                                rules: []
+                            }
+                        ]"
+                    /> </a-form-item
+            ></a-col>
+            <a-col :span="3">
+                <a-form-item>
+                    <a-input
+                        type="number"
+                        v-decorator="[
+                            `productItem[${key}][min_price]`,
+                            {
+                                initialValue: product.min_price,
+                                rules: []
+                            }
+                        ]"
+                    /> </a-form-item
+            ></a-col>
+            <a-col :span="2">
+                <a-form-item>
+                    {{ products[key].total }}
+                </a-form-item></a-col
+            >
+            <a-col :span="1"
+                ><a-button v-on:click="removeRow(key)" type="link"
+                    ><a-icon type="delete"/></a-button
+            ></a-col>
+        </a-row>
     </div>
 </template>
 <script>
@@ -134,8 +127,6 @@ export default {
     },
     data() {
         return {
-            formLayout: "horizontal",
-            form: this.$form.createForm(this, { name: "orders" }),
             products: {},
             uuid: 0,
             uuidString: "uuid-",
@@ -152,7 +143,6 @@ export default {
             return this.uuidString + this.uuid;
         },
         setProducts(product) {
-            console.log(product);
             let uuidT = this.getUid();
             product.total = product.min_price;
             product.quantity = 1;
@@ -216,6 +206,11 @@ export default {
                 product.serial_no;
             this.updateProducts(products);
             this.handleSearialModal(false);
+        },
+        serialNumberHandling(key, value) {
+            let products = this.products;
+            products[key].serial_number = value.target.value;
+            this.updateProducts(products);
         }
     },
     mounted() {

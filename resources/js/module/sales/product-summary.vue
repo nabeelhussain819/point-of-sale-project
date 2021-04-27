@@ -20,12 +20,15 @@
                     />
                 </a-descriptions-item> </a-descriptions
         ></a-col>
-        <a-col  v-on:click="toggleModal(true)" class="checkout-box" :span="10">
+        <a-col v-on:click="handleSubmit" class="checkout-box" :span="10">
             <!-- <a-button v-on:click="toggleModal(true)" type="default">
                 </a-button
             > -->
-            <span><a-icon class="cart-icon" type="shopping-cart" /> Apply Discount & CheckOut</span>
-              <a-divider type="vertical" />
+            <span
+                ><a-icon class="cart-icon" type="shopping-cart" /> Apply
+                Discount & CheckOut</span
+            >
+            <a-divider type="vertical" />
             Total: $ <span>{{ subTotal }}</span>
 
             <!-- <a-popconfirm
@@ -63,6 +66,9 @@ import {
 import productTable from "./products-table";
 import StoreService from "../../services/API/StoreService";
 export default {
+    props: {
+        form: { default: () => {} }
+    },
     components: { productTable },
     data() {
         return {
@@ -85,7 +91,7 @@ export default {
         },
         toggleModal($show) {
             if (false === $show && this.isOrderCreated) {
-                location.reload();
+                window.location.href = "/sales/create";
             }
             this.showOrderInvoice = $show;
         },
@@ -146,6 +152,9 @@ export default {
         getTaxChange(tax) {
             this.tax = tax;
             this.calculate(this.emitedProducts);
+        },
+        handleSubmit() {
+            this.$emit("handleSubmit", this.toggleModal);
         }
     },
     mounted() {
@@ -167,8 +176,8 @@ export default {
 };
 </script>
 <style scoped>
-.cart-icon{
-  font-size: 2em;
+.cart-icon {
+    font-size: 2em;
     text-align: center;
 }
 </style>

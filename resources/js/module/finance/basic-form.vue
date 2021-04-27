@@ -101,9 +101,7 @@ export default {
                             this.uploadAttachments(response);
                             this.show(false);
                         })
-                        .catch(error => {
-                            console.log(error);
-                            console.log(error.response);
+                        .catch(error => {                           
                             errorNotification(this, error);
                         })
                         .finally(() => {

@@ -103,9 +103,12 @@ class OrderController extends Controller
                     ->get()
                     ->each(function (Inventory $inventory) use ($inventoryProduct) {
                         $inventory->OUTGOING_PRODUCTS = true;
+
                         // because in current scenrio we sell 1 serial product at once
                         $inventory->update(['quantity' => $inventory->quantity - $inventoryProduct['quantity']]); // inventory mai se quantity kam karhe hain
+
                         ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number']);
+
                     });
                 return $inventoryProduct;
             });

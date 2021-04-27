@@ -76,6 +76,7 @@ class SalesController extends Controller
      */
     public function create(Request $request)
     {
+
         $preloadProduct = '';
         if ($request->get('OrUPC')) {
             $Inventory = new Inventory();
@@ -93,6 +94,7 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
+//        @todo conflict with order controller store
         $request->validate([
             'lookup' => 'required',
             'customer_id' => 'required',
@@ -116,44 +118,6 @@ class SalesController extends Controller
         });
         $order->orderProducts()->sync($productData);
 
-        /*
-         * Worst code ever
-         * Repetitive code
-         * if new case will come it will not handle
-         * Dirty way of using Controller
-         * query in loop not using sync method of relation
-         * creating custom data
-         */
-//
-//        foreach ($request->input('products', []) as $product) {
-//            if ($request->get('customer_id')) {
-//                $request->validate(['customer_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
-//                OrderProduct::insert([
-//                    'order_id' => 'PO' . rand(1111, 999999),
-//                    'quantity' => $request->get('quantity'),
-//                    'lookup' => $request->get('lookup'),
-//                    'inventory_id' => $product,
-//                    'store_id' => $request->get('store_id'),
-//                    'stock_id' => $request->get('stock_id'),
-//                    'type_id' => $request->get('type_id'),
-//                    'customer_id' => $request->get('customer_id')
-//                ]);
-//            } else {
-//                $request->validate(['vendor_id' => 'required', 'sale_id', 'products' => 'required', 'stock_id' => 'required', 'store_id' => 'required', 'quantity' => 'required']);
-//                OrderProduct::insert([
-//                    'order_id' => 'PO' . rand(1111, 999999),
-//                    'quantity' => $request->get('quantity'),
-//                    'inventory_id' => $product,
-//                    'lookup' => $request->get('lookup'),
-//                    'store_id' => $request->get('store_id'),
-//                    'stock_id' => $request->get('stock_id'),
-//                    'type_id' => $request->get('type_id'),
-//                    'vendor_id' => $request->get('vendor_id')
-//                ]);
-//            }
-//        }
-//        $sales = new Order();
-//        $sales->fill($request->all())->save();
         return redirect()->back()->with('success', 'New Sale Created');
     }
 

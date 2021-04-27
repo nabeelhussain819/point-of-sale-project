@@ -6,6 +6,7 @@ use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductSerialNumbers extends Model
 {
@@ -32,10 +33,18 @@ class ProductSerialNumbers extends Model
 
     public static function updateStatusSold(int $productId, int $storeId, string $serialNo)
     {
-        return ProductSerialNumbers::where('store_id', $storeId)
+        $product = ProductSerialNumbers::where('store_id', $storeId)
             ->where('product_id', $productId)
             ->where('serial_no', $serialNo)
-            ->update(['is_sold' => true]);
+            ->first();
+
+        if (empty($product)) {
+            throw new NotFoundHttpException("No product found against {$serialNo} on product Number {$productId}");
+        }
+        if (!empty($product) && $product->is_sold) {
+            throw new ConflictHttpException("{$product->serial_no} is sold");
+        }
+        return $product->update(['is_sold' => true]);
     }
 
     /**
