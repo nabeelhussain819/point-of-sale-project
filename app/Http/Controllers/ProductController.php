@@ -37,7 +37,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -51,13 +51,13 @@ class ProductController extends Controller
         $product = new Product();
         $product->guid = Str::uuid();
         $product->fill($request->all())->save();
-        return redirect('product-management/products/create')->with('success','Product Added');
+        return redirect('product-management/products/create')->with('success', 'Product Added');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -69,20 +69,20 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         //
-        return view('admin.products.edit',['product' => Product::find($id)]);
+        return view('admin.products.edit', ['product' => Product::find($id)]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -96,13 +96,13 @@ class ProductController extends Controller
 
         $product = Product::find($id);
         $product->fill($request->all())->update();
-        return redirect()->back()->with('success',"$product->name Updated");
+        return redirect()->back()->with('success', "$product->name Updated");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -110,7 +110,7 @@ class ProductController extends Controller
         //
         $product = Product::find($id);
         $product->delete();
-        return redirect()->back()->with('success','Product Deleted');
+        return redirect()->back()->with('success', 'Product Deleted');
     }
 
     public function deviceBrand(Request $request)
@@ -144,5 +144,16 @@ class ProductController extends Controller
     {
         return ProductSerialNumbers::getByStoreId($product->id, Store::currentId())
             ->paginate($this->pageSize);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Facade\FlareClient\Http\Exceptions\NotFound
+     */
+    public function validateSerial(Request $request)
+    {
+        ProductSerialNumbers::isAvailable($request->get('product_id'), $request->get('serial_no'));
+        return $this->genericResponse(true, "success");
     }
 }

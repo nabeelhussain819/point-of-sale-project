@@ -35,6 +35,7 @@ export default {
     mounted() {
         let setProducts = this.updatedProducts;
         this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function(product) {
+            console.log(product);
             setProducts(product);
             if (!isEmpty(product.serial_number)) {
                 return (window.location.href = `/sales/create?OrUPC=${product.serial_number}`);
@@ -51,9 +52,9 @@ export default {
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
-                if (!err) {
-                    window.location.href = `/sales/create?OrUPC=${this.product.id}`;
-                }
+                // if (!err) {
+                //     window.location.href = `/sales/create?OrUPC=${this.product.id}`;
+                // }
             });
         }
     }

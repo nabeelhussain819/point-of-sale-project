@@ -1,5 +1,5 @@
 // import * as constants from '../Constants'
-import request from '../request'
+import request from "../request";
 
 const baseUrl = `/product`;
 
@@ -17,14 +17,25 @@ function all(params = {}) {
     });
 }
 
-function getSerials(id){
+function getSerials(id) {
     return request({
-        url: `${baseUrl}/serials/${id}`,        
+        url: `${baseUrl}/serials/${id}`
+    });
+}
+
+function validateSerial( params, cancelToken = null) {
+    return request({
+        url: `${baseUrl}/validate-serial/`,
+        cancelToken,
+        params
     });
 }
 
 const ProductService = {
-    deviceBrand,all,getSerials
+    deviceBrand,
+    all,
+    getSerials,
+    validateSerial
 };
 
-export default ProductService
+export default ProductService;

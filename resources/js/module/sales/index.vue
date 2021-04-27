@@ -11,6 +11,7 @@
                     @submit="handleSubmit"
                 >
                     <products
+                        :form="form"
                         :preloadProduct="pre"
                         @updatedProducts="updatedProducts"
                     />

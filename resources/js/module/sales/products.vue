@@ -29,6 +29,15 @@
                                     {
                                         required: true,
                                         message: 'Please insert serial number!'
+                                    },
+                                    {
+                                        validator: (rule, value, callback) =>
+                                            checkSerial(
+                                                rule,
+                                                value,
+                                                callback,
+                                                key
+                                            )
                                     }
                                 ]
                             }
@@ -118,11 +127,16 @@ import {
     EVENT_CUSTOMERSALE_PRODUCT_SUMMARY,
     EVENT_CUSTOMERSALE_PRODUCT_ADD
 } from "../../services/constants";
-
+import axios from "axios";
+import ProductService from "../../services/API/ProductService";
+import { isEmpty } from "../../services/helpers";
 export default {
     props: {
         preloadProduct: {
             default: null
+        },
+        form: {
+            default: () => {}
         }
     },
     data() {
@@ -133,7 +147,8 @@ export default {
             total: 0,
             expendedTotal: 0,
             showSerialModal: false,
-            selectedProduct: {}
+            selectedProduct: {},
+            cancelSource: null
         };
     },
     methods: {
@@ -166,6 +181,40 @@ export default {
             pp[key].total = quantity * pp[key].min_price;
             pp[key].quantity = parseFloat(quantity);
             this.updateProducts(pp);
+        },
+        checkSerial(rule, value, callback, key) {
+            if (!isEmpty(value)) {
+                this.cancelSearch();
+                let prodcutId = this.products[key].id;
+                this.cancelSource = axios.CancelToken.source();
+                return ProductService.validateSerial(
+                    {
+                        product_id: prodcutId,
+                        serial_no: value
+                    },
+                    this.cancelSource.token
+                )
+                    .then(response => {
+                        this.cancelSource = null;
+                        callback();
+                        return;
+                    })
+                    .catch(e => {
+                        console.log(e.response);
+                        if (e.response.status === 404) {
+                            callback("not found");
+                        }
+
+                        return callback(e.response.data.message);
+                    });
+            }
+        },
+        cancelSearch() {
+            if (this.cancelSource) {
+                this.cancelSource.cancel(
+                    "Start new search, stop active search"
+                );
+            }
         },
         discount(value, key) {
             value = value.target.value;
@@ -207,6 +256,7 @@ export default {
             this.updateProducts(products);
             this.handleSearialModal(false);
         },
+
         serialNumberHandling(key, value) {
             let products = this.products;
             products[key].serial_number = value.target.value;
