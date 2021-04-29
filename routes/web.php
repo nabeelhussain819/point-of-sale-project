@@ -24,6 +24,8 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStoreController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\TrackingController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -63,6 +65,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/serials/{product}', [ProductController::class, 'getSerials']);
         Route::get('/validate-serial/', [ProductController::class, 'validateSerial']);
     });
+
+    Route::group(['prefix' => 'tracking'], function () {
+        Route::get('/', [TrackingController::class, 'index']);
+        Route::get('/search', [TrackingController::class, 'search']);
+    });
+
 
     Route::group(['prefix' => 'repair'], function () {
         Route::get('/fetch', [RepairController::class, 'fetch']);

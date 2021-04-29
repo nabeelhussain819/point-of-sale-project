@@ -15,6 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('store_id')->nullable();
             $table->float('discount')->nullable();
             $table->float('without_tax')->nullable();
             $table->float('sub_total')->nullable();
@@ -30,8 +31,9 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('orders', function (Blueprint $table){
-
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreign('store_id')->references('id')
+                ->on('stores')->cascadeOnUpdate();
         });
     }
 

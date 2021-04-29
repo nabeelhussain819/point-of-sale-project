@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  * @property Customer $customer
+ * @property Store store_id
  * @property Product $product
  */
 class Order extends Model
@@ -27,9 +28,9 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = [ 'customer_id', 'discount', 'without_tax', 'sub_total',
-        'cash_paid','cash_back','customer_card_number',
-        'tax', 'finance_id',
+    protected $fillable = ['customer_id', 'discount', 'without_tax', 'sub_total',
+        'cash_paid', 'cash_back', 'customer_card_number',
+        'tax', 'finance_id', 'store_id',
         'without_discount', 'created_at', 'updated_at'];
     /**
      * @var array
@@ -80,7 +81,7 @@ class Order extends Model
     {
         $this->load(['products' => function ($query) {
             $query->with(['product' => function ($query) {
-                $query->select(['id','name']);
+                $query->select(['id', 'name']);
             }]);
         }]);
         return $this;

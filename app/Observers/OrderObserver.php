@@ -4,9 +4,15 @@ namespace App\Observers;
 
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Models\Store;
 
 class OrderObserver
 {
+    public function creating(Order $order)
+    {
+        $order->store_id = Store::currentId();
+    }
+
     public function saved(Order $order)
     {
         $this->inventoryAdjustment($order);
