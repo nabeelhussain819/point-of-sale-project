@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Observers\SerialLogObserver;
 use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,6 +14,9 @@ class ProductSerialNumbers extends Base
 {
     use HasFactory;
     protected $hasGuid = false;
+
+    public $subject, $subject_id;// setting the subject to the log
+
     /**
      * @var array
      */
@@ -48,6 +51,13 @@ class ProductSerialNumbers extends Base
             throw new ConflictHttpException("{$product->serial_no} is sold");
         }
         return $product->update(['is_sold' => true]);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        ProductSerialNumbers::observe(SerialLogObserver::class);
     }
 
     /**
@@ -116,4 +126,29 @@ class ProductSerialNumbers extends Base
         }]);
     }
 
+    public static function syncSerialWIthPurchaseOrder(array $serialProducts, PurchaseOrder $purchaseOrder): array
+    {
+        $products = [];
+        collect($serialProducts)->each(function (&$productSerials, $productId) use (&$products, $purchaseOrder) {
+
+            collect($productSerials)->each(function ($serial) use (&$products, $productId, $purchaseOrder) {
+
+                $product = [
+                    'product_id' => $productId,
+                    'store_id' => $purchaseOrder->store_id,
+                    'serial_no' => $serial,
+                    'purchase_order_id' => $purchaseOrder->id,
+                ];
+
+                $productSerial = new ProductSerialNumbers();
+                $productSerial->fill($product);
+                $productSerial->subject = PurchaseOrder::class;
+                $productSerial->subject_id = $purchaseOrder->id;
+                $productSerial->save();
+                $products[] = $productSerial;
+            });
+
+        });
+        return $products;
+    }
 }

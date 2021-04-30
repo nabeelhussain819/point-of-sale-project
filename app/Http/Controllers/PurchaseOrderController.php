@@ -206,30 +206,18 @@ class PurchaseOrderController extends Controller
                 $purchaseOrder->isReceiving = true;
                 $purchaseOrder->update(['received_date' => Carbon::now()]);
                 $purchaseOrder->save();
-//------ Sync
-                $products = [];
-                collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $purchaseOrder) {
 
-                    collect($productSerials)->each(function ($serial) use (&$products, $productId, $purchaseOrder) {
-
-                        $product = [
-                            'product_id' => $productId,
-                            'store_id' => $purchaseOrder->store_id,
-                            'serial_no' => $serial,
-                            'purchase_order_id' => $purchaseOrder->id,
-                        ];
-                        $products[] = $product;
-                        $productSerial = new ProductSerialNumbers();
-                        $productSerial->fill($product);
-                        $productSerial->save();
-                    });
-
-                });
+                ProductSerialNumbers::syncSerialWIthPurchaseOrder($request->get("serialProducts"), $purchaseOrder);
                 //  $purchaseOrder->productSerialNumbers()->sync($products);
             }
             return redirect()->route('purchase-order.index')->with('success', 'Purchase Order received');
         });
 
+    }
+
+    public function view(PurchaseOrder $purchaseOrder)
+    {
+        
     }
 
 
