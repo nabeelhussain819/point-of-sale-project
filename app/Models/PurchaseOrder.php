@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Base;
 use App\Observers\PurchaseOrderObserver;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,8 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property Vendor $vendor
  * @relation PurchaseOrdersProduct[] $purchaseOrdersProducts
  */
-class PurchaseOrder extends Model
+class PurchaseOrder extends Base
 {
+    protected $hasGuid = false;
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -37,6 +39,7 @@ class PurchaseOrder extends Model
 
     protected $dates = ['expected_date', 'received_date',];
     public $isReceiving = false;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

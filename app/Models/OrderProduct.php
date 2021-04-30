@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+
+use App\Core\Base;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property StockBin $stock
  * @property Store $store
  */
-class OrderProduct extends Model
+class OrderProduct extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -51,7 +53,6 @@ class OrderProduct extends Model
     }
 
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -67,6 +68,7 @@ class OrderProduct extends Model
     {
         return $this->belongsTo(Store::class);
     }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
@@ -77,7 +79,8 @@ class OrderProduct extends Model
         return $this->belongsTo(Type::class);
     }
 
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo(Product::class);
 
     }

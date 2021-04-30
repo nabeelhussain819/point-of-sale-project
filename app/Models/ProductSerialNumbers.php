@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Base;
 use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,9 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ProductSerialNumbers extends Model
+class ProductSerialNumbers extends Base
 {
     use HasFactory;
+    protected $hasGuid = false;
     /**
      * @var array
      */

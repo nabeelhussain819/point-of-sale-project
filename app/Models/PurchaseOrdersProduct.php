@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Base;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @relation Product $product
  * @relation PurchaseOrder $purchaseOrder
  */
-class PurchaseOrdersProduct extends Model
+class PurchaseOrdersProduct extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Base;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property Finance $finance
  */
-class FinancesSchedules extends Model
+class FinancesSchedules extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.

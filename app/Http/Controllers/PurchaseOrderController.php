@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductSerialNumbers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
 use App\Models\Vendor;
@@ -166,7 +167,6 @@ class PurchaseOrderController extends Controller
     }
 
 
-
     /**
      * @param PurchaseOrder $purchaseOrder
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
@@ -201,25 +201,31 @@ class PurchaseOrderController extends Controller
      */
     public function associateProductSerial(Request $request, PurchaseOrder $purchaseOrder)
     {
-        $products = [];
-        collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $purchaseOrder) {
-
-            collect($productSerials)->each(function ($serial) use (&$products, $productId, $purchaseOrder) {
-                $products[] = [
-                    'product_id' => $productId,
-                    'store_id' => $purchaseOrder->store_id,
-                    'serial_no' => $serial,
-                    'purchase_order_id' => $purchaseOrder->id,
-                ];
-            });
-        });
-
-        return DB::transaction(function () use ($purchaseOrder, $products) {
+        return DB::transaction(function () use ($purchaseOrder, &$request) {
             if (is_null($purchaseOrder->received_date)) {
                 $purchaseOrder->isReceiving = true;
                 $purchaseOrder->update(['received_date' => Carbon::now()]);
                 $purchaseOrder->save();
-                $purchaseOrder->productSerialNumbers()->sync($products);
+//------ Sync
+                $products = [];
+                collect($request->get("serialProducts"))->each(function (&$productSerials, $productId) use (&$products, $purchaseOrder) {
+
+                    collect($productSerials)->each(function ($serial) use (&$products, $productId, $purchaseOrder) {
+
+                        $product = [
+                            'product_id' => $productId,
+                            'store_id' => $purchaseOrder->store_id,
+                            'serial_no' => $serial,
+                            'purchase_order_id' => $purchaseOrder->id,
+                        ];
+                        $products[] = $product;
+                        $productSerial = new ProductSerialNumbers();
+                        $productSerial->fill($product);
+                        $productSerial->save();
+                    });
+
+                });
+                //  $purchaseOrder->productSerialNumbers()->sync($products);
             }
             return redirect()->route('purchase-order.index')->with('success', 'Purchase Order received');
         });

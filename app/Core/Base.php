@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Helpers\GuidHelper;
+use App\Traits\LogsActivityCustom;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -27,12 +28,15 @@ use Illuminate\Support\Facades\Auth;
  *
  * @mixin \Eloquent
  */
-
-
 class Base extends Model
 {
+    use LogsActivityCustom;
     protected $autoBlame = true;
     protected $hasGuid = true;
+
+    protected static $submitEmptyLogs = false;
+    protected static $logFillable = true;
+    protected static $logOnlyDirty = true;
 
     public static function boot()
     {

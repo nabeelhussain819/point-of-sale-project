@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Base;
 use App\Observers\OrderObserver;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Store store_id
  * @property Product $product
  */
-class Order extends Model
+class Order extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.

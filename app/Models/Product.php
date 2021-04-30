@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Base;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Inventory[] $inventories
  * @property boolean $has_serial_number
  */
-class Product extends Model
+class Product extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -36,7 +37,9 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['department_id', 'guid', 'category_id', 'name', 'description', 'UPC', 'cost', 'retail_price', 'min_price', 'taxable', 'active', 'created_at', 'updated_at', 'has_serial_number'];
+    protected $fillable = ['department_id', 'guid',
+        'category_id', 'name', 'description', 'UPC', 'cost', 'retail_price',
+        'min_price', 'taxable', 'active', 'created_at', 'updated_at', 'has_serial_number'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
