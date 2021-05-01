@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Base
 {
+    protected $hasGuid = false;
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -31,6 +32,7 @@ class Order extends Base
      */
     protected $fillable = ['customer_id', 'discount', 'without_tax', 'sub_total',
         'cash_paid', 'cash_back', 'customer_card_number',
+        'store_id',
         'tax', 'finance_id', 'store_id',
         'without_discount', 'created_at', 'updated_at'];
     /**
@@ -119,5 +121,13 @@ class Order extends Base
         parent::boot();
 
         Order::observe(OrderObserver::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function store()
+    {
+        return $this->belongsTo('App\Models\Store');
     }
 }

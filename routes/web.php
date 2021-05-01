@@ -120,7 +120,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('transfer.view');
 
     Route::get('sales/view/{order}', [SalesController::class, 'view'])
-        ->name('sales.view');
+        ->name('order.view');
 
     Route::get('refund/view/{refund}', [SalesController::class, 'view'])
         ->name('refund.view');

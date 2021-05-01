@@ -15,7 +15,7 @@ class ProductSerialNumbers extends Base
     use HasFactory;
     protected $hasGuid = false;
 
-    public $subject, $subject_id;// setting the subject to the log
+    public $subject, $subject_id, $subject_data;// setting the subject to the log
 
     /**
      * @var array
@@ -37,8 +37,9 @@ class ProductSerialNumbers extends Base
             ->where('product_id', $productId);
     }
 
-    public static function updateStatusSold(int $productId, int $storeId, string $serialNo)
+    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, Order $order)
     {
+
         $product = ProductSerialNumbers::where('store_id', $storeId)
             ->where('product_id', $productId)
             ->where('serial_no', $serialNo)
@@ -50,6 +51,9 @@ class ProductSerialNumbers extends Base
         if (!empty($product) && $product->is_sold) {
             throw new ConflictHttpException("{$product->serial_no} is sold");
         }
+        $product->subject = Order::class;
+        $product->subject_id = $order->id;
+        $product->subject_data = $order;
         return $product->update(['is_sold' => true]);
     }
 

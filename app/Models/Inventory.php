@@ -214,7 +214,8 @@ class Inventory extends Base
             $inventoryProduct = Inventory::whereHas('product', function (eloquentBuilder $builder) use ($request) {
                 $builder->whereHas('serials', function (eloquentBuilder $builder) use ($request) {
                     $builder->where('serial_no', $request->get('OrUPC'))
-                        ->where('is_sold', false);
+                        ->where('is_sold', false)
+                        ->where('store_id', Store::currentId());
                 });
             })->with('product')
                 ->firstOrFail();

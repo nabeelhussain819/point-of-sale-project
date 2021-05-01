@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Data\SerialLogDTO;
+use App\Models\Order;
 use App\Models\ProductSerialNumbers;
 use App\Models\PurchaseOrder;
 use App\Models\SerialLogs;
@@ -25,6 +26,9 @@ class SerialLogObserver
                 break;
             case StockTransfer::class:
                 $this->belongsToTransfer($productSerialNumbers);
+                break;
+            case Order::class:
+                $this->belongsToOrder($productSerialNumbers);
                 break;
             default:
         }
@@ -52,6 +56,18 @@ class SerialLogObserver
             StockTransfer::class,
             $productSerialNumbers->stockTransfer->id,
             $this->transferOrderOptions($productSerialNumbers)
+        );
+    }
+
+    private function belongsToOrder(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = new SerialLogs();
+        $serialLog->add(
+            $productSerialNumbers->id,
+            $productSerialNumbers->serial_no,
+            Order::class,
+            $productSerialNumbers->subject_id,
+            $this->orderOptions($productSerialNumbers)
         );
     }
 
@@ -85,6 +101,23 @@ class SerialLogObserver
         $serialLog->from = $productSerialNumbers->purchaseOrder->vendor->name;
         $serialLog->to = $productSerialNumbers->purchaseOrder->store->name;
         $serialLog->url = route('purchaseOrder.view', $productSerialNumbers->purchaseOrder->id);
+
+        return json_encode($serialLog);
+    }
+
+    private function orderOptions(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = $this->baseOptions();
+        $serialLog->doc = $productSerialNumbers->stockTransfer->id;
+        $serialLog->subject = "Orders | Sales";
+        $customer = 'No Customer';
+        if ($productSerialNumbers->subject_data->customer) {
+            $customer = $productSerialNumbers->subject_data->customer->name;
+        }
+
+        $serialLog->from = $productSerialNumbers->subject_data->store->name;
+        $serialLog->to = $customer;
+        $serialLog->url = route('order.view', $productSerialNumbers->subject_id);
 
         return json_encode($serialLog);
     }

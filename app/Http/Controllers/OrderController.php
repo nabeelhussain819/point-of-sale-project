@@ -91,23 +91,27 @@ class OrderController extends Controller
 
             $data = ArrayHelper::merge($summary, [
                 'customer_id' => $customerId,
+                'store_id' => Store::currentId()
             ]);
 
+            // save order
+
+            $order->fill($data)->save();
 
             //@todo update inventory serial number  please use a human readable
-            $productWithSerial = collect($productsData)->filter(function ($inventoryProduct) {
+            $productWithSerial = collect($productsData)->filter(function ($inventoryProduct) use ($order) {
                 return !empty($inventoryProduct['serial_number']);
-            })->each(function ($inventoryProduct) {
+            })->each(function ($inventoryProduct) use ($order) {
                 Inventory::where('store_id', Store::currentId())
                     ->where('product_id', $inventoryProduct['product_id'])
                     ->get()
-                    ->each(function (Inventory $inventory) use ($inventoryProduct) {
+                    ->each(function (Inventory $inventory) use ($inventoryProduct, $order) {
                         $inventory->OUTGOING_PRODUCTS = true;
 
                         // because in current scenrio we sell 1 serial product at once
                         $inventory->update(['quantity' => $inventory->quantity - $inventoryProduct['quantity']]); // inventory mai se quantity kam karhe hain
 
-                        ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number']);
+                        ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number'], $order);
 
                     });
                 return $inventoryProduct;
@@ -131,7 +135,6 @@ class OrderController extends Controller
             //update inventory
 
 
-            $order->fill($data)->save();
             $order->ordersProducts()->sync($productsData);
             return $order;
         });
@@ -140,7 +143,7 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Order $order)
@@ -153,7 +156,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -164,8 +167,8 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -176,7 +179,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -188,7 +191,7 @@ class OrderController extends Controller
     {
         return Order::with("customer")
             ->where($this->applyFilters($request))
-            ->orderBy('created_at','desc')
+            ->orderBy('created_at', 'desc')
             ->paginate($this->pageSize);
     }
 }
