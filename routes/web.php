@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'tracking'], function () {
-        Route::get('/', [TrackingController::class, 'index']);
+        Route::get('/', [TrackingController::class, 'index'])->name('tracking');
         Route::get('/{productSerialNumbers:serial_no}', [TrackingController::class, 'serialTracking']);
     });
 

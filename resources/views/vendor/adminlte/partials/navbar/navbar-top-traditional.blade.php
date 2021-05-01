@@ -33,7 +33,7 @@
             <i class="fas fa-user-shield"></i>
             <span> Roles</span>
         </a>
-        <a href="{{route("users.index")}}" class="col-1 menu-header-icon">
+        <a href="{{route("tracking")}}" class="col-1 menu-header-icon">
             <i class="fas fa-barcode"></i>
             <span>  Tracking</span>
         </a>
