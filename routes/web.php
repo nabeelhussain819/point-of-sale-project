@@ -116,6 +116,15 @@ Route::group(['middleware' => ['auth']], function () {
 //        revamp
     });
 
+    Route::get('transfer/view/{stockTransfer}', [TransferController::class, 'view'])
+        ->name('transfer.view');
+
+    Route::get('sales/view/{order}', [SalesController::class, 'view'])
+        ->name('sales.view');
+
+    Route::get('refund/view/{refund}', [SalesController::class, 'view'])
+        ->name('refund.view');
+
 
     Route::post('assign', [StoreController::class, 'assignUserToStore'])->name('addusertostore');
     Route::post('assign-role', [UserController::class, 'assignRole'])->name('addroletouser');

@@ -48,6 +48,7 @@ class TransferController extends Controller
                 unset($product['id']); // hot fix
                 return $product;
             });
+
             $transfer->fill($request->all())->save();
             $transfer->transferProducts()->sync($productData);
 
@@ -84,13 +85,19 @@ class TransferController extends Controller
     public function markAsReceived(StockTransfer $transfer, Request $request)
     {
         //todo Some centric logic
+
         DB::transaction(function () use ($transfer, $request) {
             $productData = collect($request->get('products'))->map(function ($product) {
                 return $product;
             });
 
             $transfer->isReceiving = true;
-            $transfer->productsSerials()->update(['store_id' => $transfer->store_in_id]);
+            $transfer->productsSerials->each(function (ProductSerialNumbers $productSerialNumbers) use ($transfer) {
+                $productSerialNumbers->subject = StockTransfer::class;
+                $productSerialNumbers->subject_id = $transfer->id;
+                $productSerialNumbers->update(['store_id' => $transfer->store_in_id]);
+            });
+//            $transfer->productsSerials()->update(['store_id' => $transfer->store_in_id]);
 
             $transfer->fill(ArrayHelper::merge([
                 'received_date' => Carbon::now()
