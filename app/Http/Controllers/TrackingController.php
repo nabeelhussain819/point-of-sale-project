@@ -20,27 +20,13 @@ class TrackingController extends Controller
     {
         return view('admin.tracking.index');
     }
+
     //
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $productSerialNumber = ProductSerialNumbers::where('serial_no', $request->get('serial_number'))
-            ->firstOrFail();
 
-        $sales = Order::whereHas("products", function (Builder $belongsTo) use ($productSerialNumber) {
-            $belongsTo->where('serial_number', $productSerialNumber->serial_no)
-                ->with(['store' => function (BelongsTo $belongsTo) {
-                    $belongsTo->select(['id','name']);
-                }]);
-        })->first();
-        dd($sales);
-        $productSerialNumber->sales = $sales;
-        return $productSerialNumber->withProduct()->withTransfer()->withPurchaseOrder();
+    public function serialTracking(ProductSerialNumbers $productSerialNumbers)
+    {
+        return $productSerialNumbers->load(['track']);
     }
 
     /**
