@@ -97,6 +97,11 @@ class ProductSerialNumbers extends Base
         return $this->belongsTo(StockTransfer::class);
     }
 
+    public function track()
+    {
+        return $this->hasMany(SerialLogs::class, 'product_serial_number_id', 'id');
+    }
+
     public function withProduct()
     {
         $this->load(['product' => function (BelongsTo $belongsTo) {

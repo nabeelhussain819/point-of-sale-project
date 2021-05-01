@@ -156,4 +156,9 @@ class ProductController extends Controller
         ProductSerialNumbers::isAvailable($request->get('product_id'), $request->get('serial_no'));
         return $this->genericResponse(true, "success");
     }
+
+    public function serialTracking(ProductSerialNumbers $productSerialNumbers)
+    {
+        return $productSerialNumbers->load(['track']);
+    }
 }

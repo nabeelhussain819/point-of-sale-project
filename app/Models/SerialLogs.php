@@ -67,4 +67,9 @@ class SerialLogs extends Base
         $log->save();
         return $log;
     }
+
+    public function getPropertiesAttribute($properties)
+    {
+        return json_decode($properties);
+    }
 }
