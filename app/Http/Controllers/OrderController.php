@@ -111,7 +111,11 @@ class OrderController extends Controller
                         // because in current scenrio we sell 1 serial product at once
                         $inventory->update(['quantity' => $inventory->quantity - $inventoryProduct['quantity']]); // inventory mai se quantity kam karhe hain
 
-                        ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number'], $order);
+                        ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number'], [
+                            'subject' => Order::class,
+                            'subject_id' => $order->id,
+                            'subject_data' => $order,
+                        ]);
 
                     });
                 return $inventoryProduct;

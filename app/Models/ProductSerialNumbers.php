@@ -37,9 +37,8 @@ class ProductSerialNumbers extends Base
             ->where('product_id', $productId);
     }
 
-    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, Order $order)
+    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject)
     {
-
         $product = ProductSerialNumbers::where('store_id', $storeId)
             ->where('product_id', $productId)
             ->where('serial_no', $serialNo)
@@ -51,9 +50,9 @@ class ProductSerialNumbers extends Base
         if (!empty($product) && $product->is_sold) {
             throw new ConflictHttpException("{$product->serial_no} is sold");
         }
-        $product->subject = Order::class;
-        $product->subject_id = $order->id;
-        $product->subject_data = $order;
+        $product->subject = $subject['subject'];
+        $product->subject_id = $subject['subject_id'];
+        $product->subject_data = $subject['subject_data'];
         return $product->update(['is_sold' => true]);
     }
 

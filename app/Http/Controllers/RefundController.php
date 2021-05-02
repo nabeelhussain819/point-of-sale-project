@@ -36,6 +36,7 @@ class RefundController extends Controller
     {
         \DB::transaction(function () use ($request) {
             $refund = new Refund();
+
             $refund->fill($request->all());
             $refund->PostedProducts = $request->get('returnProducts');
             $refund->save();

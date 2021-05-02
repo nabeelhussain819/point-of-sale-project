@@ -20,6 +20,6 @@ class OrderObserver
 
     private function inventoryAdjustment(Order $order)
     {
-        Inventory::serialNumberDetach($order->POSTEDPRODUCTS);
+        Inventory::serialNumberDetach($order->POSTEDPRODUCTS,$order->LOGDATA);
     }
 }

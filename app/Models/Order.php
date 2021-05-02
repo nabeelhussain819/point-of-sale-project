@@ -40,7 +40,7 @@ class Order extends Base
      */
     protected $appends = ["date"];
 
-    public $POSTEDPRODUCTS;
+    public $POSTEDPRODUCTS, $LOGDATA;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -110,6 +110,11 @@ class Order extends Base
                 'serial_number' => $finance->serial_number,
                 'store_id' => $finance->store_id
             ]
+        ];
+        $order->LOGDATA = [
+            'subject' => Finance::class,
+            'subject_id' => $finance->id,
+            'subject_data' => $finance,
         ];
         $order->save();
         $order->ordersProducts()->sync($order->POSTEDPRODUCTS);

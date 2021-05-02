@@ -10,11 +10,10 @@ class RefundObserver
 {
     public function creating(Refund $refund)
     {
+        // some time from front  quantity 1 comming from
         $products = $this->getFiltersProductId($refund);
-        $productId = $products->pluck('product_id')->toArray();
-        $orderProducts = OrderProduct::where('order_id', $refund->order_id)
-            ->whereIn('product_id', $productId);
-        dd($orderProducts->get());
+        dd($products);
+
         //Validate k order mai itne paise hain bhi k nhi
         //        //Create new order
         //        //
@@ -23,7 +22,7 @@ class RefundObserver
 
     public function updating(Refund $refund)
     {
-        dd($refund->products);
+
 
         //Validate k order mai itne paise hain bhi k nhi
         //        //Create new order

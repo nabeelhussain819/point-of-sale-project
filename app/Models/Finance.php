@@ -96,7 +96,7 @@ class Finance extends Base
      */
     public function store()
     {
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Models\Store');
     }
 
     /**
@@ -104,7 +104,7 @@ class Finance extends Base
      */
     public function financesSchedules()
     {
-        return $this->hasMany('App\FinancesSchedule');
+        return $this->hasMany('App\Models\FinancesSchedule');
     }
 
     public function schedules()
