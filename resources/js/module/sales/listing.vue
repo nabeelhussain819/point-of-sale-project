@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-skeleton :loading="loading">
-      <a-table :columns="columns" :pagination="pagination" :data-source="data">
+      <a-table  class="condense-table table-bordered table-condensed" :columns="columns" :pagination="pagination" :data-source="data">
         <template slot="title">
           <a href="/sales/create">
             <a-button type="primary">Create </a-button>

@@ -36,7 +36,7 @@ class SerialLogObserver
                 $this->belongsToFinance($productSerialNumbers);
             default:
         }
-    
+
     }
 
     private function belongsToPurchaseOrder(ProductSerialNumbers $productSerialNumbers)
@@ -124,7 +124,7 @@ class SerialLogObserver
     private function orderOptions(ProductSerialNumbers $productSerialNumbers)
     {
         $serialLog = $this->baseOptions();
-        $serialLog->doc = $productSerialNumbers->stockTransfer->id;
+        $serialLog->doc = $productSerialNumbers->subject_id;
         $serialLog->subject = "Orders | Sales";
         $customer = 'No Customer';
         if ($productSerialNumbers->subject_data->customer) {

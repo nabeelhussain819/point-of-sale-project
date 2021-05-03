@@ -20,6 +20,14 @@ class OrderObserver
 
     private function inventoryAdjustment(Order $order)
     {
-        Inventory::serialNumberDetach($order->POSTEDPRODUCTS,$order->LOGDATA);
+        Inventory::serialNumberDetach($order->POSTEDPRODUCTS, $this->getLogData($order));
+    }
+
+    private function getLogData(Order $order): array
+    {
+        if (!empty($order->LOGDATA) && !isset($order->LOGDATA['subject_id'])) {
+            $order->LOGDATA['subject_id'] = $order->id;
+        }
+        return $order->LOGDATA;
     }
 }

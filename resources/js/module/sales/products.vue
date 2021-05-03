@@ -17,7 +17,7 @@
             <a-col :span="3"> {{ product.name }}</a-col>
 
             <a-col :span="4">
-                <a-form-item>
+                <a-form-item v-if="product.has_serial_number">
                     <a-input-search
                         v-on:blur="value => serialNumberHandling(key, value)"
                         :disabled="!product.has_serial_number"
@@ -48,7 +48,10 @@
                             <a-icon type="mobile" />
                         </a-button>
                     </a-input-search> </a-form-item
-            ></a-col>
+            >
+            <span v-else> No Serial</span>
+            
+            </a-col>
             <a-col :span="2">
                 <a-form-item>
                     <a-input
