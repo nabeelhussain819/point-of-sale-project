@@ -44,26 +44,40 @@
                 </a-form-item>
             </a-form>
         </a-card>
-        <a-card class="no-print">
-            <a-button @click="print" class="no-print float-right" type="primary"
-                >Print
-            </a-button>
+        <a-card>
+            <a-row>
+                <a-col :span="12">
+                    <img
+                        class="attachment"
+                        v-if="!isEmpty(getImages())"
+                        :src="getImages()"
+                    />
+                </a-col>
+                <a-col :span="12">
+                    <a-button
+                        @click="print"
+                        class="no-print float-right"
+                        type="primary"
+                        >Print
+                    </a-button>
 
-            <a-select
-                :loading="statusLoader"
-                :default-value="finance.status_id"
-                class="no-print float-right"
-                style="width:250px; margin-right:10px"
-                @change="value => statusChange(value)"
-                placeholder="Select a option and change input text above"
-            >
-                <a-select-option
-                    v-for="status in installmentStatus"
-                    :key="status.id"
-                >
-                    {{ status.name }}</a-select-option
-                >
-            </a-select>
+                    <a-select
+                        :loading="statusLoader"
+                        :default-value="finance.status_id"
+                        class="no-print float-right"
+                        style="width:250px; margin-right:10px"
+                        @change="value => statusChange(value)"
+                        placeholder="Select a option and change input text above"
+                    >
+                        <a-select-option
+                            v-for="status in installmentStatus"
+                            :key="status.id"
+                        >
+                            {{ status.name }}</a-select-option
+                        >
+                    </a-select>
+                </a-col>
+            </a-row>
         </a-card>
     </div>
 </template>
@@ -87,7 +101,7 @@ const schedulesColumns = [
 ];
 import Invoice from "./Invoice";
 import FinanceService from "../../services/API/FinanceService";
-import { notification } from "../../services/helpers";
+import { isEmpty, notification } from "../../services/helpers";
 import { FINANCE_INSTALLMENT_STATUS } from "../../services/constants";
 export default {
     components: { Invoice },
@@ -98,7 +112,8 @@ export default {
             form: this.$form.createForm(this, { name: "addCustomer" }),
             stateFinance: {},
             schedulesData: [],
-            schedulesColumns
+            schedulesColumns,
+            isEmpty
         };
     },
     props: {
@@ -115,6 +130,12 @@ export default {
         }
     },
     methods: {
+        getImages() {
+            if (!isEmpty(this.finance.attachmentTemp)) {
+                console.log(this.finance.attachmentTemp[0]);
+                return this.finance.attachmentTemp[0];
+            }
+        },
         statusChange(status_id) {
             this.statusLoader = true;
             FinanceService.update(this.finance.id, { status_id })
@@ -153,5 +174,8 @@ export default {
     .ant-modal-header {
         display: none !important;
     }
+}
+.attachment {
+    max-width: 300px;
 }
 </style>

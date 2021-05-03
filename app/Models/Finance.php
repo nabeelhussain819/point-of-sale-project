@@ -68,6 +68,8 @@ class Finance extends Base
         'created_at' => 'datetime:Y-m-d',
     ];
 
+    protected $appends = ['attachmentTemp'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -172,5 +174,14 @@ class Finance extends Base
     public function isAddInstallmentScenario()
     {
         return $this->scenario === self::SCENARIO_ADD_INSTALLMENT;
+    }
+
+    // this is temp attribute just I am late to deliver
+    public function getAttachmentTempAttribute()
+    {
+        $attachments = json_decode($this->attachments);
+        return collect($attachments)->map(function ($attachment) {
+            return asset('storage/' . $attachment);
+        });
     }
 }

@@ -183,7 +183,8 @@ class FinanceController extends Controller
 
         $path = 'finance/' . $finance->id;
         //  $name = "{$path}/{$finance->guid}.{$extension}";
-        $filename = $file->store($path);
+        $filename = Storage::disk('public')->put($path, $file);
+
         $finance->update(['attachments' => [$filename]]);
     }
 }

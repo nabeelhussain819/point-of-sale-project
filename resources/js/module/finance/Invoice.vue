@@ -30,6 +30,9 @@
                     <a-descriptions-item label="Serial Number">
                         {{ finance.serial_number }}
                     </a-descriptions-item>
+                     <a-descriptions-item label="Comments">
+                        {{ finance.comments }}
+                    </a-descriptions-item>
                 </a-descriptions>
             </a-col>
             <a-col :span="8">
