@@ -7,6 +7,7 @@ use App\Models\Finance;
 use App\Models\Order;
 use App\Models\ProductSerialNumbers;
 use App\Models\PurchaseOrder;
+use App\Models\Refund;
 use App\Models\SerialLogs;
 use App\Models\StockTransfer;
 use Carbon\Carbon;
@@ -34,6 +35,8 @@ class SerialLogObserver
                 break;
             case Finance::class:
                 $this->belongsToFinance($productSerialNumbers);
+            case Refund::class:
+                $this->belongsToRefund($productSerialNumbers);
             default:
         }
 
@@ -84,6 +87,18 @@ class SerialLogObserver
             Order::class,
             $productSerialNumbers->subject_id,
             $this->orderOptions($productSerialNumbers)
+        );
+    }
+
+    private function belongsToRefund(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = new SerialLogs();
+        $serialLog->add(
+            $productSerialNumbers->id,
+            $productSerialNumbers->serial_no,
+            $productSerialNumbers->subject,
+            $productSerialNumbers->subject_id,
+            $this->refundOptions($productSerialNumbers)
         );
     }
 
@@ -150,6 +165,25 @@ class SerialLogObserver
 
         $serialLog->from = $productSerialNumbers->subject_data->store->name;
         $serialLog->to = $customer;
+        $serialLog->url = route('order.view', $productSerialNumbers->subject_id);
+
+        return json_encode($serialLog);
+    }
+
+
+    private function refundOptions(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = $this->baseOptions();
+        $serialLog->doc = $productSerialNumbers->subject_id;
+        $serialLog->subject = "Refund";
+        $customer = 'No Customer';
+
+        if ($productSerialNumbers->subject_data->order->customer) {
+            $customer = $productSerialNumbers->subject_data->order->customer->name;
+        }
+
+        $serialLog->from = $customer;
+        $serialLog->to = $productSerialNumbers->subject_data->store->name;
         $serialLog->url = route('order.view', $productSerialNumbers->subject_id);
 
         return json_encode($serialLog);

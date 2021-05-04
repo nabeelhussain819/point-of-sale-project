@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
 use App\Models\Order;
 use App\Models\Refund;
+use App\Models\Store;
 use Illuminate\Http\Request;
 
 class RefundController extends Controller
@@ -36,8 +38,7 @@ class RefundController extends Controller
     {
         \DB::transaction(function () use ($request) {
             $refund = new Refund();
-
-            $refund->fill($request->all());
+            $refund->fill(ArrayHelper::merge($request->all(), ['store_id' => Store::currentId()]));
             $refund->PostedProducts = $request->get('returnProducts');
             $refund->save();
             $refund->refundsProducts()->sync($request->get('returnProducts'));
@@ -47,7 +48,7 @@ class RefundController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Refund $refund
+     * @param \App\Models\Refund $refund
      * @return \Illuminate\Http\Response
      */
     public function show(Refund $refund)
@@ -58,7 +59,7 @@ class RefundController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Refund $refund
+     * @param \App\Models\Refund $refund
      * @return \Illuminate\Http\Response
      */
     public function edit(Refund $refund)
@@ -69,8 +70,8 @@ class RefundController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Refund $refund
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Refund $refund
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Refund $refund)
@@ -81,7 +82,7 @@ class RefundController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Refund $refund
+     * @param \App\Models\Refund $refund
      * @return \Illuminate\Http\Response
      */
     public function destroy(Refund $refund)

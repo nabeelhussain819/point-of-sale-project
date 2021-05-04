@@ -37,7 +37,7 @@ class ProductSerialNumbers extends Base
             ->where('product_id', $productId);
     }
 
-    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject)
+    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject, bool $isSold = true)
     {
         $product = ProductSerialNumbers::where('store_id', $storeId)
             ->where('product_id', $productId)
@@ -47,13 +47,14 @@ class ProductSerialNumbers extends Base
         if (empty($product)) {
             throw new NotFoundHttpException("No product found against {$serialNo} on product Number {$productId}");
         }
-        if (!empty($product) && $product->is_sold) {
+
+        if (!empty($product) && $product->is_sold && $isSold) {
             throw new ConflictHttpException("{$product->serial_no} is sold");
         }
         $product->subject = $subject['subject'];
         $product->subject_id = $subject['subject_id'];
         $product->subject_data = $subject['subject_data'];
-        return $product->update(['is_sold' => true]);
+        return $product->update(['is_sold' => $isSold]);
     }
 
     public static function boot()

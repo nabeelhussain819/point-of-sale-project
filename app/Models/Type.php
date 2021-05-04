@@ -10,4 +10,5 @@ class Type extends Model
     use HasFactory;
 
     const  RETAIL = 1;
+    const  REFUND = 2;
 }

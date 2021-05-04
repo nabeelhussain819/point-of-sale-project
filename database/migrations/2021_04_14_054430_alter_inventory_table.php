@@ -14,12 +14,12 @@ class AlterInventoryTable extends Migration
     public function up()
     {
         //
-        Schema::table('inventories', function (Blueprint $table){
-            $table->bigInteger('lookup');
-            $table->string('description');
+        Schema::table('inventories', function (Blueprint $table) {
+            $table->bigInteger('lookup')->nullable();
+            $table->string('description')->nullable();
             $table->string('UPC')->nullable();
-            $table->float('cost',36);
-            $table->float('extended_cost',36);
+            $table->float('cost', 36)->nullable();
+            $table->float('extended_cost', 36)->nullable();
             $table->string('adjustment')->nullable();
             $table->unsignedBigInteger('stock_bin_id');
             $table->unsignedBigInteger('store_id')->nullable();

@@ -18,7 +18,7 @@ class Refund extends Base
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -28,7 +28,7 @@ class Refund extends Base
     /**
      * @var array
      */
-    protected $fillable = ['order_id', 'return_cost', 'created_at', 'updated_at', 'created_by', 'updated_by'];
+    protected $fillable = ['order_id', 'return_cost', 'store_id','created_at', 'updated_at', 'created_by', 'updated_by'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -36,6 +36,12 @@ class Refund extends Base
     public function order()
     {
         return $this->belongsTo('App\Models\Order');
+    }
+
+
+    public function store()
+    {
+        return $this->belongsTo('App\Models\Store');
     }
 
     /**
@@ -50,8 +56,9 @@ class Refund extends Base
     {
         return $this->belongsToMany(RefundsProduct::class, 'refunds_products', 'refund_id', 'refund_id');
 
-    
+
     }
+
     public static function boot()
     {
         parent::boot();

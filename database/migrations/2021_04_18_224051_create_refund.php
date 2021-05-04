@@ -16,6 +16,7 @@ class CreateRefund extends Migration
         Schema::create('refunds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('store_id');
             $table->float('return_cost');
             $table->string('reason')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
@@ -42,6 +43,7 @@ class CreateRefund extends Migration
 
         Schema::table('refunds', function (Blueprint $table) {
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate();
+            $table->foreign('store_id')->references('id')->on('stores')->cascadeOnUpdate();
         });
 
         Schema::table('refunds_products', function (Blueprint $table) {

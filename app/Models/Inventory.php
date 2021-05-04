@@ -184,6 +184,7 @@ class Inventory extends Base
             ->paginate($pageSize);
     }
 
+    // when sale the product us that function to detach the product and maintain that into the log
     public static function serialNumberDetach($productsData, array $logData)
     {
         collect($productsData)->filter(function ($inventoryProduct) {
@@ -233,5 +234,10 @@ class Inventory extends Base
             throw new ConflictHttpException('Out of stock');
         }
         return $inventoryProduct;
+    }
+
+    public function addRefund()
+    {
+
     }
 }
