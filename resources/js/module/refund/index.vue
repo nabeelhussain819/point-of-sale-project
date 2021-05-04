@@ -74,12 +74,8 @@ export default {
             ...values,
             returnProducts: this.returnProducts,
           }).then((response) => {
-            console.log(response);
+             notification(this, response.message);
           });
-          // console.log("Received values of form: ", {
-          //   ...values,
-          //   returnProducts: this.returnProducts,
-          // });
         }
       });
     },

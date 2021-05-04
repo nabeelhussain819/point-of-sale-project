@@ -36,12 +36,15 @@ class RefundController extends Controller
      */
     public function store(Request $request)
     {
-        \DB::transaction(function () use ($request) {
+        return \DB::transaction(function () use ($request) {
             $refund = new Refund();
             $refund->fill(ArrayHelper::merge($request->all(), ['store_id' => Store::currentId()]));
             $refund->PostedProducts = $request->get('returnProducts');
             $refund->save();
             $refund->refundsProducts()->sync($request->get('returnProducts'));
+            return $this->genericResponse(true, " Refund has been created", 200, ['refund' =>
+                $refund
+            ]);
         });
     }
 

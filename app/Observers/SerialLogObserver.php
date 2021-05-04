@@ -175,7 +175,6 @@ class SerialLogObserver
 
     private function refundOptions(ProductSerialNumbers $productSerialNumbers)
     {
-        dd($productSerialNumbers->subject_data);
         $serialLog = $this->baseOptions();
         $serialLog->doc = $productSerialNumbers->subject_id;
         $serialLog->subject = "Refund";
