@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Observers\InventoryObserver;
+use App\Scopes\StockBinGlobalScope;
 use App\Scopes\StoreGlobalScope;
 use App\Traits\AppliesQueryParams;
 use Illuminate\Database\Eloquent\Builder as eloquentBuilder;
@@ -77,6 +78,7 @@ class Inventory extends Base
     {
         parent::boot();
         static::addGlobalScope(new StoreGlobalScope);
+        static::addGlobalScope(new StockBinGlobalScope());
         Inventory::observe(InventoryObserver::class);
     }
 
@@ -190,11 +192,13 @@ class Inventory extends Base
         collect($productsData)->filter(function ($inventoryProduct) {
             return !empty($inventoryProduct['serial_number']);
         })->each(function ($inventoryProduct) use ($logData) {
+
             Inventory::where('store_id', Store::currentId())
                 ->where('product_id', $inventoryProduct['product_id'])
                 ->get()
                 ->each(function (Inventory $inventory) use ($inventoryProduct, $logData) {
                     $inventory->OUTGOING_PRODUCTS = true;
+
                     // because in current scenrio we sell 1 serial product at once
                     $inventory->update(['quantity' => $inventory->quantity - $inventoryProduct['quantity']]); // inventory mai se quantity kam karhe hain
                     ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number'], $logData);
