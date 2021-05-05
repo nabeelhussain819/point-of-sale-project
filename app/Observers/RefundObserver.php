@@ -9,6 +9,7 @@ use App\Models\Refund;
 use App\Models\Store;
 use App\Models\Type;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class RefundObserver
 {
@@ -17,7 +18,29 @@ class RefundObserver
         // some time from front  quantity 1 comming from
         $products = $this->getFiltersProductId($refund);
 
-        // non serial number add to inventory
+        $this->attachBackProductToInventory($refund, $products);
+        $this->updateOrderTotal($refund);
+    }
+
+
+    public function updating(Refund $refund)
+    {
+        //Validate k order mai itne paise hain bhi k nhi
+        //        //Create new order
+        //        //
+    }
+
+    private function getFiltersProductId(Refund $refund): Collection
+    {
+        return collect($refund->PostedProducts)
+            ->filter(function ($product) {
+                return $product['quantity'] > 0;
+            });
+    }
+
+    private function attachBackProductToInventory(Refund $refund, $products)
+    {
+        //  serial number add to inventory
         collect($products)->filter(function ($product) {
             return empty($product['serial_no']);
         })
@@ -56,26 +79,16 @@ class RefundObserver
                     'subject_data' => $refund
                 ], false);
             });
-
-//        Inventory::where
-        //Validate k order mai itne paise hain bhi k nhi
-        //        //Create new order
-        //        //
     }
 
-
-    public function updating(Refund $refund)
+    private function updateOrderTotal(Refund $refund)
     {
-        //Validate k order mai itne paise hain bhi k nhi
-        //        //Create new order
-        //        //
-    }
+        $priceDelta = $refund->order->sub_total - $refund->return_cost;
+        if ($priceDelta < 0) {
+            throw  new ConflictHttpException('Refund price not less than the order price');
+        }
+        $refund->order->sub_total = $priceDelta;
+        $refund->order->saveQuietly();
 
-    private function getFiltersProductId(Refund $refund): Collection
-    {
-        return collect($refund->PostedProducts)
-            ->filter(function ($product) {
-                return $product['quantity'] > 0;
-            });
     }
 }
