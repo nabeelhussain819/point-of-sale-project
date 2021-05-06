@@ -9,7 +9,7 @@ use App\Models\ProductSerialNumbers;
 use App\Models\Refund;
 use App\Models\Store;
 use App\Models\Type;
-use http\Exception\BadMessageException;
+use App\Scopes\StockBinGlobalScope;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
@@ -48,16 +48,18 @@ class RefundObserver
             return empty($product['serial_no']);
         })
             ->each(function ($product) {
-                Inventory::updateOrCreate([
-                    'product_id' => $product['product_id'],
-                    'store_id' => Store::currentId(),
-                    'stock_bin_id' => Type::REFUND,
-                ], [
-                    'product_id' => $product['product_id'],
-                    'quantity' => $product['quantity'],
-                    'stock_bin_id' => Type::REFUND,
-                    'store_id' => Store::currentId(),
-                ]);
+                Inventory::
+                withoutGlobalScope(StockBinGlobalScope::class)
+                    ->updateOrCreate([
+                        'product_id' => $product['product_id'],
+                        'store_id' => Store::currentId(),
+                        'stock_bin_id' => Type::REFUND,
+                    ], [
+                        'product_id' => $product['product_id'],
+                        'quantity' => $product['quantity'],
+                        'stock_bin_id' => Type::REFUND,
+                        'store_id' => Store::currentId(),
+                    ]);
             });
 
         // serial number add to inventory
@@ -65,16 +67,18 @@ class RefundObserver
             return !empty($product['serial_no']);
         })
             ->each(function ($product) use ($refund) {
-                Inventory::updateOrCreate([
-                    'product_id' => $product['product_id'],
-                    'store_id' => Store::currentId(),
-                    'stock_bin_id' => Type::REFUND,
-                ], [
-                    'product_id' => $product['product_id'],
-                    'quantity' => $product['quantity'],
-                    'stock_bin_id' => Type::REFUND,
-                    'store_id' => Store::currentId(),
-                ]);
+                Inventory::
+                withoutGlobalScope(StockBinGlobalScope::class)
+                    ->updateOrCreate([
+                        'product_id' => $product['product_id'],
+                        'store_id' => Store::currentId(),
+                        'stock_bin_id' => Type::REFUND,
+                    ], [
+                        'product_id' => $product['product_id'],
+                        'quantity' => $product['quantity'],
+                        'stock_bin_id' => Type::REFUND,
+                        'store_id' => Store::currentId(),
+                    ]);
 
                 ProductSerialNumbers::updateStatusSold($product['product_id'], Store::currentId(), $product['serial_no'], [
                     'subject' => Refund::class,
@@ -133,7 +137,7 @@ class RefundObserver
                 if ($orderProduct->quantity < 0) {
                     $productName = $orderProduct->product->name;
 
-                    throw  new ConflictHttpException($productName." quantity of refund should not be less than 0");
+                    throw  new ConflictHttpException($productName . " quantity of refund should not be less than 0");
                 }
                 $orderProduct->saveQuietly();
             });
