@@ -107,8 +107,8 @@ export default {
                 },
                 {
                     title: "Bin",
-                    key: "stock_bin_id",
-                    dataIndex: "stock_bin_id",
+                    key: "bin.name",
+                    dataIndex: "bin.name",
                     scopedSlots: {
                         filterDropdown: "filterDropdown",
                         filterIcon: "filterIcon"
@@ -125,7 +125,7 @@ export default {
     methods: {
         handleSearch() {},
         fetch(params) {
-            InventoryService.list(params).then(data => {
+            InventoryService.all(params).then(data => {
                 this.data = data.data;
             });
         },

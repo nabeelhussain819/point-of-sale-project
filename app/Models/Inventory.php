@@ -74,6 +74,11 @@ class Inventory extends Base
         return $this->belongsTo(Store::class);
     }
 
+    public function bin()
+    {
+        return $this->belongsTo(StockBin::class, 'stock_bin_id');
+    }
+
     public static function boot()
     {
         parent::boot();
@@ -184,6 +189,16 @@ class Inventory extends Base
             ->where($this->applyFilters($request))
             ->where('store_id', Store::currentId())
             ->paginate($pageSize);
+    }
+
+    public function getAll(Request $request, $pageSize = 25)
+    {
+        return Inventory::
+        withProduct()
+            ->withoutGlobalScope(StockBinGlobalScope::class)
+            ->where($this->applyFilters($request))
+            ->where('store_id', Store::currentId());
+
     }
 
     // when sale the product us that function to detach the product and maintain that into the log

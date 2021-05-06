@@ -17,9 +17,17 @@ function list(params = {}) {
     });
 }
 
+function all(params = {}) {
+    return request({
+        url: `${baseUrl}/all`,
+        params
+    });
+}
+
 const InventoryService = {
     products,
-    list
+    list,
+    all
 };
 
 export default InventoryService;

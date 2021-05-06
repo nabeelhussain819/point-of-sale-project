@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\Store;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -131,5 +132,15 @@ class InventoryController extends Controller
     {
         $inventory = new Inventory();
         return $inventory->getAllProducts($request);
+    }
+
+    public function all(Request $request)
+    {
+        $inventory = new Inventory();
+        return $inventory->getAll($request)
+            ->with(['bin'=>function(BelongsTo $belongsTo){
+                $belongsTo->select(['name','id']);
+            }])
+            ->paginate($this->pageSize);
     }
 }
