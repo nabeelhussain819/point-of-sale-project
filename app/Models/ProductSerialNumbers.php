@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Helpers\ArrayHelper;
 use App\Observers\SerialLogObserver;
 use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ class ProductSerialNumbers extends Base
     /**
      * @var array
      */
-    protected $fillable = ['store_id', 'product_id', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at', 'purchase_order_id', 'stock_transfer_id'];
+    protected $fillable = ['store_id', 'product_id', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at','stock_bin_id', 'purchase_order_id', 'stock_transfer_id'];
 
     public static function getByStoreId(int $productId, int $storeId)
     {
@@ -37,7 +38,7 @@ class ProductSerialNumbers extends Base
             ->where('product_id', $productId);
     }
 
-    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject, bool $isSold = true)
+    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject, bool $isSold = true,$attributes=[])
     {
         $product = ProductSerialNumbers::where('store_id', $storeId)
             ->where('product_id', $productId)
@@ -54,7 +55,7 @@ class ProductSerialNumbers extends Base
         $product->subject = $subject['subject'];
         $product->subject_id = $subject['subject_id'];
         $product->subject_data = $subject['subject_data'];
-        return $product->update(['is_sold' => $isSold]);
+        return $product->update(ArrayHelper::merge(['is_sold' => $isSold],$attributes));
     }
 
     public static function boot()

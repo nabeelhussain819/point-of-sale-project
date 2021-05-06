@@ -84,7 +84,7 @@ class RefundObserver
                     'subject' => Refund::class,
                     'subject_id' => $refund->id,
                     'subject_data' => $refund
-                ], false);
+                ], false, ['stock_bin_id' => Type::REFUND]);
             });
     }
 
