@@ -112,14 +112,16 @@ export default {
                     parseFloat(products[key].retail_price);
                 total += parseFloat(products[key].total);
             }
+          
             this.withoutDiscount = withoutDiscount;
 
             this.discount = withoutDiscount - total; // total value discount
             this.discount = parseFloat(this.discount).toFixed(2);
             this.withoutTax = parseFloat(total);
+            
             this.subTotal = this.getTotalwithTax(
                 total,
-                this.getTaxValue(this.withoutDiscount)
+                this.getTaxValue(total)
             );
 
             this.billSummary = {

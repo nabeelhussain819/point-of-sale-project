@@ -18,6 +18,9 @@ class CreateRefund extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('store_id');
             $table->float('return_cost');
+            $table->float('previous_total')->nullable();
+            $table->float('previous_sub_total')->nullable();
+            $table->float('previous_discount_amount')->nullable();
             $table->string('reason')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

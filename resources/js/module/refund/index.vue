@@ -26,7 +26,7 @@
 import list from "./list";
 import BillingSummary from "./billing-summary";
 import RefundServices from "../../services/API/RefundServices";
-import { isEmpty } from "../../services/helpers";
+import { isEmpty,notification } from "../../services/helpers";
 export default {
   components: { list, BillingSummary },
   data() {
@@ -51,7 +51,7 @@ export default {
       });
     },
     getTotalwithTax(total, taxPrice) {
-      taxPrice = total + Math.round(taxPrice);
+      taxPrice = total + taxPrice;
       return taxPrice.toFixed(2);
     },
     getTaxValue(retailPrice) {

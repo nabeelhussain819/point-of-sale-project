@@ -9,6 +9,9 @@ use App\Observers\RefundObserver;
  * @property integer $id
  * @property integer $order_id
  * @property float $return_cost
+ * @property float $previous_total
+ * @property float $previous_sub_total
+ * @property float $previous_discount_amount
  * @property string $created_at
  * @property string $updated_at
  * @property Order $order
@@ -28,7 +31,7 @@ class Refund extends Base
     /**
      * @var array
      */
-    protected $fillable = ['order_id', 'return_cost', 'store_id','created_at', 'updated_at', 'created_by', 'updated_by'];
+    protected $fillable = ['order_id', 'return_cost', 'store_id', 'created_at', 'previous_total', 'previous_sub_total', 'previous_discount_amount', 'updated_at', 'created_by', 'updated_by'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
