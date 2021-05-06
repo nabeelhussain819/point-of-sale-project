@@ -23,6 +23,7 @@
                     <a-input-number
                         width="100"
                         :max="parseFloat(billSummary.sub_total)"
+                        :min="1"
                         type="number"
                         v-decorator="[
                             'return_cost',
@@ -30,7 +31,7 @@
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Please insert return number!'
+                                        message: 'Please insert return Amount!'
                                     }
                                 ]
                             }

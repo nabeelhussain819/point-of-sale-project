@@ -112,7 +112,7 @@ class RefundObserver
         $refund->order->sub_total = $total;
         $refund->order->discount = $discount;
         $refund->order->without_tax = $orderTotal;
-       
+
         $refund->saveQuietly();
         $refund->order->saveQuietly();
 
@@ -133,7 +133,7 @@ class RefundObserver
                 if ($orderProduct->quantity < 0) {
                     $productName = $orderProduct->product->name;
 
-                    throw  new ConflictHttpException("${$productName} quantity of refund should not be less than 0");
+                    throw  new ConflictHttpException($productName." quantity of refund should not be less than 0");
                 }
                 $orderProduct->saveQuietly();
             });
