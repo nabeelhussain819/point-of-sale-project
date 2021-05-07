@@ -1,9 +1,9 @@
 <template>
-    <a-card title="Refund" :bordered="false">
+    <a-card title="Refund" :loading="orderLoad" :bordered="false">
         <list
             @totalRefundMoney="setRefund"
             @returnProducts="getReturnProducts"
-            :order="order"
+            :order="stateOrder"
         />
         <a-row>
             <a-col :span="12"> <br /></a-col>
@@ -11,7 +11,7 @@
             <a-col :span="12">
                 <br />
                 <a-form :form="form" @submit="handleSubmit">
-                    <billing-summary :order="order" />
+                    <billing-summary :order="stateOrder" />
                     <br />
                     <a-col :span="12" offset="12">
                         <a-button html-type="submit" type="primary"
@@ -28,7 +28,11 @@
 import list from "./list";
 import BillingSummary from "./billing-summary";
 import RefundServices from "../../services/API/RefundServices";
-import { isEmpty, notification ,errorNotification} from "../../services/helpers";
+import {
+    isEmpty,
+    notification,
+    errorNotification
+} from "../../services/helpers";
 export default {
     components: { list, BillingSummary },
     data() {
@@ -36,7 +40,9 @@ export default {
             formLayout: "horizontal",
             form: this.$form.createForm(this, { name: "refun" }),
             totalRefundMoney: 0,
-            returnProducts: {}
+            returnProducts: {},
+            stateOrder: {},
+            orderLoad: true
         };
     },
     props: {
@@ -63,8 +69,11 @@ export default {
             let tax = isEmpty(this.order.tax) ? 0 : parseInt(this.order.tax);
             return (retailPrice / 100) * tax;
         },
-        fetch() {
-            // console.log(this.order);
+        setOrder(order) {
+            console.log(order);
+            this.orderLoad = true;
+            this.stateOrder = order;
+            this.orderLoad = false;
         },
         getReturnProducts(returnProducts) {
             this.returnProducts = returnProducts;
@@ -73,6 +82,7 @@ export default {
             e.preventDefault();
             this.form.validateFields((err, values) => {
                 if (!err) {
+                      this.orderLoad = true;
                     RefundServices.create({
                         order_id: this.order.id,
                         ...values,
@@ -80,6 +90,7 @@ export default {
                     })
                         .then(response => {
                             notification(this, response.message);
+                            this.setOrder(response.order);
                         })
                         .catch(error => {
                             errorNotification(this, error);
@@ -89,7 +100,7 @@ export default {
         }
     },
     mounted() {
-        this.fetch();
+        this.setOrder(this.order);
     }
 };
 </script>

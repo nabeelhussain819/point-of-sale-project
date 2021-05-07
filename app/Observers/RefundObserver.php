@@ -99,7 +99,7 @@ class RefundObserver
         $discount = 0;
         $orderTotal = 0;
         $refund->order->products->each(function (OrderProduct $orderProduct) use (&$discount, &$orderTotal) {
-            $total = $orderProduct->quantity * $orderProduct->total;
+            $total = $orderProduct->quantity * $orderProduct->min_price;
             $orderTotal += $total;
             $retailPrice = $orderProduct->quantity * $orderProduct->retail_price;
             $discount += $retailPrice - $total;

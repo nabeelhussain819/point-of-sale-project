@@ -41,10 +41,13 @@ class RefundController extends Controller
             $refund->fill(ArrayHelper::merge($request->all(), ['store_id' => Store::currentId()]));
             $refund->PostedProducts = $request->get('returnProducts');
             $refund->save();
+            
             $refund->refundsProducts()->sync($request->get('returnProducts'));
-            return $this->genericResponse(true, " Refund has been created", 200, ['refund' =>
-                $refund
-            ]);
+            $order = $refund->order;
+            $order =$order->withCustomer()->withProducts();
+            return $this->genericResponse(true, " Refund has been created", 200,
+                ['refund' => $refund,
+                'order'=>$order]);
         });
     }
 

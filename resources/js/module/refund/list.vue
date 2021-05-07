@@ -98,7 +98,7 @@ export default {
         return_cost: value * parseInt(record.min_price),
         serial_no:record.serial_number,
         order_id:this.order.id,
-        id:record.id
+        // id:record.id
       };
       this.updateReturns(returnProducts);
     },
