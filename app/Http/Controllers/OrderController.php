@@ -65,7 +65,6 @@ class OrderController extends Controller
             }
 
             $productsData = [];
-            $InventoryProducts = [];
             collect($request->get('products'))->each(function ($product) use (&$productsData, $customerId, &$InventoryProducts) {
                 $serialNumber = empty($product['serial_number']) ? null : $product['serial_number'];
                 $productsData[] = [
@@ -79,14 +78,6 @@ class OrderController extends Controller
                     'quantity' => $product['quantity'],
                 ];
 
-                // these are the product those do not have serial_number
-                if (empty($product['serial_number'])) {
-                    $InventoryProducts[$product['id']] = [
-                        'product_id' => $product['id'],
-                        'quantity' => $product['quantity'],
-                    ];
-                }
-
             });
 
             $data = ArrayHelper::merge($summary, [
@@ -94,57 +85,16 @@ class OrderController extends Controller
                 'store_id' => Store::currentId()
             ]);
 
-            // save order
-
-            //   $order->fill($data)->save();
-
-            //@todo update inventory serial number  please use a human readable
-//            $productWithSerial = collect($productsData)->filter(function ($inventoryProduct) use ($order) {
-//                return !empty($inventoryProduct['serial_number']);
-//            })->each(function ($inventoryProduct) use ($order) {
-//                Inventory::where('store_id', Store::currentId())
-//                    ->where('product_id', $inventoryProduct['product_id'])
-//                    ->get()
-//                    ->each(function (Inventory $inventory) use ($inventoryProduct, $order) {
-//                        $inventory->OUTGOING_PRODUCTS = true;
-//
-//                        // because in current scenrio we sell 1 serial product at once
-//                        $inventory->update(['quantity' => $inventory->quantity - $inventoryProduct['quantity']]); // inventory mai se quantity kam karhe hain
-//
-//                        ProductSerialNumbers::updateStatusSold($inventoryProduct['product_id'], Store::currentId(), $inventoryProduct['serial_number'], [
-//                            'subject' => Order::class,
-//                            'subject_id' => $order->id,
-//                            'subject_data' => $order,
-//                        ]);
-//
-//                    });
-//                return $inventoryProduct;
-//            });
-            //update inventory serial number @todo please use a human readable
-
+            /// logging data for serial products
             $order->LOGDATA = [
                 'subject' => Order::class,
                 'subject_id' => $order->id,
                 'subject_data' => $order,
             ];
+
             $order->POSTEDPRODUCTS = $productsData;
+
             $order->fill($data)->save();
-
-            // update without serial number
-            $productIdsWithOutSerial = array_keys($InventoryProducts);
-
-            Inventory::where('store_id', Store::currentId())
-                ->whereIn('product_id', $productIdsWithOutSerial)
-                ->get()
-                ->each(function (Inventory $inventory) use ($InventoryProducts) {
-                    $inventory->OUTGOING_PRODUCTS = true;
-
-                    $inventory->update(['quantity' =>
-                        $inventory->quantity - $InventoryProducts[$inventory->product_id]['quantity']
-                    ]);
-                });
-            //update inventory
-
 
             $order->ordersProducts()->sync($productsData);
             return $order;

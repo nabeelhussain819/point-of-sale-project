@@ -76,7 +76,10 @@ class FinanceObserver
      */
     private function validationSerialNumber(Finance &$finance)
     {
-        $isAvailable = ProductSerialNumbers::isAvailable($finance->product_id, $finance->serial_number);
+        if ($finance->product->has_serial_number) {
+            ProductSerialNumbers::isAvailable($finance->product_id, $finance->serial_number);
+        }
+
 //        if ($isAvailable) {
 //            ProductSerialNumbers::updateStatusSold($finance->product_id, $finance->store_id, $finance->serial_number);
 //        }
