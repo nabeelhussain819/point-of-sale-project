@@ -70,7 +70,6 @@ export default {
             return (retailPrice / 100) * tax;
         },
         setOrder(order) {
-            console.log(order);
             this.orderLoad = true;
             this.stateOrder = order;
             this.orderLoad = false;
@@ -82,7 +81,7 @@ export default {
             e.preventDefault();
             this.form.validateFields((err, values) => {
                 if (!err) {
-                      this.orderLoad = true;
+                    this.orderLoad = true;
                     RefundServices.create({
                         order_id: this.order.id,
                         ...values,
@@ -93,8 +92,10 @@ export default {
                             this.setOrder(response.order);
                         })
                         .catch(error => {
+                            this.orderLoad = false;
                             errorNotification(this, error);
-                        });
+                        })
+                        .finally(() => (this.orderLoad = false));
                 }
             });
         }

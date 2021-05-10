@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Base;
 use App\Observers\OrderObserver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property integer $id
@@ -93,6 +94,21 @@ class Order extends Base
     public function finance()
     {
         $this->belongsTo(Finance::class);
+    }
+
+    public function refunds()
+    {
+        return $this->hasMany(Refund::class);
+        // $this->hasMany(Refund::class,'order_id');
+    }
+
+    public function withRefund()
+    {
+        $this->load(['refunds' => function (HasMany $hasMany) {
+
+            $hasMany->with(['products']);
+        }]);
+        return $this;
     }
 
     public static function financeCreate(Finance $finance)

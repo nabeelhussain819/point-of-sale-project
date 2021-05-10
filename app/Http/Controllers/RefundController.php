@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Refund;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RefundController extends Controller
 {
@@ -36,18 +37,21 @@ class RefundController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'return_cost' => 'required|integer|min:1',
+        ]);
         return \DB::transaction(function () use ($request) {
             $refund = new Refund();
             $refund->fill(ArrayHelper::merge($request->all(), ['store_id' => Store::currentId()]));
             $refund->PostedProducts = $request->get('returnProducts');
             $refund->save();
-            
+
             $refund->refundsProducts()->sync($request->get('returnProducts'));
             $order = $refund->order;
-            $order =$order->withCustomer()->withProducts();
+            $order = $order->withProductsProduct()->withCustomer();
             return $this->genericResponse(true, " Refund has been created", 200,
                 ['refund' => $refund,
-                'order'=>$order]);
+                    'order' => $order]);
         });
     }
 
