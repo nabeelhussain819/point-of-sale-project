@@ -1,10 +1,10 @@
 <template>
     <div>
-        <a-form :form="form"  @submit="handleSubmit" layout="inline">
+        <a-form :form="form" @submit="handleSubmit" layout="inline">
             <a-form-item label="Quantity">
                 <a-input-number
                     :max="inventory.quantity"
-                    :min="0"
+                    :min="1"
                     v-decorator="[
                         `quantity`,
                         {
@@ -73,6 +73,7 @@
 
 <script>
 import StockBinService from "../../../services/API/StockBinService";
+import InventoryService from "../../../services/API/InventoryService";
 export default {
     props: {
         inventory: { default: () => {} }
@@ -95,14 +96,21 @@ export default {
     },
     methods: {
         getStock() {
-            StockBinService.get().then(stocks => {
-                this.stocks = stocks;
-            });
+            StockBinService.get({ exclude_id: this.inventory.stock_bin_id}).then(
+                stocks => {
+                    this.stocks = stocks;
+                }
+            );
         },
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
                 if (!err) {
+                    InventoryService.changeBin(this.inventory.id, values).then(
+                        inventory => {
+                            console.log(inventory);
+                        }
+                    );
                 }
             });
         }

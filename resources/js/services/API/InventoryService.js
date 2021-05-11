@@ -24,10 +24,20 @@ function all(params = {}) {
     });
 }
 
+function changeBin(id, data) {
+    return request({
+        url: `${baseUrl}/${id}/change-bin`,
+        method: 'PUT',
+        data
+    });
+}
+
 const InventoryService = {
     products,
     list,
-    all
+    all,
+    changeBin
+
 };
 
 export default InventoryService;

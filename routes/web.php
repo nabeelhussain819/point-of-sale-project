@@ -153,7 +153,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/view/{purchaseOrder}', [PurchaseOrderController::class, 'view'])
             ->name('purchaseOrder.view');
-
     });
 
     Route::group(['prefix' => 'orders'], function () {
@@ -164,6 +163,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/products', [InventoryController::class, 'products']);
         Route::get('/fetch', [InventoryController::class, 'list']);
         Route::get('/all', [InventoryController::class, 'all']);
+        Route::put('{inventory}/change-bin', [InventoryController::class, 'changeBin']);
     });
 
     Route::group(['prefix' => 'finance'], function () {

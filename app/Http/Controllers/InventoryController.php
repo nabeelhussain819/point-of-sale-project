@@ -138,9 +138,14 @@ class InventoryController extends Controller
     {
         $inventory = new Inventory();
         return $inventory->getAll($request)
-            ->with(['bin'=>function(BelongsTo $belongsTo){
-                $belongsTo->select(['name','id']);
+            ->with(['bin' => function (BelongsTo $belongsTo) {
+                $belongsTo->select(['name', 'id']);
             }])
             ->paginate($this->pageSize);
+    }
+
+    public function changeBin(Request $request)
+    {
+        dd($request->all());
     }
 }
