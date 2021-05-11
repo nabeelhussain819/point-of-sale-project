@@ -63,9 +63,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/associate-device-brand', [ProductController::class, 'associateDeviceBrand'])
             ->name('associate-device-brand');
         Route::get('/serials/{product}', [ProductController::class, 'getSerials']);
+
         Route::get('/track/{productSerialNumbers:serial_no}', [ProductController::class, 'serialTracking']);
         Route::get('/validate-serial/', [ProductController::class, 'validateSerial']);
     });
+
+
+
 
     Route::group(['prefix' => 'tracking'], function () {
         Route::get('/', [TrackingController::class, 'index'])->name('tracking');

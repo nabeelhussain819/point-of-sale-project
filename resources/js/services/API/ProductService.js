@@ -17,9 +17,10 @@ function all(params = {}) {
     });
 }
 
-function getSerials(id) {
+function getSerials(id,params) {
     return request({
-        url: `${baseUrl}/serials/${id}`
+        url: `${baseUrl}/serials/${id}`,
+        params
     });
 }
 

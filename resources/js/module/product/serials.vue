@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     fetch() {
-      ProductService.getSerials(this.product.id)
+      ProductService.getSerials(this.product.id,{stock_bin_id:this.product.stock_bin_id})
         .then((serials) => {
           this.records = serials.data;
         })

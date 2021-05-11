@@ -44,6 +44,10 @@ trait AppliesQueryParams
                 if (StringHelper::isInt($statusId)) {
                     return $builder->where('status_id', $statusId);
                 }
+            })->when($request->get('stock_bin_id'), function (Builder $builder, $statusId) {
+                if (StringHelper::isInt($statusId)) {
+                    return $builder->where('stock_bin_id', $statusId);
+                }
             })->when($request->get('OrUPC'), function (Builder $builder, $upc) {
                 if (StringHelper::isInt($upc)) {
                     $builder->orWhere('product_id', $upc);
@@ -57,18 +61,16 @@ trait AppliesQueryParams
                 return $builder->whereHas('customer', function (Builder $builder) use ($search) {
                     $builder->where('name', 'like', "%" . $search . "%");
                 });
-            })
-                ->when($request->get('customerPhone'), function (Builder $builder, $customerPhone) {
-
-                    return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
-                        $builder->where('phone', 'like', "%" . $customerPhone . "%");
-                    });
-                })->when($request->get('product_name'), function (Builder $builder, $productName) {
-
-                    return $builder->whereHas('product', function (Builder $builder) use ($productName) {
-                        $builder->where('name', 'like', "%" . $productName . "%");
-                    });
+            })->when($request->get('customerPhone'), function (Builder $builder, $customerPhone) {
+                return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
+                    $builder->where('phone', 'like', "%" . $customerPhone . "%");
                 });
+            })->when($request->get('product_name'), function (Builder $builder, $productName) {
+
+                return $builder->whereHas('product', function (Builder $builder) use ($productName) {
+                    $builder->where('name', 'like', "%" . $productName . "%");
+                });
+            });
         };
     }
 }

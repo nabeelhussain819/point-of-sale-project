@@ -48,7 +48,7 @@
                 ><a-icon type="edit"
             /></a-button>
             <a-button
-                v-on:click="showSerials(record.product_id)"
+                v-on:click="showSerials(record)"
                 v-if="record.product.has_serial_number"
                 type="link"
                 ><a-icon type="appstore" theme="filled" />

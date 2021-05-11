@@ -1,7 +1,13 @@
 <template>
     <a-card title="Inventory">
         <list @showSerialNumber="showSerialNumber" />
-        <a-modal title="Serial Number" :visible="visible" @ok="handleOk">
+        <a-modal
+            :destroyOnClose="true"
+            title="Serial Number"
+            :visible="visible"
+            @ok="showModal(false)"
+           @cancel="showModal(false)"
+        >
             <serials :product="selectedProduct" />
         </a-modal>
     </a-card>
@@ -20,9 +26,12 @@ export default {
         };
     },
     methods: {
-        showSerialNumber(product_id) {
+        showSerialNumber(invenotry) {
             this.showModal(true);
-            this.selectedProduct = { id: product_id };
+            this.selectedProduct = {
+                id: invenotry.product.id,
+                stock_bin_id: invenotry.bin.id
+            };
         },
         showModal(visible) {
             this.visible = visible;
