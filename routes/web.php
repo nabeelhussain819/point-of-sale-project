@@ -68,9 +68,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/validate-serial/', [ProductController::class, 'validateSerial']);
     });
 
-
-
-
     Route::group(['prefix' => 'tracking'], function () {
         Route::get('/', [TrackingController::class, 'index'])->name('tracking');
         Route::get('/{productSerialNumbers:serial_no}', [TrackingController::class, 'serialTracking']);
@@ -182,6 +179,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'refund'], function () {
         Route::get('/order/{order}', [RefundController::class, 'order']);
+    });
+
+    Route::group(['prefix' => 'stock-bin'], function () {
+        Route::get('/get', [StockBinController::class, 'get']);
     });
 
     Route::Resources([

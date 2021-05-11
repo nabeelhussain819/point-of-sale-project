@@ -42,14 +42,13 @@
             </a-button>
         </div>
         <span slot="action" slot-scope="text, record">
-            <a-button
+            <!-- <a-button
                 :href="`/inventory-management/inventory/${record.id}/edit`"
                 type="link"
                 ><a-icon type="edit"
-            /></a-button>
+            /></a-button> -->
             <a-button
                 v-on:click="showSerials(record)"
-                v-if="record.product.has_serial_number"
                 type="link"
                 ><a-icon type="appstore" theme="filled" />
             </a-button>
