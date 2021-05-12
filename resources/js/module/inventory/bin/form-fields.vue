@@ -74,6 +74,7 @@
 <script>
 import StockBinService from "../../../services/API/StockBinService";
 import InventoryService from "../../../services/API/InventoryService";
+import { errorNotification, notification } from "../../../services/helpers";
 export default {
     props: {
         inventory: { default: () => {} }
@@ -87,30 +88,30 @@ export default {
             returnTo: [
                 {
                     id: 1,
-                    name: "Vendor",
-                    id: 2,
-                    name: "Bins"
-                }
+                    name: "Vendor"
+                },
+                { id: 2, name: "Bins" }
             ]
         };
     },
     methods: {
         getStock() {
-            StockBinService.get({ exclude_id: this.inventory.stock_bin_id}).then(
-                stocks => {
-                    this.stocks = stocks;
-                }
-            );
+            StockBinService.get({
+                exclude_id: this.inventory.stock_bin_id
+            }).then(stocks => {
+                this.stocks = stocks;
+            });
         },
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
                 if (!err) {
-                    InventoryService.changeBin(this.inventory.id, values).then(
-                        inventory => {
-                            console.log(inventory);
-                        }
-                    );
+                    InventoryService.changeBin(this.inventory.id, values)
+                        .then(inventory => {
+                            this.$emit("onClose", false);
+                            notification(this, inventory.message);
+                        })
+                        .catch(error => errorNotification(this, error));
                 }
             });
         }

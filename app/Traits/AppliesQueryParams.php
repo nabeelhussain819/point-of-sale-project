@@ -71,7 +71,7 @@ trait AppliesQueryParams
                     $builder->where('name', 'like', "%" . $productName . "%");
                 });
             })->when($request->get('exclude_id'), function (Builder $query, $exclude_id) {
-               
+
                 return $query->where('id', '!=', $exclude_id);
             });
         };

@@ -3,6 +3,7 @@
         class="table table-bordered"
         :columns="columns"
         :data-source="data"
+        :loading="loading"
     >
         <div
             slot="filterDropdown"
@@ -47,9 +48,7 @@
                 type="link"
                 ><a-icon type="edit"
             /></a-button> -->
-            <a-button
-                v-on:click="showSerials(record)"
-                type="link"
+            <a-button v-on:click="showSerials(record)" type="link"
                 ><a-icon type="appstore" theme="filled" />
             </a-button>
         </span>
@@ -61,6 +60,7 @@ export default {
     data() {
         return {
             data: [],
+            loading: true,
             columns: [
                 {
                     title: "ID",
@@ -71,15 +71,15 @@ export default {
                         filterIcon: "filterIcon"
                     }
                 },
-                {
-                    title: "Lookup",
-                    dataIndex: "UPC",
-                    key: "upc",
-                    scopedSlots: {
-                        filterDropdown: "filterDropdown",
-                        filterIcon: "filterIcon"
-                    }
-                },
+                // {
+                //     title: "Lookup",
+                //     dataIndex: "UPC",
+                //     key: "upc",
+                //     scopedSlots: {
+                //         filterDropdown: "filterDropdown",
+                //         filterIcon: "filterIcon"
+                //     }
+                // },
                 {
                     title: "Name",
                     dataIndex: "product.name",
@@ -124,11 +124,15 @@ export default {
     methods: {
         handleSearch() {},
         fetch(params) {
-            InventoryService.all(params).then(data => {
-                this.data = data.data;
-            });
+            this.loading = true;
+            InventoryService.all(params)
+                .then(data => {
+                    this.data = data.data;
+                })
+                .finally(() => (this.loading = false));
         },
         showSerials(product_id) {
+            this.$emit("fetch", this.fetch);
             this.$emit("showSerialNumber", product_id);
         }
     },

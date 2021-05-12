@@ -1,6 +1,6 @@
 <template>
     <a-card title="Inventory">
-        <list @showSerialNumber="showSerialNumber" />
+        <list @fetch="setFetch" @showSerialNumber="showSerialNumber" />
         <a-modal
             width="80%"
             :destroyOnClose="true"
@@ -9,7 +9,7 @@
             :footer="null"
             @cancel="showModal(false)"
         >
-            <Bin :inventory="inventory" />
+            <Bin @onClose="showModal" :inventory="inventory" />
         </a-modal>
     </a-card>
 </template>
@@ -26,10 +26,15 @@ export default {
             selectedProduct: {},
             product_id: null,
             visible: false,
-            inventory: null
+            inventory: null,
+            fetch: () => {}
         };
     },
     methods: {
+        setFetch(fetch) {
+            console.log(fetch);
+            this.fetch = fetch;
+        },
         getTitle() {
             let inventory = this.inventory;
             if (!isEmpty(inventory)) {
@@ -46,9 +51,9 @@ export default {
         },
         showModal(visible) {
             this.visible = visible;
-        },
-        handleOk() {
-            this.showModal(false);
+            if (!visible) {
+                this.fetch();
+            }
         }
     }
 };

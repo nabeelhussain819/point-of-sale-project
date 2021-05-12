@@ -163,7 +163,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/products', [InventoryController::class, 'products']);
         Route::get('/fetch', [InventoryController::class, 'list']);
         Route::get('/all', [InventoryController::class, 'all']);
-        Route::put('{inventory}/change-bin', [InventoryController::class, 'changeBin']);
+        Route::put("{inventory}/change-bin", [InventoryController::class, 'changeBin']);
     });
 
     Route::group(['prefix' => 'finance'], function () {

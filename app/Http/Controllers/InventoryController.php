@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\Store;
+use App\Models\Type;
 use App\Models\User;
+use App\Scopes\StockBinGlobalScope;
+use App\Scopes\StoreGlobalScope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -144,8 +147,39 @@ class InventoryController extends Controller
             ->paginate($this->pageSize);
     }
 
-    public function changeBin(Request $request)
+    public function changeBin(Request $request, $inventory)
     {
-        dd($request->all());
+        $inventory = Inventory::where('id', $inventory)->withoutGlobalScope(new StockBinGlobalScope())->firstOrFail();
+        if ($request->get('return_to') !== 1) {
+            $postInventory = Inventory::withoutGlobalScope(new StockBinGlobalScope())
+                ->where('product_id', $inventory->product_id)
+                ->where('store_id', $inventory->store_id)
+                ->where('stock_bin_id', $request->get("stock_bin_id"))
+                ->first();
+
+            if ($postInventory) {
+                $postInventory->update(['quantity' => $request->get("quantity")]);
+            } else {
+                $postInventory = new Inventory();
+                $postInventory->fill([
+                    'name' => 'test',
+                    'product_id' => $inventory->product_id,
+                    'vendor_id' => $inventory->vendor_id,
+                    'quantity' => $request->get("quantity"),
+                    'extended_cost' => $inventory->price,
+                    'cost' => $inventory->price,
+                    'stock_bin_id' => $request->get("stock_bin_id"),
+                    'store_id' => $inventory->store_id,
+                ]);
+
+                $postInventory->save();
+            }
+        }
+
+        $inventory->OUTGOING_PRODUCTS = true;
+        $inventory->update(['quantity' => $inventory->quantity - $request->get("quantity")]);
+
+        return $this->genericResponse(true, "Stock has been transfer", 200, ['inventory' => $inventory]);
+
     }
 }

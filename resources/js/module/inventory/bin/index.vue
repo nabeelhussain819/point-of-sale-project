@@ -1,7 +1,7 @@
 <template>
     <div>
         <Serials v-if="showSerial" :product="product" />
-        <formfields :inventory="inventory" />
+        <formfields @onClose="onClose" :inventory="inventory" />
     </div>
 </template>
 
@@ -22,6 +22,11 @@ export default {
     components: {
         Serials,
         formfields
+    },
+    methods: {
+        onClose(show) {
+            this.$emit("onClose", show);
+        }
     },
     mounted() {
         this.product = {
