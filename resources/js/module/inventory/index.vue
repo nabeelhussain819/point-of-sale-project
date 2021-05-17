@@ -31,8 +31,7 @@ export default {
         };
     },
     methods: {
-        setFetch(fetch) {
-            console.log(fetch);
+        setFetch(fetch) {            
             this.fetch = fetch;
         },
         getTitle() {

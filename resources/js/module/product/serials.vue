@@ -1,52 +1,58 @@
 <template>
-  <a-table
-    :loading="loading"
-    :columns="columns"
-    :data-source="records"
-    :row-selection="rowSelection"
-  />
+    <a-table
+        :loading="loading"
+        :columns="columns"
+        :data-source="records"
+        :row-selection="rowSelection"
+    />
 </template>
 <script>
 import ProductService from "../../services/API/ProductService";
 const columns = [
-  {
-    title: "Serials",
-    dataIndex: "serial_no",
-    key: "serial_no",
-  },
+    {
+        title: "Serials",
+        dataIndex: "serial_no",
+        key: "serial_no"
+    }
 ];
 
 export default {
-  props: {
-    product: { default: () => {} },
-  },
-  data() {
-    return {
-      loading: true,
-      records: [],
-      columns,
-    };
-  },
-  methods: {
-    fetch() {
-      ProductService.getSerials(this.product.id,{stock_bin_id:this.product.stock_bin_id})
-        .then((serials) => {
-          this.records = serials.data;
-        })
-        .finally(() => (this.loading = false));     
+    props: {
+        product: { default: () => {} }
     },
-  },
-  mounted() {
-    this.fetch();
-  },
-  computed: {
-    rowSelection() {
-      return {
-        onSelect: (record, selected, selectedRows) => {          
-          this.$emit("getSerial",record)
-        },        
-      };
+    data() {
+        return {
+            loading: true,
+            records: [],
+            columns
+        };
     },
-  },
+    methods: {
+        fetch() {
+            ProductService.getSerials(this.product.id, {
+                stock_bin_id: this.product.stock_bin_id
+            })
+                .then(serials => {
+                    this.records = serials.data;
+                })
+                .finally(() => (this.loading = false));
+        }
+    },
+    mounted() {
+        this.fetch();
+    },
+    computed: {
+        rowSelection() {
+            return {
+                onSelect: (record, selected, selectedRows) => {
+                    this.$emit("onSelect", { record, selected });
+                },
+                onSelectAll: (selected, selectedRows, record) => {
+                    this.$emit("onSelectAll", { record, selected });
+                    console.log(selected, selectedRows, record);
+                }
+            };
+        }
+    }
 };
 </script>

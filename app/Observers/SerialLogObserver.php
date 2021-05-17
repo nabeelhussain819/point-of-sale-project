@@ -4,11 +4,13 @@ namespace App\Observers;
 
 use App\Data\SerialLogDTO;
 use App\Models\Finance;
+use App\Models\Inventory;
 use App\Models\Order;
 use App\Models\ProductSerialNumbers;
 use App\Models\PurchaseOrder;
 use App\Models\Refund;
 use App\Models\SerialLogs;
+use App\Models\StockBin;
 use App\Models\StockTransfer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +40,9 @@ class SerialLogObserver
                 break;
             case Refund::class:
                 $this->belongsToRefund($productSerialNumbers);
+                break;
+            case Inventory::class:
+                $this->belongsToInventory($productSerialNumbers);
                 break;
             default:
         }
@@ -103,6 +108,19 @@ class SerialLogObserver
             $this->refundOptions($productSerialNumbers)
         );
     }
+
+    private function belongsToInventory(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = new SerialLogs();
+        $serialLog->add(
+            $productSerialNumbers->id,
+            $productSerialNumbers->serial_no,
+            $productSerialNumbers->subject,
+            $productSerialNumbers->subject_id,
+            $this->refundInventory($productSerialNumbers)
+        );
+    }
+
 
     private function baseOptions(): SerialLogDTO
     {
@@ -191,4 +209,16 @@ class SerialLogObserver
         return json_encode($serialLog);
     }
 
+    private function refundInventory(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = $this->baseOptions();
+        $serialLog->doc = $productSerialNumbers->subject_id;
+        $serialLog->subject = "Change Bin";
+
+        $serialLog->from = StockBin::where('id', $productSerialNumbers->getOriginal('stock_bin_id'))->firstOrFail()->name;
+        $serialLog->to = $productSerialNumbers->bin->name;
+        $serialLog->url = route('order.view', $productSerialNumbers->subject_id);
+
+        return json_encode($serialLog);
+    }
 }

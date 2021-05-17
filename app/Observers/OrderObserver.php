@@ -48,7 +48,6 @@ class OrderObserver
             ->get()
             ->each(function (Inventory $inventory) use ($nonSerialProducts) {
                 $inventory->OUTGOING_PRODUCTS = true;
-
                 $inventory->update(['quantity' =>
                     $inventory->quantity - $nonSerialProducts[$inventory->product_id]['quantity']
                 ]);

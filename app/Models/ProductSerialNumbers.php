@@ -21,7 +21,7 @@ class ProductSerialNumbers extends Base
     /**
      * @var array
      */
-    protected $fillable = ['store_id', 'product_id', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at','stock_bin_id', 'purchase_order_id', 'stock_transfer_id'];
+    protected $fillable = ['store_id', 'product_id', 'return_to_vendor', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at', 'stock_bin_id', 'purchase_order_id', 'stock_transfer_id'];
 
     public static function getByStoreId(int $productId, int $storeId)
     {
@@ -38,7 +38,7 @@ class ProductSerialNumbers extends Base
             ->where('product_id', $productId);
     }
 
-    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject, bool $isSold = true,$attributes=[])
+    public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject, bool $isSold = true, $attributes = [])
     {
         $product = ProductSerialNumbers::where('store_id', $storeId)
             ->where('product_id', $productId)
@@ -55,7 +55,7 @@ class ProductSerialNumbers extends Base
         $product->subject = $subject['subject'];
         $product->subject_id = $subject['subject_id'];
         $product->subject_data = $subject['subject_data'];
-        return $product->update(ArrayHelper::merge(['is_sold' => $isSold],$attributes));
+        return $product->update(ArrayHelper::merge(['is_sold' => $isSold], $attributes));
     }
 
     public static function boot()
@@ -89,6 +89,11 @@ class ProductSerialNumbers extends Base
     public function product()
     {
         return $this->belongsTo('App\Models\Product');
+    }
+
+    public function bin()
+    {
+        return $this->belongsTo(StockBin::class, 'stock_bin_id');
     }
 
     public function purchaseOrder()
@@ -160,5 +165,16 @@ class ProductSerialNumbers extends Base
 
         });
         return $products;
+    }
+
+    public static function changeBins(array $products, $bin, array $subject, $isReturnToVendor = false)
+    {
+        collect($products)->each(function ($product) use ($subject, $isReturnToVendor, $bin) {
+            $product = self::where('id', $product['id'])->first();
+            $product->subject = $subject['subject'];
+            $product->subject_id = $subject['subject_id'];
+            $product->subject_data = $subject['subject_data'];
+            $product->update(['is_sold' => false, 'return_to_vendor' => $isReturnToVendor, 'stock_bin_id' => $bin]);
+        });
     }
 }

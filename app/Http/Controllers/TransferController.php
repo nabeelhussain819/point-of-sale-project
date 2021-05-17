@@ -131,7 +131,7 @@ class TransferController extends Controller
         $products = $transfer->products->filter(function (StockTransferProduct $product) {
             return $product->product->has_serial_number;
         });
-        // if purchase order has  no serail type product
+        // if purchase order has  no serial type product
         if ($products->count() > 0) {
             return view('admin.transfers.associate-serial-product', ['transfer' => $transfer,
                 'pOProducts' => $products]);
