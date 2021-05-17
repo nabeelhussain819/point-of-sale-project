@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Base;
 use App\Helpers\ArrayHelper;
 use App\Observers\SerialLogObserver;
+use App\Scopes\StockBinReturnVendorScope;
 use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,7 +62,7 @@ class ProductSerialNumbers extends Base
     public static function boot()
     {
         parent::boot();
-
+        ProductSerialNumbers::observe(StockBinReturnVendorScope::class);
         ProductSerialNumbers::observe(SerialLogObserver::class);
     }
 

@@ -141,10 +141,11 @@ class ProductController extends Controller
         return view('admin.products.associate_product', ['device' => $device]);
     }
 
-    public function getSerials(Request $request,Product $product)
+    public function getSerials(Request $request, Product $product)
     {
         return ProductSerialNumbers::getByStoreId($product->id, Store::currentId())
             ->where($this->applyFilters($request))
+            ->where('return_to_vendor', false)
             ->paginate($this->pageSize);
     }
 
