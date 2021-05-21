@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Observers\OrderObserver;
+use App\Scopes\StoreGlobalScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -140,7 +141,7 @@ class Order extends Base
     public static function boot()
     {
         parent::boot();
-
+        static::addGlobalScope(new StoreGlobalScope);
         Order::observe(OrderObserver::class);
     }
 

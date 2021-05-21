@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        return view('admin.users.index',['user' => UserDetail::where('user_id','!=',auth()->user()->id)->paginate(10)]);
+        return view('admin.users.index',['user' => UserDetail::paginate(10)]);
     }
 
     /**
