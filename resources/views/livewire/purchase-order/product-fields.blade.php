@@ -74,7 +74,9 @@
     <div class="row">
         @if(!$isCreated)
             <div class="col-md-12">
-                <button class="btn text-white btn-info " wire:click.prevent="add({{$i}})"><i class="fa fa-plus"></i>
+                <button class="btn text-white btn-info " id="addLivewire" type="button"
+                        wire:click.prevent="add({{$i}})"><i
+                            class="fa fa-plus"></i>
                 </button>
             </div>
         @endif
