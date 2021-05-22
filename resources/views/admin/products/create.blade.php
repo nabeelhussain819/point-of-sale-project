@@ -69,13 +69,7 @@
                                 <label for="">Minimum Price</label>
                                 <input type="text" class="form-control" name="min_price" value="{{old('min_price')}}" placeholder="Enter Minimum Price"/>
                             </div>
-                            <div class="form-group">
-                                <label>Taxable</label>
-                                <select name="taxable" class="form-control">
-                                    <option value="0">Not Taxable</option>
-                                    <option value="1">Taxable</option>
-                                </select>
-                            </div>
+
                             <div class="form-group">
                                 <label>Active</label>
                                 <select name="active" class="form-control">

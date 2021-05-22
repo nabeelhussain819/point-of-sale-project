@@ -69,13 +69,6 @@
                         <input type="text" class="form-control" name="min_price" value="{{$product->min_price}}" placeholder="Enter Driver License"/>
                     </div>
                     <div class="form-group">
-                        <label>Taxable</label>
-                        <select name="taxable" class="form-control">
-                            <option value="0" {{$product->taxable == 0 ? 'selected' : ''}}>Not Taxable</option>
-                            <option value="1" {{$product->taxable == 1 ? 'selected' : ''}}>Taxable</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label>Active</label>
                         <select name="active" class="form-control">
                             <option value="1" {{$product->active == 1 ? 'selected' : ''}}>Active</option>
