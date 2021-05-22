@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class StockBin extends Model
 {
+
+    const RETAIL=1;
     /**
      * The "type" of the auto-incrementing ID.
      * 

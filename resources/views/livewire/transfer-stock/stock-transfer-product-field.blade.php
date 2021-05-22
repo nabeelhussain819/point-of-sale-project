@@ -10,7 +10,7 @@
         <label for="">Date</label>
 
         <input type="date" class="form-control" name="transfer_date"
-               value="{{empty($transfer)?old('transfer_date'):$transfer->transfer_date->format("Y-m-d")}}"
+               value="{{empty($transfer)?\Carbon\Carbon::now()->format('Y-m-d'):$transfer->transfer_date->format("Y-m-d")}}"
                required
         />
     </div>
