@@ -2,7 +2,7 @@
     <form action="{{route('purchase-order.store')}}" method="POST">
         <div class="form-group">
             <label>Vendor </label>
-            
+
             <select class="form-control" name="vendor_id">
                 <option value="">Please Select Vendor</option>
                 @foreach($vendors as $item)
@@ -23,8 +23,9 @@
         </div>
 
         <div class="form-group">
-            <label for="">Expected Date</label>
-            <input type="date" class="form-control" name="expected_date"/>
+            <label for="">Expected Date </label>
+            <input type="date" class="form-control" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}"
+                   name="expected_date"/>
         </div>
 
         <br>
