@@ -40,7 +40,7 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         $this->validateFields($request);
         $store = new Store();
         $store->guid = Str::uuid();
