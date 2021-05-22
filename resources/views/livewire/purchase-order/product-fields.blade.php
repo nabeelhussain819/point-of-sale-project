@@ -17,7 +17,8 @@
              $options .="<option value='{$item->id}'>{$item->name}</option>";
                 }
         @endphp
-        @foreach($inputs as $key => $value)
+
+        @foreach($products as $key => $value)
 
             <tr id="product0">
                 <td>
@@ -58,17 +59,24 @@
                 </td>
                 <td>
                     <span>{{$productPrices[$key]}}</span>
+                </td>
+                <td>
+                    @if(!$isCreated)
 
+                        <button type="button" class=" btn btn-danger shadow-lg"
+                                wire:click="removeRow({{$key}})">remove
+                        </button>
+                    @endif
                 </td>
             </tr>
         @endforeach
     </table>
     <div class="row">
         @if(!$isCreated)
-        <div class="col-md-12">
-            <button class="btn text-white btn-info "  wire:click.prevent="add({{$i}})"><i class="fa fa-plus"></i></button>
-            <button id='delete_row' class="float-right btn btn-danger shadow-lg"><i class="fa fa-trash"></i></button>
-        </div>
-       @endif
+            <div class="col-md-12">
+                <button class="btn text-white btn-info " wire:click.prevent="add({{$i}})"><i class="fa fa-plus"></i>
+                </button>
+            </div>
+        @endif
     </div>
 </div>

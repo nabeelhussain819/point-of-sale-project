@@ -12,7 +12,7 @@ use Livewire\Component;
 class ProductFields extends Component
 {
     public $inputs = [];
-    public $i = 0;
+    public $i = 1;
     public $products = [];
     public $productPrices = [];
     public $quantity = [];
@@ -57,7 +57,8 @@ class ProductFields extends Component
         $this->products[$i] = 0;
         $this->products[$i] = ['price' => 0, 'lookUp' => 0];
         $this->i = $i + 1;
-        ArrayHelper::push($this->inputs, $this->i);
+        //  ArrayHelper::push($this->inputs, $this->i);
+
     }
 
     public function lookUp($key)
@@ -98,6 +99,15 @@ class ProductFields extends Component
             $this->productPrices[$i] = $this->products[$i]['quantity'] * $this->products[$i]['price'];
         }
     }
+
+    public function removeRow($key)
+    {
+        $products = $this->products;
+        unset($products[$key]);
+        $this->products = $products;
+
+    }
+
 
     public function search()
     {
