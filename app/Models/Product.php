@@ -65,6 +65,10 @@ class Product extends Base
         return $this->hasMany(Inventory::class);
     }
 
+    public static function getProductByUPC($upc)
+    {
+        return Product::where("UPC", $upc)->firstorFail();
+    }
 
     public static function getPrice(int $id)
     {

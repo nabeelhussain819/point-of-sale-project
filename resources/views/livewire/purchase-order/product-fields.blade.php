@@ -33,7 +33,7 @@
                     <div class="input-group spinner">
                         <div class="row">
                             {{--@todo optimize quqery do not repeat --}}
-                            <select {{$isCreated ?'disabled': ''}} wire:change="setPrice({{$key}})" class="form-control"
+                            <select {{$isCreated ?'disabled': ''}} wire:change="setPrice({{$key}})" id="product_select" class=" product_select form-control"
                                     wire:model="products.{{$key}}.product_id"
                                     name="products[{{$key}}][product_id]">
                                 <option value="">Please Select Product</option>

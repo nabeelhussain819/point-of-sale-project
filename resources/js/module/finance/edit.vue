@@ -48,6 +48,7 @@
             <a-row>
                 <a-col :span="12">
                     <img
+                        v-on:click="showlargeImage(true)"
                         class="attachment"
                         v-if="!isEmpty(getImages())"
                         :src="getImages()"
@@ -79,6 +80,14 @@
                 </a-col>
             </a-row>
         </a-card>
+        <a-modal v-model="showImage" title="Attachment" :footer="null">
+            <img
+                v-on:click="showlargeImage()"
+                class="attachment"
+                v-if="!isEmpty(getImages())"
+                :src="getImages()"
+            />
+        </a-modal>
     </div>
 </template>
 <script>
@@ -113,7 +122,8 @@ export default {
             stateFinance: {},
             schedulesData: [],
             schedulesColumns,
-            isEmpty
+            isEmpty,
+            showImage: false
         };
     },
     props: {
@@ -130,6 +140,9 @@ export default {
         }
     },
     methods: {
+        showlargeImage(show){
+            this.showImage = show ;
+        },
         getImages() {
             if (!isEmpty(this.finance.attachmentTemp)) {
                 console.log(this.finance.attachmentTemp[0]);

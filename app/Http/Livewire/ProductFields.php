@@ -64,7 +64,12 @@ class ProductFields extends Component
     public function lookUp($key)
     {
         if (!empty($this->products[$key]['lookup'])) {
-            $this->products[$key]['product_id'] = $this->products[$key]['lookup'];
+            $productId = $this->products[$key]['lookup'];
+            if (!StringHelper::isInt($productId)) {
+                $product = Product::getProductByUPC($productId);
+                $productId = $product->id;
+            }
+            $this->products[$key]['product_id'] = $productId;
             $this->setPrice($key);
         }
     }
