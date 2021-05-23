@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-row :gutter="23">
+        <a-row class="form-field-container" :gutter="23">
             <a-col :span="1"><strong>Id</strong></a-col>
             <a-col :span="3"><strong>Name</strong></a-col>
 
@@ -12,7 +12,12 @@
             <a-col :span="2"><strong>Total</strong></a-col>
             <a-col :span="1"><strong></strong></a-col>
         </a-row>
-        <a-row v-for="(product, key) in products" :key="key" :gutter="23">
+        <a-row
+            v-for="(product, key) in products"
+            :key="key"
+            class="form-field-container"
+            :gutter="23"
+        >
             <a-col :span="1"> {{ product.id }}</a-col>
             <a-col :span="3"> {{ product.name }}</a-col>
 
@@ -47,10 +52,9 @@
                         <a-button type="primary" slot="enterButton">
                             <a-icon type="mobile" />
                         </a-button>
-                    </a-input-search> </a-form-item
-            >
-            <span v-else> No Serial</span>
-            
+                    </a-input-search>
+                </a-form-item>
+                <span v-else> No Serial</span>
             </a-col>
             <a-col :span="2">
                 <a-form-item>
@@ -283,5 +287,19 @@ export default {
 <style scoped>
 .d-none {
     display: none;
+}
+</style>
+
+<style lang="scss" scoped>
+.form-field-container.ant-row > .ant-col {
+    border: 1px solid #e2e2e2;
+    height: 59px;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-field-container .ant-form-item {
+    margin-bottom: 0;
 }
 </style>

@@ -93,7 +93,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->fill($PurchaseOrderData)->save();
         $purchaseOrder->purchaseOrdersProducts()->sync($productData);
 
-        return redirect()->back()->with('success', 'New Sale Created');
+        return redirect()->back()->with('success', 'New Purcahse Order Created');
     }
 
     /**
