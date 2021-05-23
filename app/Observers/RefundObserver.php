@@ -131,9 +131,10 @@ class RefundObserver
         $keys = $products->keys(); // keys are the order_products id
 
         $refund->order->products->whereIn('id', $keys)
-            ->each(function (OrderProduct $orderProduct) use ($products) {
+            ->each(function (OrderProduct $orderProduct) use ($products, $refund) {
                 $postedProduct = $products[$orderProduct->id];
                 $orderProduct->quantity = $orderProduct->quantity - $postedProduct['quantity'];
+                $orderProduct->refund_id = $refund->id;
                 if ($orderProduct->quantity < 0) {
                     $productName = $orderProduct->product->name;
 

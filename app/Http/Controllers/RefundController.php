@@ -38,7 +38,7 @@ class RefundController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'return_cost' => 'required|numeric  |min:1',
+            'return_cost' => 'required|numeric|min:1',
         ]);
         return \DB::transaction(function () use ($request) {
             $refund = new Refund();

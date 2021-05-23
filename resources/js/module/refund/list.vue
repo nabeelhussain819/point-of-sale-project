@@ -10,7 +10,12 @@
             <a-tag v-if="record.quantity <= 0" color="volcano">
                 Refunded
             </a-tag>
-            <span v-else>{{ text }}</span>
+            <span v-else
+                >{{ text }}
+                <a-tag v-if="record.refund_id !== null" color="volcano">
+                    Partially Refunded
+                </a-tag>
+            </span>
         </span>
         <span slot="returnQuantity" slot-scope="text, record">
             <a-form-item
@@ -18,7 +23,6 @@
                 width="50px"
                 class="pos-form-item margin-0"
             >
-        
                 <a-input-number
                     :disabled="record.quantity <= 0"
                     :min="0"

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $stock_id
  * @property integer $quantity
  * @property string $order_id
+ * @property string $refund_id
  * @property string $created_at
  * @property string $updated_at
  * @property Customer $customer
@@ -33,7 +34,7 @@ class OrderProduct extends Base
      * @var array
      */
     protected $fillable = ['customer_id', 'lookup', 'inventory_id', 'store_id', 'stock_id',
-        'retail_price', 'serial_number', 'total', 'min_price',
+        'retail_price', 'serial_number', 'total', 'min_price', 'refund_id',
         'quantity', 'order_id', 'type_id', 'vendor_id', 'created_at', 'updated_at'];
 
     /**

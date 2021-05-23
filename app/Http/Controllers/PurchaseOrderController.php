@@ -93,7 +93,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->fill($PurchaseOrderData)->save();
         $purchaseOrder->purchaseOrdersProducts()->sync($productData);
 
-        return redirect()->back()->with('success', 'New Purcahse Order Created');
+        return redirect()->back()->with('success', 'New Purchase Order Created');
     }
 
     /**
@@ -160,8 +160,6 @@ class PurchaseOrderController extends Controller
     public function received(Request $request, PurchaseOrder $purchaseOrder)
     {
         $aRequestParams = $request->input('product_serial');
-
-
         return redirect()->route('purchaseOrder.show-associate-product-serial', $purchaseOrder->id);
 //        return redirect()->back()->with('success', 'Purchase Order received');
     }
