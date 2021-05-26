@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Scopes\ProductRepairScope;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,6 +40,7 @@ class Product extends Base
      */
     protected $fillable = ['department_id', 'guid',
         'category_id', 'name', 'description', 'UPC', 'cost', 'retail_price',
+        'is_repair',
         'min_price', 'taxable', 'active', 'created_at', 'updated_at', 'has_serial_number'];
 
     /**
@@ -100,6 +102,12 @@ class Product extends Base
     public function serials()
     {
         return $this->hasMany(ProductSerialNumbers::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new ProductRepairScope());
     }
 
 }

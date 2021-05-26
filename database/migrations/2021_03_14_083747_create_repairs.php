@@ -32,7 +32,6 @@ class CreateRepairs extends Migration
             $table->id();
             $table->unsignedBigInteger('device_type_id');
             $table->unsignedBigInteger('repair_id');
-
             $table->unsignedBigInteger('brand_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('issue_id');
