@@ -62,15 +62,15 @@ export default {
             data: [],
             loading: true,
             columns: [
-                {
-                    title: "ID",
-                    dataIndex: "id",
-                    key: "id",
-                    scopedSlots: {
-                        filterDropdown: "filterDropdown",
-                        filterIcon: "filterIcon"
-                    }
-                },
+                // {
+                //     title: "ID",
+                //     dataIndex: "id",
+                //     key: "id",
+                //     scopedSlots: {
+                //         filterDropdown: "filterDropdown",
+                //         filterIcon: "filterIcon"
+                //     }
+                // },
                 // {
                 //     title: "Lookup",
                 //     dataIndex: "UPC",

@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Inventory;
 use App\Models\Order;
 use App\Models\Store;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class OrderObserver
 {
@@ -42,12 +43,16 @@ class OrderObserver
             });
 
         $productIdsWithOutSerial = array_keys($nonSerialProducts);
-       
+
         Inventory::where('store_id', Store::currentId())
             ->whereIn('product_id', $productIdsWithOutSerial)
             ->get()
             ->each(function (Inventory $inventory) use ($nonSerialProducts) {
                 $inventory->OUTGOING_PRODUCTS = true;
+                if ($inventory->quantity < $nonSerialProducts[$inventory->product_id]['quantity']) {
+                    throw new ConflictHttpException($inventory->product->name . " not enough Quantity, only " . $inventory->quantity . " are on inventory");
+                }
+
                 $inventory->update(['quantity' =>
                     $inventory->quantity - $nonSerialProducts[$inventory->product_id]['quantity']
                 ]);
