@@ -34,8 +34,9 @@ trait AppliesQueryParams
             })->when($request->get('type'), function (Builder $builder, $type) {
                 return $builder->where('type', $type);
             })->when($request->get('search'), function (Builder $builder, $search) {
-                $search = strtolower($search);
-                return $builder->where('name', 'like', "%" . $search . "%");
+
+
+                return $builder->where('name', 'ilike', "%" . $search . "%");
             })->when($request->get('product_id'), function (Builder $builder, $productId) {
                 if (StringHelper::isInt($productId)) {
                     return $builder->where('product_id', $productId);

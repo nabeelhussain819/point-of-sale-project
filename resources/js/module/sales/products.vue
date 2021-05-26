@@ -165,9 +165,7 @@ export default {
             return this.uuidString + this.uuid;
         },
         setProducts(product) {
-            let uuidT = this.getUid();
-            product.total = product.min_price;
-            product.quantity = 1;
+            let uuidT = this.getUid();           
             let products = { ...this.products, [uuidT]: product };
             this.products = products;
             this.updateProducts(products);
@@ -207,7 +205,6 @@ export default {
                         return;
                     })
                     .catch(e => {
-                        console.log(e.response);
                         if (e.response.status === 404) {
                             callback("not found");
                         }
