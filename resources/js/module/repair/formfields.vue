@@ -41,7 +41,7 @@
                                 :key="customer.id.toString()"
                                 :customer="customer"
                             >
-                                {{ customer.name }}
+                                {{ customer.name_phone }}
                             </a-select-option>
                         </a-select>
                     </a-form-item></a-col
@@ -173,7 +173,9 @@
                                 v-decorator="[
                                     `productItem[${r}][device_type_id]`,
                                     {
-                                        initialValue: product.device_type_id,
+                                        initialValue: getStringId(
+                                            product.device_type_id
+                                        ),
                                         rules: [
                                             {
                                                 required: true,
@@ -207,7 +209,9 @@
                                 v-decorator="[
                                     `productItem[${r}][brand_id]`,
                                     {
-                                        initialValue: product.brand_id,
+                                        initialValue: getStringId(
+                                            product.brand_id
+                                        ),
                                         rules: [
                                             {
                                                 required: true,
@@ -241,7 +245,9 @@
                                 v-decorator="[
                                     `productItem[${r}][product_id]`,
                                     {
-                                        initialValue: product.product_id,
+                                        initialValue: getStringId(
+                                            product.product_id
+                                        ),
                                         rules: [
                                             {
                                                 required: true,
@@ -273,7 +279,9 @@
                                 v-decorator="[
                                     `productItem[${r}][issue_id]`,
                                     {
-                                        initialValue: product.issue_id,
+                                        initialValue: getStringId(
+                                            product.issue_id
+                                        ),
                                         rules: [
                                             {
                                                 required: true,
@@ -342,7 +350,7 @@ import ProductService from "../../services/API/ProductService";
 import IssueTypeService from "../../services/API/IssueTypeService";
 import RepairService from "../../services/API/RepairService";
 import CustomerService from "../../services/API/CustomerService";
-import { isEmpty, filterOption } from "../../services/helpers";
+import { isEmpty, filterOption, getStringId } from "../../services/helpers";
 export default {
     props: {
         repairId: { default: null }
@@ -365,7 +373,8 @@ export default {
             maxCustomer: 1,
             filterOption,
             customerSearchLoading: false,
-            isEmpty
+            isEmpty,
+            getStringId
         };
     },
     mounted() {
