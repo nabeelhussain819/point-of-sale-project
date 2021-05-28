@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Helpers\GuidHelper;
+use App\Helpers\StringHelper;
 use App\Traits\LogsActivityCustom;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
@@ -53,6 +54,9 @@ class Base extends Model
                     $baseModel->setAttribute('created_by', Auth::user()->id);
                     $baseModel->setAttribute('updated_by', Auth::user()->id);
                 }
+            }
+            if (!empty($baseModel->name)) {
+                $baseModel->name = StringHelper::lower($baseModel->name);
             }
         });
     }
