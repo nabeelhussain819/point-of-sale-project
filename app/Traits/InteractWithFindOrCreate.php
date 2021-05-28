@@ -15,19 +15,20 @@ use App\Models\Customer;
 
 trait InteractWithFindOrCreate
 {
-    public static function FindOrCreateByName(string $name): self
+    public static function FindOrCreateByName(string $name, array $attributes = []): self
     {
         $name = StringHelper::lower($name);
 
         $model = self::firstOrNew(['name' => $name]);
         if (empty($model->id)) {
+            $model->fill(ArrayHelper::merge(['name' => $name], $attributes));
             $model->save();
             return $model;
         }
         return $model;
     }
 
-    public static function getIdByRequest($key): int
+    public static function getIdByRequest($key, array $attributes = []): int
     {
         $key = self::_getKey($key);
 
@@ -35,7 +36,7 @@ trait InteractWithFindOrCreate
             return $key;
         }
 
-        $model = self::FindOrCreateByName($key);
+        $model = self::FindOrCreateByName($key, $attributes);
 
         return $model->id;
     }

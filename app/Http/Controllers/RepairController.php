@@ -58,15 +58,7 @@ class RepairController extends Controller
 
             $repair->save();
             $products = array_filter($request->get('productItem'));
-            $products = collect($products)->map(function ($product) {
-
-                $product['device_type_id'] = DevicesType::getIdByRequest($product['device_type_id']);
-                $product['product_id'] = Product::getIdByRequest($product['product_id']);
-                $product['issue_id'] = IssueType::getIdByRequest($product['issue_id']);
-                $product['brand_id'] = Brand::getIdByRequest($product['brand_id']);
-                return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
-            })->all();
-            $repair->products()->sync($products);
+            $repair->syncProducts($products);
             return $this->genericResponse(true, " repair has been created", 201);
         });
 
@@ -102,18 +94,7 @@ class RepairController extends Controller
     {
         $repair->update($request->all());
         $products = array_filter($request->get('productItem'));
-        $products = collect($products)->map(function ($product) {
-
-            $product['device_type_id'] = DevicesType::getIdByRequest($product['device_type_id']);
-            $product['product_id'] = Product::getIdByRequest($product['product_id']);
-
-            $product['issue_id'] = IssueType::getIdByRequest($product['issue_id']);
-            $product['brand_id'] = Brand::getIdByRequest($product['brand_id']);
-            return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
-        })->all();
-
-        $repair->products()->sync ($products);
-//        $repair->products()->sync(array_filter($request->get('productItem')));
+        $repair->syncProducts($products);
         return $this->genericResponse(true, " repair has been updated", 200);
     }
 

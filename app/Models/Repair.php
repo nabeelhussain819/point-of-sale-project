@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Helpers\ArrayHelper;
+use App\Helpers\GuidHelper;
 use Carbon\Carbon;
 
 /**
@@ -21,7 +23,7 @@ class Repair extends Base
     protected $autoBlame = false;
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -46,6 +48,7 @@ class Repair extends Base
             ['id' => self::IN_CANCELLED_STATUS, 'name' => 'Cancelled']
         ];
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -56,20 +59,37 @@ class Repair extends Base
 
     public function products()
     {
-        return $this->belongsToMany(RepairsProduct::class,'repairs_products','repair_id','repair_id');
+        return $this->belongsToMany(RepairsProduct::class, 'repairs_products', 'repair_id', 'repair_id');
     }
 
-    public function relatedProducts(){
+    public function relatedProducts()
+    {
         return $this->hasMany(RepairsProduct::class);
     }
 
     public function getDaysAttribute()
     {
-        return  $this->created_at->diffInDays(Carbon::now(), false);
+        return $this->created_at->diffInDays(Carbon::now(), false);
     }
 
     public function getRemainingAttribute()
     {
         return $this->total_cost - $this->advance_cost;
+    }
+
+    public function syncProducts(array $products)
+    {
+        $products = collect($products)->map(function ($product) {
+
+            $product['product_id'] = Product::getIdByRequest($product['product_id'], ['is_repair' => false]);
+            dd(Product::getIdByRequest($product['product_id'], ['is_repair' => true]));
+            $product['device_type_id'] = DevicesType::getIdByRequest($product['device_type_id']);
+            $product['issue_id'] = IssueType::getIdByRequest($product['issue_id']);
+            $product['brand_id'] = Brand::getIdByRequest($product['brand_id']);
+            return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
+        })->all();
+
+        $this->products()->sync($products);
+        return $this;
     }
 }

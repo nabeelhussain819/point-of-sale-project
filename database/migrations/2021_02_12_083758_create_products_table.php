@@ -21,21 +21,21 @@ class CreateProductsTable extends Migration
             $table->string('UPC')->unique()->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->float('cost',36)->nullable();
-            $table->float('retail_price',36)->nullable();
+            $table->float('cost', 36)->nullable();
+            $table->float('retail_price', 36)->nullable();
             $table->boolean('has_serial_number')->default(false);
-            $table->float('min_price',36)->nullable();
+            $table->float('min_price', 36)->nullable();
             $table->boolean('taxable')->default(false);
             $table->boolean('active')->default(false);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
-            $table->unsignedBigInteger('is_repair')->default(false);
+            $table->boolean('is_repair')->default(false);
             $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
 
-        Schema::table('products', function (Blueprint $table){
+        Schema::table('products', function (Blueprint $table) {
             $table->foreign('department_id')->references('id')->on('departments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
         });
