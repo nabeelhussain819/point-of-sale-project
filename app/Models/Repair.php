@@ -81,8 +81,8 @@ class Repair extends Base
     {
         $products = collect($products)->map(function ($product) {
 
-            $product['product_id'] = Product::getIdByRequest($product['product_id'], ['is_repair' => false]);
-            dd(Product::getIdByRequest($product['product_id'], ['is_repair' => true]));
+            $product['product_id'] = Product::getIdByRequest($product['product_id'], ['is_repair' => true]);
+
             $product['device_type_id'] = DevicesType::getIdByRequest($product['device_type_id']);
             $product['issue_id'] = IssueType::getIdByRequest($product['issue_id']);
             $product['brand_id'] = Brand::getIdByRequest($product['brand_id']);
