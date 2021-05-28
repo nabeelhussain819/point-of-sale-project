@@ -1,5 +1,5 @@
 // import * as constants from '../Constants'
-import request from '../request'
+import request from "../request";
 
 const baseUrl = `/deviceType`;
 
@@ -10,9 +10,17 @@ function all(params = {}) {
     });
 }
 
+function search(params, cancelToken = null) {
+    return request({
+        url: `${baseUrl}/search/`,
+        cancelToken,
+        params
+    });
+}
 
 const DeviceTypeService = {
-    all
+    all,
+    search
 };
 
-export default DeviceTypeService
+export default DeviceTypeService;

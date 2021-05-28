@@ -141,6 +141,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('brand/lists', [BrandController::class, 'lists'])->name('brand');
     Route::get('issue-type/lists', [IssueTypeController::class, 'lists'])->name('issue-type');
 
+    Route::group(['prefix' => 'deviceType'], function () {
+        Route::get('/search', [DeviceTypeController::class, 'search']);
+    });
 
     Route::group(['prefix' => 'purchase-order'], function () {
         Route::get('/received-form/{purchaseOrder}', [PurchaseOrderController::class, 'receivedForm'])

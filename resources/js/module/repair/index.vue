@@ -1,26 +1,36 @@
 <template>
-  <div>
-    <a-skeleton :loading="loading">
-      <a-table :columns="columns" :data-source="data">
-        <template slot="title">
-          <a-button type="primary" v-on:click="add()">Add </a-button>
-        </template>
-        <a slot="name" slot-scope="text">{{ text }}</a>
-        <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
-        <span slot="tags" slot-scope="tags">
-          <a-tag color="volcano">
-            {{ tags.toUpperCase()==="COMPLETED"?"Ready For Pickup":tags.toUpperCase() }}
-          </a-tag>
-        </span>
-        <span slot="action" slot-scope="text, record">
-          <a-icon v-on:click="edit(record.id)" type="edit" />
-        </span>
-      </a-table>
-    </a-skeleton>
-    <a-modal header="false" :destroyOnClose="true" width="95%" v-model="addModal">
-      <form-fields :repairId="repairId" @close="showAddModal()" />
-    </a-modal>
-  </div>
+    <div>
+        <a-skeleton :loading="loading">
+            <a-table :columns="columns" :data-source="data">
+                <template slot="title">
+                    <a-button type="primary" v-on:click="add()">Add </a-button>
+                </template>
+                <a slot="name" slot-scope="text">{{ text }}</a>
+                <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
+                <span slot="tags" slot-scope="tags">
+                    <a-tag color="volcano">
+                        {{
+                            tags.toUpperCase() === "COMPLETED"
+                                ? "Ready For Pickup"
+                                : tags.toUpperCase()
+                        }}
+                    </a-tag>
+                </span>
+                <span slot="action" slot-scope="text, record">
+                    <a-icon v-on:click="edit(record.id)" type="edit" />
+                </span>
+            </a-table>
+        </a-skeleton>
+        <a-modal
+            header="false"
+            :destroyOnClose="true"
+            width="95%"
+            :footer="null"
+            v-model="addModal"
+        >
+            <form-fields :repairId="repairId" @close="showAddModal()" />
+        </a-modal>
+    </div>
 </template>
 
 <script>
@@ -28,88 +38,88 @@ import FormFields from "./formfields";
 import RepairService from "../../services/API/RepairService";
 
 const columns = [
-  {
-    dataIndex: "id",
-    key: "id",
-    title: "Id",
-  },
-  {
-    dataIndex: "customer.name",
-    key: "name",
-    title: "Customer Name",
-  },
-  {
-    title: "Customer Number",
-    dataIndex: "customer.phone",
-    key: "customer.phone",
-  },
-  {
-    title: "Days",
-    dataIndex: "days",
-    key: "days",
-  },
-  {
-    title: "Remaining Cost",
-    dataIndex: "remaining",
-    key: "remaining",
-  },
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-    scopedSlots: { customRender: "tags" },
-  },
-  {
-    title: "Action",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-  },
+    {
+        dataIndex: "id",
+        key: "id",
+        title: "Id"
+    },
+    {
+        dataIndex: "customer.name",
+        key: "name",
+        title: "Customer Name"
+    },
+    {
+        title: "Customer Number",
+        dataIndex: "customer.phone",
+        key: "customer.phone"
+    },
+    {
+        title: "Days",
+        dataIndex: "days",
+        key: "days"
+    },
+    {
+        title: "Remaining Cost",
+        dataIndex: "remaining",
+        key: "remaining"
+    },
+    {
+        title: "Status",
+        key: "status",
+        dataIndex: "status",
+        scopedSlots: { customRender: "tags" }
+    },
+    {
+        title: "Action",
+        key: "action",
+        scopedSlots: { customRender: "action" }
+    }
 ];
 
 export default {
-  name: "index.vue",
-  data() {
-    return {
-      data: [],
-      columns,
-      addModal: false,
-      deviceTypes: [],
-      brands: [],
-      products: [],
-      loading: true,
-      repairId: null,
-    };
-  },
-  mounted() {
-    this.fetchList();
-  },
-  methods: {
-    edit(id) {
-      this.repairId = id;
-      this.showAddModal(true);
+    name: "index.vue",
+    data() {
+        return {
+            data: [],
+            columns,
+            addModal: false,
+            deviceTypes: [],
+            brands: [],
+            products: [],
+            loading: true,
+            repairId: null
+        };
     },
-    showAddModal(value) {
-      if (!value) {
+    mounted() {
         this.fetchList();
-      }
-      this.addModal = value;
     },
-    fetchList() {
-      this.loading = true;
-      RepairService.all()
-        .then((data) => {
-          this.data = data;
-        })
-        .finally(() => (this.loading = false));
+    methods: {
+        edit(id) {
+            this.repairId = id;
+            this.showAddModal(true);
+        },
+        showAddModal(value) {
+            if (!value) {
+                this.fetchList();
+            }
+            this.addModal = value;
+        },
+        fetchList() {
+            this.loading = true;
+            RepairService.all()
+                .then(data => {
+                    this.data = data;
+                })
+                .finally(() => (this.loading = false));
+        },
+        add() {
+            this.repairId = null;
+            this.showAddModal(true);
+        }
     },
-    add() {
-      this.repairId = null;
-      this.showAddModal(true);
-    },
-  },
-  components: {
-    FormFields,
-  },
+    components: {
+        FormFields
+    }
 };
 </script>
 

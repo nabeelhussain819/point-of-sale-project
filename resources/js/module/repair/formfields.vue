@@ -156,28 +156,31 @@
                     <a-col :span="4">
                         <a-form-item label="Device Type">
                             <a-select
+                                :showSearch="true"
+                                :filter-option="filterOption"
+                                mode="tags"
+                                :maxTagCount="1"
                                 :data-key="r"
                                 v-decorator="[
                                     `productItem[${r}][device_type_id]`,
                                     {
-                                        initialValue:
-                                            repair.customer &&
-                                            repair.customer.phone,
+                                        initialValue: repair.device_type_id,
                                         rules: [
                                             {
                                                 required: true,
                                                 message:
-                                                    'Please select your gender!'
+                                                    'Please select your Device type!'
                                             }
                                         ]
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
+                                @search="deviceTypeSearch"
                                 @select="loadProducts(r)"
                             >
                                 <a-select-option
                                     v-for="dT in deviceType"
-                                    :key="dT.id"
+                                    :key="dT.id.toString()"
                                 >
                                     {{ dT.name }}</a-select-option
                                 >
@@ -187,10 +190,15 @@
                     <a-col :span="4">
                         <a-form-item label="Brand">
                             <a-select
+                                :showSearch="true"
+                                :filter-option="filterOption"
+                                mode="tags"
+                                :maxTagCount="1"
+                                @search="deviceTypeSearch"
                                 v-decorator="[
                                     `productItem[${r}][brand_id]`,
                                     {
-                                        initialValue: product.brand_id,
+                                        initialValue: repair.brand_id,
                                         rules: [
                                             {
                                                 required: true,
@@ -205,7 +213,7 @@
                             >
                                 <a-select-option
                                     v-for="brand in brands"
-                                    :key="brand.id"
+                                    :key="brand.id.toString()"
                                 >
                                     {{ brand.name }}
                                 </a-select-option>
@@ -216,6 +224,11 @@
                     <a-col :span="4">
                         <a-form-item label="Model">
                             <a-select
+                                :showSearch="true"
+                                :filter-option="filterOption"
+                                mode="tags"
+                                :maxTagCount="1"
+                                @search="deviceTypeSearch"
                                 v-decorator="[
                                     `productItem[${r}][product_id]`,
                                     {
@@ -233,7 +246,7 @@
                             >
                                 <a-select-option
                                     v-for="product in products[r]"
-                                    :key="product.id"
+                                    :key="product.id.toString()"
                                 >
                                     {{ product.name }}</a-select-option
                                 >
@@ -243,6 +256,11 @@
                     <a-col :span="4">
                         <a-form-item label="Issue">
                             <a-select
+                                :showSearch="true"
+                                :filter-option="filterOption"
+                                mode="tags"
+                                :maxTagCount="1"
+                                @search="issueSearch"
                                 v-decorator="[
                                     `productItem[${r}][issue_id]`,
                                     {
@@ -289,29 +307,11 @@
                     </a-col>
                     <a-col :span="4">
                         <a-form-item label="Action">
-                            <a-button type="link"
+                            <a-button @click="removeRow(r)" type="link"
                                 ><a-icon
                                     type="delete"
                                 ></a-icon></a-button></a-form-item
                     ></a-col>
-                    <!-- <a-col :span="4">
-            <a-form-item label="Prices">
-              <a-input
-                :step="0.1"
-                :min="0.1"
-                type="number"
-                v-decorator="[
-                  'productItem[${r}][total_cost]',
-                  {
-                    initialValue: product.total_cost,
-                    rules: [{ message: 'Please input your Cost!' }],
-                  },
-                ]"
-              >
-                <a-icon suffix slot="suffix" type="dollar" />
-              </a-input>
-            </a-form-item>
-          </a-col> -->
                 </div>
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
                 <a-col :span="12">
@@ -374,6 +374,16 @@ export default {
                 }
             });
         },
+        removeRow(key) {
+            let row = this.row;
+
+            this.updateRow(row.filter((producd, index) => index !== key));
+        },
+        updateRow(row) {
+            row = JSON.stringify(row);
+            console.log(row);
+            this.row = JSON.parse(row);
+        },
         update(values) {
             delete values.customer_id;
             RepairService.update(this.repairId, values).then(response => {
@@ -396,7 +406,7 @@ export default {
             });
         },
         addItem() {
-            this.row = [...this.row, []];
+            this.row = [...this.row, {}];
         },
         loadDeviceItem() {
             DeviceTypeService.all().then(deviceType => {
@@ -409,6 +419,7 @@ export default {
             });
         },
         loadProducts(index) {
+            return false; // as stupid person give the wrong requirment and I have to change it on 4:30 AM
             let formfields = this.form.getFieldsValue();
             let { brand_id, device_type_id } = formfields.productItem[index];
 
@@ -418,6 +429,17 @@ export default {
                     index
                 );
             }
+        },
+        issueSearch(search) {
+            // DeviceTypeService.search({ search }).then(deviceType => {
+            //     this.deviceType = deviceType;
+            // });
+        },
+        deviceTypeSearch(search) {
+            console.log(search);
+            // DeviceTypeService.search({ search }).then(deviceType => {
+            //     this.deviceType = deviceType;
+            // });
         },
         fetchIssues() {
             IssueTypeService.all().then(issues => {
