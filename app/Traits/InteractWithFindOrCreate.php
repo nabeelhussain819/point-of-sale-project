@@ -1,0 +1,51 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: user
+ * Date: 4/22/2021
+ * Time: 12:34 AM
+ */
+
+namespace App\Traits;
+
+
+use App\Helpers\ArrayHelper;
+use App\Helpers\StringHelper;
+use App\Models\Customer;
+
+trait InteractWithFindOrCreate
+{
+    public static function FindOrCreateByName(string $name): self
+    {
+        $name = StringHelper::lower($name);
+
+        $model = self::firstOrNew(['name' => $name]);
+        if (empty($model->id)) {
+            $model->save();
+            return $model;
+        }
+        return $model;
+    }
+
+    public static function getIdByRequest($key): int
+    {
+        $key = self::_getKey($key);
+
+        if (StringHelper::isInt($key)) {
+            return $key;
+        }
+
+        $model = self::FindOrCreateByName($key);
+
+        return $model->id;
+    }
+
+    private static function _getKey($key)
+    {
+        if (ArrayHelper::isArray($key)) {
+            if (isset($key[0]))
+                return $key[0];
+        }
+        return $key;
+    }
+}

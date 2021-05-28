@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Scopes\ProductRepairScope;
+use App\Traits\InteractWithFindOrCreate;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product extends Base
 {
+    use InteractWithFindOrCreate;
     /**
      * The "type" of the auto-incrementing ID.
      *

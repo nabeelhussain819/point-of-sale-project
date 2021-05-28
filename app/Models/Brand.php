@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Traits\InteractWithFindOrCreate;
 
 /**
  * @property integer $id
@@ -15,10 +16,11 @@ use App\Core\Base;
  */
 class Brand extends Base
 {
+    use InteractWithFindOrCreate;
     protected $autoBlame = false;
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';

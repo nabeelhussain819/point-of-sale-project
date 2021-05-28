@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Helpers\ArrayHelper;
 use App\Helpers\GuidHelper;
 use App\Helpers\StringHelper;
+use App\Models\Brand;
 use App\Models\Customer;
+use App\Models\DevicesType;
+use App\Models\IssueType;
+use App\Models\Product;
 use App\Models\Repair;
 use App\Models\Store;
 use DB;
@@ -47,17 +51,21 @@ class RepairController extends Controller
             if (!StringHelper::isInt($customerId)) {
                 $customer = Customer::basicCreate($customerId, $request->get('phone'));
                 $customerId = $customer->id;
-
             }
 
             $repair->fill(array_merge($request->all(), ['customer_id' => $customerId, 'store_id' => Store::currentId()]));
 
-            $products = array_filter($request->get('productItem'));
-            $products = collect($products)->map(function ($product) {
-                return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
-            })->all();
 
             $repair->save();
+            $products = array_filter($request->get('productItem'));
+            $products = collect($products)->map(function ($product) {
+
+                $product['device_type_id'] = DevicesType::getIdByRequest($product['device_type_id']);
+                $product['product_id'] = Product::getIdByRequest($product['product_id']);
+                $product['issue_id'] = IssueType::getIdByRequest($product['issue_id']);
+                $product['brand_id'] = Brand::getIdByRequest($product['brand_id']);
+                return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
+            })->all();
             $repair->products()->sync($products);
             return $this->genericResponse(true, " repair has been created", 201);
         });
@@ -75,7 +83,7 @@ class RepairController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,14 +94,25 @@ class RepairController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Repair $id
+     * @param \Illuminate\Http\Request $request
+     * @param Repair $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Repair $repair)
     {
         $repair->update($request->all());
+        $products = array_filter($request->get('productItem'));
+        $products = collect($products)->map(function ($product) {
 
+            $product['device_type_id'] = DevicesType::getIdByRequest($product['device_type_id']);
+            $product['product_id'] = Product::getIdByRequest($product['product_id']);
+
+            $product['issue_id'] = IssueType::getIdByRequest($product['issue_id']);
+            $product['brand_id'] = Brand::getIdByRequest($product['brand_id']);
+            return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
+        })->all();
+
+        $repair->products()->sync ($products);
 //        $repair->products()->sync(array_filter($request->get('productItem')));
         return $this->genericResponse(true, " repair has been updated", 200);
     }
@@ -101,7 +120,7 @@ class RepairController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

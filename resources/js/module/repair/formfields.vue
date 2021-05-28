@@ -155,6 +155,15 @@
                 <div v-for="(product, r) in row" :key="r">
                     <a-col :span="4">
                         <a-form-item label="Device Type">
+                            <a-input
+                                type="hidden"
+                                v-decorator="[
+                                    `productItem[${r}][id]`,
+                                    {
+                                        initialValue: product.id
+                                    }
+                                ]"
+                            />
                             <a-select
                                 :showSearch="true"
                                 :filter-option="filterOption"
@@ -164,7 +173,7 @@
                                 v-decorator="[
                                     `productItem[${r}][device_type_id]`,
                                     {
-                                        initialValue: repair.device_type_id,
+                                        initialValue: product.device_type_id,
                                         rules: [
                                             {
                                                 required: true,
@@ -198,7 +207,7 @@
                                 v-decorator="[
                                     `productItem[${r}][brand_id]`,
                                     {
-                                        initialValue: repair.brand_id,
+                                        initialValue: product.brand_id,
                                         rules: [
                                             {
                                                 required: true,
@@ -278,7 +287,7 @@
                             >
                                 <a-select-option
                                     v-for="issue in issues"
-                                    :key="issue.id"
+                                    :key="issue.id.toString()"
                                 >
                                     {{ issue.name }}</a-select-option
                                 >
@@ -436,7 +445,6 @@ export default {
             // });
         },
         deviceTypeSearch(search) {
-            console.log(search);
             // DeviceTypeService.search({ search }).then(deviceType => {
             //     this.deviceType = deviceType;
             // });

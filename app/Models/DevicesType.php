@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\InteractWithFindOrCreate;
 use Illuminate\Database\Eloquent\Model;
 use App\Core\Base;
 
@@ -16,6 +17,7 @@ use App\Core\Base;
  */
 class DevicesType extends Base
 {
+    use InteractWithFindOrCreate;
     protected $autoBlame = false;
     /**
      * The "type" of the auto-incrementing ID.
