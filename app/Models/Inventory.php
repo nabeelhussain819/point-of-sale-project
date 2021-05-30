@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Helpers\StringHelper;
 use App\Observers\InventoryObserver;
 use App\Scopes\StockBinGlobalScope;
 use App\Scopes\StoreGlobalScope;
@@ -224,6 +225,11 @@ class Inventory extends Base
 
     public function generalSearch(Request $request)
     {
+        if (StringHelper::isValueTrue($request->get("notInventory"))) {
+            $product = new Product();
+            return $product->search($request);
+        }
+
         $inventoryProduct = Inventory::where($this->applyFilters($request))
             ->with('product')
             ->where('store_id', Store::currentId())
@@ -253,6 +259,7 @@ class Inventory extends Base
         if ($inventoryProduct->quantity <= 0) {
             throw new ConflictHttpException('Out of stock');
         }
+
         return $inventoryProduct;
     }
 

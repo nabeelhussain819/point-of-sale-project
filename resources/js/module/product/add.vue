@@ -1,35 +1,30 @@
 <template>
-    <a-row :gutter="16">
-        <a-col :span="11">
-            <a-form-item
-                placeholder="insert id and press enter"
-                :validate-status="fetchProductsErrors.validateStatus"
-                :help="fetchProductsErrors.errorMsg"
-                label="Scan Product Number"
+    <div>
+        <a-form-item
+            class="product_search"
+            placeholder="insert id and press enter"
+            :validate-status="fetchProductsErrors.validateStatus"
+            :help="fetchProductsErrors.errorMsg"
+            :label="showLabel && 'Scan Product Number'"
+        >
+            <a-input-search
+                :loading="loading"
+                @pressEnter="getProductById"
+                placeholder="Insert search key"
+                v-decorator="[
+                    formName,
+                    {
+                        rules: rules
+                    }
+                ]"
+                @search="getProductById"
             >
-                <a-input-search
-                    @pressEnter="getProductById"
-                    placeholder="Insert search key"
-                    v-decorator="[
-                        'product_id',
-                        {
-                            rules: rules
-                        }
-                    ]"
-                    @search="getProductById"
-                >
-                    <a-button type="primary" slot="enterButton">
-                        <a-icon type="mobile" />
-                    </a-button>
-                </a-input-search> </a-form-item
-        ></a-col>
-        <!-- <a-col :span="2"> <a-form-item :colon="false" label="OR">|</a-form-item></a-col>
-    <a-col :span="11">
-      <a-form-item label="Add Item">
-        <a-button type="primary">Add Item </a-button>
-      </a-form-item>
-    </a-col> -->
-    </a-row>
+                <a-button type="primary" slot="enterButton">
+                    <a-icon type="mobile" />
+                </a-button>
+            </a-input-search>
+        </a-form-item>
+    </div>
 </template>
 <script>
 import InventoryService from "../../services/API/InventoryService";
@@ -37,12 +32,25 @@ import { isEmpty } from "../../services/helpers";
 import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
 export default {
     props: {
+        appendData: {
+            default: () => {}
+        },
+        formName: {
+            default: "product_id"
+        },
+        showLabel: {
+            default: true
+        },
         rules: {
             default: () => []
+        },
+        notInventory: {
+            default: false
         }
     },
     data() {
         return {
+            loading: false,
             fetchProductsErrors: {},
             customer: null
         };
@@ -51,16 +59,24 @@ export default {
         getProductById(e) {
             this.resetValidation();
             let productId = isEmpty(e.target) ? e : e.target.value;
+            this.loading = true;
+            let notInventory = this.notInventory;
             InventoryService.products({
                 product_id: productId,
-                OrUPC: productId
+                OrUPC: productId,
+                notInventory
             })
                 .then(inventory => {
                     this.noProductFound(inventory);
                     if (!isEmpty(inventory)) {
+                        let responseProduct = inventory.product;
+                        if (notInventory) {
+                            responseProduct = inventory;
+                        }
+                       responseProduct.appendData=this.appendData;
                         this.$eventBus.$emit(
                             EVENT_CUSTOMERSALE_PRODUCT_ADD,
-                            inventory.product
+                            responseProduct
                         );
                     }
                 })
@@ -77,7 +93,8 @@ export default {
                             errorMsg: "No Product Found Against Key"
                         };
                     }
-                });
+                })
+                .finally(() => (this.loading = false));
         },
         noProductFound(data) {
             if (isEmpty(data)) {

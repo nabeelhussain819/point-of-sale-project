@@ -29,9 +29,9 @@ class StringHelper extends Str
 
     public static function isValueTrue($value): bool
     {
-        return ArrayHelper::inArray(self::trimLower($value), ['true', '1', 'yes'])
-            || $value === 1
-            || $value === true;
+        return !empty($value) && (ArrayHelper::inArray(self::trimLower($value), ['true', '1', 'yes'])
+                || $value === 1
+                || $value === true);
     }
 
     public static function isValueFalse($value): bool

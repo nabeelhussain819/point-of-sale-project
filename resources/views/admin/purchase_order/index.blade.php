@@ -25,8 +25,8 @@
                 <div class="panel panel-default">
                     {{--                    <div class="panel-heading"><b>New Order</b>--}}
                 </div>
-{{--                <purchase-order></purchase-order>--}}
-                @livewire('purchase-order', ['vendors'=>$vendors])
+                <purchase-order></purchase-order>
+{{--                @livewire('purchase-order', ['vendors'=>$vendors])--}}
 
             </div>
         </div>

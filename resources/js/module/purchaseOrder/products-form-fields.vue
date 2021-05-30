@@ -3,6 +3,14 @@
         <a-button slot="extra" @click="add" type="primary"
             >Add Products</a-button
         >
+        <a-row class="form-field-container" :gutter="23">
+            <a-col :span="6">Lookup</a-col>
+            <a-col :span="6">Products</a-col>
+            <a-col :span="6">Quantity</a-col>
+            <a-col :span="2">Unit Price</a-col>
+            <a-col :span="2">Total</a-col>
+            <a-col :span="2">Action</a-col>
+        </a-row>
         <a-row
             v-for="(product, key) in products"
             :key="key"
@@ -10,38 +18,12 @@
             :gutter="23"
         >
             <a-col :span="6">
-                <a-form-item>
-                    <a-input-search
-                        placeholder="Lookup"
-                        v-on:blur="value => lookup(key, value)"
-                        v-decorator="[
-                            `product[${key}][lookup]`,
-                            {
-                                initialValue: product.serial_number,
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: 'Please insert serial number!'
-                                    },
-                                    {
-                                        validator: (rule, value, callback) =>
-                                            checkSerial(
-                                                rule,
-                                                value,
-                                                callback,
-                                                key
-                                            )
-                                    }
-                                ]
-                            }
-                        ]"
-                        @search="getProduct(product, key)"
-                    >
-                        <a-button type="primary" slot="enterButton">
-                            <a-icon type="mobile" />
-                        </a-button>
-                    </a-input-search>
-                </a-form-item>
+                <add-product
+                    :appendData="{ key }"
+                    :notInventory="true"
+                    :formName="`products[${key}][lookup]`"
+                    :showLabel="false"
+                />
             </a-col>
             <a-col :span="6">
                 <a-form-item>
@@ -50,12 +32,15 @@
                         :filter-option="filterOption"
                         style="width: 200px"
                         v-decorator="[
-                            `product[${key}][product_id]`,
+                            `products[${key}][product_id]`,
                             {
+                                initialValue: isEmpty(product.product_id)
+                                    ? null
+                                    : product.product_id,
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Please insert status!'
+                                        message: 'Please insert product!'
                                     }
                                 ]
                             }
@@ -77,9 +62,11 @@
                         style="width: 200px"
                         type="number"
                         v-decorator="[
-                            `product[${key}][quantity]`,
+                            `products[${key}][quantity]`,
                             {
-                                initialValue: product.quantity
+                                initialValue: isEmpty(product.quantity)
+                                    ? null
+                                    : product.quantity
                             }
                         ]"
                         placeholder="Quantity"
@@ -88,7 +75,8 @@
             <a-col :span="2"> <a-form-item>2</a-form-item></a-col>
             <a-col :span="2"><a-form-item>2</a-form-item></a-col>
             <a-col :span="2"
-                ><a-button type="link"><a-icon type="delete"></a-icon></a-button
+                ><a-button @click="removeRow(key)" type="link"
+                    ><a-icon type="delete"></a-icon></a-button
             ></a-col>
         </a-row>
     </a-card>
@@ -96,18 +84,33 @@
 
 <script>
 import axios from "axios";
-
 import { filterOption, isEmpty } from "../../services/helpers";
 import ProductService from "../../services/API/ProductService";
+import AddProduct from "../product/add";
 export default {
+    props: {
+        postetProducts: {
+            default: () => {}
+        }
+    },
+
+    components: {
+        AddProduct
+    },
     data() {
         return {
             products: {},
             uuid: 0,
             uuidString: "uuid-",
             inventoryProducts: {},
-            filterOption
+            filterOption,
+            isEmpty
         };
+    },
+    computed: {
+        t(a, b) {
+            console.log(a, b);
+        }
     },
     mounted() {
         this.fetchProducts();
@@ -115,7 +118,6 @@ export default {
     methods: {
         fetchProducts() {
             ProductService.all().then(products => {
-                console.log(products);
                 this.inventoryProducts = products.data;
             });
         },
@@ -125,6 +127,16 @@ export default {
         getUid() {
             this.uuid = this.uuid + 1;
             return this.uuidString + this.uuid;
+        },
+        removeRow(key) {
+            let products = this.products;
+
+            delete products[key];
+            this.updateProducts(products);
+        },
+        updateProducts(products) {
+            products = JSON.stringify(products);
+            this.products = JSON.parse(products);
         },
         add() {
             let uuidT = this.getUid();

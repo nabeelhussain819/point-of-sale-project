@@ -4,8 +4,11 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Scopes\ProductRepairScope;
+use App\Traits\AppliesQueryParams;
 use App\Traits\InteractWithFindOrCreate;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 /**
  * @property integer $id
@@ -29,7 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product extends Base
 {
-    use InteractWithFindOrCreate;
+    use InteractWithFindOrCreate, AppliesQueryParams;
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -110,6 +113,14 @@ class Product extends Base
     {
         parent::boot();
         static::addGlobalScope(new ProductRepairScope());
+    }
+
+    public function search(Request $request)
+    {
+        return self::orWhere("UPC", $request->get('OrUPC'))
+            ->when($request->get('product_id'), function (Builder $query, $id) {
+                return $query->orWhere('id', (int)$id);
+            })->firstOrFail();
     }
 
 }
