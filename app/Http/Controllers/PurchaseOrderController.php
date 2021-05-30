@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductSerialNumbers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersProduct;
+use App\Models\Store;
 use App\Models\Vendor;
 use App\Observers\PurchaseOrderObserver;
 use Carbon\Carbon;
@@ -51,49 +52,55 @@ class PurchaseOrderController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return mixed
+     * @throws \Throwable
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'vendor_id' => 'required',
-            'store_id' => 'required',
-            'expected_date' => 'required',
-            'products' => 'required',
-        ]);
+        return DB::transaction(function () use ($request) {
+            $request->validate([
+                'vendor_id' => 'required',
+                'expected_date' => 'required',
+                'products' => 'required',
+            ]);
 
-        $purchaseOrder = new PurchaseOrder();
-        $purchaseOrderProduct = new PurchaseOrdersProduct();
-        $totalPrice = 0;
-        $productData = [];
-        ////@todo Ugly code Move this in observer
+            $purchaseOrder = new PurchaseOrder();
+            $purchaseOrderProduct = new PurchaseOrdersProduct();
+            $totalPrice = 0;
+            $productData = [];
+            ////@todo Ugly code Move this in observer
 
-        collect($request->get('products'))->each(function ($product) use (&$productData, $request, &$totalPrice, $purchaseOrderProduct) {
-            $total = $product['price'] * $product['quantity'];
-            $totalPrice += $total;
+            collect($request->get('products'))->each(function ($product) use (&$productData, $request, &$totalPrice, $purchaseOrderProduct) {
+                $total = $product['price'] * $product['quantity'];
+                $totalPrice += $total;
+                unset($product['lookup']);
+                $productData[] = array_merge($product,
+                    [
+                        'expected_price' => $product['price'],
+                        'total' => $total,
+                        'expected_total' => $total,
+                    ]
+                //@todo move all this work in observer   after meeting
+                );
+            });
 
-            $productData[] = array_merge($product,
-                [
-                    'expected_price' => $product['price'],
-                    'total' => $total,
-                    'expected_total' => $total,
-                ]
-            //@todo move all this work in observer   after meeting
-            );
+            //@todo Observer urgent piece of work
+            $PurchaseOrderData = array_merge($request->all(), [
+                'expected_price' => $totalPrice,
+                'price' => $totalPrice,
+                'store_id' => Store::currentId()
+            ]);
+
+            $purchaseOrder->fill($PurchaseOrderData)->save();
+            $purchaseOrder->purchaseOrdersProducts()->sync($productData);
+
+            return $this->genericResponse(true, " Purcahse order has been created", 200,
+                ['purchaseOrder' =>
+                    $purchaseOrder
+                ]);
+//            return redirect()->back()->with('success', 'New Purchase Order Created');
         });
 
-        //@todo Observer ugent piece of work
-        $PurchaseOrderData = array_merge($request->all(), [
-            'expected_price' => $totalPrice,
-            'price' => $totalPrice
-        ]);
-
-
-        $purchaseOrder->fill($PurchaseOrderData)->save();
-        $purchaseOrder->purchaseOrdersProducts()->sync($productData);
-
-        return redirect()->back()->with('success', 'New Purchase Order Created');
     }
 
     /**
@@ -215,7 +222,7 @@ class PurchaseOrderController extends Controller
 
     public function view(PurchaseOrder $purchaseOrder)
     {
-        
+
     }
 
 

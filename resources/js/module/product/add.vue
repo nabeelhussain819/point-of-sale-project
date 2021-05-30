@@ -17,6 +17,7 @@
                         rules: rules
                     }
                 ]"
+                @blur="removeError"
                 @search="getProductById"
             >
                 <a-button type="primary" slot="enterButton">
@@ -56,6 +57,12 @@ export default {
         };
     },
     methods: {
+        removeError() {
+            this.fetchProductsErrors = {
+                validateStatus: "",
+                errorMsg: ""
+            };
+        },
         getProductById(e) {
             this.resetValidation();
             let productId = isEmpty(e.target) ? e : e.target.value;
@@ -73,7 +80,7 @@ export default {
                         if (notInventory) {
                             responseProduct = inventory;
                         }
-                       responseProduct.appendData=this.appendData;
+                        responseProduct.appendData = this.appendData;
                         this.$eventBus.$emit(
                             EVENT_CUSTOMERSALE_PRODUCT_ADD,
                             responseProduct

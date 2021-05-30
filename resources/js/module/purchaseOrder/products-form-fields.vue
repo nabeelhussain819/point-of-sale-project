@@ -8,7 +8,7 @@
             <a-col :span="6">Products</a-col>
             <a-col :span="6">Quantity</a-col>
             <a-col :span="2">Unit Price</a-col>
-            <a-col :span="2">Total</a-col>
+            <a-col :span="2"></a-col>
             <a-col :span="2">Action</a-col>
         </a-row>
         <a-row
@@ -31,12 +31,11 @@
                         :show-search="true"
                         :filter-option="filterOption"
                         style="width: 200px"
+                        @select="selectProduct"
                         v-decorator="[
                             `products[${key}][product_id]`,
                             {
-                                initialValue: isEmpty(product.product_id)
-                                    ? null
-                                    : product.product_id,
+                                initialValue: product.product_id,
                                 rules: [
                                     {
                                         required: true,
@@ -49,7 +48,9 @@
                     >
                         <a-select-option
                             v-for="product in inventoryProducts"
-                            :key="product.id.toString()"
+                            :key="product.id"
+                            :price="product.retail_price"
+                            :index="key"
                         >
                             {{ product.name }}</a-select-option
                         >
@@ -61,19 +62,41 @@
                     <a-input-number
                         style="width: 200px"
                         type="number"
+                        :min="1"
                         v-decorator="[
                             `products[${key}][quantity]`,
                             {
-                                initialValue: isEmpty(product.quantity)
-                                    ? null
-                                    : product.quantity
+                                initialValue: product.quantity,
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Please insert product!'
+                                    }
+                                ]
                             }
                         ]"
                         placeholder="Quantity"
                     /> </a-form-item
             ></a-col>
-            <a-col :span="2"> <a-form-item>2</a-form-item></a-col>
-            <a-col :span="2"><a-form-item>2</a-form-item></a-col>
+            <a-col :span="2">
+                <a-form-item>
+                    <a-input-number
+                        :min="1"
+                        v-decorator="[
+                            `products[${key}][price]`,
+                            {
+                                initialValue: product.retail_price,
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Please insert prices!'
+                                    }
+                                ]
+                            }
+                        ]"
+                    ></a-input-number></a-form-item
+            ></a-col>
+            <a-col :span="2"><a-form-item></a-form-item></a-col>
             <a-col :span="2"
                 ><a-button @click="removeRow(key)" type="link"
                     ><a-icon type="delete"></a-icon></a-button
@@ -83,17 +106,13 @@
 </template>
 
 <script>
-import axios from "axios";
 import { filterOption, isEmpty } from "../../services/helpers";
 import ProductService from "../../services/API/ProductService";
 import AddProduct from "../product/add";
-export default {
-    props: {
-        postetProducts: {
-            default: () => {}
-        }
-    },
+import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
 
+export default {
+    props: {},
     components: {
         AddProduct
     },
@@ -107,15 +126,21 @@ export default {
             isEmpty
         };
     },
-    computed: {
-        t(a, b) {
-            console.log(a, b);
-        }
-    },
     mounted() {
         this.fetchProducts();
+        let setProducts = this.setProduct;
+        this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function(product) {
+            setProducts(product);
+        });
     },
     methods: {
+        selectProduct(id, option) {
+            let prices = option.data.attrs.price;
+            let key = option.data.attrs.index;
+            let products = this.products;
+            products[key].retail_price = prices;
+            this.updateProducts(products);
+        },
         fetchProducts() {
             ProductService.all().then(products => {
                 this.inventoryProducts = products.data;
@@ -130,7 +155,6 @@ export default {
         },
         removeRow(key) {
             let products = this.products;
-
             delete products[key];
             this.updateProducts(products);
         },
@@ -145,38 +169,21 @@ export default {
         getProduct(a, b, c) {
             console.log("getProduct", a, b, c);
         },
-        checkSerial(rule, value, callback, key) {
-            return true;
-            console.log("checkSerial");
-            if (!isEmpty(value)) {
-                this.cancelSearch();
-                this.cancelSource = axios.CancelToken.source();
-                // return ProductService.validateSerial(
-                //     {
-                //         product_id: prodcutId,
-                //         serial_no: value
-                //     },
-                //     this.cancelSource.token
-                // )
-                //     .then(response => {
-                //         this.cancelSource = null;
-                //         callback();
-                //         return;
-                //     })
-                //     .catch(e => {
-                //         if (e.response.status === 404) {
-                //             callback("not found");
-                //         }
-
-                //         return callback(e.response.data.message);
-                //     });
-            }
-        },
         cancelSearch() {
             if (this.cancelSource) {
                 this.cancelSource.cancel(
                     "Start new search, stop active search"
                 );
+            }
+        },
+        setProduct(product) {
+            let key = product.appendData.key;
+            if (!isEmpty(key)) {
+                let formProduct = JSON.stringify(this.products);
+                formProduct = JSON.parse(formProduct);
+                formProduct[key].retail_price = product.retail_price;
+                formProduct[key].product_id = product.id;
+                this.updateProducts(formProduct);
             }
         }
     }

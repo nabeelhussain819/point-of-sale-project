@@ -1,59 +1,74 @@
 <template>
-    <a-card title="Purchase Order" :bordered="false">
-        <a-form :form="form" @submit="handleSubmit" layout="inline">
-            <create />
-            <products-form-field :postetProducts="products" />
-            <a-form-item>
-                <a-button type="primary" :loading="loading" htmlType="submit"
-                    >Submit</a-button
+    <a-skeleton :loading="loading">
+        <a-card title="Purchase Order" :bordered="false">
+            <a-form :form="form" @submit="handleSubmit" layout="inline">
+                <create />
+                <products-form-field />
+                <a-form-item
+                    :validate-status="fetchProductsErrors.validateStatus"
+                    :help="fetchProductsErrors.errorMsg"
                 >
-            </a-form-item>
-        </a-form>
-    </a-card>
+                    <a-button
+                        type="primary"
+                        :loading="loading"
+                        htmlType="submit"
+                        >Submit</a-button
+                    >
+                </a-form-item>
+            </a-form>
+        </a-card>
+    </a-skeleton>
 </template>
 <script>
+import {
+    isEmpty,
+    notification,
+    errorNotification
+} from "../../services/helpers";
 import create from "./create-form-field";
 import ProductsFormField from "./products-form-fields";
-
-import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
-import { isEmpty } from "../../services/helpers";
+import PurchaseOrderServices from "../../services/API/PurchaseOrderServices";
 export default {
     components: { create, ProductsFormField },
     data() {
         return {
+            fetchProductsErrors: {},
             loading: false,
             form: this.$form.createForm(this, { name: "binTransfer" }),
             products: {}
         };
     },
     methods: {
+        errorHandler(messsage, type = "error") {
+            this.fetchProductsErrors = {
+                validateStatus: type,
+                errorMsg: messsage
+            };
+        },
         handleSubmit(e) {
             e.preventDefault();
+            let products = this.form.getFieldValue("products");
+            if (isEmpty(products)) {
+                this.errorHandler("Please aadd products in purchase form ");
+                return false;
+            }
+
             this.form.validateFields((err, values) => {
                 if (!err) {
-                    console.log(values);
+                    this.loading = true;
+                    PurchaseOrderServices.create(values)
+                        .then(response => {
+                            notification(this, response.message);
+                            console.log(response);
+                        })
+                        .catch(error => {
+                            errorNotification(this, error);
+                        })
+                        .finally(() => (this.loading = false));
                 }
             });
-        },
-        setProduct(product) {            
-            let key = product.appendData.key;
-            if (!isEmpty(key)) {
-                let formProduct = this.form.getFieldValue("products");
-
-                console.log(formProduct);
-                formProduct[key].prices = product.retail_price;
-                formProduct[key].quantity = 3;
-                formProduct[key].product_id = "1001";
-
-                this.products = formProduct;
-            }
         }
     },
-    mounted() {
-        let setProducts = this.setProduct;
-        this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function(product) {
-            setProducts(product);
-        });
-    }
+    mounted() {}
 };
 </script>
