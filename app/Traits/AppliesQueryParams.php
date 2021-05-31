@@ -55,6 +55,7 @@ trait AppliesQueryParams
                 }
                 return $builder->orWhere
                     ->whereHas('product', function (Builder $query) use ($upc) {
+                        $upc = StringHelper::lower($upc);
                         $query->where('UPC', $upc);
                     });
             })->when($request->get('customerName'), function (Builder $builder, $customerName) {

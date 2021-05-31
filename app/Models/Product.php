@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Helpers\StringHelper;
 use App\Scopes\ProductRepairScope;
 use App\Traits\AppliesQueryParams;
 use App\Traits\InteractWithFindOrCreate;
@@ -121,6 +122,11 @@ class Product extends Base
             ->when($request->get('product_id'), function (Builder $query, $id) {
                 return $query->orWhere('id', (int)$id);
             })->firstOrFail();
+    }
+
+    public function setUPCAttribute($upc){
+        $this->upc = StringHelper::lower($upc);
+
     }
 
 }
