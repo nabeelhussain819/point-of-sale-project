@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -70,6 +71,9 @@ class SerialLogs extends Base
 
     public function getPropertiesAttribute($properties)
     {
-        return json_decode($properties);
+        $t = json_decode($properties);
+        $carbon = new Carbon($t->date);
+        $t->date =$carbon->timezone("EST")->format('m-d-y H:m');
+        return $t;
     }
 }
