@@ -172,7 +172,7 @@ export default {
             let products = { ...this.products, [uuidT]: product };
             this.products = products;
             this.updateProducts(products);
-            console.log(product.quantity);
+          
             this.computedTotal(product.quantity, uuidT);
         },
         removeRow(key) {
