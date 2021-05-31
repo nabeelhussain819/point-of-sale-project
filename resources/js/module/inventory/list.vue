@@ -61,6 +61,7 @@ export default {
         return {
             data: [],
             loading: true,
+            filters: {},
             columns: [
                 // {
                 //     title: "ID",
@@ -106,12 +107,12 @@ export default {
                 },
                 {
                     title: "Bin",
-                    key: "bin.name",
+                    key: "stock_bin_id",
                     dataIndex: "bin.name",
-                    scopedSlots: {
-                        filterDropdown: "filterDropdown",
-                        filterIcon: "filterIcon"
-                    }
+                    // scopedSlots: {
+                    //     filterDropdown: "filterDropdown",
+                    //     filterIcon: "filterIcon"
+                    // }
                 },
                 {
                     title: "Action",
@@ -122,7 +123,20 @@ export default {
         };
     },
     methods: {
-        handleSearch() {},
+        setfilters(filters) {
+            this.filters = JSON.parse(JSON.stringify(filters));
+            this.fetch(this.filters);
+        },
+        handleReset(value, column) {
+            let filters = this.filters;
+            delete filters[column.key];
+            this.setfilters(filters);
+        },
+        handleSearch(value, column) {
+            let filters = this.filters;
+            filters[column.key] = value[0];
+            this.setfilters(filters);
+        },
         fetch(params) {
             this.loading = true;
             InventoryService.all(params)

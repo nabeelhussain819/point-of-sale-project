@@ -9,13 +9,13 @@
         </template>
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
-        <span slot="tags" slot-scope="tags">
+        <!-- <span slot="tags" slot-scope="tags">
           <a-tag color="volcano">
             {{
               tags.toUpperCase() === "COMPLETED" ? "Ready For Pickup" : tags.toUpperCase()
             }}
           </a-tag>
-        </span>
+        </span> -->
         <span slot="action" slot-scope="text, record">
           <a-icon v-on:click="showPrintModal(record.id)" type="printer" />
           <a :href="href(record.id)">refund</a>
@@ -169,8 +169,7 @@ export default {
       });
     },
     setfilters(filters) {
-      this.filters = JSON.parse(JSON.stringify(filters));
-  
+      this.filters = JSON.parse(JSON.stringify(filters));  
       this.fetchList(this.filters);
     },
     handleSearch(value, column) {
