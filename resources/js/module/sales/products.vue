@@ -165,10 +165,15 @@ export default {
             return this.uuidString + this.uuid;
         },
         setProducts(product) {
-            let uuidT = this.getUid();           
+            if (isEmpty(product.quantity)) {
+                product.quantity = 1;
+            }
+            let uuidT = this.getUid();
             let products = { ...this.products, [uuidT]: product };
             this.products = products;
             this.updateProducts(products);
+            console.log(product.quantity);
+            this.computedTotal(product.quantity, uuidT);
         },
         removeRow(key) {
             let products = this.products;
@@ -177,7 +182,7 @@ export default {
             this.updateProducts(products);
         },
         computedTotal(event, key) {
-            let quantity = event.target.value;
+            let quantity = isEmpty(event.target) ? event : event.target.value;
             this.updateQuantity(quantity, key);
         },
         updateQuantity(quantity, key) {
