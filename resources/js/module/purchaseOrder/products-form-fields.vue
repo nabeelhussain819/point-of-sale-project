@@ -81,6 +81,7 @@
             <a-col :span="2">
                 <a-form-item>
                     <a-input-number
+                        :disabled="true"
                         :min="1"
                         v-decorator="[
                             `products[${key}][price]`,
