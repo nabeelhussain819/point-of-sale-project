@@ -29,7 +29,7 @@ class ProductSerialNumbers extends Base
         return ProductSerialNumbers::select(['id', 'store_id', 'product_id', 'serial_no',])
             ->where('store_id', $storeId)
             ->where('is_sold', '!=', true)
-            ->where('stock_bin_id',1)
+//            ->where('stock_bin_id',1)
             ->where('product_id', $productId);
     }
 
