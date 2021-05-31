@@ -19,6 +19,46 @@
                 <span slot="action" slot-scope="text, record">
                     <a-icon v-on:click="edit(record.id)" type="edit" />
                 </span>
+                <div
+                    slot="filterDropdown"
+                    slot-scope="{
+                        setSelectedKeys,
+                        selectedKeys,
+
+                        column
+                    }"
+                    style="padding: 8px"
+                >
+                    <a-input
+                        v-ant-ref="c => (searchInput = c)"
+                        :placeholder="`Search ${column.dataIndex}`"
+                        :value="selectedKeys[0]"
+                        style="width: 188px; margin-bottom: 8px; display: block"
+                        @change="
+                            e =>
+                                setSelectedKeys(
+                                    e.target.value ? [e.target.value] : []
+                                )
+                        "
+                        @pressEnter="() => handleSearch(selectedKeys, column)"
+                    />
+                    <a-button
+                        type="primary"
+                        icon="search"
+                        size="small"
+                        style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, column)"
+                    >
+                        Search
+                    </a-button>
+                    <a-button
+                        size="small"
+                        style="width: 90px"
+                        @click="() => handleReset(selectedKeys, column)"
+                    >
+                        Reset
+                    </a-button>
+                </div>
             </a-table>
         </a-skeleton>
         <a-modal
@@ -41,17 +81,29 @@ const columns = [
     {
         dataIndex: "id",
         key: "id",
-        title: "Id"
+        title: "Id",
+        scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon"
+        }
     },
     {
         dataIndex: "customer.name",
-        key: "name",
-        title: "Customer Name"
+        key: "customerName",
+        title: "Customer Name",
+        scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon"
+        }
     },
     {
         title: "Customer Number",
         dataIndex: "customer.phone",
-        key: "customer.phone"
+        key: "customerPhone",
+        scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon"
+        }
     },
     {
         title: "Days",
@@ -87,13 +139,28 @@ export default {
             brands: [],
             products: [],
             loading: true,
-            repairId: null
+            repairId: null,
+            filters: {}
         };
     },
     mounted() {
         this.fetchList();
     },
     methods: {
+        handleSearch(value, column) {
+            let filters = this.filters;
+            filters[column.key] = value[0];
+            this.setfilters(filters);
+        },
+        handleReset(value, column) {
+            let filters = this.filters;
+            delete filters[column.key];
+            this.setfilters(filters);
+        },
+        setfilters(filters) {
+            this.filters = JSON.parse(JSON.stringify(filters));
+            this.fetchList(this.filters);
+        },
         edit(id) {
             this.repairId = id;
             this.showAddModal(true);
@@ -104,9 +171,9 @@ export default {
             }
             this.addModal = value;
         },
-        fetchList() {
+        fetchList(param = {}) {
             this.loading = true;
-            RepairService.all()
+            RepairService.all(param)
                 .then(data => {
                     this.data = data;
                 })
