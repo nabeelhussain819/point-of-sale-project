@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { objectToArray } from "../../services/helpers";
+import { isEmpty, objectToArray } from "../../services/helpers";
 import {
     EVENT_CUSTOMERSALE_PRODUCT_SUMMARY,
     EVENT_CUSTOMERSALE_CUSTOMER_DETAIL
@@ -112,13 +112,13 @@ export default {
                     parseFloat(products[key].retail_price);
                 total += parseFloat(products[key].total);
             }
-          
+
             this.withoutDiscount = withoutDiscount;
 
             this.discount = withoutDiscount - total; // total value discount
             this.discount = parseFloat(this.discount).toFixed(2);
             this.withoutTax = parseFloat(total);
-            
+
             this.subTotal = this.getTotalwithTax(
                 total,
                 this.getTaxValue(total)
@@ -156,6 +156,9 @@ export default {
             this.calculate(this.emitedProducts);
         },
         handleSubmit() {
+            if (isEmpty(this.products)) {
+                return false;
+            }
             this.$emit("handleSubmit", this.toggleModal);
         }
     },

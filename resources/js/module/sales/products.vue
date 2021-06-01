@@ -93,6 +93,7 @@
             <a-col :span="3">
                 <a-form-item>
                     <a-input
+                        :disabled="true"
                         type="number"
                         v-decorator="[
                             `productItem[${key}][price]`,
@@ -107,6 +108,7 @@
             <a-col :span="3">
                 <a-form-item>
                     <a-input
+                        :disabled="true"
                         type="number"
                         v-decorator="[
                             `productItem[${key}][min_price]`,
@@ -172,7 +174,7 @@ export default {
             let products = { ...this.products, [uuidT]: product };
             this.products = products;
             this.updateProducts(products);
-          
+
             this.computedTotal(product.quantity, uuidT);
         },
         removeRow(key) {
