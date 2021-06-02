@@ -111,8 +111,9 @@ class RepairController extends Controller
 
     public function fetch(Request $request)
     {
+
         return Repair::where($this->applyFilters($request))
-            ->with("customer")->orderBy('created_at')->paginate($this->pageSize);
+            ->with("customer")->orderBy('created_at',"desc")->paginate($this->pageSize);
     }
 
     public function statuses()
