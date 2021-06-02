@@ -9,6 +9,7 @@
 namespace App\Traits;
 
 
+use App\Helpers\ArrayHelper;
 use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -19,6 +20,11 @@ trait AppliesQueryParams
     {
         return function (Builder $query) use (&$request) {
             $query->when($request->get('id'), function (Builder $query, $id) {
+
+               if(ArrayHelper::isArray($id)){
+                  
+                   return $query->whereIn('id', $id);
+               }
                 return $query->where('id', (int)$id);
             })->when($request->get('active'), function (Builder $query, $active) {
                 return $query->where('active', $active);
@@ -34,7 +40,7 @@ trait AppliesQueryParams
             })->when($request->get('type'), function (Builder $builder, $type) {
                 return $builder->where('type', $type);
             })->when($request->get('search'), function (Builder $builder, $search) {
-
+                $search = StringHelper::lower($search);
 
                 return $builder->where('name', 'ilike', "%" . $search . "%");
             })->when($request->get('product_id'), function (Builder $builder, $productId) {

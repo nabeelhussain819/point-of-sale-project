@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\StringHelper;
 use App\Models\DevicesTypesBrandsProduct;
 use App\Models\Product;
 use App\Models\ProductSerialNumbers;
 use App\Models\StockBin;
 use App\Models\Store;
+use App\Scopes\ProductRepairScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -132,6 +135,9 @@ class ProductController extends Controller
     public function all(Request $request)
     {
         return Product::where($this->applyFilters($request))
+            ->when(StringHelper::isValueTrue($request->get('isRepair')), function (Builder $builder) {
+                $builder->withoutGlobalScope(new ProductRepairScope());
+            })
             ->paginate($this->pageSize);
     }
 

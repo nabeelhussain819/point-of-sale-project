@@ -126,7 +126,6 @@ class Product extends Base
 
     public function setUPCAttribute($upc){
         $this->upc = StringHelper::lower($upc);
-
     }
 
 }

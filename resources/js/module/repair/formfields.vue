@@ -72,6 +72,8 @@
                 <a-col :span="4">
                     <a-form-item label="Total Cost">
                         <a-input
+                            @change="handleTotal"
+                             :min="0"
                             type="number"
                             v-decorator="[
                                 'total_cost',
@@ -92,6 +94,8 @@
                 <a-col :span="4">
                     <a-form-item label="Advance Cost">
                         <a-input
+                            :max="maxTotal"
+                            :min="0"
                             type="number"
                             v-decorator="[
                                 'advance_cost',
@@ -241,7 +245,7 @@
                                 :filter-option="filterOption"
                                 mode="tags"
                                 :maxTagCount="1"
-                                @search="deviceTypeSearch"
+                                @search="modelSearch"
                                 v-decorator="[
                                     `productItem[${r}][product_id]`,
                                     {
@@ -260,7 +264,7 @@
                                 placeholder="Select a option and change input text above"
                             >
                                 <a-select-option
-                                    v-for="product in products[r]"
+                                    v-for="product in products"
                                     :key="product.id.toString()"
                                 >
                                     {{ product.name }}</a-select-option
@@ -363,7 +367,7 @@ export default {
             row: [],
             deviceType: [],
             brands: [],
-            products: [{}],
+            products: [],
             issues: [],
             loading: false,
             repair: {},
@@ -374,7 +378,8 @@ export default {
             filterOption,
             customerSearchLoading: false,
             isEmpty,
-            getStringId
+            getStringId,
+            maxTotal: 0
         };
     },
     mounted() {
@@ -384,6 +389,14 @@ export default {
         this.fetchRepair(this.repairId);
     },
     methods: {
+        fetchProductRequest(params) {
+            ProductService.all(params).then(products => {
+                this.products = products.data;
+            });
+        },
+        modelSearch(keyword) {
+            this.fetchProductRequest({ search: keyword, isRepair: true });
+        },
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
@@ -484,7 +497,17 @@ export default {
                         this.repair = repair;
                         this.row = repair.related_products;
                     })
-                    .then(() => (this.loading = false));
+                    .then(() => (this.loading = false))
+                    .then(() => {
+                        let productsId = this.row.map(
+                            product => product.product_id
+                        );
+                        console.log();
+                        this.fetchProductRequest({
+                            id: productsId,
+                            isRepair: true
+                        });
+                    });
             }
         },
         customerSearch(value, event) {
@@ -502,6 +525,9 @@ export default {
                     phone: option.data.attrs.customer.phone
                 });
             }
+        },
+        handleTotal(e, v) {
+            this.maxTotal = e.target.value;
         }
     }
 };
