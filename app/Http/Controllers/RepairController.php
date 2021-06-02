@@ -111,9 +111,8 @@ class RepairController extends Controller
 
     public function fetch(Request $request)
     {
-        return Repair::whereIn('status', [Repair::IN_PROGRESS_STATUS, Repair::IN_COMPLETED_STATUS])
-            ->where($this->applyFilters($request))
-            ->with("customer")->orderBy('created_at')->get();
+        return Repair::where($this->applyFilters($request))
+            ->with("customer")->orderBy('created_at')->paginate($this->pageSize);
     }
 
     public function statuses()

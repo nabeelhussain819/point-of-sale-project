@@ -59,6 +59,43 @@
                         Reset
                     </a-button>
                 </div>
+                <div
+                    slot="statusDropdown"
+                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
+                    style="padding: 8px"
+                >
+                    <a-select
+                        style="width: 100%; margin-bottom: 5px"
+                        v-ant-ref="c => (searchInput = c)"
+                        @change="value => setSelectedKeys(value ? [value] : [])"
+                        placeholder="Select a option and change input text above"
+                        @pressEnter="() => handleSearch(selectedKeys, column)"
+                    >
+                        <a-select-option
+                            v-for="type in statuses"
+                            :key="type.id"
+                        >
+                            {{ type.name }}</a-select-option
+                        >
+                    </a-select>
+
+                    <a-button
+                        type="primary"
+                        icon="search"
+                        size="small"
+                        style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, column)"
+                    >
+                        Search
+                    </a-button>
+                    <a-button
+                        size="small"
+                        style="width: 90px"
+                        @click="() => handleReset(selectedKeys, column)"
+                    >
+                        Reset
+                    </a-button>
+                </div>
             </a-table>
         </a-skeleton>
         <a-modal
@@ -119,7 +156,11 @@ const columns = [
         title: "Status",
         key: "status",
         dataIndex: "status",
-        scopedSlots: { customRender: "tags" }
+        scopedSlots: {
+            filterDropdown: "statusDropdown",
+            filterIcon: "filterIcon",
+            customRender: "tags"
+        }
     },
     {
         title: "Action",
@@ -140,13 +181,20 @@ export default {
             products: [],
             loading: true,
             repairId: null,
-            filters: {}
+            filters: {},
+            statuses: []
         };
     },
     mounted() {
         this.fetchList();
+        this.fetchStatues();
     },
     methods: {
+        fetchStatues() {
+            RepairService.statuses().then(statuses => {
+                this.statuses = statuses;
+            });
+        },
         handleSearch(value, column) {
             let filters = this.filters;
             filters[column.key] = value[0];
@@ -175,7 +223,7 @@ export default {
             this.loading = true;
             RepairService.all(param)
                 .then(data => {
-                    this.data = data;
+                    this.data = data.data;
                 })
                 .finally(() => (this.loading = false));
         },

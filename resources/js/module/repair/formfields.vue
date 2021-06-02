@@ -496,6 +496,7 @@ export default {
                     .then(repair => {
                         this.repair = repair;
                         this.row = repair.related_products;
+                        this.maxTotal= repair.total_cost
                     })
                     .then(() => (this.loading = false))
                     .then(() => {

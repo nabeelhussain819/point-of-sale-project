@@ -21,10 +21,10 @@ trait AppliesQueryParams
         return function (Builder $query) use (&$request) {
             $query->when($request->get('id'), function (Builder $query, $id) {
 
-               if(ArrayHelper::isArray($id)){
-                  
-                   return $query->whereIn('id', $id);
-               }
+                if (ArrayHelper::isArray($id)) {
+
+                    return $query->whereIn('id', $id);
+                }
                 return $query->where('id', (int)$id);
             })->when($request->get('active'), function (Builder $query, $active) {
                 return $query->where('active', $active);
@@ -51,6 +51,8 @@ trait AppliesQueryParams
                 if (StringHelper::isInt($statusId)) {
                     return $builder->where('status_id', $statusId);
                 }
+            })->when($request->get('status'), function (Builder $builder, $statusId) {
+                return $builder->where('status', $statusId);
             })->when($request->get('stock_bin_id'), function (Builder $builder, $statusId) {
                 if (StringHelper::isInt($statusId)) {
                     return $builder->where('stock_bin_id', $statusId);
