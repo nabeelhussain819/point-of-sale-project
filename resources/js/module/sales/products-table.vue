@@ -1,81 +1,90 @@
 <template>
     <div class="checkout-container">
-        <a-row class="m-2">
-            <a-col :span="12">
-                <h1 class="heading only-for-print">XYZ Company</h1>
-                <span class="customer-detail">
-                    Customer :
-                    <span>
-                        <span v-if="!isEmpty(customer)">{{
-                            customer.name_phone
-                        }}</span>
-                        <span v-else>No Customer</span>
+        <div class="no-print">
+            <a-row class="m-2 ">
+                <a-col :span="12">
+                    <h1 class="heading only-for-print">XYZ Company</h1>
+                    <span class="customer-detail">
+                        Customer :
+                        <span>
+                            <span v-if="!isEmpty(customer)">{{
+                                customer.name_phone
+                            }}</span>
+                            <span v-else>WalkIn Customer</span>
+                        </span>
                     </span>
-                </span>
-            </a-col>
-            <a-col :span="12">
-                <h1 class="heading only-for-print">Invoice #{{ order.id }}</h1>
-                <a-descriptions class="only-for-print" bordered>
-                    <a-descriptions-item label="Date" :span="24">
-                        {{ currentDateTime }}
-                    </a-descriptions-item>
-                    <!-- <a-descriptions-item :span="24" label="Due Date">
+                </a-col>
+                <a-col :span="12">
+                    <h1 class="heading only-for-print">
+                        Invoice #{{ order.id }}
+                    </h1>
+                    <a-descriptions class="only-for-print" bordered>
+                        <a-descriptions-item label="Date" :span="24">
+                            {{ currentDateTime }}
+                        </a-descriptions-item>
+                        <!-- <a-descriptions-item :span="24" label="Due Date">
             {{ currentDateTime }}
           </a-descriptions-item> -->
-                </a-descriptions>
-            </a-col>
-        </a-row>
+                    </a-descriptions>
+                </a-col>
+            </a-row>
 
-        <a-table :columns="columns" :pagination="false" :data-source="products">
-            <a slot="name" slot-scope="text">{{ text }}</a>
-        </a-table>
-        <br /><br />
-        <a-row>
-            <a-col :span="8">
-                <a-form
-                    :form="form"
-                    @submit="handleSubmit"
-                    :label-col="{ span: 24 }"
-                    :wrapper-col="{ span: 24 }"
-                >
-                    <checkout
-                        v-if="!isCreated"
-                        @cashBack="cashBack"
-                        :summary="billSummary"
-                    />
-                    <a-button
-                        v-if="isEmpty(order) && !isCreated"
-                        class="no-print"
-                        type="primary"
-                        html-type="submit"
-                        >Checkout</a-button
+            <a-table
+                :columns="columns"
+                :pagination="false"
+                :data-source="products"
+            >
+                <a slot="name" slot-scope="text">{{ text }}</a>
+            </a-table>
+            <br /><br />
+            <a-row>
+                <a-col :span="8">
+                    <a-form
+                        :form="form"
+                        @submit="handleSubmit"
+                        :label-col="{ span: 24 }"
+                        :wrapper-col="{ span: 24 }"
                     >
-                    <a-button class="no-print" @click="print" type="button"
-                        >Print</a-button
-                    >
-                </a-form>
-            </a-col>
-            <a-col :span="8"></a-col>
-            <a-col :span="8">
-                <a-descriptions bordered title="Bill summary">
-                    <!-- <a-descriptions-item :span="24" label="Without Tax">
+                        <checkout
+                            v-if="!isCreated"
+                            @cashBack="cashBack"
+                            :summary="billSummary"
+                        />
+                        <a-button
+                            v-if="isEmpty(order) && !isCreated"
+                            class="no-print"
+                            type="primary"
+                            html-type="submit"
+                            >Checkout</a-button
+                        >
+                        <a-button class="no-print" @click="print" type="button"
+                            >Print</a-button
+                        >
+                    </a-form>
+                </a-col>
+                <a-col :span="8"></a-col>
+                <a-col :span="8">
+                    <a-descriptions bordered title="Bill summary">
+                        <!-- <a-descriptions-item :span="24" label="Without Tax">
             {{ billSummary.withoutTax }}
           </a-descriptions-item> -->
-                    <a-descriptions-item :span="24" label="Total Discount">
-                        $ {{ billSummary.discount }}
-                    </a-descriptions-item>
-                    <!-- <a-descriptions-item :span="24" label="Without Discount">
+                        <a-descriptions-item :span="24" label="Total Discount">
+                            $ {{ billSummary.discount }}
+                        </a-descriptions-item>
+                        <!-- <a-descriptions-item :span="24" label="Without Discount">
             ${{ billSummary.withoutDiscount }} 
           </a-descriptions-item> -->
-                    <a-descriptions-item :span="24" label="Tax">
-                        {{ billSummary.tax }} %
-                    </a-descriptions-item>
-                    <a-descriptions-item label="Sub Total" :span="24">
-                        ${{ billSummary.subTotal }}
-                    </a-descriptions-item>
-                </a-descriptions>
-            </a-col>
-        </a-row>
+                        <a-descriptions-item :span="24" label="Tax">
+                            {{ billSummary.tax }} %
+                        </a-descriptions-item>
+                        <a-descriptions-item label="Sub Total" :span="24">
+                            ${{ billSummary.subTotal }}
+                        </a-descriptions-item>
+                    </a-descriptions>
+                </a-col>
+            </a-row>
+        </div>
+        <printable :products="products" :order=order :customer="customer" :billSummary="billSummary" />
     </div>
 </template>
 <script>
@@ -86,6 +95,7 @@ import {
 } from "../../services/helpers";
 import OrderService from "../../services/API/OrderServices";
 import checkout from "./checkout";
+import printable from "./printable";
 import moment from "moment";
 const columns = [
     {
@@ -118,7 +128,8 @@ const columns = [
 
 export default {
     components: {
-        checkout
+        checkout,
+        printable
     },
     props: {
         isCreated: { default: false },
@@ -179,33 +190,9 @@ export default {
 </script>
 
 <style lang="scss">
-.only-for-print {
-    display: none;
-}
-.m-2 {
-    margin: 15px;
-}
 @media print {
-    .only-for-print {
-        display: block;
-    }
-    .checkout-container {
-        .ant-table-thead > tr > th,
-        .ant-descriptions-title {
-            background-color: #1890ff !important;
-            -webkit-print-color-adjust: exact;
-            color: white;
-        }
-        .customer-detail {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .ant-tabs-tab {
-            display: none !important;
-        }
-        .ant-descriptions {
-            margin-top: 15px;
-        }
+    .no-print {
+        display: none;
     }
 }
 </style>
