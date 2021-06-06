@@ -34,7 +34,7 @@ export default {
         return {
             fetchProductsErrors: {},
             loading: false,
-            form: this.$form.createForm(this, { name: "binTransfer" }),
+            form: this.$form.createForm(this, { name: "purchaseOrder" }),
             products: {}
         };
     },

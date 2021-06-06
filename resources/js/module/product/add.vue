@@ -64,7 +64,7 @@ export default {
             };
         },
         getProductById(e) {
-            isEmpty(e.target) && e.preventDefault();
+            !isEmpty(e.target) && e.preventDefault();
             this.resetValidation();
             let productId = isEmpty(e.target) ? e : e.target.value;
             this.loading = true;

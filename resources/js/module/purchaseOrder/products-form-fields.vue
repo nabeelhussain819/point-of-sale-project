@@ -47,12 +47,12 @@
                         placeholder="products"
                     >
                         <a-select-option
-                            v-for="product in inventoryProducts"
-                            :key="product.id"
-                            :price="product.retail_price"
+                            v-for="invProduct in inventoryProducts"
+                            :key="invProduct.id"
+                            :price="invProduct.retail_price"
                             :index="key"
                         >
-                            {{ product.name }}</a-select-option
+                            {{ invProduct.name }}</a-select-option
                         >
                     </a-select>
                 </a-form-item>
