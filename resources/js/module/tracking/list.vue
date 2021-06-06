@@ -1,11 +1,25 @@
 <template>
     <div>
         <a-table :columns="columns" :data-source="data">
-            <a slot="name" slot-scope="text">{{ text }}</a>
+            <span slot="docType" slot-scope="text, record">
+                <a-button type="link" @click="detail(text, record)">{{
+                    record.properties.subject
+                }}</a-button>
+            </span>
         </a-table>
+        <a-modal
+            :footer="null"
+            v-if="visible"
+            @cancel="showModal(false)"
+            v-model="visible"
+            :title="subject"
+        >
+            <detail :tracking_id="tracking_id" />
+        </a-modal>
     </div>
 </template>
 <script>
+import detail from "./detail";
 const columns = [
     {
         title: "Doc",
@@ -14,8 +28,9 @@ const columns = [
     },
     {
         title: "Doc/Action/Type",
-        dataIndex: "properties.subject",
-        key: "subject"
+        // dataIndex: "properties.subject",
+        key: "subject",
+        scopedSlots: { customRender: "docType" }
     },
     {
         title: "Date",
@@ -48,14 +63,31 @@ const columns = [
 ];
 
 export default {
+    components: {
+        detail
+    },
     props: {
         data: { default: () => [] }
     },
 
     data() {
         return {
-            columns
+            visible: false,
+            columns,
+            tracking_id: null,
+            subject: null
         };
-    }
+    },
+    methods: {
+        showModal(show) {
+            this.visible = show;
+        },
+        detail(text, record) {
+            this.subject = text.properties.subject;
+            this.tracking_id = text.id;
+            this.showModal(true);
+        }
+    },
+    mounted() {}
 };
 </script>

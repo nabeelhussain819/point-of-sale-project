@@ -58,7 +58,7 @@ class OrderController extends Controller
                     'sub_total' => $summaryData['subTotal'],
                     'without_discount' => $summaryData['withoutDiscount'],
                     'cash_paid' => $cashDetail['cash_paid'],
-                    'cash_back' => empty($cashDetail['cash_paid']) ? null : $cashDetail['cash_paid'],
+                    'cash_back' => empty($cashDetail['cash_back']) ? null : $cashDetail['cash_back'],
                     'customer_card_number' => empty($cashDetail['customer_card_number']) ? null : $cashDetail['customer_card_number'],
                     'tax' => empty($summaryData['tax']) ? null : $summaryData['tax'],
                 ];

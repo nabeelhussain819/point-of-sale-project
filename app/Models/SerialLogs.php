@@ -73,7 +73,17 @@ class SerialLogs extends Base
     {
         $t = json_decode($properties);
         $carbon = new Carbon($t->date);
-        $t->date =$carbon->timezone("EST")->format('m-d-y H:m');
+        $t->date = $carbon->timezone("EST")->format('m-d-y H:m');
         return $t;
+    }
+
+    public static function getView($trackingId)
+    {
+        $tracking = SerialLogs::findOrFail($trackingId);
+
+        $model = app($tracking->subject_type);
+        $model = $model->findOrFail($tracking->subject_id);
+
+        return $model->loadProducts()->withFormattedDateTime();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Observers\StockTransferObserver;
+use App\Traits\InteractWithProducts;
 
 /**
  * @property integer $id
@@ -22,6 +23,7 @@ use App\Observers\StockTransferObserver;
  */
 class StockTransfer extends Base
 {
+    use InteractWithProducts;
     /**
      * The "type" of the auto-incrementing ID.
      * 

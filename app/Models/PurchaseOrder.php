@@ -4,7 +4,10 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Observers\PurchaseOrderObserver;
+use App\Traits\InteractWithProducts;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 /**
@@ -24,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PurchaseOrder extends Base
 {
+    use InteractWithProducts;
     protected $hasGuid = false;
     /**
      * The "type" of the auto-incrementing ID.
@@ -80,5 +84,4 @@ class PurchaseOrder extends Base
     {
         return $this->belongsToMany(ProductSerialNumbers::class, 'product_serial_numbers', 'purchase_order_id', 'purchase_order_id');
     }
-
 }

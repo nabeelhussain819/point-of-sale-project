@@ -9,8 +9,14 @@ function get(search) {
     });
 }
 
+function show(id) {
+    return request({
+        url: `${baseUrl}/by-id/${id}`
+    });
+}
+
 const TrackingService = {
-    get
+    get,show
 };
 
 export default TrackingService;

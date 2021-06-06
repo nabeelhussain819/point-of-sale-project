@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\ProductSerialNumbers;
 
+use App\Models\SerialLogs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
@@ -46,9 +47,9 @@ class TrackingController extends Controller
      * @param \App\Models\ProductSerialNumbers $productSerialNumbers
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductSerialNumbers $productSerialNumbers)
+    public function show($trackingId)
     {
-        //
+        return SerialLogs::getView($trackingId);
     }
 
     /**

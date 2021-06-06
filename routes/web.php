@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'tracking'], function () {
         Route::get('/', [TrackingController::class, 'index'])->name('tracking');
         Route::get('/{productSerialNumbers:serial_no}', [TrackingController::class, 'serialTracking']);
+        Route::get('/by-id/{serialLogs}', [TrackingController::class, 'show']);
     });
 
 
@@ -208,6 +209,7 @@ Route::group(['middleware' => ['auth']], function () {
         'issue-type' => IssueTypeController::class,
         'finance' => FinanceController::class,
         'refund' => RefundController::class,
+        'serialLog' => \App\Models\SerialLogs::class,
     ]);
 
     Route::group(['prefix' => 'product-management'], function () {

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Base;
 use App\Observers\OrderObserver;
 use App\Scopes\StoreGlobalScope;
+use App\Traits\InteractWithProducts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Order extends Base
 {
+    use InteractWithProducts;
     protected $hasGuid = false;
     /**
      * The "type" of the auto-incrementing ID.
