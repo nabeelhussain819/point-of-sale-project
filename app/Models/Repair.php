@@ -83,9 +83,9 @@ class Repair extends Base
 
             $product['product_id'] = Product::getIdByRequest($product['product_id'], ['is_repair' => true]);
 
-            $product['device_type_id'] = DevicesType::getIdByRequest($product['device_type_id']);
-            $product['issue_id'] = IssueType::getIdByRequest($product['issue_id']);
-            $product['brand_id'] = Brand::getIdByRequest($product['brand_id']);
+            $product['device_type_id'] = isset($product['device_type_id']) ?  DevicesType::getIdByRequest($product['device_type_id']): null;
+            $product['issue_id'] = isset($product['issue_id']) ? IssueType::getIdByRequest($product['issue_id']) : null;
+            $product['brand_id'] =isset($product['brand_id'])? Brand::getIdByRequest($product['brand_id']):null;
             return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
         })->all();
 

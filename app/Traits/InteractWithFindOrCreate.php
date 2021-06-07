@@ -28,8 +28,11 @@ trait InteractWithFindOrCreate
         return $model;
     }
 
-    public static function getIdByRequest($key, array $attributes = []): int
+    public static function getIdByRequest($key, array $attributes = []): ?int
     {
+        if (empty($key)) {
+            return null;
+        }
         $key = self::_getKey($key);
 
         if (StringHelper::isInt($key)) {

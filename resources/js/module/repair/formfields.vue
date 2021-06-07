@@ -180,13 +180,7 @@
                                         initialValue: getStringId(
                                             product.device_type_id
                                         ),
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please select your Device type!'
-                                            }
-                                        ]
+                                      
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -216,13 +210,7 @@
                                         initialValue: getStringId(
                                             product.brand_id
                                         ),
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please select your brand!'
-                                            }
-                                        ]
+                                      
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -252,13 +240,7 @@
                                         initialValue: getStringId(
                                             product.product_id
                                         ),
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please select your model!'
-                                            }
-                                        ]
+                                       
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -286,13 +268,7 @@
                                         initialValue: getStringId(
                                             product.issue_id
                                         ),
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please select your issue!'
-                                            }
-                                        ]
+                                       
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -314,13 +290,7 @@
                                     {
                                         initialValue:
                                             product.device_unique_number,
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please input your customer!'
-                                            }
-                                        ]
+                                      
                                     }
                                 ]"
                             />
