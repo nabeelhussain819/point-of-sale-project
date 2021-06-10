@@ -7,7 +7,9 @@ use App\Models\Inventory;
 use App\Models\Order;
 use App\Models\ProductSerialNumbers;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -155,5 +157,15 @@ class OrderController extends Controller
             ->where($this->applyFilters($request))
             ->orderBy('created_at', 'desc')
             ->paginate($this->pageSize);
+    }
+
+    public function printableDetail()
+    {
+        $user = Auth::user();
+        return $this->genericResponse(true, " Purcahse order has been created", 200,
+            ['causer' => [
+                'name' => $user->name,
+                'id' => $user->id
+            ], 'store' => Store::where('id', Store::currentId())->first()]);
     }
 }

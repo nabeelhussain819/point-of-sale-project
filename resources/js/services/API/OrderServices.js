@@ -1,12 +1,12 @@
 // import * as constants from '../Constants'
-import request from '../request'
+import request from "../request";
 
 const baseUrl = `/orders`;
 
 function create(data) {
     return request({
         url: baseUrl,
-        method: 'POST',
+        method: "POST",
         data
     });
 }
@@ -24,9 +24,17 @@ function show(id) {
     });
 }
 
+function print() {
+    return request({
+        url: `${baseUrl}/printableDetail`
+    });
+}
 
 const OrderService = {
-    create, all, show
+    create,
+    all,
+    show,
+    print
 };
 
-export default OrderService
+export default OrderService;

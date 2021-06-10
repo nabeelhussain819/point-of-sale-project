@@ -84,7 +84,13 @@
                 </a-col>
             </a-row>
         </div>
-        <printable :products="products" :order=order :customer="customer" :billSummary="billSummary" />
+        <printable
+            :printDetail="printDetail"
+            :products="products"
+            :order="order"
+            :customer="customer"
+            :billSummary="billSummary"
+        />
     </div>
 </template>
 <script>
@@ -145,10 +151,16 @@ export default {
             columns,
             isEmpty,
             currentDateTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
-            order: {}
+            order: {},
+            printDetail: {}
         };
     },
     methods: {
+        fetchPrintDetail() {
+            OrderService.print().then(printDetail => {
+                this.printDetail = printDetail;
+            });
+        },
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
@@ -182,6 +194,7 @@ export default {
         }
     },
     mounted() {
+        this.fetchPrintDetail();
         if (!isEmpty(this.createdOrder)) {
             this.order = this.createdOrder;
         }

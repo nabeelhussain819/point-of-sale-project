@@ -10,6 +10,7 @@ use App\Models\Store;
 use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
@@ -23,9 +24,7 @@ class SalesController extends Controller
     public function index()
     {
         // Adding in inventory ,Sales Controller ,method purchase and module is Purchase Order (Optimization)
-        return view('admin.sales.index',
-            ['sales' => OrderProduct::with('inventory', 'customer')->get(),
-                'customers' => Customer::with('orderProducts')->get()]);
+        return view('admin.sales.index');
     }
 
     public function purchase()
@@ -176,5 +175,7 @@ class SalesController extends Controller
         $orderProduct->delete();
         return back()->with('success', 'Product Deleted');
     }
+
+
 
 }

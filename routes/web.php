@@ -111,6 +111,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::post('/stock-transfer-received/{transfer}', [TransferController::class, 'markAsReceived'])->name('transfer.markasreceived');
 
+
+
         Route::group(['prefix' => 'stock-transfer'], function () {
             Route::get('/associate-product-serial/{transfer}', [TransferController::class, 'showAssociateProductSerial'])
                 ->name('transfer.show-associate-product-serial');
@@ -165,6 +167,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/fetch', [OrderController::class, 'fetch']);
+        Route::get('/printableDetail', [OrderController::class, 'printableDetail']);
     });
 
     Route::group(['prefix' => 'inventory'], function () {
