@@ -135,24 +135,26 @@ export default {
     box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
     padding: 2mm;
     margin: 0 auto;
-    width: 100%;
+    width: 80mm     ;
     background: #fff;
     border: 1px solid #eee;
+     page-break-after:always; 
 }
 #invoice-POS ::selection {
-    background: #f31544;
+   
     color: #fff;
 }
 #invoice-POS ::moz-selection {
-    background: #f31544;
+   
     color: #fff;
 }
 #invoice-POS h1 {
-    font-size: 1.5em;
-    color: #222;
+    font-size: 10pt;
+    color: #222;  
 }
 #invoice-POS h2 {
-    font-size: 0.9em;
+    font-size: 20pt;
+  
 }
 #invoice-POS h3 {
     font-size: 1.2em;
@@ -194,6 +196,7 @@ export default {
     border-radius: 50px;
 }
 #invoice-POS .info {
+    font-size:20pt;
     display: block;
     margin-left: 0;
 }
