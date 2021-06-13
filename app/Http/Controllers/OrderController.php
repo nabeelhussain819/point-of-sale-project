@@ -113,7 +113,7 @@ class OrderController extends Controller
     {
         return $order->withCustomer()
             ->withRefund()
-            ->withProducts();
+            ->withProductsProduct();
 
     }
 

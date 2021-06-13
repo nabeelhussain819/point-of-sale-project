@@ -156,7 +156,10 @@ export default {
     showPrintModal(orderId) {
       OrderService.show(orderId).then((order) => {
         this.customer = order.customer;
-        this.products = order.products;
+        this.products = order.products.map(product=>{
+          product.name = product.product.name;
+          return  product;
+        });
         this.billSummary = {
           discount: order.discount,
           withoutTax: order.without_tax,

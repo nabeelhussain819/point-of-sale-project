@@ -2,13 +2,13 @@
     <div>
         <a-row class="form-field-container" :gutter="23">
             <a-col :span="1"><strong>Id</strong></a-col>
-            <a-col :span="3"><strong>Name</strong></a-col>
+            <a-col :span="7"><strong>Name</strong></a-col>
 
             <a-col :span="4"><strong>Serial</strong></a-col>
             <a-col :span="2"><strong>Quantity</strong></a-col>
-            <a-col :span="3"><strong>Discount</strong></a-col>
-            <a-col :span="3"><strong>Unit Prices</strong></a-col>
-            <a-col :span="3"><strong>Extended Prices</strong></a-col>
+            <a-col :span="2"><strong>Discount</strong></a-col>
+            <a-col :span="2"><strong>Unit Prices</strong></a-col>
+            <a-col :span="2"><strong>Extended Prices</strong></a-col>
             <a-col :span="2"><strong>Total</strong></a-col>
             <a-col :span="1"><strong></strong></a-col>
         </a-row>
@@ -19,7 +19,7 @@
             :gutter="23"
         >
             <a-col :span="1"> {{ product.id }}</a-col>
-            <a-col :span="3"> {{ product.name }}</a-col>
+            <a-col :span="7"> {{ product.name }}</a-col>
 
             <a-col :span="4">
                 <a-form-item v-if="product.has_serial_number">
@@ -74,7 +74,7 @@
                         ]"
                     /> </a-form-item
             ></a-col>
-            <a-col :span="3">
+            <a-col :span="2">
                 <a-form-item>
                     <a-input
                         :max="100"
@@ -90,10 +90,10 @@
                         ]"
                     /> </a-form-item
             ></a-col>
-            <a-col :span="3">
+            <a-col :span="2">
                 <a-form-item>
                     <a-input
-                        :disabled="true"
+                       
                         type="number"
                         v-decorator="[
                             `productItem[${key}][price]`,
@@ -105,10 +105,10 @@
                         ]"
                     /> </a-form-item
             ></a-col>
-            <a-col :span="3">
+            <a-col :span="2">
                 <a-form-item>
                     <a-input
-                        :disabled="true"
+                       
                         type="number"
                         v-decorator="[
                             `productItem[${key}][min_price]`,

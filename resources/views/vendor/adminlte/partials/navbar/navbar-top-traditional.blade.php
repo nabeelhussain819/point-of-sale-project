@@ -38,10 +38,10 @@
             <span>  Tracking</span>
         </a>
 
-        <a href="{{route("roles.index")}}" class="col-1 menu-header-icon">
-            <i class="fas fa-user-cog"></i>
-            <span> Settings</span>
-        </a>
+{{--        <a href="{{route("roles.index")}}" class="col-1 menu-header-icon">--}}
+{{--            <i class="fas fa-user-cog"></i>--}}
+{{--            <span> Settings</span>--}}
+{{--        </a>--}}
 
     </div>
 </div>

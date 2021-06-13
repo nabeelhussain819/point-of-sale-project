@@ -20,7 +20,7 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
     background-image: linear-gradient(
             87deg, #0662ec 0%, #5393f3 100%) !important;
     color: white;
-    min-width: 115px;
+    min-width: 134px;
     margin-left: 10px;
     margin-top: 10px;
 }
@@ -72,4 +72,8 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
 
 .condense-table > tr > td {
     padding: 0px 16px !important;
+}
+
+body .ant-form{
+    font-size: 18px;
 }
