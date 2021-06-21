@@ -241,7 +241,7 @@ export default {
     width: 24mm;
 }
 #invoice-POS .itemtext {
-    font-size: 2em;
+    font-size: 4em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -262,6 +262,18 @@ export default {
     }
     .only-for-print {
         display: block;
+    }
+    body,
+    header,
+    footer,
+    aside,
+    nav,
+    form,
+    iframe,
+    .menu,
+    .hero,
+    .adslot {
+        display: none;
     }
 }
 </style>
