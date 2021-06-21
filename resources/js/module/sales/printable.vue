@@ -4,7 +4,7 @@
             <center id="top">
                 <div class="logo"></div>
                 <div class="info">
-                    <h2>{{printDetail.store.name}}</h2>
+                    <h2>{{ printDetail.store.name }}</h2>
                     Invoice #{{ order.id }}
                 </div>
 
@@ -16,10 +16,13 @@
                 <div class="info">
                     <h2>Contact Info</h2>
                     <p>
-                        Address :{{printDetail.store.location}},{{printDetail.store.city}},{{printDetail.store.state}}<br />
+                        Address :{{ printDetail.store.location }},{{
+                            printDetail.store.city
+                        }},{{ printDetail.store.state }}<br />
                         Email : Requried Email<br />
-                        Phone :{{printDetail.store.primary_phone}}<br />
-                        Date : {{ currentDateTime }}<br /> Customer :
+                        Phone :{{ printDetail.store.primary_phone }}<br />
+                        Date : {{ currentDateTime }}<br />
+                        Customer :
                         <span v-if="!isEmpty(customer)">{{
                             customer.name_phone
                         }}</span>
@@ -133,28 +136,26 @@ export default {
 }
 #invoice-POS {
     box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
-    padding: 2mm;
+   // padding: 2mm;
     margin: 0 auto;
-    width: 80mm     ;
+    width: 100%;
     background: #fff;
     border: 1px solid #eee;
-     page-break-after:always; 
+    page-break-after: always;
+    border:1px solid red;
 }
 #invoice-POS ::selection {
-   
     color: #fff;
 }
 #invoice-POS ::moz-selection {
-   
     color: #fff;
 }
 #invoice-POS h1 {
     font-size: 10pt;
-    color: #222;  
+    color: #222;
 }
 #invoice-POS h2 {
     font-size: 20pt;
-  
 }
 #invoice-POS h3 {
     font-size: 1.2em;
@@ -196,7 +197,7 @@ export default {
     border-radius: 50px;
 }
 #invoice-POS .info {
-    font-size:20pt;
+    font-size: 20pt;
     display: block;
     margin-left: 0;
 }
