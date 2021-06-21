@@ -134,15 +134,21 @@ export default {
 .only-for-print {
     display: none;
 }
+#invoice-POS * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 #invoice-POS {
     box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
-   // padding: 2mm;
+    // padding: 2mm;
     margin: 0 auto;
     width: 100%;
     background: #fff;
     border: 1px solid #eee;
     page-break-after: always;
-    border:1px solid red;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS ::selection {
     color: #fff;
@@ -151,21 +157,29 @@ export default {
     color: #fff;
 }
 #invoice-POS h1 {
-    font-size: 10pt;
+    font-size: 10em;
     color: #222;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS h2 {
-    font-size: 20pt;
+    font-size: 2.5em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS h3 {
     font-size: 1.2em;
     font-weight: 300;
     line-height: 2em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS p {
-    font-size: 0.7em;
+    font-size: 1.5em;
     color: #666;
     line-height: 1.2em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS #top,
 #invoice-POS #mid,
@@ -200,6 +214,8 @@ export default {
     font-size: 20pt;
     display: block;
     margin-left: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS .title {
     float: right;
@@ -212,9 +228,11 @@ export default {
     border-collapse: collapse;
 }
 #invoice-POS .tabletitle {
-    font-size: 0.5em;
+    font-size: 1.5em;
     -webkit-print-color-adjust: exact;
     background: #eee;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS .service {
     border-bottom: 1px solid #eee;
@@ -223,7 +241,9 @@ export default {
     width: 24mm;
 }
 #invoice-POS .itemtext {
-    font-size: 0.5em;
+    font-size: 2em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 #invoice-POS #legalcopy {
     margin-top: 5mm;
@@ -231,7 +251,7 @@ export default {
 #invoice-POS .design_by {
     background-color: black;
     color: white;
-    font-size: 0.5em;
+    font-size: 1.5em;
     text-align: center;
     -webkit-print-color-adjust: exact;
 }
