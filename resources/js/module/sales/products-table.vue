@@ -1,5 +1,6 @@
 <template>
     <div class="checkout-container">
+       
         <div class="no-print">
             <a-row class="m-2 ">
                 <a-col :span="12">
@@ -91,6 +92,7 @@
             :customer="customer"
             :billSummary="billSummary"
         /> -->
+              
     </div>
 </template>
 <script>
@@ -136,6 +138,7 @@ export default {
     components: {
         checkout,
         printable
+        
     },
     props: {
         isCreated: { default: false },

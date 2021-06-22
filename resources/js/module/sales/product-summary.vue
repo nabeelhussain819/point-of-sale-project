@@ -66,12 +66,11 @@ import {
 } from "../../services/constants";
 import productTable from "./products-table";
 import StoreService from "../../services/API/StoreService";
-import printReceipt from "./print-receipt";
 export default {
     props: {
         form: { default: () => {} }
     },
-    components: { productTable, printReceipt },
+    components: { productTable },
     data() {
         return {
             showOrderInvoice: false,
