@@ -44,12 +44,19 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/print', function () {
+    return view('admin.print.index');
+});
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->middleware('changedPassword')
         ->name('home');
+
+
+
+
 
     Route::get('/welcome', function () {
         return view('common.comingsoon');
@@ -79,6 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/fetch', [RepairController::class, 'fetch']);
         Route::get('/statuses', [RepairController::class, 'statuses']);
     });
+
 
     Route::group(['prefix' => 'customers'], function () {
         Route::get('/search', [CustomerController::class, 'search']);

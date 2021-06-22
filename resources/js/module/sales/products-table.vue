@@ -1,5 +1,6 @@
 <template>
     <div class="checkout-container">
+         <printReceipt />
         <div class="no-print">
             <a-row class="m-2 ">
                 <a-col :span="12">
@@ -84,13 +85,14 @@
                 </a-col>
             </a-row>
         </div>
-        <printable
+        <!-- <printable
             :printDetail="printDetail"
             :products="products"
             :order="order"
             :customer="customer"
             :billSummary="billSummary"
-        />
+        /> -->
+              
     </div>
 </template>
 <script>
@@ -103,6 +105,7 @@ import OrderService from "../../services/API/OrderServices";
 import checkout from "./checkout";
 import printable from "./printable";
 import moment from "moment";
+import printReceipt from "./print-receipt";
 const columns = [
     {
         title: "Name",
@@ -135,7 +138,8 @@ const columns = [
 export default {
     components: {
         checkout,
-        printable
+        printable,
+        printReceipt
     },
     props: {
         isCreated: { default: false },

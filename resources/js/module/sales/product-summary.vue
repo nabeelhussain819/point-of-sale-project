@@ -46,6 +46,7 @@
             width="100%"
             :visible="showOrderInvoice"
             @cancel="toggleModal(false)"
+            :dialog-style="{ top: '1px' }"
             title=""
             footer=""
             ><product-table
@@ -65,11 +66,12 @@ import {
 } from "../../services/constants";
 import productTable from "./products-table";
 import StoreService from "../../services/API/StoreService";
+import printReceipt from "./print-receipt";
 export default {
     props: {
         form: { default: () => {} }
     },
-    components: { productTable },
+    components: { productTable, printReceipt },
     data() {
         return {
             showOrderInvoice: false,
