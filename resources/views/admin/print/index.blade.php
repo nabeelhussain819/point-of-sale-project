@@ -108,7 +108,7 @@
             margin: 0;
         }
         body {
-            margin: 1.6cm;
+            margin: 0;
         }
     }
 </style>
