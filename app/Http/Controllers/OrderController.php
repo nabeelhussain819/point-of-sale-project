@@ -114,7 +114,6 @@ class OrderController extends Controller
         return $order->withCustomer()
             ->withRefund()
             ->withProductsProduct();
-
     }
 
     /**
@@ -168,4 +167,13 @@ class OrderController extends Controller
                 'id' => $user->id
             ], 'store' => Store::where('id', Store::currentId())->first()]);
     }
+
+
+    public function print(Order $order)
+    {
+        return view('admin.orders.print', ['order' => $order->withCustomer()
+            ->withRefund()
+            ->withProductsProduct(),'store'=>Store::where('id',Store::currentId())->firstOrfail()]);
+    }
+
 }

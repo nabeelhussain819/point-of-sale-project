@@ -251,7 +251,7 @@ export default {
 #invoice-POS .design_by {
     background-color: black;
     color: white;
-    font-size: 1.5em;
+   
     text-align: center;
     -webkit-print-color-adjust: exact;
 }

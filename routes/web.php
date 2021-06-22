@@ -44,19 +44,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/print', function () {
-    return view('admin.print.index');
-});
+
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
         return view('admin.dashboard');
     })->middleware('changedPassword')
         ->name('home');
-
-
-
-
 
     Route::get('/welcome', function () {
         return view('common.comingsoon');
@@ -120,7 +114,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/stock-transfer-received/{transfer}', [TransferController::class, 'markAsReceived'])->name('transfer.markasreceived');
 
 
-
         Route::group(['prefix' => 'stock-transfer'], function () {
             Route::get('/associate-product-serial/{transfer}', [TransferController::class, 'showAssociateProductSerial'])
                 ->name('transfer.show-associate-product-serial');
@@ -137,6 +130,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('sales/view/{order}', [SalesController::class, 'view'])
         ->name('order.view');
+
 
     Route::get('refund/view/{refund}', [SalesController::class, 'view'])
         ->name('refund.view');
@@ -176,6 +170,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/fetch', [OrderController::class, 'fetch']);
         Route::get('/printableDetail', [OrderController::class, 'printableDetail']);
+        Route::get('/print/{order}', [OrderController::class, 'print']);
     });
 
     Route::group(['prefix' => 'inventory'], function () {

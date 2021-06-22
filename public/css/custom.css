@@ -27,7 +27,7 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
 
 .menu-header-icon i {
     display: block;
-    font-size: 30px;
+    font-size: 30px !important;
     margin-bottom: 10px;
 }
 
