@@ -9,6 +9,18 @@
 
             Phone :{{ $store->primary_phone }}<br/>
             Date : {{ $store->created_at->format("Y/m/d h:m A") }}<br/>
+            <span class="customer-detail">
+                        Customer :
+                        <span>
+                            @if(!empty($order->customer))
+                                <span>{{
+                                $order->customer->name_phone
+                            }}</span>
+                            @else
+                                <span v-else>WalkIn Customer</span>
+                            @endif
+                        </span>
+                    </span>
         </p>
 
         <table>
@@ -25,7 +37,7 @@
                 <tr>
                     <td class="quantity">{{$product->quantity}}</td>
                     <td class="description">{{$product->product->name}}
-                    <br/>
+                        <br/>
                         <strong>{{$product->serial_number}}</strong>
                     </td>
                     <td class="price">${{$product->min_price}}</td>
@@ -51,14 +63,16 @@
     $btnPrint.addEventListener("click", () => {
         window.print();
     });
+
     function goBack() {
         window.history.back();
     }
 </script>
 <style>
-    #btnPrint{
-        margin-top:20px;
+    #btnPrint {
+        margin-top: 20px;
     }
+
     * {
         font-size: 14px !important;
         font-family: "Times New Roman" !important;
@@ -107,6 +121,7 @@
         max-width: inherit !important;
         width: inherit !important;
     }
+
     .design_by {
         background-color: black;
         color: white;
