@@ -6,7 +6,7 @@
 
             <a-col :span="4"><strong>Serial</strong></a-col>
             <a-col :span="2"><strong>Quantity</strong></a-col>
-            <a-col :span="2"><strong>Discount</strong></a-col>
+            <a-col :span="3"><strong>Discount</strong></a-col>
             <a-col :span="2"><strong>Unit Prices</strong></a-col>
             <a-col :span="2"><strong>Extended Prices</strong></a-col>
             <a-col :span="2"><strong>Total</strong></a-col>
@@ -74,7 +74,7 @@
                         ]"
                     /> </a-form-item
             ></a-col>
-            <a-col :span="2">
+            <a-col :span="3">
                 <a-form-item>
                     <a-input
                         :max="100"

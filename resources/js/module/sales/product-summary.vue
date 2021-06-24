@@ -25,11 +25,13 @@
                 </a-button
             > -->
             <span
-                ><a-icon class="cart-icon" type="shopping-cart" /> Apply
+                >
+                <!-- <a-icon class="cart-icon" type="shopping-cart" />  -->
+                Apply
                 Discount & CheckOut</span
             >
             <a-divider type="vertical" />
-            Total: $ <span>{{ subTotal }}</span>
+           <span> Total: $ <span>{{ subTotal }}</span></span>
 
             <!-- <a-popconfirm
                 title="Are you sure cancel this transaction?"
@@ -183,7 +185,7 @@ export default {
 </script>
 <style scoped>
 .cart-icon {
-    font-size: 2em;
+    font-size: 2em !important;
     text-align: center;
 }
 </style>

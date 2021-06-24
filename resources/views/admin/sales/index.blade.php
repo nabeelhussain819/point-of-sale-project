@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="container bg-white ">
+    <div class="container bg-white sales">
         <div class="">
             <sales-listing></sales-listing>
         </div>

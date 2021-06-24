@@ -58,8 +58,21 @@ export default {
         }
     },
     mounted() {
-        
         // console.log("parent", this.pre);
     }
 };
 </script>
+
+<style lang="scss">
+.sales {
+    .ant-input-group-addon {
+        line-height: 0;
+    }
+    .anticon {
+        vertical-align: top;
+    }
+    .anticon-user-add {
+        font-size: 24px;
+    }
+}
+</style>

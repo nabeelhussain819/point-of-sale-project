@@ -74,10 +74,20 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
     padding: 0px 16px !important;
 }
 
-body .ant-form{
+body .ant-form {
     font-size: 18px;
 }
 
+/*body span, p, label,  .ant-descriptions-item-label, .ant-descriptions-item-content, td {*/
+/*    font-size: calc(2px + 1.5vw) !important;*/
+/*}*/
+
 body *{
-    font-size: 16px !important;
+   // font-size: calc(2px + 1.5vw) !important;
+    font-size: 18px !important;
 }
+.ant-btn{
+    height: auto ;
+}
+
+.card-body .col i{font-size: 70px !important;}
