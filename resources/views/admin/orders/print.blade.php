@@ -69,6 +69,11 @@
     }
 </script>
 <style>
+
+    table {
+        width: 100%;
+    }
+
     #btnPrint {
         margin-top: 20px;
     }
@@ -77,6 +82,7 @@
         font-size: 14px !important;
         font-family: "Times New Roman" !important;
         color: black;
+        -webkit-font-smoothing: antialiased;
     }
 
     td,
@@ -85,25 +91,26 @@
     table {
         border-top: 1px solid black !important;
         border-collapse: collapse !important;
+        text-align: center;
     }
 
     td.description,
     th.description {
-        width: 100px !important;
-        max-width: 100px !important;
+        /*width: 100px !important;*/
+        /*max-width: 100px !important;*/
     }
 
     td.quantity,
     th.quantity {
-        width: 40px !important;
-        max-width: 40px !important;
+        /*width: 40px !important;*/
+        /*max-width: 40px !important;*/
         word-break: break-all !important;
     }
 
     td.price,
     th.price {
-        width: 40px !important;
-        max-width: 40px !important;
+        /*width: 40px !important;*/
+        /*max-width: 40px !important;*/
         word-break: break-all !important;
     }
 
@@ -113,8 +120,9 @@
     }
 
     .ticket {
-        width: 200px !important;
-        max-width: 200px !important;
+        width: 100% !important;
+        max-width: 350px !important;
+        padding: 0 15px;
     }
 
     img {
