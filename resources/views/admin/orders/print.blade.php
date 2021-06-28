@@ -69,7 +69,6 @@
     }
 </script>
 <style>
-
     table {
         width: 100%;
     }
@@ -102,15 +101,15 @@
 
     td.quantity,
     th.quantity {
-        /*width: 40px !important;*/
-        /*max-width: 40px !important;*/
+        width: 40px !important;
+        max-width: 40px !important;
         word-break: break-all !important;
     }
 
     td.price,
     th.price {
-        /*width: 40px !important;*/
-        /*max-width: 40px !important;*/
+        width: 40px !important;
+        max-width: 40px !important;
         word-break: break-all !important;
     }
 
@@ -121,7 +120,7 @@
 
     .ticket {
         width: 100% !important;
-        max-width: 350px !important;
+        max-width: 280px !important;
         padding: 0 15px;
     }
 
@@ -144,17 +143,13 @@
             display: none !important;
         }
 
-        body * {
-            all: revert;
-        }
+
 
         body .print-view {
             display: block !important;
         }
-
-
         @page {
-            margin: 0;
+            margin: 0 15px;
         }
 
         body {
