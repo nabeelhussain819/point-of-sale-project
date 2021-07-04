@@ -150,7 +150,6 @@ export default {
         },
         getImages() {
             if (!isEmpty(this.finance.attachmentTemp)) {
-                console.log(this.finance.attachmentTemp[0]);
                 return this.finance.attachmentTemp[0];
             }
         },

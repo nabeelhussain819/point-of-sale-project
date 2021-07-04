@@ -5,6 +5,7 @@
             :label-col="{ span: 24 }"
             :wrapper-col="{ span: 24 }"
             @submit="handleSubmit"
+            class="print-repair-container"
         >
             <a-row :gutter="24">
                 <a-col :span="24">
@@ -73,7 +74,7 @@
                     <a-form-item label="Total Cost">
                         <a-input
                             @change="handleTotal"
-                             :min="0"
+                            :min="0"
                             type="number"
                             v-decorator="[
                                 'total_cost',
@@ -179,8 +180,7 @@
                                     {
                                         initialValue: getStringId(
                                             product.device_type_id
-                                        ),
-                                      
+                                        )
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -209,8 +209,7 @@
                                     {
                                         initialValue: getStringId(
                                             product.brand_id
-                                        ),
-                                      
+                                        )
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -239,8 +238,7 @@
                                     {
                                         initialValue: getStringId(
                                             product.product_id
-                                        ),
-                                       
+                                        )
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -267,8 +265,7 @@
                                     {
                                         initialValue: getStringId(
                                             product.issue_id
-                                        ),
-                                       
+                                        )
                                     }
                                 ]"
                                 placeholder="Select a option and change input text above"
@@ -289,8 +286,7 @@
                                     `productItem[${r}][device_unique_number]`,
                                     {
                                         initialValue:
-                                            product.device_unique_number,
-                                      
+                                            product.device_unique_number
                                     }
                                 ]"
                             />
@@ -305,10 +301,22 @@
                     ></a-col>
                 </div>
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
-                <a-col :span="12">
-                    <a-form-item :wrapper-col="{ span: 2 }">
-                        <a-button type="primary" html-type="submit">
+                <a-col :span="8">
+                    <a-form-item :wrapper-col="{ span: 12 }">
+                        <a-button
+                            type="primary"
+                            class="no-print"
+                            html-type="submit"
+                        >
                             Submit
+                        </a-button>
+
+                        <a-button
+                            v-if="isCreated"
+                            @click="print"
+                            class="no-print ml-2"
+                            type="default"
+                            >Print
                         </a-button>
                     </a-form-item>
                 </a-col>
@@ -359,6 +367,9 @@ export default {
         this.fetchRepair(this.repairId);
     },
     methods: {
+        print() {
+            window.print();
+        },
         fetchProductRequest(params) {
             ProductService.all(params).then(products => {
                 this.products = products.data;
@@ -466,7 +477,7 @@ export default {
                     .then(repair => {
                         this.repair = repair;
                         this.row = repair.related_products;
-                        this.maxTotal= repair.total_cost
+                        this.maxTotal = repair.total_cost;
                     })
                     .then(() => (this.loading = false))
                     .then(() => {
@@ -503,3 +514,24 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+@media print {
+    .print-repair-container {
+        width: 100%;
+        font-size: 12px !important;
+        .ant-form-item-label {
+            height: 60px !important;
+        }
+        .ant-select-selection {
+            border: none !important;
+        }
+        .ant-modal-close-x {
+            display: none;
+        }
+        .ant-form label {
+            font-size: 12px !important;
+        }
+    }
+}
+</style>
