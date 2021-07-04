@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'product'], function () {
         Route::get('/device-brand', [ProductController::class, 'deviceBrand']);
         Route::get('/all', [ProductController::class, 'all']);
+        Route::get('/getAll', [ProductController::class, 'getAll']);
         Route::get('/associate-device-brand', [ProductController::class, 'associateDeviceBrand'])
             ->name('associate-device-brand');
         Route::get('/serials/{product}', [ProductController::class, 'getSerials']);

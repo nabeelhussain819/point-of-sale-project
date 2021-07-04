@@ -143,8 +143,8 @@ export default {
             this.updateProducts(products);
         },
         fetchProducts() {
-            ProductService.all().then(products => {
-                this.inventoryProducts = products.data;
+            ProductService.getAll().then(products => {
+                this.inventoryProducts = products;
             });
         },
         lookup(key, value) {

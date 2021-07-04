@@ -17,14 +17,21 @@ function all(params = {}) {
     });
 }
 
-function getSerials(id,params) {
+function getAll(params = {}) {
+    return request({
+        url: `${baseUrl}/getAll`,
+        params
+    });
+}
+
+function getSerials(id, params) {
     return request({
         url: `${baseUrl}/serials/${id}`,
         params
     });
 }
 
-function validateSerial( params, cancelToken = null) {
+function validateSerial(params, cancelToken = null) {
     return request({
         url: `${baseUrl}/validate-serial/`,
         cancelToken,
@@ -36,7 +43,8 @@ const ProductService = {
     deviceBrand,
     all,
     getSerials,
-    validateSerial
+    validateSerial,
+    getAll
 };
 
 export default ProductService;
