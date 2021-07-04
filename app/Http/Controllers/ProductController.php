@@ -91,6 +91,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'name' => 'required',
             'cost' => 'required|numeric|min:0',
@@ -99,7 +100,9 @@ class ProductController extends Controller
         ]);
 
         $product = Product::find($id);
-        $product->fill($request->all())->update();
+      
+        //   $product->upc = $request->get('UPC');
+        $product->update($request->all());
         return redirect()->back()->with('success', "$product->name Updated");
     }
 

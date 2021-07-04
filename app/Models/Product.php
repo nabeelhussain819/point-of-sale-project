@@ -124,8 +124,9 @@ class Product extends Base
             })->firstOrFail();
     }
 
-    public function setUPCAttribute($upc){
-        $this->upc = StringHelper::lower($upc);
+    public function setUpcAttribute($upc)
+    {
+        $this->attributes['UPC'] = StringHelper::lower($upc);
     }
 
 }
