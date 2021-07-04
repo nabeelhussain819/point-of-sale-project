@@ -29,6 +29,10 @@ class FinanceObserver
     {
         if ($finance->isCreatingScenario()) {
             $this->createOrder($finance);
+            $finance->scenario = Finance::SCENARIO_ADD_INSTALLMENT;
+            $finance->postedScheduled = ['comment' => 'Initial Payment', 'received_amount' => $finance->advance];
+
+            $this->handleSchedule($finance);
         }
     }
 
@@ -41,10 +45,6 @@ class FinanceObserver
     {
 
         if ($finance->isAddInstallmentScenario()) {
-
-//            if ($finance->payable <= 0) {
-//                $finance->status = Finance::STATUS_COMPLETE;
-//            }
             $schedules = $finance->postedScheduled;
             $scheduleData = [
                 [

@@ -163,6 +163,7 @@ class FinanceController extends Controller
 
             $finance->scenario = Finance::SCENARIO_ADD_INSTALLMENT;
             $finance->postedScheduled = $request->all();
+
             $finance->update([
                 'advance' => $finance->advance + $request->get('received_amount'),
                 'payable' => $finance->payable - $request->get('received_amount')

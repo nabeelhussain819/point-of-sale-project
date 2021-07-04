@@ -42,4 +42,9 @@ class FinancesSchedules extends Base
     {
         return $this->belongsTo('App\Finance');
     }
+
+//    public function getDateOfPaymentAttribute($dateOfPayment)
+//    {
+//        return $dateOfPayment->formate("D/M/YY");
+//    }
 }

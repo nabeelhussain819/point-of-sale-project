@@ -19,7 +19,7 @@
                 </a-form-item>
                 <a-form-item>
                     <a-input-number
-                        :max="finance.payable"
+                        :max="getPayable(finance.payable)"
                         type="number"
                         v-decorator="[
                             'received_amount',
@@ -140,6 +140,11 @@ export default {
         }
     },
     methods: {
+        getPayable(payable){
+            if(!isEmpty(payable)){
+                return parseInt(payable) 
+            }
+        },
         showlargeImage(show){
             this.showImage = show ;
         },
