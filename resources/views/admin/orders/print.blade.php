@@ -44,6 +44,24 @@
                     <td class="price">${{$product->total}}</td>
                 </tr>
             @endforeach
+
+            <tr>
+                <td colspan="3" class="sumary-heading">Tax</td>
+
+                <td class="price">${{$order->tax}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="sumary-heading">Total Discount</td>
+
+                <td class="price">${{$order->discount}}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="sumary-heading"><strong>Total</strong></td>
+
+                <td class="price">${{$order->sub_total}}</td>
+            </tr>
+
             </tbody>
         </table>
         <p class="centered">
@@ -124,6 +142,11 @@
         padding: 0 15px;
     }
 
+    .sumary-heading {
+        font-weight: bold;
+        text-align: left;
+    }
+
     img {
         max-width: inherit !important;
         width: inherit !important;
@@ -144,10 +167,10 @@
         }
 
 
-
         body .print-view {
             display: block !important;
         }
+
         @page {
             margin: 0 15px;
         }
