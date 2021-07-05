@@ -31,17 +31,29 @@ class OrderObserver
         $productIdsWithOutSerial = [];
         $nonSerialProducts = [];
 
+
         collect($order->POSTEDPRODUCTS)
             ->filter(function ($product) {
                 return empty($product['serial_number']);
             })
             ->each(function ($product) use (&$nonSerialProducts) {
-                $nonSerialProducts[$product['product_id']] = [
-                    'product_id' => $product['product_id'],
-                    'quantity' => $product['quantity'],
-                ];
-            });
 
+                // for repetitive product n the product list like if I select 1001, 1001 2 time single single  it was consider as on before no it has been fixid
+                if (!empty($nonSerialProducts[$product['product_id']])) {
+                    $key = $nonSerialProducts[$product['product_id']];
+
+                    $nonSerialProducts[$product['product_id']] = [
+                        'product_id' => $product['product_id'],
+                        'quantity' => $product['quantity'] + $key['quantity'],
+                    ];
+
+                } else {
+                    $nonSerialProducts[$product['product_id']] = [
+                        'product_id' => $product['product_id'],
+                        'quantity' => $product['quantity'],
+                    ];
+                }
+            });
         $productIdsWithOutSerial = array_keys($nonSerialProducts);
 
         Inventory::where('store_id', Store::currentId())

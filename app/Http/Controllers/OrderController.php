@@ -173,7 +173,7 @@ class OrderController extends Controller
     {
         return view('admin.orders.print', ['order' => $order->withCustomer()
             ->withRefund()
-            ->withProductsProduct(),'store'=>Store::where('id',Store::currentId())->firstOrfail()]);
+            ->withProductsProduct(), 'store' => Store::where('id', Store::currentId())->firstOrfail()]);
     }
 
 }

@@ -55,15 +55,15 @@
                             class="no-print"
                             type="primary"
                             html-type="submit"
-                            >Checkout</a-button
-                        >
+                            >Checkout
+                        </a-button>
                         <a-button
                             class="no-print"
                             @click="print"
                             type="link"
                             v-if="isCreated || !isEmpty(order)"
-                            >Print</a-button
-                        >
+                            >Print
+                        </a-button>
                     </a-form>
                 </a-col>
                 <a-col :span="8"></a-col>
@@ -107,6 +107,7 @@ import OrderService from "../../services/API/OrderServices";
 import checkout from "./checkout";
 import printable from "./printable";
 import moment from "moment";
+
 const columns = [
     {
         title: "Name",
@@ -144,9 +145,15 @@ export default {
     props: {
         isCreated: { default: false },
         products: { default: () => [] },
-        customer: { default: () => {} },
-        billSummary: { default: () => {} },
-        createdOrder: { default: () => {} }
+        customer: {
+            default: () => {}
+        },
+        billSummary: {
+            default: () => {}
+        },
+        createdOrder: {
+            default: () => {}
+        }
     },
     data() {
         return {
@@ -179,12 +186,9 @@ export default {
                         .then(response => {
                             this.$emit("orderCreated", true);
                             this.order = response;
-                          
+
                             notification(this, response.message);
-                             this.print();
-                            // setTimeout(function() {
-                            //     this.print();
-                            // }, 1000);
+                            this.print();
                         })
                         .catch(error => {
                             errorNotification(this, error);
@@ -196,7 +200,7 @@ export default {
             this.form.setFieldsValue({ cash_back: value });
         },
         print() {
-            window.location.href = `/orders/print/${this.order.id}`
+            window.location.href = `/orders/print/${this.order.id}`;
             //window.print();
         }
     },
