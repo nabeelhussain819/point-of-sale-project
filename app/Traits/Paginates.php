@@ -11,7 +11,7 @@ namespace App\Traits;
 trait Paginates
 {
     protected $pageSize = 50;
-    protected $pageSize_homepage = 10;
+    protected $pageSize_homepage = 25;
     protected $pageSize_reports = 100;
 
     public function getPageSize(): int
