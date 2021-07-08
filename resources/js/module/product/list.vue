@@ -2,7 +2,9 @@
     <a-table :columns="columns" :data-source="data">
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="action" slot-scope="text, record">
-            <a-icon v-on:click="emitId(record.id)" type="plus" />
+            <a-button v-on:click="emitId(record.id)" type="primary">
+                Add To Cart</a-button
+            >
         </span>
         <div
             slot="filterDropdown"
