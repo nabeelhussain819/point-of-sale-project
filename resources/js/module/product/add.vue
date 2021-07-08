@@ -13,25 +13,40 @@
                 placeholder="Insert search key"
                 v-decorator="[
                     formName,
-                    {
-                        rules: rules
-                    }
+                    { initialValue: product.id, rules: rules }
                 ]"
+                :value="product.id"
                 @blur="removeError"
                 @search="getProductById"
             >
+                <a-button
+                    v-on:click="showProductsModal"
+                    type="link"
+                    slot="addonBefore"
+                    >Search</a-button
+                >
                 <a-button type="primary" slot="enterButton">
                     <a-icon type="mobile" />
                 </a-button>
             </a-input-search>
         </a-form-item>
+        <a-modal
+            :width="1100"
+            v-model="showProductModal"
+            title="Products"
+            :footer="null"
+        >
+            <List @getProduct="setProduct" />
+        </a-modal>
     </div>
 </template>
 <script>
 import InventoryService from "../../services/API/InventoryService";
-import { isEmpty } from "../../services/helpers";
+import { isEmpty, notification } from "../../services/helpers";
+import List from "./list";
 import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
 export default {
+    components: { List },
     props: {
         appendData: {
             default: () => {}
@@ -53,7 +68,9 @@ export default {
         return {
             loading: false,
             fetchProductsErrors: {},
-            customer: null
+            customer: null,
+            product: {},
+            showProductModal: false
         };
     },
     methods: {
@@ -111,6 +128,15 @@ export default {
                     errorMsg: "No Product Found Against Key"
                 };
             }
+        },
+        setProduct(id) {
+            this.product.id = id;
+            this.getProductById(id);
+            this.showProductModal = false;
+            notification(this, "product added");
+        },
+        showProductsModal() {
+            this.showProductModal = true;
         },
         resetValidation() {
             this.fetchProductsErrors = {};
