@@ -146,7 +146,7 @@
                     </a-form-item>
                 </a-col>
 
-                <a-col :span="4">
+                <a-col class="no-print" :span="4">
                     <a-form-item label="Action">
                         <a-button type="dashed" v-on:click="addItem"
                             >Add Item</a-button
@@ -292,7 +292,7 @@
                             />
                         </a-form-item>
                     </a-col>
-                    <a-col :span="4">
+                    <a-col class="no-print" :span="4">
                         <a-form-item label="Action">
                             <a-button @click="removeRow(r)" type="link"
                                 ><a-icon
@@ -319,6 +319,15 @@
                             >Print
                         </a-button>
                     </a-form-item>
+                </a-col>
+                <a-col :span="24">
+                    <a-alert
+                        closable
+                        v-if="advanceCompare"
+                        type="error"
+                        message="Please Adjust Advance Cost Equals To Total Cost"
+                        banner
+                    />
                 </a-col>
             </a-row>
         </a-form>
@@ -357,7 +366,8 @@ export default {
             customerSearchLoading: false,
             isEmpty,
             getStringId,
-            maxTotal: 0
+            maxTotal: 0,
+            advanceCompare: false
         };
     },
     mounted() {
@@ -397,6 +407,14 @@ export default {
             this.row = JSON.parse(row);
         },
         update(values) {
+            console.log(values);
+            if (values.status === "COLLECTED") {
+                if (values.advance_cost !== values.total_cost) {
+                    this.advanceCompare = true;
+                    return false;
+                }
+            }
+     
             delete values.customer_id;
             RepairService.update(this.repairId, values).then(response => {
                 this.$notification.open({
@@ -519,7 +537,7 @@ export default {
 @media print {
     .print-repair-container {
         width: 100%;
-        font-size: 12px !important;
+        font-size: 16px !important;
         .ant-form-item-label {
             height: 60px !important;
         }
@@ -530,8 +548,17 @@ export default {
             display: none;
         }
         .ant-form label {
-            font-size: 12px !important;
+            font-size: 16px !important;
         }
+    }
+    .ant-divider,
+    .ant-modal-close-x,
+    .anticon-close {
+        display: none !important;
+    }
+    .no-print,
+    .no-print * {
+        display: none !important;
     }
 }
 </style>
