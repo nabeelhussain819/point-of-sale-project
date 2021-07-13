@@ -93,7 +93,6 @@
             <a-col :span="2">
                 <a-form-item>
                     <a-input
-                       
                         type="number"
                         v-decorator="[
                             `productItem[${key}][price]`,
@@ -187,7 +186,7 @@ export default {
             delete products[key];
             this.updateProducts(products);
         },
-        computedTotal(event, key) {           
+        computedTotal(event, key) {
             let quantity = isEmpty(event.target) ? event : event.target.value;
             this.updateQuantity(quantity, key);
         },
@@ -223,6 +222,7 @@ export default {
                         return callback(e.response.data.message);
                     });
             }
+               callback();
         },
         cancelSearch() {
             if (this.cancelSource) {
@@ -231,10 +231,9 @@ export default {
                 );
             }
         },
-        cost(value, key){
+        cost(value, key) {
             value = value.target.value;
             let pp = this.products;
-           
 
             pp[key].min_price = value;
 
