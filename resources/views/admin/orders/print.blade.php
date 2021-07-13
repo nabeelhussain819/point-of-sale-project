@@ -48,14 +48,14 @@
             <tr>
                 <td colspan="3" class="sumary-heading">Tax</td>
 
-                <td class="price">${{$order->tax}}</td>
+                <td class="price">{{empty($order->tax) ? 0 :$order->tax}}%</td>
             </tr>
 
-            <tr>
-                <td colspan="3" class="sumary-heading">Total Discount</td>
+            {{--            <tr>--}}
+            {{--                <td colspan="3" class="sumary-heading">Total Discount</td>--}}
 
-                <td class="price">${{$order->discount}}</td>
-            </tr>
+            {{--                <td class="price">${{$order->discount}}</td>--}}
+            {{--            </tr>--}}
             <tr>
                 <td colspan="3" class="sumary-heading"><strong>Total</strong></td>
 
