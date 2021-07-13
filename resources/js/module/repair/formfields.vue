@@ -322,7 +322,6 @@
                 </a-col>
                 <a-col :span="24">
                     <a-alert
-                        closable
                         v-if="advanceCompare"
                         type="error"
                         message="Please Adjust Advance Cost Equals To Total Cost"
@@ -403,18 +402,16 @@ export default {
         },
         updateRow(row) {
             row = JSON.stringify(row);
-            console.log(row);
             this.row = JSON.parse(row);
         },
         update(values) {
-            console.log(values);
             if (values.status === "COLLECTED") {
                 if (values.advance_cost !== values.total_cost) {
                     this.advanceCompare = true;
                     return false;
                 }
             }
-     
+
             delete values.customer_id;
             RepairService.update(this.repairId, values).then(response => {
                 this.$notification.open({
@@ -502,7 +499,7 @@ export default {
                         let productsId = this.row.map(
                             product => product.product_id
                         );
-                        console.log();
+
                         this.fetchProductRequest({
                             id: productsId,
                             isRepair: true
