@@ -47,6 +47,12 @@ trait AppliesQueryParams
                 $search = StringHelper::lower($search);
 
                 return $builder->where('name', 'ilike', "%" . $search . "%");
+            })->when($request->get('product_name'), function (Builder $builder, $search) {
+                $search = StringHelper::lower($search);
+
+                return $builder->whereHas('product', function (Builder $query) use ($search) {
+                    return $query->where('name', 'ilike', "%" . $search . "%");
+                });
             })->when($request->get('product_id'), function (Builder $builder, $productId) {
                 if (StringHelper::isInt($productId)) {
                     return $builder->where('product_id', $productId);

@@ -118,7 +118,7 @@ class Inventory extends Base
     public function withProduct()
     {
         return $this->with(['product' => function (BelongsTo $belongsTo) {
-            $belongsTo->select(['id', 'name', 'has_serial_number']);
+            $belongsTo->select(['id', 'name', 'has_serial_number', 'UPC']);
         }]);
     }
 

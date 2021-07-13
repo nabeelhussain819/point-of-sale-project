@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\StringHelper;
 use App\Models\Inventory;
 use App\Models\ProductSerialNumbers;
 use App\Models\Refund;
@@ -138,6 +139,17 @@ class InventoryController extends Controller
     {
         $inventory = new Inventory();
         return $inventory->getAllProducts($request);
+    }
+
+    public function search(Request $request)
+    {
+        $inventory = new Inventory();
+        return $inventory->
+        withProduct()->select(['id', 'quantity', 'product_id'])
+            ->where($this->applyFilters($request))
+            ->where('store_id', Store::currentId())
+
+            ->get();
     }
 
     public function all(Request $request)

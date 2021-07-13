@@ -129,4 +129,8 @@ class Product extends Base
         $this->attributes['UPC'] = StringHelper::lower($upc);
     }
 
+    public function setNameAttribute($upc)
+    {
+        $this->attributes['name'] = StringHelper::lower($upc);
+    }
 }

@@ -179,6 +179,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/fetch', [InventoryController::class, 'list']);
         Route::get('/all', [InventoryController::class, 'all']);
         Route::put("{inventory}/change-bin", [InventoryController::class, 'changeBin']);
+        Route::get('/search', [InventoryController::class, 'search']);
+
     });
 
     Route::group(['prefix' => 'finance'], function () {

@@ -2,7 +2,7 @@
     <a-table :columns="columns" :data-source="data">
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="action" slot-scope="text, record">
-            <a-button v-on:click="emitId(record.id)" type="primary">
+            <a-button v-on:click="emitId(record.product.id)" type="primary">
                 Add To Cart</a-button
             >
         </span>
@@ -41,17 +41,17 @@
     </a-table>
 </template>
 <script>
-import ProductService from "../../services/API/ProductService";
+import InventoryService from "../../services/API/InventoryService";
 const columns = [
     {
         title: "ID",
-        dataIndex: "id",
+        dataIndex: "product.id",
         key: "id"
     },
     {
         title: "Product Name",
-        dataIndex: "name",
-        key: "name",
+        dataIndex: "product.name",
+        key: "product_name",
         scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon"
@@ -59,8 +59,13 @@ const columns = [
     },
     {
         title: "Upc",
-        dataIndex: "UPC",
+        dataIndex: "product.UPC",
         key: "UPC"
+    },
+    {
+        title: "quantity",
+        dataIndex: "quantity",
+        key: "quantity"
     },
     {
         title: "Action",
@@ -79,7 +84,7 @@ export default {
     },
     methods: {
         fetch(params = {}) {
-            ProductService.getAll(params).then(products => {
+            InventoryService.search(params).then(products => {
                 this.data = products;
             });
         },
