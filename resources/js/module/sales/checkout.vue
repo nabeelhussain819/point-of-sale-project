@@ -24,7 +24,7 @@
                                     {
                                         required: true,
                                         message:
-                                            'Please input your customer_number!'
+                                            'Please input your customer card number!'
                                     }
                                 ]
                             }
@@ -35,7 +35,6 @@
                     <!-- ------------------- -->
 
                     <a-input-number
-                        :min="getMin()"
                         v-on:change="getAmount"
                         type="number"
                         v-decorator="[
@@ -44,8 +43,11 @@
                                 rules: [
                                     {
                                         required: true,
-                                        message:
-                                            'Please input your customer_number!'
+                                        message: 'Please input your amount!'
+                                    },
+                                    {
+                                        validator: (rule, value, callback) =>
+                                            validateTotal(rule, value, callback)
                                     }
                                 ]
                             }
@@ -95,6 +97,17 @@ export default {
         },
         paymentMode(e) {
             this.isCash = e.target.value === "cash";
+        },
+        validateTotal(rule, value, callback, key) {
+            if (!isEmpty(value)) {
+                let prices = this.getMin();
+                if (prices > value) {
+                    callback(
+                        "Please add value greater than sub total  $" + prices
+                    );
+                }
+            }
+            callback();
         },
         getAmount(e) {
             let cash = e;
