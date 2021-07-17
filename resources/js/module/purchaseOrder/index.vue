@@ -59,7 +59,7 @@ export default {
                     PurchaseOrderServices.create(values)
                         .then(response => {
                             notification(this, response.message);
-                            console.log(response);
+                            location.reload();
                         })
                         .catch(error => {
                             errorNotification(this, error);
