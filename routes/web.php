@@ -25,7 +25,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStoreController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\TrackingController;
-
+use \App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -188,6 +188,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/installment/{finance}', [FinanceController::class, 'installment']);
         Route::post('/payInstallment/{finance}', [FinanceController::class, 'payInstallment']);
         Route::post('/uploads/{finance}', [FinanceController::class, 'upload']);
+    });
+
+    Route::group(['prefix' => 'reports'], function () {
+        Route::get('/', [ReportController::class, 'index']);
+        Route::get('/entity-search', [ReportController::class, 'entitySearch']);
     });
 
     Route::group(['prefix' => 'store'], function () {

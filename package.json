@@ -25,9 +25,11 @@
     },
     "dependencies": {
         "ant-design-vue": "^1.7.4",
+        "chart.js": "2",
         "fix": "0.0.6",
         "npm": "^7.11.1",
         "vue": "^2.6.12",
+        "vue-chartjs": "^3.5.1",
         "vue-router": "^3.5.1"
     }
 }
