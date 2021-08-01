@@ -19,7 +19,7 @@ export default {
                 labels: this.label,
                 datasets: [
                     {
-                        label: "Bar Chart",
+                        label: "Total",
                         borderWidth: 1,
                         backgroundColor: [
                             "rgba(255, 99, 132, 0.2)",
@@ -49,7 +49,7 @@ export default {
                             "rgba(153, 102, 255, 1)",
                             "rgba(255, 159, 64, 1)"
                         ],
-                        pointBorderColor: "#2554FF",
+                        pointBorderColor: "rgba(255, 159, 64, 1)",
                         data: this.data
                     }
                 ]
@@ -77,6 +77,7 @@ export default {
                 legend: {
                     display: true
                 },
+
                 responsive: true,
                 maintainAspectRatio: false
             }

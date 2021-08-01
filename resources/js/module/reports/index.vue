@@ -4,15 +4,16 @@
 
         <a-row>
             <a-col :span="12">
-                <a-statistic
+                <a-card
+                    @click=""
+                    hoverable
                     v-for="record in records"
                     :key="record.name"
                     :title="record.name"
-                    :value="record.total"
                 >
-                    <template #suffix>$</template></a-statistic
-                ></a-col
-            >
+                    <span>{{ record.total }}$</span>
+                </a-card>
+            </a-col>
             <a-col :span="12">
                 <barChart v-if="label.length > 0" :label="label" :data="data"
             /></a-col>
