@@ -1,8 +1,17 @@
 <template>
     <a-card title="Reports">
-        <filters />
-        <a-divider></a-divider>
-        <summary-report @selectType="selectType" />
+        <a-row :gutter="16">
+            <a-col :span="7">
+                <a-card title="Filters">
+                    <filters />
+                </a-card>
+            </a-col>
+            <a-col :span="17">
+                <a-card title="Results">
+                    <summary-report @selectType="selectType" />
+                </a-card>
+            </a-col>
+        </a-row>
     </a-card>
 </template>
 <script>
