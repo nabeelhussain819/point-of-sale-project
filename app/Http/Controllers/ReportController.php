@@ -35,4 +35,14 @@ class ReportController extends Controller
 
         return $products;
     }
+
+    public function detail($name, Request $request)
+    {
+        $data = [];
+        if ($name === "Products") {
+            return [];
+        }
+
+
+    }
 }

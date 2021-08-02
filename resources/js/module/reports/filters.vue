@@ -10,6 +10,12 @@
                 <a-col :span="12">
                     <a-form-item label="Duration">
                         <a-range-picker
+                            v-decorator="[
+                                'date_range',
+                                {
+                                    initialValue: [getPastMoment(365), moment()]
+                                }
+                            ]"
                             :ranges="{
                                 Today: [moment(), moment()],
                                 Week: [getPastMoment(7), moment()],
@@ -22,7 +28,7 @@
                 ></a-col>
 
                 <a-col :span="8">
-                    <a-form-item :wrapper-col="{ span: 12 }">
+                    <a-form-item label="">
                         <a-button
                             type="primary"
                             class="no-print"
@@ -42,7 +48,7 @@ import moment from "moment";
 export default {
     data() {
         return {
-            formLayout: "inline",
+            formLayout: "vertical",
             form: this.$form.createForm(this, { name: "addRepair" }),
             dateFormat: "YYYY/MM/DD",
             monthFormat: "YYYY/MM"
@@ -50,7 +56,14 @@ export default {
     },
     methods: {
         moment,
-        handleSubmit() {},
+        handleSubmit(e) {
+            e.preventDefault();
+            this.form.validateFields((err, values) => {
+                if (!err) {
+                    console.log("values", values);
+                }
+            });
+        },
         getPastMoment(days) {
             return moment().subtract(days, "days");
         },

@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'reports'], function () {
         Route::get('/', [ReportController::class, 'index']);
         Route::get('/entity-search', [ReportController::class, 'entitySearch']);
+        Route::get('/{name}', [ReportController::class, 'detail']);
     });
 
     Route::group(['prefix' => 'store'], function () {
