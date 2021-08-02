@@ -19,7 +19,7 @@
             <i class="fas fa-money-check-alt"></i>
             <span> Sales</span>
         </a>
-        <a href="{{route("welcome")}}" class="col-1 menu-header-icon">
+        <a href="{{route("reports")}}" class="col-1 menu-header-icon">
             <i class="far fa-file-image"></i>
             <span> Reports</span>
         </a>
