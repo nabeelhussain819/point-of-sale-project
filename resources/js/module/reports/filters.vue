@@ -7,7 +7,7 @@
             class="print-repair-container"
         >
             <a-row :gutter="24">
-                <a-col :span="12">
+                <a-col :span="24">
                     <a-form-item label="Duration">
                         <a-range-picker
                             v-decorator="[
@@ -27,7 +27,7 @@
                         /> </a-form-item
                 ></a-col>
 
-                <a-col :span="8">
+                <a-col :span="24">
                     <a-form-item label="">
                         <a-button
                             type="primary"
