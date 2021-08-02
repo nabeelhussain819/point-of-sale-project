@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
+use App\Traits\InteractWithReports;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class ReportController extends Controller
 {
+    use InteractWithReports;
+
     public function index()
     {
         //
@@ -40,9 +43,10 @@ class ReportController extends Controller
     {
         $data = [];
         if ($name === "Products") {
-            return [];
+            return $this->report_sales($request);
+        } else if ($name === "Finances") {
+            return $this->report_finance($request);
         }
-
 
     }
 }

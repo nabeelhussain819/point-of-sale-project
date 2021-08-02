@@ -10,8 +10,16 @@ function mainCategory(params = {}) {
     });
 }
 
+function detail(id, params = {}) {
+    return request({
+        url: `${baseUrl}/${id}`,
+        params
+    });
+}
+
 const ReportsService = {
-    mainCategory
+    mainCategory,
+    detail
 };
 
 export default ReportsService;

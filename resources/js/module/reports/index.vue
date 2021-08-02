@@ -8,7 +8,18 @@
             </a-col>
             <a-col :span="17">
                 <a-card title="Results">
-                    <summary-report @selectType="selectType" />
+                    <a-button
+                        type="primary"
+                        slot="extra"
+                        v-if="showDetail"
+                        @click="handleDetailTab(false)"
+                        >Back</a-button
+                    >
+                    <summary-report
+                        v-if="!showDetail"
+                        @selectType="selectType"
+                    />
+                    <detail :type="selectedReport" v-else />
                 </a-card>
             </a-col>
         </a-row>
@@ -16,9 +27,10 @@
 </template>
 <script>
 import summaryReport from "./summary";
+import detail from "./detail";
 import filters from "./filters";
 export default {
-    components: { summaryReport, filters },
+    components: { summaryReport, filters, detail },
     data() {
         return {
             selectedReport: null,
@@ -27,7 +39,11 @@ export default {
     },
     methods: {
         selectType(type) {
-            console.log(type);
+            this.selectedReport = type;
+            this.showDetail = true;
+        },
+        handleDetailTab(show) {
+            this.showDetail = show;
         }
     }
 };
