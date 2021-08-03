@@ -1,7 +1,7 @@
 <template>
     <a-skeleton :paragraph="{ rows: 10 }" :loading="loading">
         <productsReport
-            v-if="type === 'Products'"
+            v-if="type === 'Sales'"
             :columns="productColumns"
             :data="data"
         />

@@ -21,17 +21,17 @@ class ReportController extends Controller
     {
         $finance = \DB::table('finances')
             ->where('store_id', Store::currentId())
-            ->selectRaw("sum(total) as total,'Finances' as name ");
+            ->selectRaw("ROUND(sum(total)) as total,'Finances' as name ");
 
 
         $repairs = \DB::table('repairs')
             ->where('store_id', Store::currentId())
-            ->selectRaw("sum(total_cost) as total,'Repair' as name ");
+            ->selectRaw("ROUND(sum(total_cost)) as total,'Repair' as name ");
 
 
         $products = \DB::table('orders')
             ->where('store_id', Store::currentId())
-            ->selectRaw("sum(sub_total) as total,'Products' as name ")
+            ->selectRaw("ROUND(sum(sub_total)) as total,'Sales' as name ")
             ->union($repairs)
             ->union($finance)
             ->get();
@@ -41,8 +41,7 @@ class ReportController extends Controller
 
     public function detail($name, Request $request)
     {
-        $data = [];
-        if ($name === "Products") {
+        if ($name === "Sales") {
             return $this->report_sales($request);
         } else if ($name === "Finances") {
             return $this->report_finance($request);
