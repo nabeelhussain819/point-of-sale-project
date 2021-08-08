@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Core\Base;
 use App\Helpers\ArrayHelper;
 use App\Helpers\GuidHelper;
+use App\Observers\FinanceObserver;
+use App\Scopes\StoreGlobalScope;
 use Carbon\Carbon;
 
 /**
@@ -57,6 +59,13 @@ class Repair extends Base
         return $this->belongsTo('App\Models\Customer');
     }
 
+    public static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new StoreGlobalScope());
+       
+    }
+
     public function products()
     {
         return $this->belongsToMany(RepairsProduct::class, 'repairs_products', 'repair_id', 'repair_id');
@@ -83,9 +92,9 @@ class Repair extends Base
 
             $product['product_id'] = Product::getIdByRequest($product['product_id'], ['is_repair' => true]);
 
-            $product['device_type_id'] = isset($product['device_type_id']) ?  DevicesType::getIdByRequest($product['device_type_id']): null;
+            $product['device_type_id'] = isset($product['device_type_id']) ? DevicesType::getIdByRequest($product['device_type_id']) : null;
             $product['issue_id'] = isset($product['issue_id']) ? IssueType::getIdByRequest($product['issue_id']) : null;
-            $product['brand_id'] =isset($product['brand_id'])? Brand::getIdByRequest($product['brand_id']):null;
+            $product['brand_id'] = isset($product['brand_id']) ? Brand::getIdByRequest($product['brand_id']) : null;
             return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
         })->all();
 

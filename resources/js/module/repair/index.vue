@@ -1,7 +1,11 @@
 <template>
     <div>
         <a-skeleton :loading="loading">
-            <a-table :columns="columns" :data-source="data">
+            <a-table
+                :columns="columns"
+                :data-source="data"
+                :rowClassName="rowClassName"
+            >
                 <template slot="title">
                     <a-button type="primary" v-on:click="add()">Add </a-button>
                 </template>
@@ -230,6 +234,12 @@ export default {
         add() {
             this.repairId = null;
             this.showAddModal(true);
+        },
+        rowClassName(row) {
+            if(row.status ==="COLLECTED"){
+                return "green-row";
+            }
+            return "red-row";
         }
     },
     components: {

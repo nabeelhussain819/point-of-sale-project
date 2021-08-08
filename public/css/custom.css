@@ -82,12 +82,34 @@ body .ant-form {
 /*    font-size: calc(2px + 1.5vw) !important;*/
 /*}*/
 
-body *{
-   // font-size: calc(2px + 1.5vw) !important;
+body * {
+/ / font-size: calc(2 px + 1.5 vw) !important;
     font-size: 18px !important;
 }
-.ant-btn{
-    height: auto ;
+
+.ant-btn {
+    height: auto;
 }
 
-.card-body .col i{font-size: 70px !important;}
+.card-body .col i {
+    font-size: 70px !important;
+}
+
+
+.green-row td {
+    color: #52c41a !important;;
+    background: #f6ffed !important;
+    border-color: #b7eb8f !important;
+}
+
+.red-row td {
+    color: #fa541c !important;
+    background: #fff2e8 !important;
+    border-color: #ffbb96 !important;
+}
+
+.blue-row td {
+    color: #2f54eb  !important;
+    background: #f0f5ff  !important;
+    border-color: #adc6ff !important;
+}
