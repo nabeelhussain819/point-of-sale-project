@@ -3,7 +3,7 @@
         <div class="no-print">
             <a-row class="m-2 ">
                 <a-col :span="12">
-                    <h1 class="heading only-for-print">XYZ Company</h1>
+                    <!-- <h1 class="heading only-for-print">XYZ Company</h1> -->
                     <span class="customer-detail">
                         Customer :
                         <span>
@@ -208,6 +208,8 @@ export default {
         this.fetchPrintDetail();
         if (!isEmpty(this.createdOrder)) {
             this.order = this.createdOrder;
+            this.currentDateTime = this.order.date;
+            console.log(this.order);
         }
     }
 };

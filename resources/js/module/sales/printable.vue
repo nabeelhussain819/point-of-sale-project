@@ -21,7 +21,7 @@
                         }},{{ printDetail.store.state }}<br />
                         Email : Requried Email<br />
                         Phone :{{ printDetail.store.primary_phone }}<br />
-                        Date : {{ currentDateTime }}<br />
+                        Date : {{ getDateTime() }}<br />
                         Customer :
                         <span v-if="!isEmpty(customer)">{{
                             customer.name_phone
@@ -126,6 +126,11 @@ export default {
         customer: { default: () => {} },
         order: { default: () => {} },
         printDetail: { default: () => [] }
+    },
+    methods:{
+        getDateTime(){
+            return "test";
+        }
     }
 };
 </script>
