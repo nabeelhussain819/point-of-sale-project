@@ -10,7 +10,7 @@
                         <input type="text" class="form-control" wire:model="name" id="exampleInputEmail1"
                                placeholder="Name" required>
                     </div>
-               
+
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="form-group">
@@ -31,8 +31,7 @@
                     {{--</div>--}}
                 </div>
             </div>
-            <button wire:click="update()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Add
-                New
+            <button wire:click="update()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Update
             </button>
         </div>
         @if (isset($errors) && count($errors) > 0)

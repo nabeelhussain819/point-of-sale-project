@@ -22,7 +22,7 @@ class Customers extends Component
     {
         $this->validate([
             'name' => 'required',
-            'email' => 'required|unique:customers',
+            'email' => 'required|unique:customers|email',
             'phone' => 'required',
 
         ]);
@@ -47,18 +47,19 @@ class Customers extends Component
         $this->phone = $customer->phone;
         $this->telephone = $customer->telephone;
         $this->updateMode = true;
+
     }
 
     public function update()
     {
-        $this->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-        ]);
+
 
         $customer = Customer::findOrFail($this->selected_id);
-
+        $this->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:customers,email,' . $customer->id,
+            'phone' => 'required',
+        ]);
         $customer->update([
             'name' => $this->name,
             'email' => $this->email,
@@ -67,6 +68,7 @@ class Customers extends Component
 
         $this->updateMode = false;
         session()->flash('success', 'Customer Updated');
+        $this->resetField();
     }
 
     public function delete($id)
