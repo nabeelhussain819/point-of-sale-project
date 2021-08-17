@@ -4,6 +4,7 @@
         :data-source="data"
         :loading="loading"
         :columns="columns"
+        :rowClassName="rowClassName"
     >
         <div
             slot="filterDropdown"
@@ -216,6 +217,12 @@ export default {
         };
     },
     methods: {
+        rowClassName(row) {
+            if (row.status_id === 3) {
+                return "green-row";
+            }
+            return "red-row";
+        },
         showModal(finance) {
             this.$eventBus.$emit(EVENT_FINANCE_SHOWING_EDIT_MODAL, finance);
         },
