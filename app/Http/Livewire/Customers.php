@@ -14,7 +14,8 @@ class Customers extends Component
 
     public function render()
     {
-        return view('livewire.customer.index',['customers' => Customer::all()]);
+
+        return view('livewire.customer.index', ['customers' => Customer::orderBy("created_at", "desc")->paginate(25)]);
     }
 
     public function store()
@@ -34,7 +35,7 @@ class Customers extends Component
             'updated_at' => Carbon::now(),
         ]);
         $this->resetField();
-        session()->flash('success','Customer Added');
+        session()->flash('success', 'Customer Added');
     }
 
     public function edit($id)
@@ -65,14 +66,14 @@ class Customers extends Component
         ]);
 
         $this->updateMode = false;
-        session()->flash('success','Customer Updated');
+        session()->flash('success', 'Customer Updated');
     }
 
     public function delete($id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
-        session()->flash('success','Customer Deleted');
+        session()->flash('success', 'Customer Deleted');
     }
 
     public function resetField()

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class=" col-sm-12">
             @if(auth()->user()->hasPermissionTo('customer-create'))
                 @if(auth()->user()->hasPermissionTo('category-create'))
                     @if($updateMode)
@@ -14,7 +14,7 @@
             @endif
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-6 ">
+        <div class="col-sm-12 ">
             <div class="table-responsive">
                 <table class="table mt-5">
                     @if (session('success'))
@@ -37,6 +37,7 @@
                     @php
                         $count = 1;
                     @endphp
+
                     @forelse($customers as $item)
                         <tr>
                             <td>{{$count++}}</td>
@@ -52,7 +53,8 @@
                                                     class="fa fa-pen"></i></button>
                                     @endif
                                     @if(auth()->user()->hasPermissionTo('customer-delete'))
-                                        <button type="submit" class="btn btn-danger ml-1" wire:click="delete({{$item->id}})">
+                                        <button type="submit" class="btn btn-danger ml-1"
+                                                wire:click="delete({{$item->id}})">
                                             <i class="fa fa-trash"></i></button>
                                     @endif
                                 </div>
@@ -61,8 +63,11 @@
                     @empty
                         <p>No customers</p>
                     @endforelse
+
+
                     </tbody>
                 </table>
+                {{$customers->links()}}
             </div>
         </div>
     </div>
