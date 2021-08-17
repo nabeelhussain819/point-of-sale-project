@@ -208,8 +208,7 @@ export default {
         this.fetchPrintDetail();
         if (!isEmpty(this.createdOrder)) {
             this.order = this.createdOrder;
-            this.currentDateTime = this.order.date;
-            console.log(this.order);
+            this.currentDateTime = this.order.date;          
         }
     }
 };
