@@ -2,11 +2,12 @@
     <div>
         <a-col :span="6">
             <a-form-item
-                label="Lookup"
+                
                 :validate-status="fetchProductsErrors.validateStatus"
                 :help="fetchProductsErrors.errorMsg"
             >
-                <a-input-search
+                <AddProduct />
+                <!-- <a-input-search
                     enter-button
                     v-decorator="[
                         'product_upc',
@@ -20,8 +21,9 @@
                         }
                     ]"
                     @search="getProductById"
-                    type="text"/></a-form-item
-        ></a-col>
+                    type="text"/> -->
+            </a-form-item></a-col
+        >
         <a-col :span="6">
             <a-form-item label="Product Name">
                 <a-input
@@ -56,7 +58,12 @@
 <script>
 import InventoryService from "../../services/API/InventoryService";
 import { isEmpty } from "../../services/helpers";
+import AddProduct from "../product/add";
+import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
 export default {
+    components: {
+        AddProduct
+    },
     props: {
         form: {
             default: () => {}
@@ -72,8 +79,19 @@ export default {
     },
     mounted() {
         this.setSerialRule(true);
+        this.addProductDetail();
     },
+
     methods: {
+        addProductDetail() {
+            const getProductById = this.getProductById
+            this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function(
+                product
+            ) {
+                getProductById(product.id);
+                console.log(product);
+            });
+        },
         getSerialRules(hasSerial) {
             if (hasSerial) {
                 return [
