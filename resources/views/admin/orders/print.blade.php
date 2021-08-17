@@ -8,7 +8,7 @@
                         }},{{ $store->state }}<br/>
 
             Phone :{{ $store->primary_phone }}<br/>
-            Date : {{ $store->created_at->format("Y/m/d h:m A") }}<br/>
+            Date : {{ $order->created_at->format("Y/m/d h:m A") }}<br/>
             <span class="customer-detail">
                         Customer :
                         <span>
@@ -65,12 +65,13 @@
             </tbody>
         </table>
         <p class="centered">
-            <strong>Thank you for your business!</strong> Payment is
-            expected within 15 days; please process this invoice
-            within that time. There will be a 5% interest charge per
-            month on late invoices.
+            <strong>Thank you for your business!</strong>
+{{--            Payment is--}}
+{{--            expected within 15 days; please process this invoice--}}
+{{--            within that time. There will be a 5% interest charge per--}}
+{{--            month on late invoices.--}}
         </p>
-        <div class="design_by">Software Design by www.Afnato.com</div>
+{{--        <div class="design_by">Software Design by www.Afnato.com</div>--}}
     </div>
 </div>
 <button id="btnPrint" class="hidden-print">Print</button>
