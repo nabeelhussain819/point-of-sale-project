@@ -34,7 +34,7 @@ class FinanceController extends Controller
 
     /**
      * @param Request $request
-     * @throws \Throwable
+     * @return mixed
      */
     public function store(Request $request)
     {
