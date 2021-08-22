@@ -340,7 +340,13 @@ import ProductService from "../../services/API/ProductService";
 import IssueTypeService from "../../services/API/IssueTypeService";
 import RepairService from "../../services/API/RepairService";
 import CustomerService from "../../services/API/CustomerService";
-import { isEmpty, filterOption, getStringId } from "../../services/helpers";
+import {
+    isEmpty,
+    filterOption,
+    getStringId,
+    errorNotification,
+} from "../../services/helpers";
+
 export default {
     props: {
         repairId: { default: null }
@@ -423,14 +429,19 @@ export default {
             });
         },
         save(values) {
-            RepairService.create(values).then(response => {
-                this.$notification.open({
-                    message: "Created",
-                    description: response.message
-                });
+            RepairService.create(values)
+                .then(response => {
+                    this.$notification.open({
+                        message: "Created",
+                        description: response.message
+                    });
 
-                this.$emit("close", false);
-            });
+                    this.$emit("close", false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    errorNotification(this, error);
+                });
         },
         addItem() {
             this.row = [...this.row, {}];

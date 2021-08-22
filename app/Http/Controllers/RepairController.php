@@ -49,7 +49,11 @@ class RepairController extends Controller
             $customerId = $request->get('customer_id')[0]; //
 
             if (!StringHelper::isInt($customerId)) {
-                $customer = Customer::basicCreate($customerId, $request->get('phone'));
+               // $customer = Customer::basicCreate($customerId, $request->get('phone'));
+
+                $customer = Customer::moduleCreate(['customer_id' => $customerId, "customer_phone" => $request->get('phone')]);
+
+
                 $customerId = $customer->id;
             }
 
@@ -113,7 +117,7 @@ class RepairController extends Controller
     {
 
         return Repair::where($this->applyFilters($request))
-            ->with("customer")->orderBy('created_at',"desc")->paginate($this->pageSize);
+            ->with("customer")->orderBy('created_at', "desc")->paginate($this->pageSize);
     }
 
     public function statuses()
