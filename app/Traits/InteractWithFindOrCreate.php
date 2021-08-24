@@ -12,6 +12,7 @@ namespace App\Traits;
 use App\Helpers\ArrayHelper;
 use App\Helpers\StringHelper;
 use App\Models\Customer;
+use App\Scopes\ProductRepairScope;
 
 trait InteractWithFindOrCreate
 {
@@ -19,7 +20,7 @@ trait InteractWithFindOrCreate
     {
         $name = StringHelper::lower($name);
 
-        $model = self::firstOrNew(['name' => $name]);
+        $model = self::withoutGlobalScope(new ProductRepairScope)->firstOrNew(['name' => $name]);
         if (empty($model->id)) {
             $model->fill(ArrayHelper::merge(['name' => $name], $attributes));
             $model->save();

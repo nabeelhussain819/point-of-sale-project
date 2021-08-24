@@ -49,7 +49,7 @@ class RepairController extends Controller
             $customerId = $request->get('customer_id')[0]; //
 
             if (!StringHelper::isInt($customerId)) {
-               // $customer = Customer::basicCreate($customerId, $request->get('phone'));
+                // $customer = Customer::basicCreate($customerId, $request->get('phone'));
 
                 $customer = Customer::moduleCreate(['customer_id' => $customerId, "customer_phone" => $request->get('phone')]);
 

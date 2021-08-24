@@ -63,7 +63,6 @@ class Repair extends Base
     {
         parent::boot();
         static::addGlobalScope(new StoreGlobalScope());
-       
     }
 
     public function products()
