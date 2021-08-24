@@ -14,7 +14,6 @@ use App\Models\Repair;
 use App\Models\Store;
 use DB;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Exception;
 
 class RepairController extends Controller
 {
@@ -48,6 +47,9 @@ class RepairController extends Controller
         return DB::transaction(function () use ($request) {
             if (empty($request->get('productItem'))) {
                 throw new \Exception("Please associated item to the repair");
+            }
+            if ($request->get('advance_cost')>=$request->get('total_cost')) {
+                throw new \Exception("advance cost could not be greater than or equals to total cost ");
             }
             $repair = new Repair();
             $customerId = $request->get('customer_id')[0]; //
