@@ -14,6 +14,7 @@ use App\Models\Repair;
 use App\Models\Store;
 use DB;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
 
 class RepairController extends Controller
 {
@@ -45,14 +46,15 @@ class RepairController extends Controller
     public function store(Request $request)
     {
         return DB::transaction(function () use ($request) {
+            if (empty($request->get('productItem'))) {
+                throw new \Exception("Please associated item to the repair");
+            }
             $repair = new Repair();
             $customerId = $request->get('customer_id')[0]; //
 
             if (!StringHelper::isInt($customerId)) {
-                // $customer = Customer::basicCreate($customerId, $request->get('phone'));
 
                 $customer = Customer::moduleCreate(['customer_id' => $customerId, "customer_phone" => $request->get('phone')]);
-
 
                 $customerId = $customer->id;
             }

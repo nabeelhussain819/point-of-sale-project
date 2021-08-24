@@ -263,6 +263,13 @@
                                 v-decorator="[
                                     `productItem[${r}][issue_id]`,
                                     {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message:
+                                                    'Please input your customer!'
+                                            }
+                                        ],
                                         initialValue: getStringId(
                                             product.issue_id
                                         )
@@ -344,7 +351,7 @@ import {
     isEmpty,
     filterOption,
     getStringId,
-    errorNotification,
+    errorNotification
 } from "../../services/helpers";
 
 export default {
@@ -380,6 +387,10 @@ export default {
         this.loadBrands();
         this.fetchIssues();
         this.fetchRepair(this.repairId);
+        
+        if (!this.isCreated) {
+            this.addItem();
+        }
     },
     methods: {
         print() {
