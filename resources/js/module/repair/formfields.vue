@@ -52,6 +52,7 @@
                     <a-form-item label="Customer Number">
                         <a-input
                             type="number"
+                            :disabled="!isEmpty(repair.customer)"
                             v-decorator="[
                                 'phone',
                                 {
@@ -387,7 +388,7 @@ export default {
         this.loadBrands();
         this.fetchIssues();
         this.fetchRepair(this.repairId);
-        
+
         if (!this.isCreated) {
             this.addItem();
         }
