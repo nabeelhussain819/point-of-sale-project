@@ -531,7 +531,7 @@ export default {
             }
         },
         customerSearch(value, event) {
-            if (value.length > 3) {
+            if (value.length > 1) {
                 this.customerSearchLoading = true;
                 CustomerService.search({ search: value }).then(customers => {
                     this.customers = customers.data;
