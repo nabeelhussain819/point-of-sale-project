@@ -52,11 +52,11 @@
                                         <button class="btn btn-info mr-1" wire:click="edit({{$item->id}})"><i
                                                     class="fa fa-pen"></i></button>
                                     @endif
-                                    @if(auth()->user()->hasPermissionTo('customer-delete'))
-                                        <button type="submit" class="btn btn-danger ml-1"
-                                                wire:click="delete({{$item->id}})">
-                                            <i class="fa fa-trash"></i></button>
-                                    @endif
+{{--                                    @if(auth()->user()->hasPermissionTo('customer-delete'))--}}
+{{--                                        <button type="submit" class="btn btn-danger ml-1"--}}
+{{--                                                wire:click="delete({{$item->id}})">--}}
+{{--                                            <i class="fa fa-trash"></i></button>--}}
+{{--                                    @endif--}}
                                 </div>
                             </td>
                         </tr>
