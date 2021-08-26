@@ -47,7 +47,7 @@ trait NewCustomers
             }
         } catch (\Exception $e) {
             if ($e instanceof QueryException) {
-                throw  new \Exception("Phone Number associate with the other customer please try other number");
+                throw  new \Exception("Customer already exists with this number");
             }
         }
 
