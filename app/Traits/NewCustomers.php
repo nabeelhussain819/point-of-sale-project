@@ -28,17 +28,20 @@ trait NewCustomers
             if (isset($data['customer_id'])) {
                 $isNewCustomer = StringHelper::isInt($data['customer_id'][0]);
 
+                //if customer already exist
                 if ($isNewCustomer) {
                     return Customer::find($data['customer_id'][0]);
                 }
+
                 $customer = new Customer();
 
                 $customer->fill([
-                        'name' => isset($data['customer_id']) ? $data['customer_id'][0] : '',
+                        'name' => isset($data['customer_id']) ? $data['customer_id'] : '',
                         'phone' => isset($data['customer_phone']) ? $data['customer_phone'] : '',
                         'address' => isset($data['customer_address']) ? $data['customer_address'] : '',
                     ]
                 );
+
                 $customer->save();
                 return $customer;
             }
