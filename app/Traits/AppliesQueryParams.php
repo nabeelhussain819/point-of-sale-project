@@ -79,7 +79,7 @@ trait AppliesQueryParams
             })->when($request->get('customerName'), function (Builder $builder, $customerName) {
                 $search = StringHelper::trimLower($customerName);
                 return $builder->whereHas('customer', function (Builder $builder) use ($search) {
-                    $builder->where('name', 'like', "%" . $search . "%");
+                    $builder->where('name', 'ilike', "%" . $search . "%");
                 });
             })->when($request->get('customerPhone'), function (Builder $builder, $customerPhone) {
                 return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
@@ -88,7 +88,7 @@ trait AppliesQueryParams
             })->when($request->get('product_name'), function (Builder $builder, $productName) {
 
                 return $builder->whereHas('product', function (Builder $builder) use ($productName) {
-                    $builder->where('name', 'like', "%" . $productName . "%");
+                    $builder->where('name', 'ilike', "%" . $productName . "%");
                 });
             })->when($request->get('exclude_id'), function (Builder $query, $exclude_id) {
 
