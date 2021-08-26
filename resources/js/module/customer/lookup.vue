@@ -141,7 +141,7 @@ export default {
       });
     },
     customerSearch(searchText, event) {
-      if (!isEmpty(searchText) && searchText.length > 3) {
+      if (!isEmpty(searchText) && searchText.length > 1) {
         this.customerSearchLoading = true;
         CustomerService.search({ search: searchText })
           .then((customers) => {
