@@ -170,7 +170,15 @@
                                     }
                                 ]"
                             />
-                            <a-select
+                            <a-input
+                                v-decorator="[
+                                    `productItem[${r}][device_type]`,
+                                    {
+                                        initialValue: product.device_type
+                                    }
+                                ]"
+                            />
+                            <!-- <a-select
                                 :showSearch="true"
                                 :filter-option="filterOption"
                                 mode="tags"
@@ -194,12 +202,12 @@
                                 >
                                     {{ dT.name }}</a-select-option
                                 >
-                            </a-select>
+                            </a-select> -->
                         </a-form-item>
                     </a-col>
                     <a-col :span="4">
                         <a-form-item label="Brand">
-                            <a-select
+                            <!-- <a-select
                                 :showSearch="true"
                                 :filter-option="filterOption"
                                 mode="tags"
@@ -222,13 +230,21 @@
                                 >
                                     {{ brand.name }}
                                 </a-select-option>
-                            </a-select>
+                            </a-select> -->
+                            <a-input
+                                v-decorator="[
+                                    `productItem[${r}][brand]`,
+                                    {
+                                        initialValue: product.brand
+                                    }
+                                ]"
+                            />
                         </a-form-item>
                     </a-col>
 
                     <a-col :span="4">
                         <a-form-item label="Model">
-                            <a-select
+                            <!-- <a-select
                                 :showSearch="true"
                                 :filter-option="filterOption"
                                 mode="tags"
@@ -250,7 +266,15 @@
                                 >
                                     {{ product.name }}</a-select-option
                                 >
-                            </a-select>
+                            </a-select> -->
+                            <a-input
+                                v-decorator="[
+                                    `productItem[${r}][product]`,
+                                    {
+                                        initialValue: product.product
+                                    }
+                                ]"
+                            />
                         </a-form-item>
                     </a-col>
                     <a-col :span="4">
@@ -384,8 +408,8 @@ export default {
         };
     },
     mounted() {
-        this.loadDeviceItem();
-        this.loadBrands();
+        // this.loadDeviceItem();
+        // this.loadBrands();
         this.fetchIssues();
         this.fetchRepair(this.repairId);
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Core\Base;
+
 /**
  * @property integer $id
  * @property integer $device_type_id
@@ -33,7 +34,11 @@ class RepairsProduct extends Base
     /**
      * @var array
      */
-    protected $fillable = ['device_type_id', 'brand_id', 'product_id', 'issue_id', 'description', 'total_cost', 'device_unique_number', 'guid', 'created_at', 'updated_at'];
+    protected $fillable = ['device_type_id', 'brand_id',
+        'product_id', 'issue_id', 'description', 'total_cost',
+        'device_unique_number', 'device_type',
+        'product', 'brand',
+        'guid', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -36,13 +36,18 @@ trait InteractWithFindOrCreate
         }
         $key = self::_getKey($key);
 
-        if (StringHelper::isInt($key)) {
+        if (StringHelper::isInt($key) && self::existInDatabase($key)) {
             return $key;
         }
 
         $model = self::FindOrCreateByName($key, $attributes);
 
         return $model->id;
+    }
+
+    private static function existInDatabase($key)
+    {
+        return self::where("id", $key)->first();
     }
 
     private static function _getKey($key)
