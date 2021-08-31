@@ -34,7 +34,12 @@
                 :pagination="false"
                 :data-source="products"
             >
-                <a slot="name" slot-scope="text">{{ text }}</a>
+                <a slot="name" slot-scope="text, row"
+                    >{{ text }}
+                    <a-tag v-if="!isEmpty(row.refund_id)" color="red">
+                        refunded
+                    </a-tag>
+                </a>
             </a-table>
             <br /><br />
             <a-row>
@@ -113,7 +118,8 @@ const columns = [
         title: "Name",
         dataIndex: "name",
         key: "name",
-        ellipsis: true
+        ellipsis: true,
+        scopedSlots: { customRender: "name" }
     },
     {
         title: "Serial",
@@ -208,7 +214,7 @@ export default {
         this.fetchPrintDetail();
         if (!isEmpty(this.createdOrder)) {
             this.order = this.createdOrder;
-            this.currentDateTime = this.order.date;          
+            this.currentDateTime = this.order.date;
         }
     }
 };

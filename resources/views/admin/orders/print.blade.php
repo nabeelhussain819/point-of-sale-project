@@ -34,11 +34,13 @@
             </thead>
             <tbody>
             @foreach($order->products as $product)
-                <tr>
+                <tr class="@if(!empty($product->refund_id))strikeout    @endif" >
+
                     <td class="quantity">{{$product->quantity}}</td>
                     <td class="description">{{$product->product->name}}
                         <br/>
                         <strong>{{$product->serial_number}}</strong>
+                        <strong>@if(!empty($product->refund_id))*Refunded    @endif</strong>
                     </td>
                     <td class="price">${{$product->min_price}}</td>
                     <td class="price">${{$product->total}}</td>
@@ -110,6 +112,7 @@
         border-top: 1px solid black !important;
         border-collapse: collapse !important;
         text-align: center;
+        text-transform: capitalize;
     }
 
     td.description,
@@ -159,6 +162,9 @@
         font-size: 1.5em;
         text-align: center;
         -webkit-print-color-adjust: exact;
+    }
+    tr.strikeout td {
+        text-decoration: line-through;
     }
 
     @media print {
