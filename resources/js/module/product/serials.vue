@@ -49,7 +49,6 @@ export default {
                 },
                 onSelectAll: (selected, selectedRows, record) => {
                     this.$emit("onSelectAll", { record, selected });
-                    console.log(selected, selectedRows, record);
                 }
             };
         }

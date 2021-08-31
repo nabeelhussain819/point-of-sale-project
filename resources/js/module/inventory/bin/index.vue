@@ -43,7 +43,7 @@ export default {
             }
             stateSerials = stateSerials
                 .filter(serial => serial.id !== data.record.id)
-                .map(serial);
+                .map(serial => serial);
             this.serials = stateSerials;
             //this.serials = [...stateSerials, data.record];
         },
@@ -59,7 +59,20 @@ export default {
         },
         handleSubmit(e) {
             e.preventDefault();
+
             this.form.validateFields((err, values) => {
+                //      validate if serail number should be allow only
+
+                if (this.showSerial) {
+                    if (values.quantity > this.serials.length) {
+                        this.$error({
+                            title: "Error",
+                            content: "Please match the serial quantity"
+                        });
+                        return false;
+                    }
+                }
+
                 if (!err) {
                     InventoryService.changeBin(this.inventory.id, {
                         ...values,
