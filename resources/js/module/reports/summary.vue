@@ -1,7 +1,7 @@
 <template>
     <a-row>
-        <a-col :span="12">
-            <a-list
+        <a-col :span="24">
+            <!-- <a-list
                 :loading="loading"
                 item-layout="horizontal"
                 :data-source="records"
@@ -16,12 +16,28 @@
                         <span class="float-right"> ${{ item.total }}</span>
                     </a-button>
                 </a-list-item>
-            </a-list>
+            </a-list> -->
+            <a-table
+                :pagination="false"
+                :columns="columns"
+                :data-source="records"
+            >
+                <span slot="name" slot-scope="text, row">
+                    <a-button @click="goto(row.name)" type="link">{{
+                        text
+                    }}</a-button>
+                </span>
+                <span slot="total" slot-scope="text, row">
+                    <a-button @click="goto(row.name)" type="link"
+                        >${{ text }}</a-button
+                    >
+                </span>
+            </a-table>
         </a-col>
-        <a-col :span="12">
+        <!-- <a-col :span="12">
             <a-skeleton :loading="!(label.length > 0)">
                 <barChart :label="label" :data="data" /> </a-skeleton
-        ></a-col>
+        ></a-col> -->
     </a-row>
 </template>
 <script>
@@ -30,10 +46,26 @@ import barChart from "./barChart";
 import filters from "./filters";
 import ReportsService from "../../services/API/ReportsServices";
 import { EVENT_REPORT_FILTERS } from "../../services/constants";
+const columns = [
+    {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        scopedSlots: { customRender: "name" }
+    },
+    {
+        title: "Total",
+        dataIndex: "total",
+        key: "total",
+        dataIndex: "total",
+        scopedSlots: { customRender: "total" }
+    }
+];
 export default {
     components: { filters, barChart },
     data() {
         return {
+            columns,
             loading: true,
             dateFormat: "YYYY/MM/DD",
             monthFormat: "YYYY/MM",
