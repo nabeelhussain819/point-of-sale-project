@@ -23,14 +23,23 @@
                 :data-source="records"
             >
                 <span slot="name" slot-scope="text, row">
-                    <a-button @click="goto(row.name)" type="link">{{
-                        text
-                    }}</a-button>
+                    <a-button
+                        v-if="row.link !== false"
+                        @click="goto(row.name)"
+                        type="link"
+                        >{{ text }}</a-button
+                    >
+                    <strong v-else>{{ text }}</strong>
                 </span>
+
                 <span slot="total" slot-scope="text, row">
-                    <a-button @click="goto(row.name)" type="link"
+                    <a-button
+                        v-if="row.link !== false"
+                        @click="goto(row.name)"
+                        type="link"
                         >${{ text }}</a-button
                     >
+                    <strong v-else>${{ text }}</strong>
                 </span>
             </a-table>
         </a-col>

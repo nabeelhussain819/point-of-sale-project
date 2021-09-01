@@ -23,7 +23,7 @@ class ReportController extends Controller
         $finance = \DB::table('finances')
             ->where('store_id', Store::currentId())
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1]."'");
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })
             ->selectRaw("ROUND(sum(total)) as total,'Finances' as name ");
 
@@ -31,22 +31,22 @@ class ReportController extends Controller
         $repairs = \DB::table('repairs')
             ->where('store_id', Store::currentId())
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1]."'");
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })
             ->selectRaw("ROUND(sum(total_cost)) as total,'Repair' as name ");
 
 
         $products = \DB::table('orders')
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1]."'");
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })
             ->where('store_id', Store::currentId())
             ->selectRaw("ROUND(sum(sub_total)) as total,'Sales' as name ")
             ->union($repairs)
             ->union($finance)
             ->get();
-
-        return $products;
+        $total = $products->sum('total');
+        return $products->push(['total' => $total, 'name' => ' Report Total', 'link' => false]);
     }
 
     public function detail($name, Request $request)
