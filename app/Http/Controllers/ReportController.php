@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Store;
 use App\Traits\InteractWithReports;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -21,6 +22,9 @@ class ReportController extends Controller
     {
         $finance = \DB::table('finances')
             ->where('store_id', Store::currentId())
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1]."'");
+            })
             ->selectRaw("ROUND(sum(total)) as total,'Finances' as name ");
 
 
@@ -30,6 +34,9 @@ class ReportController extends Controller
 
 
         $products = \DB::table('orders')
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1]."'");
+            })
             ->where('store_id', Store::currentId())
             ->selectRaw("ROUND(sum(sub_total)) as total,'Sales' as name ")
             ->union($repairs)
@@ -42,9 +49,9 @@ class ReportController extends Controller
     public function detail($name, Request $request)
     {
         if ($name === "Sales") {
-            return $this->report_sales($request);
+            return $this->report_sales($request)->where($this->applyFilters($request))->get();
         } else if ($name === "Finances") {
-            return $this->report_finance($request);
+            return $this->report_finance($request)->where($this->applyFilters($request))->get();
         }
 
     }

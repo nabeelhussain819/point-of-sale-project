@@ -11,9 +11,12 @@
                     <a-form-item label="Duration">
                         <a-range-picker
                             v-decorator="[
-                                'date_range',
+                                'dateTime',
                                 {
-                                    initialValue: [getPastMoment(365), moment()]
+                                    initialValue: [
+                                        getPastMoment(365),
+                                        moment().set({ h: 11, m: 59 })
+                                    ]
                                 }
                             ]"
                             :ranges="{
@@ -45,13 +48,17 @@
 
 <script>
 import moment from "moment";
+
+import { EVENT_REPORT_FILTERS } from "../../services/constants";
+import { isEmpty } from "../../services/helpers";
 export default {
     data() {
         return {
             formLayout: "vertical",
             form: this.$form.createForm(this, { name: "addRepair" }),
             dateFormat: "YYYY/MM/DD",
-            monthFormat: "YYYY/MM"
+            monthFormat: "YYYY/MM",
+            params: {}
         };
     },
     methods: {
@@ -60,16 +67,33 @@ export default {
             e.preventDefault();
             this.form.validateFields((err, values) => {
                 if (!err) {
-                    console.log("values", values);
+                    if (!isEmpty(values.dateTime)) {
+                        let date = values.dateTime;
+                        values.date_range = [
+                            date[0]
+                                .set({ h: 0, m: 0 })
+                                .format("YYYY-MM-DDTHH:mm:ss"),
+                            date[1]
+                                .set({ h: 23, m: 59 })
+                                .format("YYYY-MM-DDTHH:mm:ss")
+                        ];
+                    }
+                    this.$eventBus.$emit(EVENT_REPORT_FILTERS, values);
                 }
             });
         },
         getPastMoment(days) {
-            return moment().subtract(days, "days");
+            return moment()
+                .subtract(days, "days")
+                .set({ h: 0, m: 0 });
         },
         dateRangeChange(dates, dateStrings) {
-            console.log("From: ", dates[0], ", to: ", dates[1]);
-            console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+            this.params = { ...this.params, start: dates[0], end: dates[1] };
+            // console.log("From: ", dates[0], ", to: ", dates[1]);
+            // console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+        },
+        filters() {
+            this.$emit("getFilters", this.params);
         }
     }
 };

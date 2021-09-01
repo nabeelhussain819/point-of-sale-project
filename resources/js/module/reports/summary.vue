@@ -29,6 +29,7 @@ import moment from "moment";
 import barChart from "./barChart";
 import filters from "./filters";
 import ReportsService from "../../services/API/ReportsServices";
+import { EVENT_REPORT_FILTERS } from "../../services/constants";
 export default {
     components: { filters, barChart },
     data() {
@@ -44,6 +45,10 @@ export default {
     },
     mounted() {
         this.fetch();
+        let fetch = this.fetch;
+        this.$eventBus.$on(EVENT_REPORT_FILTERS, function(filters) {
+            fetch(filters);
+        });
     },
     methods: {
         goto(type) {
