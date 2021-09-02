@@ -35,6 +35,13 @@ class ReportController extends Controller
             })
             ->selectRaw("ROUND(sum(total_cost)) as total,'Repair' as name ");
 
+        $refunds = \DB::table('refunds')
+            ->where('store_id', Store::currentId())
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })
+            ->selectRaw("ROUND(sum(return_cost)) as total,'Refunds' as name ");
+
 
         $products = \DB::table('orders')
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
@@ -44,8 +51,15 @@ class ReportController extends Controller
             ->selectRaw("ROUND(sum(sub_total)) as total,'Sales' as name ")
             ->union($repairs)
             ->union($finance)
+            ->union($refunds)
             ->get();
-        $total = $products->sum('total');
+
+        $products->map(function ($data) {
+            $data->total = $data->total === null ? 0 : $data->total;
+            return $data;
+        });
+        $repairCol = $products->where('name', 'Refunds')->first();
+        $total = $products->sum('total') - $repairCol->total;
         return $products->push(['total' => $total, 'name' => ' Report Total', 'link' => false]);
     }
 
