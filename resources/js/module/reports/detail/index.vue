@@ -1,6 +1,6 @@
 <template>
     <a-skeleton :paragraph="{ rows: 10 }" :loading="loading">
-        {{ type }}
+        <strong> {{ type }} Report</strong>
         <productsReport
             v-if="type === 'Sales'"
             :columns="productColumns"

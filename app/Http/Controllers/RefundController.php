@@ -6,6 +6,7 @@ use App\Helpers\ArrayHelper;
 use App\Models\Order;
 use App\Models\Refund;
 use App\Models\Store;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,7 +47,12 @@ class RefundController extends Controller
             $refund->PostedProducts = $request->get('returnProducts');
             $refund->save();
 
-            $refund->refundsProducts()->sync($request->get('returnProducts'));
+            $products = collect($request->get('returnProducts'))->map(function ($product) {
+                $product['created_at'] = Carbon::now();
+                $product['updated_at'] = Carbon::now();
+            });
+
+            $refund->refundsProducts()->sync($products);
             $order = $refund->order;
             $order = $order->withProductsProduct()->withCustomer();
             return $this->genericResponse(true, " Refund has been created", 200,
