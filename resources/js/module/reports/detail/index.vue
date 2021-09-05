@@ -16,6 +16,11 @@
             :columns="repairColumns"
             :data="data"
         />
+        <productsReport
+            v-if="type === 'Refunds'"
+            :columns="refundColumns"
+            :data="data"
+        />
     </a-skeleton>
 </template>
 <script>
@@ -69,12 +74,20 @@ const financesColumns = [
     {
         title: "Category",
         dataIndex: "product.category.name",
-        key: "category"
+        key: "category",
+        scopedSlots: {
+            filterDropdown: "catgoryDropdown",
+            filterIcon: "filterIcon"
+        }
     },
     {
         title: "Department",
         dataIndex: "product.department.name",
-        key: "department"
+        key: "department",
+        scopedSlots: {
+            filterDropdown: "departmentDropdown",
+            filterIcon: "filterIcon"
+        }
     },
     {
         title: "Quantity",
@@ -95,6 +108,43 @@ const financesColumns = [
     },
     {
         title: "Total",
+        dataIndex: "total",
+        key: "total",
+        scopedSlots: { customRender: "total" }
+    }
+];
+const refundColumns = [
+    {
+        title: "Name",
+        dataIndex: "product.name",
+        key: "name",
+        scopedSlots: { customRender: "name" }
+    },
+    {
+        title: "Category",
+        dataIndex: "product.category.name",
+        key: "category",
+        scopedSlots: {
+            filterDropdown: "catgoryDropdown",
+            filterIcon: "filterIcon"
+        }
+    },
+    {
+        title: "Department",
+        dataIndex: "product.department.name",
+        key: "department",
+        scopedSlots: {
+            filterDropdown: "departmentDropdown",
+            filterIcon: "filterIcon"
+        }
+    },
+    {
+        title: "Quantity",
+        dataIndex: "quantity",
+        key: "quantity"
+    },
+    {
+        title: "Refund Cost",
         dataIndex: "total",
         key: "total",
         scopedSlots: { customRender: "total" }
@@ -136,7 +186,8 @@ export default {
             data: [],
             productColumns,
             financesColumns,
-            repairColumns
+            repairColumns,
+            refundColumns
         };
     },
     mounted() {

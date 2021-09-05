@@ -50,7 +50,8 @@ class RefundController extends Controller
             $products = collect($request->get('returnProducts'))->map(function ($product) {
                 $product['created_at'] = Carbon::now();
                 $product['updated_at'] = Carbon::now();
-            });
+                return $product;
+            })->all();
 
             $refund->refundsProducts()->sync($products);
             $order = $refund->order;
