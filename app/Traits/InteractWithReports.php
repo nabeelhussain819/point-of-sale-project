@@ -15,15 +15,29 @@ trait InteractWithReports
     {
         return OrderProduct::selectRaw("product_id,sum(quantity) as quantity,sum(total) as total ")
             ->groupBy("product_id")->with(["product" => function (BelongsTo $builder) {
-                $builder->select(['id', 'name']);
+                $builder->select(['id', 'name', 'category_id', 'department_id'])
+                    ->with(["category" => function (BelongsTo $builder) {
+                        $builder->select(['id', 'name']);
+                    }, "department" => function (BelongsTo $builder) {
+                        $builder->select(['id', 'name']);
+                    }
+                    ]);
+
             }])->orderBy("total");
     }
 
     public function report_finance(Request $request): Builder
     {
         return Finance::selectRaw(" product_id, count(id) as quantity,sum(advance) as advance,sum(total) as total,sum(payable) as payable ")
-            ->groupBy("product_id")->with(["product" => function (BelongsTo $builder) {
-                $builder->select(['id', 'name']);
+            ->groupBy("product_id")
+            ->with(["product" => function (BelongsTo $builder) {
+                $builder->select(['id', 'name', 'department_id', 'category_id'])
+                    ->with(["category" => function (BelongsTo $builder) {
+                        $builder->select(['id', 'name']);
+                    }, "department" => function (BelongsTo $builder) {
+                        $builder->select(['id', 'name']);
+                    }
+                    ]);
             }])->orderBy("total");
     }
 }

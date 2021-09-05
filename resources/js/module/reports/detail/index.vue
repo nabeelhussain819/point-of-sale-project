@@ -28,6 +28,16 @@ const productColumns = [
         key: "quantity"
     },
     {
+        title: "Category",
+        dataIndex: "product.category.name",
+        key: "category"
+    },
+    {
+        title: "Department",
+        dataIndex: "product.department.name",
+        key: "department"
+    },
+    {
         title: "Total",
         dataIndex: "total",
         key: "total",
@@ -40,6 +50,16 @@ const financesColumns = [
         dataIndex: "product.name",
         key: "name",
         scopedSlots: { customRender: "name" }
+    },
+    {
+        title: "Category",
+        dataIndex: "product.category.name",
+        key: "category"
+    },
+    {
+        title: "Department",
+        dataIndex: "product.department.name",
+        key: "department"
     },
     {
         title: "Quantity",
