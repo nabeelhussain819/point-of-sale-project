@@ -41,9 +41,51 @@
                 Reset
             </a-button>
         </div>
+
+        <!-- Category search  -->
+        <div
+            slot="catgoryDropdown"
+            slot-scope="{ setSelectedKeys, selectedKeys, column }"
+            style="padding: 8px"
+        >
+            <a-select
+                style="width: 100%"
+                @change="value => handleSearch([value], column)"
+            >
+                <a-select-option
+                    v-for="category in categories"
+                    :key="category.id"
+                >
+                    {{ category.name }}
+                </a-select-option>
+            </a-select>
+        </div>
+        <!-- Category search  -->
+        <!-- Department search  -->
+        <div
+            slot="departmentDropdown"
+            slot-scope="{ setSelectedKeys, selectedKeys, column }"
+            style="padding: 8px"
+        >
+            <a-select
+                class="w-100"
+                style="width: 100%"
+                @change="value => handleSearch([value], column)"
+            >
+                <a-select-option
+                    v-for="department in departments"
+                    :key="department.id"
+                >
+                    {{ department.name }}
+                </a-select-option>
+            </a-select>
+        </div>
+        <!-- Deparment search  -->
     </a-table>
 </template>
 <script>
+import CatgoryService from "../../../services/API/CategoryService";
+import DepartmentService from "../../../services/API/DepartmentService";
 export default {
     props: {
         data: {
@@ -59,11 +101,28 @@ export default {
     },
     data() {
         return {
-            filters: {}
+            filters: {},
+            categories: [],
+            departments: []
         };
     },
+    mounted() {
+        this.fetchCategoryService();
+        this.fetchDepartmentService();
+    },
     methods: {
+        fetchCategoryService() {
+            CatgoryService.all().then(data => {
+                this.categories = data;
+            });
+        },
+        fetchDepartmentService() {
+            DepartmentService.all().then(data => {
+                this.departments = data;
+            });
+        },
         handleSearch(value, column) {
+            console.log("value", value, column);
             let filters = this.filters;
             filters[column.key] = value[0];
             this.setfilters(filters);
@@ -75,7 +134,7 @@ export default {
         },
         setfilters(filters) {
             this.filters = JSON.parse(JSON.stringify(filters));
-            console.log(this.filters);
+            console.log("filters", this.filters);
             // this.fetchList(this.filters);
         }
     }

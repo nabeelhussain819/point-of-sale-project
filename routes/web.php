@@ -208,6 +208,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/get', [StockBinController::class, 'get']);
     });
 
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('/all', [CategoryController::class, 'all']);
+    });
+
+    Route::group(['prefix' => 'department'], function () {
+        Route::get('/all', [DepartmentController::class, 'all']);
+    });
+
     Route::Resources([
         'users' => UserController::class,
         'stores' => StoreController::class,

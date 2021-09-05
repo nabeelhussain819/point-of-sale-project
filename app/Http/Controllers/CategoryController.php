@@ -103,4 +103,10 @@ class CategoryController extends Controller
         return redirect()->back()->with('success', "Category Deleted");
 
     }
+
+    public function all(Request $request)
+    {
+        return Category::select(['id', 'name'])
+            ->get();
+    }
 }

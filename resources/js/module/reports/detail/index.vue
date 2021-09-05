@@ -32,7 +32,7 @@ const productColumns = [
         dataIndex: "product.category.name",
         key: "category",
         scopedSlots: {
-            filterDropdown: "filterDropdown",
+            filterDropdown: "catgoryDropdown",
             filterIcon: "filterIcon"
         }
     },
@@ -41,7 +41,7 @@ const productColumns = [
         dataIndex: "product.department.name",
         key: "department",
         scopedSlots: {
-            filterDropdown: "filterDropdown",
+            filterDropdown: "departmentDropdown",
             filterIcon: "filterIcon"
         }
     },
