@@ -79,6 +79,8 @@ class PurchaseOrderController extends Controller
                         'expected_price' => $product['price'],
                         'total' => $total,
                         'expected_total' => $total,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
                     ]
                 //@todo move all this work in observer   after meeting
                 );
