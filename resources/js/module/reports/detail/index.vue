@@ -1,5 +1,6 @@
 <template>
     <a-skeleton :paragraph="{ rows: 10 }" :loading="loading">
+        {{ type }}
         <productsReport
             v-if="type === 'Sales'"
             :columns="productColumns"
@@ -8,6 +9,11 @@
         <productsReport
             v-if="type === 'Finances'"
             :columns="financesColumns"
+            :data="data"
+        />
+        <productsReport
+            v-if="type === 'Repair'"
+            :columns="repairColumns"
             :data="data"
         />
     </a-skeleton>
@@ -94,6 +100,26 @@ const financesColumns = [
         scopedSlots: { customRender: "total" }
     }
 ];
+const repairColumns = [
+    {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        scopedSlots: { customRender: "name" }
+    },
+    {
+        title: "Advance",
+        dataIndex: "advance",
+        key: "advance",
+        scopedSlots: { customRender: "total" }
+    },
+    {
+        title: "Total",
+        dataIndex: "total",
+        key: "total",
+        scopedSlots: { customRender: "total" }
+    }
+];
 export default {
     components: { productsReport },
     props: {
@@ -109,7 +135,8 @@ export default {
             loading: true,
             data: [],
             productColumns,
-            financesColumns
+            financesColumns,
+            repairColumns
         };
     },
     mounted() {
