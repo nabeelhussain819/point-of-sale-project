@@ -122,7 +122,6 @@ export default {
             });
         },
         handleSearch(value, column) {
-            console.log("value", value, column);
             let filters = this.filters;
             filters[column.key] = value[0];
             this.setfilters(filters);
@@ -134,7 +133,7 @@ export default {
         },
         setfilters(filters) {
             this.filters = JSON.parse(JSON.stringify(filters));
-            console.log("filters", this.filters);
+            // console.log("filters", this.filters);
             // this.fetchList(this.filters);
         }
     }
