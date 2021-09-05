@@ -31,13 +31,13 @@
                                 <label for="">Mailing Address</label>
                                 <input type="text" class="form-control" name="mailing_address"
                                        value="{{$vendor->mailing_address}}" id="" aria-describedby="emailHelp"
-                                       placeholder="Enter Mailing Address" required/>
+                                       placeholder="Enter Mailing Address" />
                             </div>
                             <div class="form-group">
                                 <label for="">Website</label>
                                 <input type="text" class="form-control" name="website" value="{{$vendor->website}}"
                                        id="" aria-describedby="emailHelp"
-                                       placeholder="Enter Website" required/>
+                                       placeholder="Enter Website" />
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -45,18 +45,18 @@
                                 <label for="">Contact Title</label>
                                 <input type="text" class="form-control" name="contact_title"
                                        value="{{$vendor->contact_title}}" id="" placeholder="Enter Contact Number"
-                                       required/>
+                                       />
                             </div>
                             <div class="form-group">
                                 <label for="">Contact Number</label>
                                 <input type="text" class="form-control" name="contact_number"
                                        value="{{$vendor->contact_number}}" id="" placeholder="Enter Contact Number"
-                                       required/>
+                                       />
                             </div>
                             <div class="form-group">
                                 <label for="">Contact Email</label>
                                 <input type="text" class="form-control" name="contact_email"
-                                       value="{{$vendor->contact_email}}" placeholder="Enter Contact Email" required/>
+                                       value="{{$vendor->contact_email}}" placeholder="Enter Contact Email" />
                             </div>
 
                             <div class="form-group">

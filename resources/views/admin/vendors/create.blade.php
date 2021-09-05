@@ -22,26 +22,26 @@
                             <div class="form-group">
                                 <label for="">Mailing Address</label>
                                 <input type="name" class="form-control" name="mailing_address" value="{{old('mailing_address')}}" id="" aria-describedby="emailHelp"
-                                       placeholder="Enter Mailing Address" required />
+                                       placeholder="Enter Mailing Address"  />
                             </div>
                             <div class="form-group">
                                 <label for="">Website</label>
                                 <input type="name" class="form-control" name="website" value="{{old('website')}}" id="" aria-describedby="emailHelp"
-                                       placeholder="Enter Website" required/>
+                                       placeholder="Enter Website" />
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label for="">Contact Title</label>
-                                <input type="text" class="form-control" name="contact_title" value="{{old('contact_title')}}" id="" placeholder="Enter Contact Title" required />
+                                <input type="text" class="form-control" name="contact_title" value="{{old('contact_title')}}" id="" placeholder="Enter Contact Title"  />
                             </div>
                             <div class="form-group">
                                 <label for="">Contact Number</label>
-                                <input type="text" class="form-control" name="contact_number" value="{{old('contact_number')}}" id="" placeholder="Enter Contact Number" required />
+                                <input type="text" class="form-control" name="contact_number" value="{{old('contact_number')}}" id="" placeholder="Enter Contact Number"  />
                             </div>
                             <div class="form-group">
                                 <label for="">Contact Email</label>
-                                <input type="text" class="form-control" name="contact_email" value="{{old('contact_email')}}" placeholder="Enter Contact Email" required />
+                                <input type="text" class="form-control" name="contact_email" value="{{old('contact_email')}}" placeholder="Enter Contact Email"  />
                             </div>
 
                             <div class="form-group">

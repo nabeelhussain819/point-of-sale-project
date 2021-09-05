@@ -42,8 +42,7 @@ class VendorController extends Controller
         $request->validate([
             'name' => 'required',
             'telephone' => 'required',
-            'mailing_address' => 'required',
-            'website' => 'required',
+
         ]);
         $vendors = new Vendor();
         $vendors->fill($request->all())->save();
