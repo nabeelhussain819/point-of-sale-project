@@ -30,12 +30,20 @@ const productColumns = [
     {
         title: "Category",
         dataIndex: "product.category.name",
-        key: "category"
+        key: "category",
+        scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon"
+        }
     },
     {
         title: "Department",
         dataIndex: "product.department.name",
-        key: "department"
+        key: "department",
+        scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon"
+        }
     },
     {
         title: "Total",
