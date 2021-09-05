@@ -77,6 +77,9 @@ class Repair extends Base
 
     public function getDaysAttribute()
     {
+        if (empty($this->created_at)) {
+            return 0;
+        }
         return $this->created_at->diffInDays(Carbon::now(), false);
     }
 

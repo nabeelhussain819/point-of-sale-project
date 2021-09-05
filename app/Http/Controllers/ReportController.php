@@ -69,6 +69,8 @@ class ReportController extends Controller
             return $this->report_sales($request)->where($this->applyFilters($request))->get();
         } else if ($name === "Finances") {
             return $this->report_finance($request)->where($this->applyFilters($request))->get();
+        } else if ($name === "Repair") {
+            return $this->report_repair($request)->where($this->applyFilters($request))->get();
         }
 
     }

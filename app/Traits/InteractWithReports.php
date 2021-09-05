@@ -5,6 +5,8 @@ namespace App\Traits;
 use App\Models\Finance;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Repair;
+use App\Models\RepairsProduct;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
@@ -42,6 +44,16 @@ trait InteractWithReports
                     ]);
             }])
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->orderBy("total");
+    }
+
+    public function report_repair(Request $request): Builder
+    {
+        return Repair::selectRaw(" status as name,sum(total_cost) as total,sum(advance_cost) as advance ")
+            ->groupBy("status")
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })->orderBy("total");
     }
