@@ -3,7 +3,7 @@
         <a-row :gutter="16">
             <a-col :span="7">
                 <a-card title="Filters">
-                    <filters />
+                    <filters @getParams="setFilters" />
                 </a-card>
             </a-col>
             <a-col :span="17">
@@ -19,7 +19,7 @@
                         v-if="!showDetail"
                         @selectType="selectType"
                     />
-                    <detail :type="selectedReport" v-else />
+                    <detail :params="params" :type="selectedReport" v-else />
                 </a-card>
             </a-col>
         </a-row>
@@ -34,7 +34,8 @@ export default {
     data() {
         return {
             selectedReport: null,
-            showDetail: false
+            showDetail: false,
+            params: {}
         };
     },
     methods: {
@@ -44,6 +45,9 @@ export default {
         },
         handleDetailTab(show) {
             this.showDetail = show;
+        },
+        setFilters(filters) {
+            this.params = filters;
         }
     }
 };

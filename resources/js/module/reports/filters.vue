@@ -78,6 +78,7 @@ export default {
                                 .format("YYYY-MM-DDTHH:mm:ss")
                         ];
                     }
+                    this.$emit("getParams", values);
                     this.$eventBus.$emit(EVENT_REPORT_FILTERS, values);
                 }
             });

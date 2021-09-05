@@ -100,7 +100,8 @@ export default {
             default: "",
             type: String,
             require: true
-        }
+        },
+        params: { default: {}, type: Object, require: false }
     },
     data() {
         return {
@@ -111,7 +112,7 @@ export default {
         };
     },
     mounted() {
-        this.fetch(this.type);
+        this.fetch(this.type, this.params);
     },
     methods: {
         fetch(type, params = {}) {
