@@ -15,6 +15,7 @@
 <script>
 import ReportsService from "../../../services/API/ReportsServices";
 import productsReport from "./productsReport";
+import { EVENT_REPORT_FILTERS } from "../../../services/constants";
 const productColumns = [
     {
         title: "Name",
@@ -113,8 +114,15 @@ export default {
     },
     mounted() {
         this.fetch(this.type, this.params);
+        let fetch = this.eventSearch;
+        this.$eventBus.$on(EVENT_REPORT_FILTERS, function(filters) {
+            fetch(filters);
+        });
     },
     methods: {
+        eventSearch(filters) {
+            this.fetch(this.type, { ...this.params, ...filters });
+        },
         fetch(type, params = {}) {
             this.loading = true;
             ReportsService.detail(type, params)

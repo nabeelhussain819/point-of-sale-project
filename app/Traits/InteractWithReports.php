@@ -22,8 +22,10 @@ trait InteractWithReports
                         $builder->select(['id', 'name']);
                     }
                     ]);
-
-            }])->orderBy("total");
+            }])
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->orderBy("total");
     }
 
     public function report_finance(Request $request): Builder
@@ -38,6 +40,9 @@ trait InteractWithReports
                         $builder->select(['id', 'name']);
                     }
                     ]);
-            }])->orderBy("total");
+            }])
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->orderBy("total");
     }
 }

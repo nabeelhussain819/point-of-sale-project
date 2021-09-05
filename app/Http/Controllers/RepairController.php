@@ -12,6 +12,7 @@ use App\Models\IssueType;
 use App\Models\Product;
 use App\Models\Repair;
 use App\Models\Store;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
@@ -63,7 +64,12 @@ class RepairController extends Controller
 
 
             $repair->save();
-            $products = array_filter($request->get('productItem'));
+            $productData = collect($request->get('productItem'))->map(function ($d) {
+                $d["created_at"] = Carbon::now();
+                $d["updated_at"] = Carbon::now();
+                return $d;
+            })->all();
+            $products = array_filter($productData);
             $repair->syncProducts($products);
             return $this->genericResponse(true, " repair has been created", 201);
         });

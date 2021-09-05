@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\ProductSerialNumbers;
 use App\Models\Store;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,6 +79,8 @@ class OrderController extends Controller
                     'total' => $product['total'],
                     'min_price' => $product['min_price'],
                     'quantity' => $product['quantity'],
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ];
 
             });
