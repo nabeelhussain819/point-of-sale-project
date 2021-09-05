@@ -46,6 +46,8 @@ class TransferController extends Controller
             $transfer = new StockTransfer();
             $productData = collect($request->get('products'))->map(function ($product) {
                 unset($product['id']); // hot fix
+                $product['created_at'] = Carbon::now();
+                $product['updated_at'] = Carbon::now();
                 return $product;
             });
 
