@@ -1,7 +1,7 @@
 <template>
     <div>
         <a-table :columns="columns" :data-source="data" bordered>
-            <template slot="title" slot-scope="currentPageData">
+            <template slot="title" >
                 <strong> Purchase order list</strong>
             </template>
             <span slot="action" slot-scope="text, record">
@@ -73,7 +73,7 @@ export default {
             });
         },
         goto(item) {
-            window.location.href = `/received-form/${item.id}`;
+            window.location.href = `/purchase-order/received-form/${item.id}`;
         }
     }
 };
