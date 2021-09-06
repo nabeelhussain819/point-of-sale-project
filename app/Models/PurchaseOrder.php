@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Helpers\DateTimeHelper;
 use App\Observers\PurchaseOrderObserver;
 use App\Traits\InteractWithProducts;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +45,8 @@ class PurchaseOrder extends Base
     protected $dates = ['expected_date', 'received_date',];
     public $isReceiving = false;
 
+    public $appends = ['created_date', 'is_received'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -83,5 +86,18 @@ class PurchaseOrder extends Base
     public function productSerialNumbers()
     {
         return $this->belongsToMany(ProductSerialNumbers::class, 'product_serial_numbers', 'purchase_order_id', 'purchase_order_id');
+    }
+
+    public function getCreatedDateAttribute()
+    {
+        return $this->created_at->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
+    }
+
+    public function getIsReceivedAttribute(): bool
+    {
+        if (empty($this->received_date)) {
+            return false;
+        }
+        return true;
     }
 }

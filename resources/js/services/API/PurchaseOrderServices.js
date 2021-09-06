@@ -11,8 +11,16 @@ function create(data) {
     });
 }
 
+function all(params) {
+    return request({
+        url: `${baseUrl}/all`,
+        params
+    });
+}
+
 const PurchaseOrderService = {
-    create
+    create,
+    all
 };
 
 export default PurchaseOrderService;

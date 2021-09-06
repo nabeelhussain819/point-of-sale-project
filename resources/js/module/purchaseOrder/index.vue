@@ -1,23 +1,26 @@
 <template>
-    <a-skeleton :loading="loading">
-        <a-card title="Purchase Order" :bordered="false">
-            <a-form :form="form" @submit="handleSubmit" layout="inline">
-                <create />
-                <products-form-field />
-                <a-form-item
-                    :validate-status="fetchProductsErrors.validateStatus"
-                    :help="fetchProductsErrors.errorMsg"
-                >
-                    <a-button
-                        type="primary"
-                        :loading="loading"
-                        htmlType="submit"
-                        >Submit</a-button
+    <div>
+        <a-skeleton :loading="loading">
+            <a-card title="Purchase Order" :bordered="false">
+                <a-form :form="form" @submit="handleSubmit" layout="inline">
+                    <create />
+                    <products-form-field />
+                    <a-form-item
+                        :validate-status="fetchProductsErrors.validateStatus"
+                        :help="fetchProductsErrors.errorMsg"
                     >
-                </a-form-item>
-            </a-form>
-        </a-card>
-    </a-skeleton>
+                        <a-button
+                            type="primary"
+                            :loading="loading"
+                            htmlType="submit"
+                            >Submit</a-button
+                        >
+                    </a-form-item>
+                </a-form>
+            </a-card>
+        </a-skeleton>
+        <List />
+    </div>
 </template>
 <script>
 import {
@@ -26,10 +29,11 @@ import {
     errorNotification
 } from "../../services/helpers";
 import create from "./create-form-field";
+import List from "./list";
 import ProductsFormField from "./products-form-fields";
 import PurchaseOrderServices from "../../services/API/PurchaseOrderServices";
 export default {
-    components: { create, ProductsFormField },
+    components: { create, ProductsFormField, List },
     data() {
         return {
             fetchProductsErrors: {},

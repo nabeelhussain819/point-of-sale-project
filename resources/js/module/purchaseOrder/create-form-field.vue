@@ -32,7 +32,7 @@
                     </a-select>
                 </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="12">
                 <a-form-item label="Start Date"
                     ><a-date-picker
                         v-decorator="[

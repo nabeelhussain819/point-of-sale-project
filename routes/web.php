@@ -166,6 +166,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/view/{purchaseOrder}', [PurchaseOrderController::class, 'view'])
             ->name('purchaseOrder.view');
+
+        Route::get('/all', [PurchaseOrderController::class, 'all']);
     });
 
     Route::group(['prefix' => 'orders'], function () {

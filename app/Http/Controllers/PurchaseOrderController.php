@@ -10,7 +10,9 @@ use App\Models\Vendor;
 use App\Observers\PurchaseOrderObserver;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller
@@ -225,6 +227,17 @@ class PurchaseOrderController extends Controller
     public function view(PurchaseOrder $purchaseOrder)
     {
 
+    }
+
+    public function all(Request $request)
+    {
+        return PurchaseOrder::select(['id', 'vendor_id', 'price', 'created_at', 'received_date'])
+            ->with(['vendor' => function (BelongsTo $builder) {
+                $builder->select(['id', 'name']);
+            }])
+            ->where($this->applyFilters($request))
+            ->orderBy("created_at", 'desc')
+            ->paginate($this->pageSize);
     }
 
 
