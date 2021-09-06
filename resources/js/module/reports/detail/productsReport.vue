@@ -134,6 +134,7 @@ export default {
         setfilters(filters) {
             this.filters = JSON.parse(JSON.stringify(filters));
             // console.log("filters", this.filters);
+            this.$emit("fetch", this.filters);
             // this.fetchList(this.filters);
         }
     }

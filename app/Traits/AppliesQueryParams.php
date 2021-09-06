@@ -57,6 +57,22 @@ trait AppliesQueryParams
                 if (StringHelper::isInt($productId)) {
                     return $builder->where('product_id', $productId);
                 }
+            })->when($request->get('category_id'), function (Builder $builder, $categoryId) {
+                if (StringHelper::isInt($categoryId)) {
+                    return $builder->where(function (Builder $builder) use ($categoryId) {
+                        $builder->whereHas('product', function (Builder $builder) use ($categoryId) {
+                            $builder->where('category_id', $categoryId);
+                        });
+                    });
+                }
+            })->when($request->get('department_id'), function (Builder $builder, $department_id) {
+                if (StringHelper::isInt($department_id)) {
+                    return $builder->where(function (Builder $builder) use ($department_id) {
+                        $builder->whereHas('product', function (Builder $builder) use ($department_id) {
+                            $builder->where('department_id', $department_id);
+                        });
+                    });
+                }
             })->when($request->get('status_id'), function (Builder $builder, $statusId) {
                 if (StringHelper::isInt($statusId)) {
                     return $builder->where('status_id', $statusId);

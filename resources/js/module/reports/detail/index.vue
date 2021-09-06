@@ -5,21 +5,25 @@
             v-if="type === 'Sales'"
             :columns="productColumns"
             :data="data"
+            @fetch="eventSearch"
         />
         <productsReport
             v-if="type === 'Finances'"
             :columns="financesColumns"
             :data="data"
+            @fetch="eventSearch"
         />
         <productsReport
             v-if="type === 'Repair'"
             :columns="repairColumns"
             :data="data"
+            @fetch="eventSearch"
         />
         <productsReport
             v-if="type === 'Refunds'"
             :columns="refundColumns"
             :data="data"
+            @fetch="eventSearch"
         />
     </a-skeleton>
 </template>
@@ -42,7 +46,7 @@ const productColumns = [
     {
         title: "Category",
         dataIndex: "product.category.name",
-        key: "category",
+        key: "category_id",
         scopedSlots: {
             filterDropdown: "catgoryDropdown",
             filterIcon: "filterIcon"
@@ -51,7 +55,7 @@ const productColumns = [
     {
         title: "Department",
         dataIndex: "product.department.name",
-        key: "department",
+        key: "department_id",
         scopedSlots: {
             filterDropdown: "departmentDropdown",
             filterIcon: "filterIcon"
@@ -74,7 +78,7 @@ const financesColumns = [
     {
         title: "Category",
         dataIndex: "product.category.name",
-        key: "category",
+        key: "category_id",
         scopedSlots: {
             filterDropdown: "catgoryDropdown",
             filterIcon: "filterIcon"
@@ -83,7 +87,7 @@ const financesColumns = [
     {
         title: "Department",
         dataIndex: "product.department.name",
-        key: "department",
+        key: "department_id",
         scopedSlots: {
             filterDropdown: "departmentDropdown",
             filterIcon: "filterIcon"
@@ -123,7 +127,7 @@ const refundColumns = [
     {
         title: "Category",
         dataIndex: "product.category.name",
-        key: "category",
+        key: "category_id",
         scopedSlots: {
             filterDropdown: "catgoryDropdown",
             filterIcon: "filterIcon"
@@ -132,7 +136,7 @@ const refundColumns = [
     {
         title: "Department",
         dataIndex: "product.department.name",
-        key: "department",
+        key: "department_id",
         scopedSlots: {
             filterDropdown: "departmentDropdown",
             filterIcon: "filterIcon"
