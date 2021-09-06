@@ -46,7 +46,7 @@
         <div
             slot="catgoryDropdown"
             slot-scope="{ setSelectedKeys, selectedKeys, column }"
-            style="padding: 8px"
+            style="padding: 8px;   min-width: 200px;"
         >
             <a-select
                 style="width: 100%"
@@ -65,7 +65,7 @@
         <div
             slot="departmentDropdown"
             slot-scope="{ setSelectedKeys, selectedKeys, column }"
-            style="padding: 8px"
+            style="padding: 8px;    min-width: 200px;"
         >
             <a-select
                 class="w-100"
