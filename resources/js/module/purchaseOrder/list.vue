@@ -1,16 +1,24 @@
 <template>
     <div>
-        <a-table :columns="columns" :data-source="data">
+        <a-table :columns="columns" :data-source="data" bordered>
+            <template slot="title" slot-scope="currentPageData">
+                <strong> Purchase order list</strong>
+            </template>
             <span slot="action" slot-scope="text, record">
-                <a-button v-if="!record.received_at" @click=goto(record) type="primary" htmlType="link"
-                    >Receive </a-button
-                >
+                <a-button
+                    v-if="!record.received_at"
+                    @click="goto(record)"
+                    type="primary"
+                    htmlType="link"
+                    >Receive
+                </a-button>
                 <span v-else>
                     <a-icon
                         type="check-circle"
                         theme="twoTone"
                         two-tone-color="#52c41a"
-                />Received At {{record.received_at}}</span>
+                    />Received At {{ record.received_at }}</span
+                >
             </span>
         </a-table>
     </div>
@@ -64,8 +72,8 @@ export default {
                 this.data = response.data;
             });
         },
-        goto(item){
-            window.location.href = `/received-form/${item.id}`
+        goto(item) {
+            window.location.href = `/received-form/${item.id}`;
         }
     }
 };

@@ -31,70 +31,70 @@
             </div>
         </div>
 
-        <div class="card shadow rounded">
-            <div class="card-body">
+{{--        <div class="card shadow rounded">--}}
+{{--            <div class="card-body">--}}
 
-                @foreach($purchaseOrder as $po)
-                    <div class="row alert alert-success mt-1 mb-1">
+{{--                @foreach($purchaseOrder as $po)--}}
+{{--                    <div class="row alert alert-success mt-1 mb-1">--}}
 
-                        <div class="col-sm-4 mt-1">#{{$po->id}} {{$po->vendor->name}}</div>
-                        <div class="col-sm-4 mt-1">Total {{$po->price}}$</div>
-                        <div class="col-sm-4">
-                            <div style="display: flex;">
+{{--                        <div class="col-sm-4 mt-1">#{{$po->id}} {{$po->vendor->name}}</div>--}}
+{{--                        <div class="col-sm-4 mt-1">Total {{$po->price}}$</div>--}}
+{{--                        <div class="col-sm-4">--}}
+{{--                            <div style="display: flex;">--}}
 
-                                <a href="{{route('purchaseOrder.received',$po->id)}}" class="btn btn-info mr-1">
-                                    Receive
-                                </a>
-                                <form action="{{route('purchase-order.destroy',$po->id)}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger ml-1" type="submit"><i
-                                                class="fa fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div>
-
-                        {{------------------table---------------}}
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Products</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total Price</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($po->products as $product)
-                                    <tr>
-                                        <td>{{$product->id}}</td>
-
-                                        <td>{{$product->product->name}}</td>
-                                        <td>{{$product->quantity}}</td>
-                                        <td>{{$product->total}}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-
-                                <tfoot>
-                                </tfoot>
-                            </table>
-                        </div>
-                        {{------------------table---------------}}
-
-                    </div>
-                @endforeach
+{{--                                <a href="{{route('purchaseOrder.received',$po->id)}}" class="btn btn-info mr-1">--}}
+{{--                                    Receive--}}
+{{--                                </a>--}}
+{{--                                <form action="{{route('purchase-order.destroy',$po->id)}}" method="POST">--}}
+{{--                                    @csrf--}}
+{{--                                    @method('DELETE')--}}
+{{--                                    <button class="btn btn-danger ml-1" type="submit"><i--}}
+{{--                                                class="fa fa-trash"></i>--}}
+{{--                                    </button>--}}
+{{--                                </form>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
 
-            </div>
-        </div>
+{{--                    </div>--}}
+
+{{--                    <div>--}}
+
+{{--                        --}}{{------------------table---------------}}
+{{--                        <div class="table-responsive">--}}
+{{--                            <table class="table">--}}
+{{--                                <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th scope="col">#</th>--}}
+{{--                                    <th scope="col">Products</th>--}}
+{{--                                    <th scope="col">Quantity</th>--}}
+{{--                                    <th scope="col">Total Price</th>--}}
+{{--                                </tr>--}}
+{{--                                </thead>--}}
+{{--                                <tbody>--}}
+{{--                                @foreach($po->products as $product)--}}
+{{--                                    <tr>--}}
+{{--                                        <td>{{$product->id}}</td>--}}
+
+{{--                                        <td>{{$product->product->name}}</td>--}}
+{{--                                        <td>{{$product->quantity}}</td>--}}
+{{--                                        <td>{{$product->total}}</td>--}}
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
+{{--                                </tbody>--}}
+
+{{--                                <tfoot>--}}
+{{--                                </tfoot>--}}
+{{--                            </table>--}}
+{{--                        </div>--}}
+{{--                        --}}{{------------------table---------------}}
+
+{{--                    </div>--}}
+{{--                @endforeach--}}
+
+
+{{--            </div>--}}
+{{--        </div>--}}
 
     </div>
 
