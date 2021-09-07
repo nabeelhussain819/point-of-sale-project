@@ -109,13 +109,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/stock-transfer', [TransferController::class, 'index'])->name('transfer.index');
         Route::get('/stock-transfer/create', [TransferController::class, 'stockTransfer'])->name('transfer.create');
         Route::post('/stock-transfer', [TransferController::class, 'transfer'])->name('transfer.store');
+        Route::get('/stock-transfer/all', [TransferController::class, 'all']);
         Route::get('/stock-transfer/{transfer}', [TransferController::class, 'received'])->name('transfer.received');
+
         Route::delete('/stock-transfer/{transfer}', [TransferController::class, 'delete'])->name('transfer.delete');
 
         Route::post('/stock-transfer-received/{transfer}', [TransferController::class, 'markAsReceived'])->name('transfer.markasreceived');
 
 
         Route::group(['prefix' => 'stock-transfer'], function () {
+
             Route::get('/associate-product-serial/{transfer}', [TransferController::class, 'showAssociateProductSerial'])
                 ->name('transfer.show-associate-product-serial');
 

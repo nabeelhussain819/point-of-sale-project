@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Helpers\DateTimeHelper;
 use App\Observers\StockTransferObserver;
 use App\Traits\InteractWithProducts;
 
@@ -26,7 +27,7 @@ class StockTransfer extends Base
     use InteractWithProducts;
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -37,9 +38,12 @@ class StockTransfer extends Base
      */
     protected $fillable = ['transfer_by', 'received_by', 'store_in_id', 'store_out_id', 'request_id', 'transfer_date', 'received_date', 'created_by', 'updated_by'];
 
-    protected $dates = ['transfer_date'];
+    protected $dates = ['transfer_date', 'received_date'];
 
     public $isReceiving = false;
+
+    public $appends = ['date', 'received_at'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -101,7 +105,26 @@ class StockTransfer extends Base
         return $this->belongsToMany(ProductSerialNumbers::class, 'product_serial_numbers', 'stock_transfer_id', 'stock_transfer_id');
     }
 
-    public function productsSerials(){
+    public function productsSerials()
+    {
         return $this->hasMany(ProductSerialNumbers::class);
+    }
+
+    public function getDateAttribute()
+    {
+        if (empty($this->created_at)) {
+            return false;
+        }
+        return $this->created_at->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
+    }
+
+    public function getReceivedAtAttribute()
+    {
+
+        if (empty($this->received_date)) {
+            return false;
+        }
+
+        return $this->received_date->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
     }
 }

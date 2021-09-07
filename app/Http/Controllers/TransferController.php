@@ -6,11 +6,13 @@ use App\Helpers\ArrayHelper;
 use App\Http\Requests\TransferRequest;
 use App\Models\Product;
 use App\Models\ProductSerialNumbers;
+use App\Models\PurchaseOrder;
 use App\Models\StockTransfer;
 use App\Models\StockTransferProduct;
 use App\Models\Store;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
@@ -187,5 +189,18 @@ class TransferController extends Controller
 //            return redirect()->route('purchase-order.index')->with('success', 'Purchase Order received');
 //        });
 
+    }
+
+    public function all(Request $request)
+    {
+        return StockTransfer::select(['id', 'transfer_date', 'store_in_id', 'store_out_id', 'received_date', 'created_at'])
+            ->with(['storeOut' => function (BelongsTo $builder) {
+                $builder->select(['id', 'name']);
+            }, 'storeIn' => function (BelongsTo $builder) {
+                $builder->select(['id', 'name']);
+            }])
+            ->where($this->applyFilters($request))
+            ->orderBy("created_at", 'desc')
+            ->paginate($this->pageSize);
     }
 }
