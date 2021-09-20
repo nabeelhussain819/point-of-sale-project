@@ -104,7 +104,11 @@ class RepairController extends Controller
      */
     public function update(Request $request, Repair $repair)
     {
-        $repair->update($request->all());
+        $data = $request->all();
+        if ($request->has("payable")) {
+            $data["advance_cost"] = $data["advance_cost"] + $data["payable"];
+        }
+        $repair->update($data);
         $products = array_filter($request->get('productItem'));
         $repair->syncProducts($products);
         return $this->genericResponse(true, " repair has been updated", 200);

@@ -77,6 +77,7 @@
                             @change="handleTotal"
                             :min="0"
                             type="number"
+                            :disabled="isCreated"
                             v-decorator="[
                                 'total_cost',
                                 {
@@ -99,6 +100,7 @@
                             :max="maxTotal"
                             :min="0"
                             type="number"
+                            :disabled="isCreated"
                             v-decorator="[
                                 'advance_cost',
                                 {
@@ -333,8 +335,35 @@
                     ></a-col>
                 </div>
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
+                <a-col v-if="isCreated" :span="4">
+                    <a-form-item label="Add Payables">
+                        <a-input
+                            :max="maxTotal"
+                            :min="0"
+                            type="number"
+                            v-decorator="[
+                                'payable',
+                                {
+                                    rules: [
+                                        {
+                                            validator: (
+                                                rule,
+                                                value,
+                                                callback
+                                            ) =>
+                                                validateTotal(
+                                                    rule,
+                                                    value,
+                                                    callback
+                                                )
+                                        }
+                                    ]
+                                }
+                            ]"
+                        /> </a-form-item
+                ></a-col>
                 <a-col :span="8">
-                    <a-form-item :wrapper-col="{ span: 12 }">
+                    <a-form-item label="Action" :wrapper-col="{ span: 12 }">
                         <a-button
                             type="primary"
                             class="no-print"
@@ -418,6 +447,36 @@ export default {
         }
     },
     methods: {
+        validateTotal(rule, value, callback, key) {
+            let values = this.form.getFieldsValue();
+
+            let total_payable = Number(value) + Number(values.advance_cost);
+            if (Number(values.total_cost) < Number(total_payable)) {
+                return callback("values not greater than the total");
+            }
+
+            if (
+                values.status === "COLLECTED" &&
+                Number(values.total_cost) !== Number(total_payable)
+            ) {
+                this.advanceCompare = true;
+                return callback(
+                    "Please Adjust Advance Cost Equals To Total Cost"
+                );
+            } else {
+                this.advanceCompare = false;
+            }
+
+            // if (!isEmpty(value)) {
+            //     let prices = this.getMin();
+            //     if (prices > value) {
+            //         callback(
+            //             "Please add value greater than sub total  $" + prices
+            //         );
+            //     }
+            // }
+            callback();
+        },
         print() {
             window.print();
         },
@@ -447,12 +506,12 @@ export default {
             this.row = JSON.parse(row);
         },
         update(values) {
-            if (values.status === "COLLECTED") {
-                if (values.advance_cost !== values.total_cost) {
-                    this.advanceCompare = true;
-                    return false;
-                }
-            }
+            // if (values.status === "COLLECTED") {
+            //     if (values.advance_cost !== values.total_cost) {
+            //         this.advanceCompare = true;
+            //         return false;
+            //     }
+            // }
 
             delete values.customer_id;
             RepairService.update(this.repairId, values).then(response => {
