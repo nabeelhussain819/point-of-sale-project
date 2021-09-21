@@ -358,6 +358,8 @@
                 <a-col :span="4">
                     <a-form-item label="Discount">
                         <a-input
+                            :max="maxTotal"
+                            :min="0"
                             :disabled="!isCreated"
                             type="number"
                             v-decorator="[
@@ -495,7 +497,7 @@ export default {
     methods: {
         validateTotal(rule, value, callback, key) {
             let values = this.form.getFieldsValue();
-            console.log("value", value);
+
             let total_payable = Number(value) + Number(values.advance_cost);
             if (Number(values.total_cost) < Number(total_payable)) {
                 return callback("values not greater than the total");
