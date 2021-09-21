@@ -439,6 +439,7 @@
                 </a-col>
             </a-row>
         </a-form>
+        <schedules :repair="repair" v-if="isCreated" />
     </a-skeleton>
 </template>
 
@@ -449,6 +450,7 @@ import ProductService from "../../services/API/ProductService";
 import IssueTypeService from "../../services/API/IssueTypeService";
 import RepairService from "../../services/API/RepairService";
 import CustomerService from "../../services/API/CustomerService";
+import schedules from "./schedules";
 import {
     isEmpty,
     filterOption,
@@ -457,6 +459,9 @@ import {
 } from "../../services/helpers";
 
 export default {
+    components: {
+        schedules
+    },
     props: {
         repairId: { default: null }
     },

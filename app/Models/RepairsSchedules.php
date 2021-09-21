@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Helpers\DateTimeHelper;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,6 +35,7 @@ class RepairsSchedules extends Base
      */
     protected $fillable = ['repair_id', 'created_by', 'updated_by', 'date_of_payment', 'received_amount', 'comment', 'discount', 'additional_charge', 'created_at', 'updated_at'];
 
+    //  protected $dates = ['created_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -40,5 +43,10 @@ class RepairsSchedules extends Base
     public function repair()
     {
         return $this->belongsTo('App\Repair');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
     }
 }
