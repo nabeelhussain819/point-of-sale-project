@@ -12,6 +12,7 @@ use App\Models\IssueType;
 use App\Models\Product;
 use App\Models\Repair;
 use App\Models\Store;
+use App\Models\RepairsSchedules;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -60,7 +61,9 @@ class RepairController extends Controller
                 $customerId = $customer->id;
             }
 
-            $repair->fill(array_merge($request->all(), ['customer_id' => $customerId, 'store_id' => Store::currentId()]));
+            $repairData = $request->all();
+            $repairData['advance_cost'] = $request->get('received_amount');
+            $repair->fill(array_merge($repairData, ['customer_id' => $customerId, 'store_id' => Store::currentId()]));
 
 
             $repair->save();
@@ -71,6 +74,13 @@ class RepairController extends Controller
             })->all();
             $products = array_filter($productData);
             $repair->syncProducts($products);
+
+            // repair scheduled save
+            $repairSchedule = new RepairsSchedules();
+            $repairData['repair_id'] = $repair->id;
+
+            $repairSchedule->fill($repairData);
+            $repairSchedule->save();
             return $this->genericResponse(true, " repair has been created", 201);
         });
 
@@ -81,7 +91,7 @@ class RepairController extends Controller
      */
     public function show(Repair $repair)
     {
-        return $repair->load(['relatedProducts', 'customer']);
+        return $repair->load(['relatedProducts', 'customer', 'schedules']);
     }
 
     /**
@@ -105,12 +115,28 @@ class RepairController extends Controller
     public function update(Request $request, Repair $repair)
     {
         $data = $request->all();
-        if ($request->has("payable")) {
-            $data["advance_cost"] = $data["advance_cost"] + $data["payable"];
+
+        if ($request->has("received_amount")) {
+            $data["advance_cost"] = $data["advance_cost"] + $data["received_amount"];
         }
+
+        if ($request->has("additional_charge")) {
+            $data["total_cost"] = $data["total_cost"] + $data["additional_charge"];
+        }
+
+        if ($request->has("discount")) {
+            $data["total_cost"] = $data["total_cost"] - $data["discount"];
+        }
+
         $repair->update($data);
         $products = array_filter($request->get('productItem'));
         $repair->syncProducts($products);
+
+        $repairSchedule = new RepairsSchedules();
+        $data['repair_id'] = $repair->id;
+
+        $repairSchedule->fill($data);
+        $repairSchedule->save();
         return $this->genericResponse(true, " repair has been updated", 200);
     }
 

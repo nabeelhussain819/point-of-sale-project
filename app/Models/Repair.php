@@ -75,6 +75,14 @@ class Repair extends Base
         return $this->hasMany(RepairsProduct::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function schedules()
+    {
+        return $this->hasMany('App\Models\RepairsSchedules');
+    }
+
     public function getDaysAttribute()
     {
         if (empty($this->created_at)) {

@@ -97,21 +97,14 @@
                 <a-col :span="4">
                     <a-form-item label="Advance Cost">
                         <a-input
+                            :disabled="true"
                             :max="maxTotal"
                             :min="0"
                             type="number"
-                            :disabled="isCreated"
                             v-decorator="[
                                 'advance_cost',
                                 {
-                                    initialValue: repair.advance_cost,
-                                    rules: [
-                                        {
-                                            required: true,
-                                            message:
-                                                'Please input your advance cost!'
-                                        }
-                                    ]
+                                    initialValue: repair.advance_cost
                                 }
                             ]"
                         /> </a-form-item
@@ -335,14 +328,14 @@
                     ></a-col>
                 </div>
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
-                <a-col v-if="isCreated" :span="4">
+                <a-col :span="4">
                     <a-form-item label="Add Payables">
                         <a-input
                             :max="maxTotal"
                             :min="0"
                             type="number"
                             v-decorator="[
-                                'payable',
+                                'received_amount',
                                 {
                                     rules: [
                                         {
@@ -362,7 +355,59 @@
                             ]"
                         /> </a-form-item
                 ></a-col>
-                <a-col :span="8">
+                <a-col :span="4">
+                    <a-form-item label="Discount">
+                        <a-input
+                            :disabled="!isCreated"
+                            type="number"
+                            v-decorator="[
+                                'discount',
+                                {
+                                    rules: []
+                                }
+                            ]"
+                        /> </a-form-item
+                ></a-col>
+                <a-col :span="4">
+                    <a-form-item label="Additional Charge">
+                        <a-input
+                            :disabled="!isCreated"
+                            v-decorator="[
+                                'additional_charge',
+                                {
+                                    rules: []
+                                }
+                            ]"
+                        /> </a-form-item
+                ></a-col>
+                <a-col :span="4">
+                    <a-form-item label="Payment Method">
+                        <a-checkbox
+                            v-decorator="[
+                                'pay_by_card',
+                                {
+                                    rules: []
+                                }
+                            ]"
+                        >
+                            Pay By card
+                        </a-checkbox>
+                    </a-form-item>
+                </a-col>
+                <a-col :span="4">
+                    <a-form-item label="Comment">
+                        <a-input
+                            :disabled="!isCreated"
+                            v-decorator="[
+                                'comment',
+                                {
+                                    rules: []
+                                }
+                            ]"
+                        />
+                    </a-form-item>
+                </a-col>
+                <a-col :span="4">
                     <a-form-item label="Action" :wrapper-col="{ span: 12 }">
                         <a-button
                             type="primary"
@@ -381,6 +426,7 @@
                         </a-button>
                     </a-form-item>
                 </a-col>
+
                 <a-col :span="24">
                     <a-alert
                         v-if="advanceCompare"
@@ -449,7 +495,7 @@ export default {
     methods: {
         validateTotal(rule, value, callback, key) {
             let values = this.form.getFieldsValue();
-
+            console.log("value", value);
             let total_payable = Number(value) + Number(values.advance_cost);
             if (Number(values.total_cost) < Number(total_payable)) {
                 return callback("values not greater than the total");
@@ -464,7 +510,7 @@ export default {
                     "Please Adjust Advance Cost Equals To Total Cost"
                 );
             } else {
-                this.advanceCompare = false;
+                this.advanceCompare = false.l;
             }
 
             // if (!isEmpty(value)) {
@@ -605,11 +651,12 @@ export default {
                         let productsId = this.row.map(
                             product => product.product_id
                         );
-
-                        this.fetchProductRequest({
-                            id: productsId,
-                            isRepair: true
-                        });
+                        if (productsId != [null] && !isEmpty(productsId)) {
+                            this.fetchProductRequest({
+                                id: productsId,
+                                isRepair: true
+                            });
+                        }
                     });
             }
         },
