@@ -156,7 +156,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'purchase-order'], function () {
         Route::get('/received-form/{purchaseOrder}', [PurchaseOrderController::class, 'receivedForm'])
-            ->name('purchaseOrder.received');
+            ->name('purchaseOrder.received')->middleware('checkPermission:department-list');
         // Route::get('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])->name('purchaseOrder.received-done');
         Route::post('/received/{purchaseOrder}', [PurchaseOrderController::class, 'received'])
             ->name('purchaseOrder.received-done');
@@ -217,9 +217,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/all', [CategoryController::class, 'all']);
     });
 
-    Route::group(['prefix' => 'department'], function () {
-        Route::get('/all', [DepartmentController::class, 'all']);
-    });
+    Route::group(['prefix' => 'department'],
+        function () {
+            Route::get('/all', [DepartmentController::class, 'all']);
+        });
 
     Route::Resources([
         'users' => UserController::class,
