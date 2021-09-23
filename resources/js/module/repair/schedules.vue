@@ -1,7 +1,10 @@
 <template>
-    <a-table :columns="columns" :data-source="repair.schedules">
-        <a slot="prices" slot-scope="text">$ {{ text }}</a>
-    </a-table>
+    <div>
+        <a-divider>Schedules</a-divider>
+        <a-table :columns="columns" :data-source="repair.schedules">
+            <a slot="prices" slot-scope="text">$ {{ text }}</a>
+        </a-table>
+    </div>
 </template>
 <script>
 const columns = [

@@ -337,6 +337,7 @@
                             v-decorator="[
                                 'received_amount',
                                 {
+                                    initialValue: 0,
                                     rules: [
                                         {
                                             validator: (
@@ -374,12 +375,7 @@
                     <a-form-item label="Additional Charge">
                         <a-input
                             :disabled="!isCreated"
-                            v-decorator="[
-                                'additional_charge',
-                                {
-                                    rules: []
-                                }
-                            ]"
+                            v-decorator="['additional_charge', {}]"
                         /> </a-form-item
                 ></a-col>
                 <a-col :span="4">
@@ -501,35 +497,33 @@ export default {
     },
     methods: {
         validateTotal(rule, value, callback, key) {
-            let values = this.form.getFieldsValue();
-
-            let total_payable = Number(value) + Number(values.advance_cost);
-            if (Number(values.total_cost) < Number(total_payable)) {
-                return callback("values not greater than the total");
-            }
-
-            if (
-                values.status === "COLLECTED" &&
-                Number(values.total_cost) !== Number(total_payable)
-            ) {
-                this.advanceCompare = true;
-                return callback(
-                    "Please Adjust Advance Cost Equals To Total Cost"
-                );
-            } else {
-                this.advanceCompare = false.l;
-            }
-
-            // if (!isEmpty(value)) {
-            //     let prices = this.getMin();
-            //     if (prices > value) {
-            //         callback(
-            //             "Please add value greater than sub total  $" + prices
-            //         );
-            //     }
+            // let values = this.form.getFieldsValue();
+            // let total_payable = Number(value) + Number(values.advance_cost);
+            // if (Number(values.total_cost) < Number(total_payable)) {
+            //     return callback("values not greater than the total");
             // }
+            // if (
+            //     values.status === "COLLECTED" &&
+            //     Number(values.total_cost) !== Number(total_payable)
+            // ) {
+            //     this.advanceCompare = true;
+            //     return callback(
+            //         "Please Adjust Advance Cost Equals To Total Cost"
+            //     );
+            // } else {
+            //     this.advanceCompare = false;
+            // }
+            // // if (!isEmpty(value)) {
+            // //     let prices = this.getMin();
+            // //     if (prices > value) {
+            // //         callback(
+            // //             "Please add value greater than sub total  $" + prices
+            // //         );
+            // //     }
+            // // }
             callback();
         },
+
         print() {
             window.print();
         },
@@ -567,14 +561,18 @@ export default {
             // }
 
             delete values.customer_id;
-            RepairService.update(this.repairId, values).then(response => {
-                this.$notification.open({
-                    message: "Updated",
-                    description: response.message
-                });
+            RepairService.update(this.repairId, values)
+                .then(response => {
+                    this.$notification.open({
+                        message: "Updated",
+                        description: response.message
+                    });
 
-                this.$emit("close", false);
-            });
+                    this.$emit("close", false);
+                })
+                .catch(error => {
+                    errorNotification(this, error);
+                });
         },
         save(values) {
             RepairService.create(values)

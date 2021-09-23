@@ -106,38 +106,55 @@ class RepairController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param Repair $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Repair $repair
+     * @return mixed
+     * @throws \Throwable
      */
     public function update(Request $request, Repair $repair)
     {
-        $data = $request->all();
+        return DB::transaction(function () use ($request, $repair) {
+            $data = $request->all();
 
-        if ($request->has("received_amount")) {
-            $data["advance_cost"] = $data["advance_cost"] + $data["received_amount"];
+            if ($request->has("received_amount")) {
+                $data["advance_cost"] = $data["advance_cost"] + $data["received_amount"];
+            }
+
+            if ($request->has("additional_charge")) {
+                $data["total_cost"] = $data["total_cost"] + $data["additional_charge"];
+            }
+
+            if ($request->has("discount")) {
+                $data["total_cost"] = $data["total_cost"] - $data["discount"];
+            }
+
+            $this->validateOnUpdate($data);
+            $repair->update($data);
+            $products = array_filter($request->get('productItem'));
+            $repair->syncProducts($products);
+
+            $repairSchedule = new RepairsSchedules();
+            $data['repair_id'] = $repair->id;
+
+            $repairSchedule->fill($data);
+            $repairSchedule->save();
+
+            return $this->genericResponse(true, " repair has been updated", 200);
+        });
+    }
+
+    /**
+     * @param array $data
+     * @throws \Exception
+     */
+    private function validateOnUpdate(array $data)
+    {
+        if ($data["status"] === Repair::IN_COLLECTED_STATUS) {
+            if ($data["total_cost"] != $data["advance_cost"]) {
+                throw new \Exception("Please adjust the cost");
+            }
         }
 
-        if ($request->has("additional_charge")) {
-            $data["total_cost"] = $data["total_cost"] + $data["additional_charge"];
-        }
-
-        if ($request->has("discount")) {
-            $data["total_cost"] = $data["total_cost"] - $data["discount"];
-        }
-
-        $repair->update($data);
-        $products = array_filter($request->get('productItem'));
-        $repair->syncProducts($products);
-
-        $repairSchedule = new RepairsSchedules();
-        $data['repair_id'] = $repair->id;
-
-        $repairSchedule->fill($data);
-        $repairSchedule->save();
-        return $this->genericResponse(true, " repair has been updated", 200);
     }
 
     /**
