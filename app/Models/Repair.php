@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Helpers\ArrayHelper;
+use App\Helpers\DateTimeHelper;
 use App\Helpers\GuidHelper;
 use App\Observers\FinanceObserver;
 use App\Scopes\StoreGlobalScope;
@@ -35,7 +36,7 @@ class Repair extends Base
      */
     protected $fillable = ['customer_id', 'status', 'total_cost', 'advance_cost', 'guid', 'store_id', 'created_at', 'updated_at'];
 
-    protected $appends = ['days', 'remaining'];
+    protected $appends = ['remaining'];
     const IN_PROGRESS_STATUS = "INPROGRESS";
     const IN_COMPLETED_STATUS = "COMPLETED";
     const IN_COLLECTED_STATUS = "COLLECTED";
@@ -89,6 +90,15 @@ class Repair extends Base
             return 0;
         }
         return $this->created_at->diffInDays(Carbon::now(), false);
+    }
+
+    public function getCreatedAtAttribute($createdAt)
+    {
+
+        if (empty($createdAt)) {
+            return $this->created_at;
+        }
+        return Carbon::parse($createdAt)->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
     }
 
     public function getRemainingAttribute()

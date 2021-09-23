@@ -148,9 +148,9 @@ const columns = [
         }
     },
     {
-        title: "Days",
-        dataIndex: "days",
-        key: "days"
+        title: "Created At",
+        dataIndex: "created_at",
+        key: "created_at"
     },
     {
         title: "Remaining Cost",
