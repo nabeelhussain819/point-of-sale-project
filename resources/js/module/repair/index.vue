@@ -2,6 +2,7 @@
     <div>
         <a-skeleton :loading="loading">
             <a-table
+                :pagination="pagination"
                 :columns="columns"
                 :data-source="data"
                 :rowClassName="rowClassName"
@@ -186,7 +187,15 @@ export default {
             loading: true,
             repairId: null,
             filters: {},
-            statuses: []
+            statuses: [],
+            pagination: {
+                // current: 1,
+                // pageSize: 4,
+                // total: 0,
+                // showTotal: () => `Total ${this.pagination.total}`,
+                onChange: (current, pageSize) =>
+                    this.pageSelect(current, pageSize)
+            }
         };
     },
     mounted() {
@@ -225,18 +234,30 @@ export default {
         },
         fetchList(param = {}) {
             this.loading = true;
-            RepairService.all(param)
+            RepairService.all({ ...param, ...this.pagination })
                 .then(data => {
                     this.data = data.data;
+                    const pagination = { ...this.pagination };
+                    pagination.current = response.current;
+                    pagination.pageSize = response.pageSize;
+                    pagination.total = response.total;
+                    this.pagination = pagination;
                 })
                 .finally(() => (this.loading = false));
+        },
+        pageSelect(current, pageSize) {
+            const pagination = { ...this.pagination };
+            pagination.current = current;
+            pagination.pageSize = pageSize;
+            this.pagination = pagination;
+            this.fetchList();
         },
         add() {
             this.repairId = null;
             this.showAddModal(true);
         },
         rowClassName(row) {
-            if(row.status ==="COLLECTED"){
+            if (row.status === "COLLECTED") {
                 return "green-row";
             }
             return "red-row";
