@@ -190,7 +190,7 @@ export default {
             statuses: [],
             pagination: {
                 // current: 1,
-                pageSize: 4,
+                pageSize: 10,
                 // total: 0,
                 // showTotal: () => `Total ${this.pagination.total}`,
                 onChange: (current, pageSize) =>
