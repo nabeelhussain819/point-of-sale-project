@@ -16,12 +16,14 @@ trait Paginates
 
     public function getPageSize(): int
     {
-        return request()->get('results', $this->pageSize);
+
+        return request()->get('pageSize', $this->pageSize);
     }
 
     public function getPageSize_homepage(): int
     {
-        return request()->get('results', $this->pageSize_homepage);
+
+        return request()->get('pageSize', $this->pageSize_homepage);
     }
 
     public function getPageSize_reports(): int

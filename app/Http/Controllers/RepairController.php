@@ -172,7 +172,7 @@ class RepairController extends Controller
     {
 
         return Repair::where($this->applyFilters($request))
-            ->with("customer")->orderBy('created_at', "desc")->paginate($this->pageSize);
+            ->with("customer")->orderBy('created_at', "desc")->paginate($this->getPageSize());
     }
 
     public function statuses()

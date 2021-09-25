@@ -190,7 +190,7 @@ export default {
             statuses: [],
             pagination: {
                 // current: 1,
-                // pageSize: 4,
+                pageSize: 4,
                 // total: 0,
                 // showTotal: () => `Total ${this.pagination.total}`,
                 onChange: (current, pageSize) =>
@@ -238,9 +238,10 @@ export default {
                 .then(data => {
                     this.data = data.data;
                     const pagination = { ...this.pagination };
-                    pagination.current = response.current;
-                    pagination.pageSize = response.pageSize;
-                    pagination.total = response.total;
+                    pagination.current = data.current_page;
+                    pagination.page = data.current_page;
+                    pagination.pageSize = data.per_page;
+                    pagination.total = data.total;
                     this.pagination = pagination;
                 })
                 .finally(() => (this.loading = false));
@@ -248,6 +249,7 @@ export default {
         pageSelect(current, pageSize) {
             const pagination = { ...this.pagination };
             pagination.current = current;
+            pagination.page = current;
             pagination.pageSize = pageSize;
             this.pagination = pagination;
             this.fetchList();
