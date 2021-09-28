@@ -70,7 +70,7 @@ class ReportController extends Controller
         } else if ($name === "Finances") {
             return $this->report_finance($request)->where($this->applyFilters($request))->get();
         } else if ($name === "Repair") {
-            return $this->report_repair($request)->where($this->applyFilters($request))->get();
+            return $this->report_repair($request)->get();
         } else if ($name === "Refunds") {
             return $this->report_refund($request)->where($this->applyFilters($request))->get();
         }

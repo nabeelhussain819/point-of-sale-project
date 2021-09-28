@@ -10,6 +10,7 @@ use App\Models\Repair;
 use App\Models\RepairsProduct;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 
 trait InteractWithReports
@@ -51,12 +52,34 @@ trait InteractWithReports
 
     public function report_repair(Request $request): Builder
     {
-        return Repair::selectRaw(" status as name,sum(total_cost) as total,sum(advance_cost) as advance ")
+        return Repair::selectRaw(" status as name,sum(total_cost) as total,sum(advance_cost) as advance  ")
+            ->selectRaw("Sum( CASE repairs_schedules.pay_by_card
+	WHEN true THEN
+	received_amount
+	ELSE
+		0
+END) as card")
+            ->selectRaw("Sum( CASE repairs_schedules.pay_by_card
+	WHEN false THEN
+	received_amount
+	ELSE
+		0
+END  
+) as cash")
             ->groupBy("status")
+            ->join('repairs_schedules', function (JoinClause $join) use ($request) {
+
+                $join->on('repairs.id', '=', 'repairs_schedules.repair_id');
+            })
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
 
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
-            })->orderBy("total");
+                $builder->orWhereRaw("repairs.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'")
+                    ->orwhereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+
+            })
+            ->orderBy("total");
+
+
     }
 
     public function report_refund(Request $request): Builder

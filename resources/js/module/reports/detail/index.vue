@@ -164,15 +164,27 @@ const repairColumns = [
         scopedSlots: { customRender: "name" }
     },
     {
+        title: "Total",
+        dataIndex: "total",
+        key: "total",
+        scopedSlots: { customRender: "total" }
+    },
+    {
         title: "Advance",
         dataIndex: "advance",
         key: "advance",
         scopedSlots: { customRender: "total" }
     },
     {
-        title: "Total",
-        dataIndex: "total",
-        key: "total",
+        title: "Card",
+        dataIndex: "card",
+        key: "card",
+        scopedSlots: { customRender: "total" }
+    },
+    {
+        title: "Cash",
+        dataIndex: "cash",
+        key: "cash",
         scopedSlots: { customRender: "total" }
     }
 ];
