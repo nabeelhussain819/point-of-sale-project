@@ -22,7 +22,7 @@ const columns = [
         scopedSlots: { customRender: "name" }
     },
     {
-        title: "Aadditional Charge",
+        title: "Additional Charge",
         dataIndex: "additional_charge",
         key: "additional_charge",
         scopedSlots: { customRender: "name" }

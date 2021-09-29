@@ -10,6 +10,7 @@ use App\Models\Repair;
 use App\Models\RepairsProduct;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,29 @@ trait InteractWithReports
             })->orderBy("total");
     }
 
+
+    public function report_repair2(Request $request): Builder
+    {
+        return Repair::select(["id", "status", "total_cost", "advance_cost"])->when($request->get('date_range'), function (Builder $builder, $date_range) {
+
+            $builder->where(function (Builder $builder) use ($date_range) {
+                $builder->whereRaw("repairs.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'")
+                    ->orWhereExists(function (\Illuminate\Database\Query\Builder $query) use ($date_range) {
+                        $query->from("repairs_schedules")->
+                        where('repairs.id', \DB::raw('repairs_schedules.repair_id'))->
+                        whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+                    });
+            });
+
+        })->with(["schedules" => function (HasMany $belongsTo) use ($request) {
+            $date_range = $request->get('date_range');
+            if (!empty($date_range)) {
+                $belongsTo->select(["id", "additional_charge", "repair_id", "discount", "received_amount"])->whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            }
+
+        }]);
+    }
+
     public function report_repair(Request $request): Builder
     {
         return Repair::selectRaw(" status as name,sum(total_cost) as total,sum(advance_cost) as advance  ")
@@ -77,6 +101,7 @@ END
                     ->orwhereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
 
             })
+            ->dd()
             ->orderBy("total");
 
 

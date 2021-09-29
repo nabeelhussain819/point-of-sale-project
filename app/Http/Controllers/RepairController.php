@@ -117,7 +117,7 @@ class RepairController extends Controller
             $data = $request->all();
 
             if ($request->has("received_amount")) {
-                $data["advance_cost"] = $data["advance_cost"] + $data["received_amount"];
+                $data["advance_cost"] =  $data["advance_cost"] + $data["received_amount"];
             }
 
             if ($request->has("additional_charge")) {

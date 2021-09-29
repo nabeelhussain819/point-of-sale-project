@@ -63,4 +63,8 @@ class StringHelper extends Str
     {
         return is_string($string);
     }
+
+    public static  function convertToNumber($string){
+
+    }
 }
