@@ -73,17 +73,7 @@ class ReportController extends Controller
         } else if ($name === "Finances") {
             return $this->report_finance($request)->where($this->applyFilters($request))->get();
         } else if ($name === "Repair") {
-            $repairs = $this->report_repair2($request)->get();
-            $repairs1 = $repairs->groupBy("status")->map(function ($repair) {
-                return [
-                    'name' => $repair->first()->status,
-                    'total' => $repair->sum('total_cost'),
-                    'advance' => $repair->sum('advance_cost')
-                ];
-
-            });
-            return $repairs1->values();
-
+            return $this->report_repair($request)->get();
         } else if ($name === "Refunds") {
             return $this->report_refund($request)->where($this->applyFilters($request))->get();
         }

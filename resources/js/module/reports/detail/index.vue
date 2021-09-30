@@ -175,6 +175,12 @@ const repairColumns = [
         key: "advance",
         scopedSlots: { customRender: "total" }
     },
+     {
+        title: "Today received",
+        dataIndex: "received_amount",
+        key: "received_amount",
+        scopedSlots: { customRender: "total" }
+    },
     {
         title: "Card",
         dataIndex: "card",

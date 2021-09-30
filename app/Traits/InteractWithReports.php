@@ -71,12 +71,12 @@ trait InteractWithReports
                 $belongsTo->select(["id", "additional_charge", "repair_id", "discount", "received_amount"])->whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             }
 
-        }]);
+        }])->dd();
     }
 
     public function report_repair(Request $request): Builder
     {
-        return Repair::selectRaw(" status as name,sum(total_cost) as total,sum(advance_cost) as advance  ")
+        return Repair::selectRaw('repairs."status" as name,sum(repairs."total_cost") as total,sum(repairs."advance_cost") as advance ,	sum(repairs_schedules."received_amount") as received_amount')
             ->selectRaw("Sum( CASE repairs_schedules.pay_by_card
 	WHEN true THEN
 	received_amount
@@ -101,7 +101,6 @@ END
                     ->orwhereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
 
             })
-            ->dd()
             ->orderBy("total");
 
 
