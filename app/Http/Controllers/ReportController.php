@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Store;
 use App\Traits\InteractWithReports;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -28,17 +29,14 @@ class ReportController extends Controller
             ->selectRaw("ROUND(sum(total)) as total,'Finances' as name ");
 
 
-        $repairs = \DB::table('repairs')
-            ->where('store_id', Store::currentId())
+        $repairs = \DB::table('repairs_schedules')
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'")
-                    ->orWhereExists(function (\Illuminate\Database\Query\Builder $query) use ($date_range) {
-                        $query->from("repairs_schedules")->
-                        where('repairs.id', \DB::raw('repairs_schedules.repair_id'))->
-                        whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
-                    });;
+                $builder->whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->join('repairs', function (JoinClause $joinClause) {
+                $joinClause->on('repairs_schedules.repair_id', '=', 'repairs.id')
+                    ->where('repairs.store_id', Store::currentId());
             })
-            ->selectRaw("ROUND(sum(total_cost)) as total,'Repair' as name ");
+            ->selectRaw("ROUND(sum(received_amount)) as total,'Repair' as name ");
 
         $refunds = \DB::table('refunds')
             ->where('store_id', Store::currentId())
