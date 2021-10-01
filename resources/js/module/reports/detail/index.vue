@@ -157,12 +157,12 @@ const refundColumns = [
     }
 ];
 const repairColumns = [
-    // {
-    //     title: "Name",
-    //     dataIndex: "name",
-    //     key: "name",
-    //     scopedSlots: { customRender: "name" }
-    // },
+    {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        scopedSlots: { customRender: "name" }
+    },
     // {
     //     title: "Total",
     //     dataIndex: "total",
