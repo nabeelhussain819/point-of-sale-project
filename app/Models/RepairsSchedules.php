@@ -33,7 +33,7 @@ class RepairsSchedules extends Base
     /**
      * @var array
      */
-    protected $fillable = ['repair_id', 'created_by', 'updated_by', 'date_of_payment', 'received_amount', 'comment', 'discount', 'additional_charge', 'created_at', 'updated_at'];
+    protected $fillable = ['repair_id','pay_by_card', 'created_by', 'updated_by', 'date_of_payment', 'pay_by_card', 'received_amount', 'comment', 'discount', 'additional_charge', 'created_at', 'updated_at'];
 
     //  protected $dates = ['created_at'];
 

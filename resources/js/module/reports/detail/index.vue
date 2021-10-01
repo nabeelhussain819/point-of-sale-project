@@ -157,24 +157,24 @@ const refundColumns = [
     }
 ];
 const repairColumns = [
-    {
-        title: "Name",
-        dataIndex: "name",
-        key: "name",
-        scopedSlots: { customRender: "name" }
-    },
-    {
-        title: "Total",
-        dataIndex: "total",
-        key: "total",
-        scopedSlots: { customRender: "total" }
-    },
-    {
-        title: "Advance",
-        dataIndex: "advance",
-        key: "advance",
-        scopedSlots: { customRender: "total" }
-    },
+    // {
+    //     title: "Name",
+    //     dataIndex: "name",
+    //     key: "name",
+    //     scopedSlots: { customRender: "name" }
+    // },
+    // {
+    //     title: "Total",
+    //     dataIndex: "total",
+    //     key: "total",
+    //     scopedSlots: { customRender: "total" }
+    // },
+    // {
+    //     title: "Advance",
+    //     dataIndex: "advance",
+    //     key: "advance",
+    //     scopedSlots: { customRender: "total" }
+    // },
      {
         title: "Today received",
         dataIndex: "received_amount",
