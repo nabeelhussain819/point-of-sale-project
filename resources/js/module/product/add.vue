@@ -84,6 +84,13 @@ export default {
             !isEmpty(e.target) && e.preventDefault();
             this.resetValidation();
             let productId = isEmpty(e.target) ? e : e.target.value;
+            if (isEmpty(productId)) {
+                this.fetchProductsErrors = {
+                    validateStatus: "error",
+                    errorMsg: "please fill the field"
+                };
+                return false;
+            }
             this.loading = true;
             let notInventory = this.notInventory;
             InventoryService.products({
