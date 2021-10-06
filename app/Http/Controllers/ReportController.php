@@ -21,13 +21,21 @@ class ReportController extends Controller
 
     public function entitySearch(Request $request)
     {
-        $finance = \DB::table('finances')
-            ->where('store_id', Store::currentId())
-            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
-            })
-            ->selectRaw("ROUND(sum(total)) as total,'Finances' as name ");
+//        $finance = \DB::table('finances')
+//            ->where('store_id', Store::currentId())
+//            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+//                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+//            })
+//            ->selectRaw("ROUND(sum(total)) as total,'Finances' as name ");
 
+        $finance = \DB::table('finances_schedules')
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("finances_schedules.date_of_payment BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->join('finances', function (JoinClause $joinClause) {
+                $joinClause->on('finances_schedules.finance_id', '=', 'finances.id')
+                    ->where('finances.store_id', Store::currentId());
+            })
+            ->selectRaw("ROUND(sum(received_amount)) as total,'Finances' as name ");
 
         $repairs = \DB::table('repairs_schedules')
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
@@ -51,6 +59,7 @@ class ReportController extends Controller
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })
             ->where('store_id', Store::currentId())
+            ->whereNull("finance_id")
             ->selectRaw("ROUND(sum(sub_total)) as total,'Sales' as name ")
             ->union($repairs)
             ->union($finance)
