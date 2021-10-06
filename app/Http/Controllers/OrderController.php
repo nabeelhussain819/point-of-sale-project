@@ -64,6 +64,7 @@ class OrderController extends Controller
                     'cash_back' => empty($cashDetail['cash_back']) ? null : $cashDetail['cash_back'],
                     'customer_card_number' => empty($cashDetail['customer_card_number']) ? null : $cashDetail['customer_card_number'],
                     'tax' => empty($summaryData['tax']) ? null : $summaryData['tax'],
+                    'notes'=>empty($cashDetail['notes']) ? null : $cashDetail['notes'],
                 ];
             }
 

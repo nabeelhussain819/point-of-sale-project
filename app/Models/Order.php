@@ -37,7 +37,7 @@ class Order extends Base
     protected $fillable = ['customer_id', 'discount', 'without_tax', 'sub_total',
         'cash_paid', 'cash_back', 'customer_card_number',
         'store_id',
-        'tax', 'finance_id', 'store_id',
+        'tax', 'finance_id', 'store_id','notes',
         'without_discount', 'created_at', 'updated_at'];
     /**
      * @var array

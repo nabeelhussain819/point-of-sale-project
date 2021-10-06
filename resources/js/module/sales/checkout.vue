@@ -72,6 +72,22 @@
                     <!-- ------------------------------ -->
                 </a-form-item></a-col
             >
+            <a-col :span="24">
+                <a-form-item label="Notes">
+                    <!-- ------------------- -->
+                    <a-textarea
+                      
+                        type="number"
+                        v-decorator="[
+                            'notes',
+                            {
+                                rules: []
+                            }
+                        ]"
+                    ></a-textarea>
+                    <!-- ------------------------------ -->
+                </a-form-item></a-col
+            >
 
             <!-- </a-form> -->
         </a-row>
