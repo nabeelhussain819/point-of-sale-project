@@ -44,6 +44,7 @@ class TransferController extends Controller
      */
     public function transfer(TransferRequest $request)
     {
+
         DB::transaction(function () use ($request) {
             $transfer = new StockTransfer();
             $productData = collect($request->get('products'))->map(function ($product) {

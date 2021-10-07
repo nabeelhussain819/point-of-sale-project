@@ -128,17 +128,17 @@ class StockTransferProductField extends Component
         array_push($this->postSerials[$serial['product_id']], $serial['serial_no']);
     }
 
-    //    public function onScan()
-    //    {
-    //
-    //        $this->productSerials->map(function (ProductSerialNumbers $product) {
-    //
-    //            if ($product->serial_no == $this->scanValue) {
-    //                $product->checked = true;
-    //            }
-    //            $this->scanValue = null;
-    //            return $product;
-    //        });
-    //
-    //    }
+        public function onScan()
+        {
+
+            $this->productSerials->map(function (ProductSerialNumbers $product) {
+
+                if ($product->serial_no == $this->scanValue) {
+                    $product->checked = true;
+                }
+                $this->scanValue = null;
+                return $product;
+            });
+
+        }
 }

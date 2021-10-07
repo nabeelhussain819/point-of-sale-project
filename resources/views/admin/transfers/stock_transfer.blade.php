@@ -44,16 +44,25 @@
 
 @section('js')
     <script>
-        $(document).ready(function () {
-
-        });
-
         $(document).on("click", "#markSerial", function () {
 
             const key = $("#scanSerial").val();
-            $(`.form-check .form-check-input[value=${key}]`).prop('checked', true);
-          //  $(`.form-check .form-check-input[value=${key}]`).trigger('click');
-            // .prop('checked', true);
-        })
+            const checkbBoxSelector =$(`.form-check .form-check-input[value=${key}]`);
+            checkbBoxSelector.prop('checked', true);
+            const product_id=   checkbBoxSelector.attr("data-product-id");
+            appendSerialNumber(product_id,key)
+
+        });
+
+        function appendSerialNumber(product_id,key){
+
+            $("#scanSerial").val("");
+            let html = `    <input type="hidden"
+                       value="${key}"
+                       name="postSerial[${product_id}][]"
+                >`
+
+            $('.serial_container_input').append(html);
+        }
     </script>
 @endsection

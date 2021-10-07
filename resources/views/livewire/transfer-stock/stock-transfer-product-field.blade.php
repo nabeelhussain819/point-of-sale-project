@@ -165,15 +165,18 @@
     </div>
 
 
+    <div class="serial_container_input">
+
+    </div>
     {{--====Serial number===--}}
-    @foreach($postSerials as $productId =>$serials)
-        @foreach($serials as $serial)
-            <input type="hidden"
-                   value="{{$serial}}"
-                   name="postSerial[{{$productId}}][]"
-            >
-        @endforeach
-    @endforeach
+    {{--    @foreach($postSerials as $productId =>$serials)--}}
+    {{--        @foreach($serials as $serial)--}}
+    {{--            <input type="hidden"--}}
+    {{--                   value="{{$serial}}"--}}
+    {{--                   name="postSerial[{{$productId}}][]"--}}
+    {{--            >--}}
+    {{--        @endforeach--}}
+    {{--    @endforeach--}}
     {{--====Serial number===--}}
     {{--MOdal --}}
 
@@ -191,18 +194,18 @@
                 </div>
                 <div class="modal-body">
 
-                    <form>
-                        <div class="input-group mb-3">
 
-                            <input id="scanSerial" placeholder="serial number" class="form-control"
-                                   aria-label="scanValue aria-describedby=" basic-addon2"/>
+                    <div class="input-group mb-3">
 
-                            <div class="input-group-append">
-                                <button id="markSerial" class="btn btn-outline-secondary " type="button">Add</button>
-                            </div>
+                        <input id="scanSerial" placeholder="serial number" class="form-control"
+                               aria-label="scanValue aria-describedby=" basic-addon2"/>
 
+                        <div class="input-group-append">
+                            <button id="markSerial" class="btn btn-outline-secondary " type="button">Add</button>
                         </div>
-                    </form>
+
+                    </div>
+
                     <hr/>
 
                     @if($showModal)
@@ -215,6 +218,7 @@
                                        type="checkbox"
                                        data-serial="{{$serial->serial_no}}"
                                        value="{{$serial->serial_no}}"
+                                       data-product-id="{{$serial->product_id}}"
                                        id="serial-{{$serial->serial_no}}">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{$serial->serial_no}} {{$serial->checked}}
