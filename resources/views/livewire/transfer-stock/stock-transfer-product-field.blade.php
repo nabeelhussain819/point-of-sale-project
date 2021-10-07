@@ -19,7 +19,8 @@
             <div class="form-group">
                 <label for="">Store Out</label>
 
-                <select   wire:model="storeOutId" wire:change="storeOutSelect" name="store_out_id" id="" class="form-control" required>
+                <select wire:model="storeOutId" wire:change="storeOutSelect" name="store_out_id" id=""
+                        class="form-control" required>
                     <option value="">Please Select Store Out</option>
                     @foreach($stores as $item)
                         <option value="{{$item->id}}" {{(!empty($transfer)&& $transfer->store_out_id) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
@@ -35,7 +36,7 @@
                     <option value="">Please Select Store In</option>
                     @foreach($stores as $item)
                         @if($storeOutId !=$item->id)
-                        <option value="{{$item->id}}" {{(!empty($transfer)&&$transfer->store_in_id == $item->id) ? 'selected' : '' }} >{{$item->name}}</option>
+                            <option value="{{$item->id}}" {{(!empty($transfer)&&$transfer->store_in_id == $item->id) ? 'selected' : '' }} >{{$item->name}}</option>
                         @endif
                     @endforeach
                 </select>
@@ -124,8 +125,8 @@
 
                 <td>
                     @if(!$isCreated)
-                    <button type="button" class=" btn btn-danger shadow-lg" wire:click="removeRow({{$key}})">remove
-                    </button>
+                        <button type="button" class=" btn btn-danger shadow-lg" wire:click="removeRow({{$key}})">remove
+                        </button>
                     @endif
                 </td>
             </tr>
@@ -137,10 +138,10 @@
         <div class="col-md-12">
 
             @if(!empty($this->products))
-            <button type="button" id="add_row" wire:click.prevent="addRow({{$row}})"
-                    class="btn btn-primary float-left shadow-lg">
-                <i class="fa fa-plus"></i>
-            </button>
+                <button type="button" id="add_row" wire:click.prevent="addRow({{$row}})"
+                        class="btn btn-primary float-left shadow-lg">
+                    <i class="fa fa-plus"></i>
+                </button>
 
             @else
                 <div class="alert alert-info">
@@ -153,10 +154,10 @@
     </div>
     <div class="text-right">
         @if(!$isCreated)
-        <button {{$shouldSubmit ?'': 'disabled'}} class="btn btn-success font-weight-bold shadow rounded"
-                type="submit">
-            Save
-        </button>
+            <button {{$shouldSubmit ?'': 'disabled'}} class="btn btn-success font-weight-bold shadow rounded"
+                    type="submit">
+                Save
+            </button>
         @endif
         @if(!$shouldSubmit)
             <span class="error d-block">Please remove all the error</span>
@@ -189,17 +190,34 @@
 
                 </div>
                 <div class="modal-body">
+
+                    <form>
+                        <div class="input-group mb-3">
+
+                            <input id="scanSerial" placeholder="serial number" class="form-control"
+                                   aria-label="scanValue aria-describedby=" basic-addon2"/>
+
+                            <div class="input-group-append">
+                                <button id="markSerial" class="btn btn-outline-secondary " type="button">Add</button>
+                            </div>
+
+                        </div>
+                    </form>
+                    <hr/>
+
                     @if($showModal)
+
                         @foreach($productSerials as  $key=>$serial)
+
                             <div class="form-check">
                                 <input class="form-check-input"
                                        wire:click="handleSerial({{$serial}},{{$key}})"
                                        type="checkbox"
-                                       wire.model="postSerials.{{$serial->product_id}}.{{$key}}"
+                                       data-serial="{{$serial->serial_no}}"
                                        value="{{$serial->serial_no}}"
                                        id="serial-{{$serial->serial_no}}">
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    {{$serial->serial_no}}
+                                    {{$serial->serial_no}} {{$serial->checked}}
                                 </label>
                             </div>
                         @endforeach

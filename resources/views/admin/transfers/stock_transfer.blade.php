@@ -41,3 +41,19 @@
     </div>
 
 @endsection
+
+@section('js')
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        $(document).on("click", "#markSerial", function () {
+
+            const key = $("#scanSerial").val();
+            $(`.form-check .form-check-input[value=${key}]`).prop('checked', true);
+          //  $(`.form-check .form-check-input[value=${key}]`).trigger('click');
+            // .prop('checked', true);
+        })
+    </script>
+@endsection

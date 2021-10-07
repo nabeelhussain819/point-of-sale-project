@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Helpers\ArrayHelper;
 use App\Models\Inventory;
+use App\Models\ProductSerialNumbers;
 use App\Models\StockTransferProduct;
 use Livewire\Component;
 
@@ -20,6 +21,7 @@ class StockTransferProductField extends Component
     public $serialFetchParams = [];
     public $postSerials = [];
     public $savedSerials = [];
+    public $scanValue = null;
 
 
     public function render()
@@ -114,7 +116,7 @@ class StockTransferProductField extends Component
 
     public function getSerialProduct($productId, $storeId)
     {
-        $this->productSerials = Inventory::getSerialProducts($productId, $storeId)->take(25)->get();
+        $this->productSerials = Inventory::getSerialProducts($productId, $storeId)->get();
 
     }
 
@@ -124,7 +126,19 @@ class StockTransferProductField extends Component
             $this->postSerials[$serial['product_id']] = [];
         }
         array_push($this->postSerials[$serial['product_id']], $serial['serial_no']);
-
-
     }
+
+    //    public function onScan()
+    //    {
+    //
+    //        $this->productSerials->map(function (ProductSerialNumbers $product) {
+    //
+    //            if ($product->serial_no == $this->scanValue) {
+    //                $product->checked = true;
+    //            }
+    //            $this->scanValue = null;
+    //            return $product;
+    //        });
+    //
+    //    }
 }
