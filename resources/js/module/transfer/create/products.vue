@@ -46,12 +46,21 @@
                                 >{{ product.name }}</a-select-option
                             >
                         </a-select>
-                        <a-button
-                            v-if="record.showSerial"
-                            v-on:click="showSerialModal(record)"
-                            type="primary"
-                            >Associate Serial</a-button
-                        >
+                        <div v-if="record.showSerial">
+                            <a-button
+                                v-on:click="showSerialModal(record)"
+                                type="primary"
+                                >Associate Serial</a-button
+                            >
+                            <a-modal
+                                :footer="null"
+                                v-if="viewSerialModal"
+                                :destroyOnClose="true"
+                                v-model="viewSerialModal"
+                                title=""
+                                ><serialNumbers :product="record"
+                            /></a-modal>
+                        </div>
                     </a-form-item>
                 </div>
             </template>
@@ -70,6 +79,7 @@
 import helpers from "./../../../mixins/helpers";
 import ProductService from "./../../../services/API/ProductService";
 import { filterOption } from "./../../../services/helpers";
+import serialNumbers from "./serial-numbers.vue";
 const columns = [
     {
         title: "Quantity",
@@ -80,7 +90,7 @@ const columns = [
     {
         title: "Products",
         dataIndex: "products",
-        width: "45%",
+        width: "75%",
         scopedSlots: { customRender: "products" }
     },
     {
@@ -91,6 +101,7 @@ const columns = [
 ];
 
 export default {
+    components: { serialNumbers },
     mixins: [helpers],
     data() {
         return {
@@ -101,7 +112,8 @@ export default {
             uuid: 0,
             uuidString: "uuid-",
             products: [],
-            filterOption
+            filterOption,
+            viewSerialModal: false
         };
     },
     mounted() {
@@ -153,6 +165,7 @@ export default {
         },
         showSerialModal(record) {
             console.log(record);
+            this.viewSerialModal = true;
         }
     }
 };
