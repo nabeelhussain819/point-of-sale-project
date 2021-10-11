@@ -164,7 +164,7 @@ class ProductController extends Controller
         return ProductSerialNumbers::getByStoreId($product->id, Store::currentId())
             ->where($this->applyFilters($request))
             ->where('return_to_vendor', false)
-            ->paginate($this->pageSize);
+            ->get();
     }
 
     /**

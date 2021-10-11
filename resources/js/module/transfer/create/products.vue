@@ -7,7 +7,7 @@
         </div>
         <a-table :columns="columns" :data-source="productsList" bordered>
             <!-- ----------- quantity ----------- -->
-            <template slot="quantity" slot-scope="text, record, index">
+            <template slot="quantity" slot-scope="text, record">
                 <div>
                     <a-form-item>
                         <a-input
@@ -24,7 +24,7 @@
                 </div>
             </template>
             <!-- ----------- products ----------- -->
-            <template slot="products" slot-scope="text, record, index">
+            <template slot="products" slot-scope="text, record">
                 <div>
                     <a-form-item>
                         <a-select
@@ -65,7 +65,7 @@
                 </div>
             </template>
             <!-- ----------- products ----------- -->
-            <template slot="operation" slot-scope="text, record, index">
+            <template slot="operation" slot-scope="text, record">
                 <div class="editable-row-operations">
                     <a-button @click="removeRow(record.key)" type=""
                         >delete</a-button
@@ -80,6 +80,7 @@ import helpers from "./../../../mixins/helpers";
 import ProductService from "./../../../services/API/ProductService";
 import { filterOption } from "./../../../services/helpers";
 import serialNumbers from "./serial-numbers.vue";
+
 const columns = [
     {
         title: "Quantity",
