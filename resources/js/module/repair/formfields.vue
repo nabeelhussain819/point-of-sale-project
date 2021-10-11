@@ -174,7 +174,7 @@
                                 ]"
                             />
                             <!-- <a-select
-                                :showSearch="true"
+                                :filterOption="true"
                                 :filter-option="filterOption"
                                 mode="tags"
                                 :maxTagCount="1"

@@ -36,6 +36,7 @@
                                     rules: [{ required: true }]
                                 }
                             ]"
+                            :filter-option="filterOption"
                         >
                             <a-select-option
                                 v-for="product in products"
@@ -45,7 +46,10 @@
                                 >{{ product.name }}</a-select-option
                             >
                         </a-select>
-                        <a-button v-if="record.showSerial" type=""
+                        <a-button
+                            v-if="record.showSerial"
+                            v-on:click="showSerialModal(record)"
+                            type="primary"
                             >Associate Serial</a-button
                         >
                     </a-form-item>
@@ -65,6 +69,7 @@
 <script>
 import helpers from "./../../../mixins/helpers";
 import ProductService from "./../../../services/API/ProductService";
+import { filterOption } from "./../../../services/helpers";
 const columns = [
     {
         title: "Quantity",
@@ -95,7 +100,8 @@ export default {
             currentKey: {},
             uuid: 0,
             uuidString: "uuid-",
-            products: []
+            products: [],
+            filterOption
         };
     },
     mounted() {
@@ -135,15 +141,18 @@ export default {
             });
         },
         selectProduct(record, row) {
-            console.log(row);
             const hasSerial = row.data.attrs.productHasSerial;
             const key = row.data.attrs.dataKey;
             this.productsList = this.productsList.map(product => {
                 if (product.key === key) {
                     product.showSerial = hasSerial;
                 }
+                product.product_id = record;
                 return product;
             });
+        },
+        showSerialModal(record) {
+            console.log(record);
         }
     }
 };
