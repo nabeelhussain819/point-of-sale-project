@@ -26,7 +26,7 @@ export default {
             pagination.page = current;
             pagination.pageSize = pageSize;
             this.pagination = pagination;
-            this.fetchList();
+            this.fetch();
         }
     }
 };
