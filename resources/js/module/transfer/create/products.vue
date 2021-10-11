@@ -28,6 +28,8 @@
                 <div>
                     <a-form-item>
                         <a-select
+                            :showSearch="true"
+                            v-on:change="selectProduct"
                             v-decorator="[
                                 `products[${record.key}][product_id]`,
                                 {
@@ -36,12 +38,16 @@
                             ]"
                         >
                             <a-select-option
-                                :showSearch="true"
                                 v-for="product in products"
+                                :productHasSerial="product.has_serial_number"
+                                :dataKey="record.key"
                                 :key="product.id"
                                 >{{ product.name }}</a-select-option
                             >
                         </a-select>
+                        <a-button v-if="record.showSerial" type=""
+                            >Associate Serial</a-button
+                        >
                     </a-form-item>
                 </div>
             </template>
@@ -116,7 +122,8 @@ export default {
                 product_id: null,
                 key: this.getUid(),
                 quantity: 0,
-                product_id: null
+                product_id: null,
+                showSerial: false
             });
         },
         setProducts(product) {
@@ -125,6 +132,17 @@ export default {
         fetchProducts() {
             ProductService.getAll().then(products => {
                 this.products = products;
+            });
+        },
+        selectProduct(record, row) {
+            console.log(row);
+            const hasSerial = row.data.attrs.productHasSerial;
+            const key = row.data.attrs.dataKey;
+            this.productsList = this.productsList.map(product => {
+                if (product.key === key) {
+                    product.showSerial = hasSerial;
+                }
+                return product;
             });
         }
     }
