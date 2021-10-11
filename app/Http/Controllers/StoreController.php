@@ -17,8 +17,8 @@ class StoreController extends Controller
     public function index()
     {
         //
-        $userStore = UserStore::with('store','user','role')->get();
-        return view('admin.stores.index',['store' => $userStore]);
+        $userStore = UserStore::with('store', 'user', 'role')->get();
+        return view('admin.stores.index', ['store' => $userStore]);
     }
 
     /**
@@ -35,7 +35,7 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -46,13 +46,13 @@ class StoreController extends Controller
         $store->guid = Str::uuid();
         $store->code = Store::code();
         $store->fill($request->all())->save();
-        return back()->with('success','Store Created');
+        return back()->with('success', 'Store Created');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Store $store)
@@ -63,46 +63,43 @@ class StoreController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         //
         $store = Store::with('userStores')->find($id);
-        return view('admin.stores.edit',['store' => $store, 
-        'role_id' => $store->userStores->pluck('role_id')->first(),
-        'user_id' => $store->userStores->pluck('user_id')->first(),
-        'storeOfUser' => UserStore::with('store','user','role')->where('store_id',$id)->get()
+        return view('admin.stores.edit', ['store' => $store,
+            'role_id' => $store->userStores->pluck('role_id')->first(),
+            'user_id' => $store->userStores->pluck('user_id')->first(),
+            'storeOfUser' => UserStore::with('store', 'user', 'role')->where('store_id', $id)->get()
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         //
-        if($request->get('assignform'))
-        {
-         $this->assignUserToStore($request);
+        if ($request->get('assignform')) {
+            $this->assignUserToStore($request);
+        } else {
+            $store = Store::find($id);
+            $store->fill($request->all())->update();
         }
-        else
-        {
-        $store = Store::find($id);
-        $store->fill($request->all())->update();
-        }
-        return back()->with('success',"$store->name Updated");
+        return back()->with('success', "$store->name Updated");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -110,7 +107,7 @@ class StoreController extends Controller
         //
         $stores = Store::find($id);
         $stores->delete();
-        return back()->with('success',"Deleted Store");
+        return back()->with('success', "Deleted Store");
     }
 
     public function assignUserToStore(Request $request)
@@ -120,7 +117,7 @@ class StoreController extends Controller
             'user_id' => 'required'
         ]);
         $userStore->fill($request->all())->save();
-        return redirect()->back()->with('success','User Assigned To the Store');
+        return redirect()->back()->with('success', 'User Assigned To the Store');
 
     }
 
@@ -136,6 +133,10 @@ class StoreController extends Controller
     public function getTax()
     {
         return Store::select(['id', 'tax'])->where('id', Store::currentId())->first();
+    }
 
+    public function all(Request $request)
+    {
+        return Store::where($this->applyFilters($request))->get();
     }
 }

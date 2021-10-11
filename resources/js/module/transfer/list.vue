@@ -1,11 +1,23 @@
 <template>
     <div>
-        <a-table :columns="columns" :data-source="data" bordered>
+        <a-table
+            :loading="loading"
+            :columns="columns"
+            :data-source="data"
+            bordered
+        >
             <template slot="title">
-                <strong> Purchase order list</strong>
+                <div class="w-100">
+                    <strong> Purchase order list</strong>
+                    <a-button
+                        v-on:click="showModal(true)"
+                        class="float-right"
+                        type="primary"
+                        >Create</a-button
+                    >
+                </div>
             </template>
             <span slot="action" slot-scope="text, record">
-              
                 <a-button
                     v-if="!record.received_at"
                     @click="goto(record)"
@@ -42,6 +54,15 @@
                 />
             </span>
         </a-table>
+        <a-modal
+            :footer="null"
+            :destroyOnClose="true"
+            width="90%"
+            v-model="showCreateModal"
+            title="Create Request"
+        >
+            <create />
+        </a-modal>
     </div>
 </template>
 
@@ -49,6 +70,7 @@
 import TransferServices from "../../services/API/TransferServices";
 import { isEmpty } from "../../services/helpers";
 import moment from "moment";
+import create from "./create";
 const columns = [
     {
         title: "Id",
@@ -85,19 +107,30 @@ export default {
     data() {
         return {
             columns,
-            data: []
+            data: [],
+            loading: true,
+            showCreateModal: false
         };
+    },
+    components: {
+        create
     },
     mounted() {
         this.fetch();
     },
     methods: {
+        showModal(show) {
+            this.showCreateModal = show;
+        },
         moment,
         isEmpty,
         fetch(params = {}) {
-            TransferServices.all(params).then(response => {
-                this.data = response.data;
-            });
+            TransferServices.all(params)
+                .then(response => {
+                    this.data = response.data;
+                })
+                .finally(() => (this.loading = false));
+            // this.loading = false;
         },
         goto(item) {
             window.location.href = `/inventory-management/stock-transfer/${item.id}`;

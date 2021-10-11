@@ -1,5 +1,5 @@
 // import * as constants from '../Constants'
-import request from '../request'
+import request from "../request";
 
 const baseUrl = `/store`;
 
@@ -10,9 +10,16 @@ function currentTax(params = {}) {
     });
 }
 
+function get(params = {}) {
+    return request({
+        url: `${baseUrl}/all`,
+        params
+    });
+}
 
 const StoreService = {
-    currentTax
+    currentTax,
+    get
 };
 
-export default StoreService
+export default StoreService;

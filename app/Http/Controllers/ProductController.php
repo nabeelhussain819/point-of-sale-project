@@ -147,7 +147,7 @@ class ProductController extends Controller
     //the purpose of this method iis only temp hot fix showing all product into purchase order will fix in future properly on the front end level and use the same all() method
     public function getAll(Request $request)
     {
-        return Product::select(['id', 'name', 'UPC', 'retail_price'])->where($this->applyFilters($request))
+        return Product::select(['id', 'name', 'UPC', 'retail_price', 'has_serial_number'])->where($this->applyFilters($request))
             ->when(StringHelper::isValueTrue($request->get('isRepair')), function (Builder $builder) {
                 $builder->withoutGlobalScope(new ProductRepairScope());
             })->get();

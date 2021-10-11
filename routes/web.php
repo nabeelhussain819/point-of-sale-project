@@ -203,6 +203,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'store'], function () {
         Route::get('/tax', [StoreController::class, 'getTax']);
+        Route::get('/all', [StoreController::class, 'all']);
     });
 
     Route::group(['prefix' => 'refund'], function () {
