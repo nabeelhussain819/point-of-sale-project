@@ -5,6 +5,7 @@
         :loading="loading"
         :columns="columns"
         :rowClassName="rowClassName"
+        :pagination="pagination"
     >
         <div
             slot="filterDropdown"
@@ -135,6 +136,7 @@
 
 <script>
 import FinanceService from "../../services/API/FinanceService";
+import pagination from "../../mixins/pagination";
 import {
     EVENT_FINANCE_ADD_RECORD,
     EVENT_FINANCE_SHOWING_EDIT_MODAL,
@@ -143,6 +145,7 @@ import {
 } from "../../services/constants";
 
 export default {
+    mixins: [pagination],
     data() {
         return {
             data: [],
@@ -242,9 +245,11 @@ export default {
         },
         fetch(params = {}) {
             this.loading = true;
-            FinanceService.all(params)
+            console.log("asd");
+            FinanceService.all({ ...params, ...this.pagination })
                 .then(finance => {
                     this.data = finance.data;
+                    this.setPagination(finance);
                 })
                 .finally(() => (this.loading = false));
         }
