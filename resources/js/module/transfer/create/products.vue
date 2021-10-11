@@ -58,8 +58,12 @@
                                 :destroyOnClose="true"
                                 v-model="viewSerialModal"
                                 title=""
-                                ><serialNumbers :product="record"
-                            /></a-modal>
+                            >
+                                <serialNumbers
+                                    :product="record"
+                                    @close="getSerial"
+                                />
+                            </a-modal>
                         </div>
                     </a-form-item>
                 </div>
@@ -167,6 +171,10 @@ export default {
         showSerialModal(record) {
             console.log(record);
             this.viewSerialModal = true;
+        },
+        getSerial(data) {
+            console.log(data);
+            this.viewSerialModal = false;
         }
     }
 };

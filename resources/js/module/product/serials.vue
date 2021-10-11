@@ -39,7 +39,8 @@ export default {
             columns,
             selectedRowKeys: [
                 { id: 26, product_id: 1002, serial_no: "z6", store_id: 1 }
-            ]
+            ],
+            selectedProducts: []
         };
     },
     methods: {
@@ -53,8 +54,13 @@ export default {
                 .finally(() => (this.loading = false));
         },
         onSelect(record, selected, selectedRows) {
-            this.$emit("onSelect", { record, selected });
             this.selectedRowKeys = record;
+
+            // this.selectedProducts = [];
+            this.emit(selected);
+        },
+        emit(data) {
+            this.$emit("onSelect", data);
         },
         onSelectAll(selected, selectedRows, record) {
             this.$emit("onSelectAll", { record, selected });
@@ -62,13 +68,22 @@ export default {
         onSearch(serialKey, v) {
             const records = this.records;
             let datas = [];
+            let selectedProducts = [];
             records.map((product, index) => {
                 if (product.serial_no == serialKey) {
                     datas.push(index);
+                    selectedProducts.push(product);
                 }
             });
+
             this.selectedRowKeys = [...this.selectedRowKeys, ...datas];
+            this.selectedProducts = [
+                ...this.selectedProducts,
+                ...selectedProducts
+            ];
+
             this.searchSerail = null;
+            this.emit(this.selectedProducts);
         }
     },
     mounted() {
