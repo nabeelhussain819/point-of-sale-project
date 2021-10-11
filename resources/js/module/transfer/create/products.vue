@@ -48,7 +48,9 @@
             <!-- ----------- products ----------- -->
             <template slot="operation" slot-scope="text, record, index">
                 <div class="editable-row-operations">
-                    <a-button type="">delete</a-button>
+                    <a-button @click="removeRow(record.key)" type=""
+                        >delete</a-button
+                    >
                 </div>
             </template>
         </a-table>
@@ -102,6 +104,12 @@ export default {
                 this.data = newData;
             }
         },
+        removeRow(key) {
+            let products = this.productsList.filter(
+                product => product.key !== key
+            );
+            this.productsList = products;
+        },
         add() {
             this.setProducts({
                 quantity: 0,
@@ -117,7 +125,6 @@ export default {
         fetchProducts() {
             ProductService.getAll().then(products => {
                 this.products = products;
-                console.log(this.products);
             });
         }
     }
