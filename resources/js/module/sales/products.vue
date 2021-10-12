@@ -154,6 +154,8 @@ export default {
     data() {
         return {
             products: {},
+            uuid: 0,
+            uuidString: "uuid-",
             total: 0,
             expendedTotal: 0,
             showSerialModal: false,

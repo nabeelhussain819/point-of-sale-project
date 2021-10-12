@@ -5,12 +5,18 @@
                 Add +
             </a-button>
         </div>
-        <a-table :columns="columns" :data-source="productsList" bordered>
+        <a-table
+            :pagination="false"
+            :columns="columns"
+            :data-source="productsList"
+            bordered
+        >
             <!-- ----------- quantity ----------- -->
             <template slot="quantity" slot-scope="text, record">
                 <div>
                     <a-form-item>
                         <a-input
+                            min="1"
                             v-decorator="[
                                 `products[${record.key}][quantity]`,
                                 {
@@ -52,6 +58,17 @@
                                 type="primary"
                                 >Associate Serial</a-button
                             >
+
+                            <a-tag
+                                v-for="(serial, index) in record.serials_number"
+                                :key="index"
+                                color="cyan"
+                            >
+                                {{ serial }}
+                            </a-tag>
+                            <a-tag class="d-none" color="pink">
+                                pink
+                            </a-tag>
                             <a-modal
                                 :footer="null"
                                 v-if="viewSerialModal"
@@ -146,7 +163,8 @@ export default {
                 key: this.getUid(),
                 quantity: 0,
                 product_id: null,
-                showSerial: false
+                showSerial: false,
+                serials_number: []
             });
         },
         setProducts(product) {
@@ -173,7 +191,13 @@ export default {
             this.viewSerialModal = true;
         },
         getSerial(data) {
-            console.log(data);
+            this.productsList = this.productsList.map(product => {
+                if (product.key === data.key) {
+                    product.serials_number = data.serials_number;
+                }
+
+                return product;
+            });
             this.viewSerialModal = false;
         }
     }
