@@ -57,7 +57,12 @@
                     </a-form-item>
                 </a-col>
             </a-row>
-            <products />
+            <products @close="getProductsWithSerials" />
+            <a-alert
+                banner
+                :message="error.message"
+                v-if="error.show"
+            ></a-alert>
             <a-button type="primary" htmlType="submit">Submit</a-button>
         </a-form>
     </div>
@@ -69,6 +74,10 @@ export default {
     components: { products },
     data() {
         return {
+            error: {
+                message: null,
+                show: false
+            },
             formLayout: "horizontal",
             form: this.$form.createForm(this, { name: "addRepair" }),
             stores: []
@@ -81,17 +90,46 @@ export default {
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
-                console.log(err, values);
-                if (!err) {
+                const products = values.products;
+                const serialQuantityCheck = this.validateQuantityAndSerial(
+                    products
+                );
+
+                if (!err && serialQuantityCheck) {
+                    console.log(values);
                 }
             });
         },
+        validateQuantityAndSerial(products) {
+            for (const product in products) {
+                let item = products[product];
+
+                if (!item.has_serials) {
+                    return true;
+                }
+                if (parseInt(item.quantity) !== item.serials.length) {
+                    this.insertError(true, "please adjust the quantity");
+                    return false;
+                }
+                return true;
+            }
+        },
+        insertError(show, message) {
+            this.error = {
+                message,
+                show
+            };
+        },
         fetchStore() {
             StoreService.get().then(response => {
-                console.log(response);
                 this.stores = response;
             });
+        },
+        getProductsWithSerials(data) {
+            // console.log("getProductsWithSerials", data);
         }
     }
 };
 </script>
+
+// // things todo // showing product name // remove product once seleced

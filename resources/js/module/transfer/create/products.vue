@@ -69,6 +69,7 @@
                             <a-tag class="d-none" color="pink">
                                 pink
                             </a-tag>
+
                             <a-modal
                                 :footer="null"
                                 v-if="viewSerialModal"
@@ -81,6 +82,27 @@
                                     @close="getSerial"
                                 />
                             </a-modal>
+
+                            <a-select
+                                class="d-none"
+                                mode="tags"
+                                v-decorator="[
+                                    `products[${record.key}][serials]`,
+                                    {
+                                        initialValue: record.serials_number,
+                                        rules: [{ required: true }]
+                                    }
+                                ]"
+                            ></a-select>
+                            <a-checkbox
+                                class="d-none"
+                                v-decorator="[
+                                    `products[${record.key}][has_serials]`,
+                                    {
+                                        initialValue: true
+                                    }
+                                ]"
+                            ></a-checkbox>
                         </div>
                     </a-form-item>
                 </div>
@@ -187,7 +209,6 @@ export default {
             });
         },
         showSerialModal(record) {
-            console.log(record);
             this.viewSerialModal = true;
         },
         getSerial(data) {
@@ -198,6 +219,7 @@ export default {
 
                 return product;
             });
+            // this.$emit("close", this.productsList);
             this.viewSerialModal = false;
         }
     }
