@@ -29,7 +29,7 @@ class TransferRequest extends FormRequest
             'transfer_date' => 'required',
             'store_out_id' => 'required',
             'store_in_id' => 'required',
-            'type_id' => 'required',
+//            'type_id' => 'required',
             'products' => 'required'
         ];
     }

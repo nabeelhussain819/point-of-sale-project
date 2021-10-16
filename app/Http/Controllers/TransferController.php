@@ -37,6 +37,55 @@ class TransferController extends Controller
             ]);
     }
 
+
+    public function store(TransferRequest $request)
+    {
+        DB::transaction(function () use ($request) {
+            $products = $request->get("products");
+
+            // save Stock Transfer
+            $transfer = new StockTransfer();
+
+            $transfer->fill($request->all())->save();
+
+            //Adding Products to transfer stock
+            $productData = [];
+            collect($request->get('products'))->each(function ($product) use (&$productData) {
+                unset($product['serials']); // hot fix
+                unset($product['has_serials']); // hot fix
+                $product['created_at'] = Carbon::now();
+                $product['updated_at'] = Carbon::now();
+
+                return $productData[] = $product;
+            });
+
+            //Adding Products to transfer stock
+
+
+            $transfer->transferProducts()->sync($productData);
+
+            collect($products)->each(function ($product) use ($transfer) {
+                if ($product["has_serials"]) {
+
+                    ProductSerialNumbers::where('product_id', $product["product_id"])
+                        ->whereIn('serial_no', $product["serials"])
+                        ->update(['stock_transfer_id' => $transfer->id]);
+                }
+            });
+                
+//            collect($request->all('postSerial'))->each(function ($product, $productId) use ($transfer) {
+//                collect($product)->each(function ($serials, $productId) use ($transfer) {
+//
+//                    ProductSerialNumbers::where('product_id', $productId)
+//                        ->whereIn('serial_no', $serials)
+//                        ->update(['stock_transfer_id' => $transfer->id]);
+//                });
+//
+//            });
+        });
+
+    }
+
     /**
      * @param TransferRequest $request
      * @return \Illuminate\Http\RedirectResponse
@@ -44,7 +93,6 @@ class TransferController extends Controller
      */
     public function transfer(TransferRequest $request)
     {
-
         DB::transaction(function () use ($request) {
             $transfer = new StockTransfer();
             $productData = collect($request->get('products'))->map(function ($product) {
@@ -56,6 +104,7 @@ class TransferController extends Controller
 
             $transfer->fill($request->all())->save();
             $transfer->transferProducts()->sync($productData);
+
 
             collect($request->all('postSerial'))->each(function ($product, $productId) use ($transfer) {
                 collect($product)->each(function ($serials, $productId) use ($transfer) {

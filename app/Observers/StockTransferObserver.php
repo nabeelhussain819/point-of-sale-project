@@ -15,9 +15,8 @@ class StockTransferObserver
 {
     public function saving(StockTransfer $stockTransfer)
     {
-
         if ($stockTransfer->isReceiving) {
-
+            
             $stockTransfer->products->each(function (StockTransferProduct $stockTransferProduct) use ($stockTransfer) {
                 $productPrice = Product::getPrice($stockTransferProduct->product_id);
 

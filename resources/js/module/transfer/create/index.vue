@@ -12,7 +12,7 @@
                         ><a-date-picker
                             class="w-100"
                             v-decorator="[
-                                'expected_date',
+                                'transfer_date',
                                 {
                                     rules: [{ required: true }]
                                 }
@@ -24,7 +24,7 @@
                     <a-form-item label="Store Out">
                         <a-select
                             v-decorator="[
-                                'store_in',
+                                'store_in_id',
                                 {
                                     rules: [{ required: true }]
                                 }
@@ -42,7 +42,7 @@
                     <a-form-item label="Store Out">
                         <a-select
                             v-decorator="[
-                                'store_out',
+                                'store_out_id',
                                 {
                                     rules: [{ required: true }]
                                 }
@@ -69,6 +69,7 @@
 </template>
 <script>
 import StoreService from "./../../../services/API/StoreService";
+import TransferServices from "./../../../services/API/TransferServices";
 import products from "./products";
 export default {
     components: { products },
@@ -94,10 +95,15 @@ export default {
                 const serialQuantityCheck = this.validateQuantityAndSerial(
                     products
                 );
-
+                console.log(serialQuantityCheck);
                 if (!err && serialQuantityCheck) {
-                    console.log(values);
+                    this.saveTrasnfer(values);
                 }
+            });
+        },
+        saveTrasnfer(values) {
+            TransferServices.store(values).then(data => {
+                console.log(data);
             });
         },
         validateQuantityAndSerial(products) {
@@ -107,12 +113,13 @@ export default {
                 if (!item.has_serials) {
                     return true;
                 }
+                console.log(parseInt(item.quantity) !== item.serials.length);
                 if (parseInt(item.quantity) !== item.serials.length) {
                     this.insertError(true, "please adjust the quantity");
                     return false;
                 }
-                return true;
             }
+            return true;
         },
         insertError(show, message) {
             this.error = {
@@ -130,6 +137,11 @@ export default {
         }
     }
 };
-</script>
 
-// // things todo // showing product name // remove product once seleced
+/* things todo 
+// Showing product name 
+// Remove product once seleced
+// Quantity Validation how much stock avaiblabe on inventory
+//
+*/
+</script>

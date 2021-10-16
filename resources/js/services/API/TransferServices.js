@@ -10,8 +10,17 @@ function all(params) {
     });
 }
 
+function store(data) {
+    return request({
+        url: baseUrl,
+        method: "POST",
+        data
+    });
+}
+
 const TransferServices = {
-    all
+    all,
+    store
 };
 
 export default TransferServices;

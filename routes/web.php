@@ -108,7 +108,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/sales-purchase-received', [SalesController::class, 'storeInInventory'])->name('purchase.received.generate');
         Route::get('/stock-transfer', [TransferController::class, 'index'])->name('transfer.index');
         Route::get('/stock-transfer/create', [TransferController::class, 'stockTransfer'])->name('transfer.create');
-        Route::post('/stock-transfer', [TransferController::class, 'transfer'])->name('transfer.store');
+        Route::post('/stock-transfer', [TransferController::class, 'store'])->name('transfer.store');
         Route::get('/stock-transfer/all', [TransferController::class, 'all']);
         Route::get('/stock-transfer/{transfer}', [TransferController::class, 'received'])->name('transfer.received');
 
