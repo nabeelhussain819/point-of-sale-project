@@ -61,7 +61,7 @@
             v-model="showCreateModal"
             title="Create Request"
         >
-            <create />
+            <create @close="onClose" />
         </a-modal>
     </div>
 </template>
@@ -119,6 +119,10 @@ export default {
         this.fetch();
     },
     methods: {
+        onClose(show){
+            this.fetch();
+            this.showModal(show)
+        },
         showModal(show) {
             this.showCreateModal = show;
         },

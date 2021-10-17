@@ -61,7 +61,11 @@
                     </a-form-item>
                 </a-col>
             </a-row>
-            <products  v-if="storeOutSelected" @close="getProductsWithSerials" :form="form" />
+            <products
+                v-if="storeOutSelected"
+                @close="getProductsWithSerials"
+                :form="form"
+            />
             <a-alert
                 banner
                 :message="error.message"
@@ -131,7 +135,7 @@ export default {
         },
         saveTrasnfer(values) {
             TransferServices.store(values).then(data => {
-                console.log(data);
+                this.$emit("close", false);
             });
         },
         validateQuantityAndSerial(products) {
