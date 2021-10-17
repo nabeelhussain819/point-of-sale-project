@@ -65,23 +65,14 @@ class TransferController extends Controller
             $transfer->transferProducts()->sync($productData);
 
             collect($products)->each(function ($product) use ($transfer) {
-                if ($product["has_serials"]) {
+                if (!empty($product["has_serials"]) && $product["has_serials"]) {
 
                     ProductSerialNumbers::where('product_id', $product["product_id"])
                         ->whereIn('serial_no', $product["serials"])
                         ->update(['stock_transfer_id' => $transfer->id]);
                 }
             });
-
-//            collect($request->all('postSerial'))->each(function ($product, $productId) use ($transfer) {
-//                collect($product)->each(function ($serials, $productId) use ($transfer) {
-//
-//                    ProductSerialNumbers::where('product_id', $productId)
-//                        ->whereIn('serial_no', $serials)
-//                        ->update(['stock_transfer_id' => $transfer->id]);
-//                });
-//
-//            });
+          
         });
 
     }
