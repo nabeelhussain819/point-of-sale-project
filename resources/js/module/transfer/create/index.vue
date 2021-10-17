@@ -61,13 +61,24 @@
                     </a-form-item>
                 </a-col>
             </a-row>
-            <products @close="getProductsWithSerials" :form="form" />
+            <products  v-if="storeOutSelected" @close="getProductsWithSerials" :form="form" />
             <a-alert
                 banner
                 :message="error.message"
                 v-if="error.show"
             ></a-alert>
-            <a-button type="primary" htmlType="submit">Submit</a-button>
+
+            <span>
+                <a-alert
+                    banner
+                    message="Please select the store "
+                    v-if="!storeOutSelected"
+                >
+                </a-alert>
+                <a-button v-else type="primary" htmlType="submit"
+                    >Submit</a-button
+                >
+            </span>
         </a-form>
     </div>
 </template>
@@ -88,7 +99,8 @@ export default {
             stores: [],
             store_in_id: null,
             store_out_id: null,
-            showStore: false
+            showStore: false,
+            storeOutSelected: false
         };
     },
     mounted() {
@@ -97,6 +109,7 @@ export default {
     methods: {
         getStores(e, type) {
             if (type === "out") {
+                this.storeOutSelected = true;
                 this.store_in_id = this.stores.filter(s => s.id !== e);
                 return true;
             }
