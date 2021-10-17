@@ -210,8 +210,6 @@ export default {
 
             this.productsList = products.map(product => {
                 if (product.key === key) {
-                    console.log("key", key);
-                    console.log("product", product);
                     InventoryService.productQuantity({
                         store_out_id: form.store_out_id,
                         product_id: product.product_id,
@@ -223,7 +221,6 @@ export default {
                         })
                         .catch(error => {
                             if (error.response.status === 409) {
-                                console.log("error.response", error.response);
                                 product.error.status = "error";
                                 product.error.message =
                                     error.response.data.message;
@@ -237,7 +234,6 @@ export default {
             // p = JSON.stringify(p);
 
             // this.productsList = JSON.parse(p);
-            console.log("p", this.productsList);
             // for (const product in products) {
             //     console.log(product);
             //     let item = products[key];
@@ -264,7 +260,8 @@ export default {
                 this.products = products;
             });
         },
-        selectProduct(product_id, row) {
+        selectProduct(product_id, row, c) {
+            console.log(product_id, row, c);
             const hasSerial = row.data.attrs.productHasSerial;
             const key = row.data.attrs.dataKey;
             this.productsList = this.productsList.map(product => {
