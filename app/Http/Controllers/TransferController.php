@@ -72,7 +72,7 @@ class TransferController extends Controller
                         ->update(['stock_transfer_id' => $transfer->id]);
                 }
             });
-                
+
 //            collect($request->all('postSerial'))->each(function ($product, $productId) use ($transfer) {
 //                collect($product)->each(function ($serials, $productId) use ($transfer) {
 //

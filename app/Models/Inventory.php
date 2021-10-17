@@ -168,6 +168,8 @@ class Inventory extends Base
             ->first();
     }
 
+
+
     public static function getSerialProducts($productId, $storeId)
     {
         return ProductSerialNumbers::getByStoreId($productId, $storeId);

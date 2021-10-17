@@ -39,12 +39,20 @@ function changeBin(id, data) {
     });
 }
 
+function productQuantity(params = {}) {
+    return request({
+        url: `${baseUrl}/product-quantity`,
+        params
+    });
+}
+
 const InventoryService = {
     products,
     list,
     all,
     changeBin,
-    search
+    search,
+    productQuantity
 };
 
 export default InventoryService;

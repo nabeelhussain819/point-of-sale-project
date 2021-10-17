@@ -24,7 +24,7 @@
                     <a-form-item label="Store Out">
                         <a-select
                             v-decorator="[
-                                'store_in_id',
+                                'store_out_id',
                                 {
                                     rules: [{ required: true }]
                                 }
@@ -42,7 +42,7 @@
                     <a-form-item label="Store Out">
                         <a-select
                             v-decorator="[
-                                'store_out_id',
+                                'store_in_id',
                                 {
                                     rules: [{ required: true }]
                                 }
@@ -57,7 +57,7 @@
                     </a-form-item>
                 </a-col>
             </a-row>
-            <products @close="getProductsWithSerials" />
+            <products @close="getProductsWithSerials" :form="form" />
             <a-alert
                 banner
                 :message="error.message"
@@ -95,7 +95,7 @@ export default {
                 const serialQuantityCheck = this.validateQuantityAndSerial(
                     products
                 );
-                console.log(serialQuantityCheck);
+
                 if (!err && serialQuantityCheck) {
                     this.saveTrasnfer(values);
                 }
@@ -113,7 +113,7 @@ export default {
                 if (!item.has_serials) {
                     return true;
                 }
-                console.log(parseInt(item.quantity) !== item.serials.length);
+
                 if (parseInt(item.quantity) !== item.serials.length) {
                     this.insertError(true, "please adjust the quantity");
                     return false;

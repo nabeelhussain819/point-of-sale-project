@@ -16,6 +16,11 @@
                 <div>
                     <a-form-item>
                         <a-input
+                            @change="
+                                e => {
+                                    checkInventory(e, record);
+                                }
+                            "
                             min="1"
                             v-decorator="[
                                 `products[${record.key}][quantity]`,
@@ -32,7 +37,10 @@
             <!-- ----------- products ----------- -->
             <template slot="products" slot-scope="text, record">
                 <div>
-                    <a-form-item>
+                    <a-form-item
+                        :validate-status="record.error.status"
+                        :help="record.error.message"
+                    >
                         <a-select
                             :showSearch="true"
                             v-on:change="selectProduct"
@@ -121,22 +129,24 @@
 <script>
 import helpers from "./../../../mixins/helpers";
 import ProductService from "./../../../services/API/ProductService";
+import InventoryService from "./../../../services/API/InventoryService";
 import { filterOption } from "./../../../services/helpers";
 import serialNumbers from "./serial-numbers.vue";
 
 const columns = [
-    {
-        title: "Quantity",
-        dataIndex: "quantity",
-        width: "15%",
-        scopedSlots: { customRender: "quantity" }
-    },
     {
         title: "Products",
         dataIndex: "products",
         width: "75%",
         scopedSlots: { customRender: "products" }
     },
+    {
+        title: "Quantity",
+        dataIndex: "quantity",
+        width: "15%",
+        scopedSlots: { customRender: "quantity" }
+    },
+
     {
         title: "Operation",
         dataIndex: "operation",
@@ -145,6 +155,7 @@ const columns = [
 ];
 
 export default {
+    props: ["form"],
     components: { serialNumbers },
     mixins: [helpers],
     data() {
@@ -186,8 +197,64 @@ export default {
                 quantity: 0,
                 product_id: null,
                 showSerial: false,
-                serials_number: []
+                serials_number: [],
+                error: {
+                    status: null,
+                    message: null
+                }
             });
+        },
+        async showErrorOnProducts(key, quantity) {
+            let products = this.productsList;
+            const form = this.form.getFieldsValue();
+
+            this.productsList = products.map(product => {
+                if (product.key === key) {
+                    console.log("key", key);
+                    console.log("product", product);
+                    InventoryService.productQuantity({
+                        store_out_id: form.store_out_id,
+                        product_id: product.product_id,
+                        quantity
+                    })
+                        .then(res => {
+                            product.error.status = null;
+                            product.error.message = null;
+                        })
+                        .catch(error => {
+                            if (error.response.status === 409) {
+                                console.log("error.response", error.response);
+                                product.error.status = "error";
+                                product.error.message =
+                                    error.response.data.message;
+                            }
+                        });
+
+                    return product;
+                }
+                return product;
+            });
+            // p = JSON.stringify(p);
+
+            // this.productsList = JSON.parse(p);
+            console.log("p", this.productsList);
+            // for (const product in products) {
+            //     console.log(product);
+            //     let item = products[key];
+            //     console.log(item);
+            // }
+        },
+        checkInventory(e, record) {
+            let quantity = e.target.value;
+            this.showErrorOnProducts(record.key, quantity);
+            // const form = this.form.getFieldsValue();
+            // // ye jab kam kare ga jab
+            // if (e === null) {
+            //     quantity = form.quantity;
+            // } else {
+            //     // console.log("form", form);
+
+            // }
         },
         setProducts(product) {
             this.productsList = [...this.productsList, product];
@@ -197,14 +264,15 @@ export default {
                 this.products = products;
             });
         },
-        selectProduct(record, row) {
+        selectProduct(product_id, row) {
             const hasSerial = row.data.attrs.productHasSerial;
             const key = row.data.attrs.dataKey;
             this.productsList = this.productsList.map(product => {
                 if (product.key === key) {
                     product.showSerial = hasSerial;
+                    product.product_id = product_id; // idhar issue
                 }
-                product.product_id = record;
+
                 return product;
             });
         },

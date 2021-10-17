@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\StringHelper;
 use App\Models\Inventory;
+use App\Models\Product;
 use App\Models\ProductSerialNumbers;
 use App\Models\Refund;
 use App\Models\Store;
@@ -148,7 +149,6 @@ class InventoryController extends Controller
         withProduct()->select(['id', 'quantity', 'product_id'])
             ->where($this->applyFilters($request))
             ->where('store_id', Store::currentId())
-
             ->get();
     }
 
@@ -216,5 +216,20 @@ class InventoryController extends Controller
         });
 
 
+    }
+
+    public function checkProductCount(Request $request)
+    {
+        $inventory = Inventory::getProductQuantity($request->get("store_out_id"), $request->get("product_id"));
+       
+        if (!empty($inventory)) {
+            $originalQuantity = $inventory->quantity;
+            $quantity = $request->get('quantity') - $originalQuantity;
+            if ($quantity > 0) {
+                return $this->genericResponse(false, " only  {$originalQuantity} item available in store", 409, ["code" => 409]);
+            }
+            return true;
+        }
+        return $this->genericResponse(false, "no item available in store", 409, ["code" => 409]);
     }
 }
