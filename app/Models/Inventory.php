@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
  * @property string $updated_at
  * @property Product $product
  * @property Vendor $vendor
- * @property string quantity
+ * @property float quantity
  */
 class Inventory extends Base
 {

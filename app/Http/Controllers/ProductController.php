@@ -161,7 +161,7 @@ class ProductController extends Controller
 
     public function getSerials(Request $request, Product $product)
     {
-        return ProductSerialNumbers::getByStoreId($product->id, Store::currentId())
+        return ProductSerialNumbers::getByStoreId($product->id, $request->get("store_id", Store::currentId()))
             ->where($this->applyFilters($request))
             ->where('return_to_vendor', false)
             ->get();

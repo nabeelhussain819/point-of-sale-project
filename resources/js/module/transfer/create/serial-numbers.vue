@@ -1,6 +1,11 @@
 <template>
     <div>
-        <serials :product="stateProduct" @onSelect="onSelect" v-if="show" />
+        <serials
+            :params="params"
+            :product="stateProduct"
+            @onSelect="onSelect"
+            v-if="show"
+        />
         <a-button type="primary" @click="complete">Complete</a-button>
     </div>
 </template>
@@ -20,7 +25,8 @@ export default {
     props: {
         product: {
             default: () => {}
-        }
+        },
+        params: { default: () => {} }
     },
     mounted() {
         this.stateProduct = { id: this.product.product_id };

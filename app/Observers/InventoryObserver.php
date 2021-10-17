@@ -3,10 +3,13 @@
 namespace App\Observers;
 
 use App\Models\Inventory;
-use mysql_xdevapi\Exception;
 
 class InventoryObserver
 {
+    /**
+     * @param Inventory $inventory
+     * @throws \Exception
+     */
     public function saving(Inventory $inventory)
     {
         //@todo show specific
@@ -14,7 +17,7 @@ class InventoryObserver
             $inventory->quantity = $inventory->getOriginal('quantity') + $inventory->quantity;
         }
         if ($inventory->quantity < 0) {
-            throw new Exception("inventory has been less than zero form that operation please check the case ");
+            throw new \Exception("inventory has been less than zero form that operation please check the case ");
         }
     }
 }

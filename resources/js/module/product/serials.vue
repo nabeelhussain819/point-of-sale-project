@@ -29,7 +29,8 @@ const columns = [
 
 export default {
     props: {
-        product: { default: () => {} }
+        product: { default: () => {} },
+        params: { default: () => {} }
     },
     data() {
         return {
@@ -46,7 +47,8 @@ export default {
     methods: {
         fetch() {
             ProductService.getSerials(this.product.id, {
-                stock_bin_id: this.product.stock_bin_id
+                stock_bin_id: this.product.stock_bin_id,
+                ...this.params
             })
                 .then(serials => {
                     this.records = serials;

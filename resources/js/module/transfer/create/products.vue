@@ -86,6 +86,7 @@
                                 title=""
                             >
                                 <serialNumbers
+                                    :params="{ store_id: outStoreId() }"
                                     :product="record"
                                     @close="getSerial"
                                 />
@@ -175,6 +176,10 @@ export default {
         this.fetchProducts();
     },
     methods: {
+        outStoreId() {
+            const form = this.form.getFieldsValue();
+            return form.store_out_id;
+        },
         handleChange(value, key, column) {
             const newData = [...this.data];
             const target = newData.filter(item => key === item.key)[0];
@@ -260,8 +265,7 @@ export default {
                 this.products = products;
             });
         },
-        selectProduct(product_id, row, c) {
-            console.log(product_id, row, c);
+        selectProduct(product_id, row) {
             const hasSerial = row.data.attrs.productHasSerial;
             const key = row.data.attrs.dataKey;
             this.productsList = this.productsList.map(product => {
