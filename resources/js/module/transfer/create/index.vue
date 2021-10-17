@@ -23,6 +23,8 @@
                 <a-col :span="8">
                     <a-form-item label="Store Out">
                         <a-select
+                            v-if="showStore"
+                            @change="e => getStores(e, 'out')"
                             v-decorator="[
                                 'store_out_id',
                                 {
@@ -31,7 +33,7 @@
                             ]"
                         >
                             <a-select-option
-                                v-for="store in stores"
+                                v-for="store in store_out_id"
                                 :key="store.id"
                                 >{{ store.name }}</a-select-option
                             >
@@ -41,6 +43,8 @@
                 <a-col :span="8">
                     <a-form-item label="Store Out">
                         <a-select
+                            @change="e => getStores(e, 'in')"
+                            v-if="showStore"
                             v-decorator="[
                                 'store_in_id',
                                 {
@@ -49,7 +53,7 @@
                             ]"
                         >
                             <a-select-option
-                                v-for="store in stores"
+                                v-for="store in store_in_id"
                                 :key="store.id"
                                 >{{ store.name }}</a-select-option
                             >
@@ -81,13 +85,24 @@ export default {
             },
             formLayout: "horizontal",
             form: this.$form.createForm(this, { name: "addRepair" }),
-            stores: []
+            stores: [],
+            store_in_id: null,
+            store_out_id: null,
+            showStore: false
         };
     },
     mounted() {
         this.fetchStore();
     },
     methods: {
+        getStores(e, type) {
+            if (type === "out") {
+                this.store_in_id = this.stores.filter(s => s.id !== e);
+                return true;
+            }
+            this.store_in_out = this.stores.filter(s => s.id !== e);
+            return true;
+        },
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
@@ -130,6 +145,9 @@ export default {
         fetchStore() {
             StoreService.get().then(response => {
                 this.stores = response;
+                this.showStore = true;
+                this.store_out_id = this.stores;
+                this.store_in_id = this.stores;
             });
         },
         getProductsWithSerials(data) {
