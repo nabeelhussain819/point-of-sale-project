@@ -49,7 +49,7 @@ class StockTransfer extends Base
      */
     public function storeOut()
     {
-        return $this->belongsTo(Store::class, 'store_in_id');
+        return $this->belongsTo(Store::class, 'store_out_id');
     }
 
     /**
@@ -57,7 +57,7 @@ class StockTransfer extends Base
      */
     public function storeIn()
     {
-        return $this->belongsTo(Store::class, 'store_out_id');
+        return $this->belongsTo(Store::class, 'store_in_id');
     }
 
     /**

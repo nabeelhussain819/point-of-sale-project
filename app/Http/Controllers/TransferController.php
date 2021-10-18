@@ -72,7 +72,7 @@ class TransferController extends Controller
                         ->update(['stock_transfer_id' => $transfer->id]);
                 }
             });
-          
+
         });
 
     }
@@ -162,8 +162,12 @@ class TransferController extends Controller
      */
     public function delete(StockTransfer $transfer)
     {
-        $transfer->delete();
-        return redirect()->back()->with('success', 'Transfer Rejected');
+        return DB::transaction(function () use ($transfer) {
+            ProductSerialNumbers::where("stock_transfer_id", $transfer->id)->update(["stock_transfer_id" => null]);
+            $transfer->delete();
+            return $this->genericResponse(true, "delete successfully");
+        });
+
     }
 
     /**

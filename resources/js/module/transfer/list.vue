@@ -18,12 +18,20 @@
                 </div>
             </template>
             <span slot="action" slot-scope="text, record">
-                <a-button
-                    v-if="!record.received_at"
-                    @click="goto(record)"
-                    type="primary"
-                    >Receive
-                </a-button>
+                <span v-if="!record.received_at">
+                    <a-button @click="goto(record)" type="primary"
+                        >Receive
+                    </a-button>
+                    <a-popconfirm
+                        title="Are you sure delete this transfer?"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="deletetransfer(record)"
+                    >
+                        <a-button type="danger">delete</a-button>
+                    </a-popconfirm>
+                </span>
+
                 <span v-else>
                     <a-icon
                         type="check-circle"
@@ -68,7 +76,8 @@
 
 <script>
 import TransferServices from "../../services/API/TransferServices";
-import { isEmpty } from "../../services/helpers";
+import { isEmpty, notification } from "../../services/helpers";
+
 import moment from "moment";
 import create from "./create";
 const columns = [
@@ -119,9 +128,9 @@ export default {
         this.fetch();
     },
     methods: {
-        onClose(show){
+        onClose(show) {
             this.fetch();
-            this.showModal(show)
+            this.showModal(show);
         },
         showModal(show) {
             this.showCreateModal = show;
@@ -138,6 +147,12 @@ export default {
         },
         goto(item) {
             window.location.href = `/inventory-management/stock-transfer/${item.id}`;
+        },
+        deletetransfer(item) {
+            TransferServices.destroy(item.id).then(response => {
+                notification(this, response.message);
+                 this.fetch();
+            });
         },
         //move this into mixins
         getPastMoment(days) {

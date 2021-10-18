@@ -18,9 +18,17 @@ function store(data) {
     });
 }
 
+function destroy(id) {
+    return request({
+        url: `${baseUrl}/${id}`,
+        method: "Delete"
+    });
+}
+
 const TransferServices = {
     all,
-    store
+    store,
+    destroy
 };
 
 export default TransferServices;
