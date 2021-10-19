@@ -41,7 +41,7 @@
                     </a-form-item>
                 </a-col>
                 <a-col :span="8">
-                    <a-form-item label="Store Out">
+                    <a-form-item label="Store In">
                         <a-select
                             @change="e => getStores(e, 'in')"
                             v-if="showStore"

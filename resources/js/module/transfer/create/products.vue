@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="clearfix">
+        <div class="clearfix mb-2">
             <a-button type="primary" @click="add">
                 Add +
             </a-button>
@@ -42,6 +42,7 @@
                         :help="record.error.message"
                     >
                         <a-select
+                           class="w-50"
                             :showSearch="true"
                             v-on:change="selectProduct"
                             v-decorator="[
@@ -60,7 +61,7 @@
                                 >{{ product.name }}</a-select-option
                             >
                         </a-select>
-                        <div v-if="record.showSerial">
+                        <div  class="w-50 d-inline-block" v-if="record.showSerial">
                             <a-button
                                 v-on:click="showSerialModal(record)"
                                 type="primary"
@@ -119,9 +120,9 @@
             <!-- ----------- products ----------- -->
             <template slot="operation" slot-scope="text, record">
                 <div class="editable-row-operations">
-                    <a-button @click="removeRow(record.key)" type=""
-                        >delete</a-button
-                    >
+                    <a-form-item>
+                        <a-icon @click="removeRow(record.key)" type="delete"
+                    /></a-form-item>
                 </div>
             </template>
         </a-table>
