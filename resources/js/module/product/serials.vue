@@ -7,6 +7,7 @@
             @search="onSearch"
         />
         <a-table
+            :pagination="false"
             :loading="loading"
             :columns="columns"
             :data-source="records"
