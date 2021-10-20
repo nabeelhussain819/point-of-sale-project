@@ -60,7 +60,7 @@
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <a href="{{route('transfer.create')}}" style="color: #fff;">
+                <a href="{{route('transfer.index')}}" style="color: #fff;">
                     <div class="card shadow-lg bg-white rounded"
                          style="height: 120px; background-image: linear-gradient(87deg, #3c3f72  0%, #8187ec  100%); border-radius: .375rem;">
                         <div class="card-body text-center">
