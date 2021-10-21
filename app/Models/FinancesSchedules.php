@@ -31,7 +31,11 @@ class FinancesSchedules extends Base
     /**
      * @var array
      */
-    protected $fillable = ['finance_id', 'date_of_payment', 'due_date', 'amount', 'received_amount', 'received_date', 'status', 'created_at', 'updated_at', 'comment'];
+    protected $fillable = [
+        'finance_id', 'date_of_payment', 'due_date', 'amount',
+        'received_amount', 'received_date', 'status', 'created_at',
+        'updated_at', 'comment', 'pay_by_card'
+    ];
 
     protected $dates = ['due_date', 'received_date', 'date_of_payment'];
 

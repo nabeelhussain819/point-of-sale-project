@@ -61,6 +61,19 @@
                         ]"
                 /></a-form-item>
             </a-descriptions-item>
+            <a-descriptions-item :span="24" label="Pay By card">
+                <a-form-item>
+                    
+                    <a-switch
+                        prefix="$"                      
+                        v-decorator="[
+                            'pay_by_card',
+                            {
+                                rules: []
+                            }
+                        ]"
+                /></a-form-item>
+            </a-descriptions-item>
         </a-descriptions>
     </div>
 </template>

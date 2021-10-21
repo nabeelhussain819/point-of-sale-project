@@ -30,7 +30,8 @@ class FinanceObserver
         if ($finance->isCreatingScenario()) {
             $this->createOrder($finance);
             $finance->scenario = Finance::SCENARIO_ADD_INSTALLMENT;
-            $finance->postedScheduled = ['comment' => 'Initial Payment', 'received_amount' => $finance->advance];
+
+            $finance->postedScheduled = ['comment' => 'Initial Payment', 'received_amount' => $finance->advance, 'pay_by_card' => request()->get("pay_by_card", false)];
 
             $this->handleSchedule($finance);
         }
@@ -46,6 +47,7 @@ class FinanceObserver
 
         if ($finance->isAddInstallmentScenario()) {
             $schedules = $finance->postedScheduled;
+
             $scheduleData = [
                 [
                     'comment' => empty($schedules['comment']) ? '' : $schedules['comment'],
@@ -53,7 +55,8 @@ class FinanceObserver
                     'date_of_payment' => Carbon::now(),
                     'due_date' => Carbon::now(),
                     'amount' => $schedules['received_amount'],
-                    'status' => $finance->status->name
+                    'status' => $finance->status->name,
+                    'pay_by_card' => $schedules['pay_by_card'],
                 ]
             ];
             $finance->schedules()->attach($scheduleData);

@@ -58,6 +58,7 @@ class Finance extends Base
         'customer_card_expiry', 'customer_card_ccv',
         'comments',
         'serial_number',
+        'pay_by_card',
         'guid',
         'attachments'
     ];

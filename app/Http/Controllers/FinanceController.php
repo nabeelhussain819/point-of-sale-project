@@ -38,10 +38,12 @@ class FinanceController extends Controller
      */
     public function store(Request $request)
     {
+
         return \DB::transaction(function () use ($request) {
             $finance = new Finance();
 
             $financeData = ArrayHelper::merge($request->all());
+            unset($financeData['pay_by_card']);
             $finance->fill($financeData);
             $finance->scenario = Finance::SCENARIO_CREATING;
             if (!empty($request->get("customer_id"))) {
@@ -51,6 +53,7 @@ class FinanceController extends Controller
             }
 
             $finance->save();
+          
             return $this->genericResponse(true, " Finance has been created", 200, ['finance' =>
                 $finance->withSchedules()
                     ->withCustomer()
