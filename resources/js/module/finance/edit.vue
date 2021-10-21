@@ -17,6 +17,7 @@
                     <a-input v-decorator="['comment']" placeholder="Comments">
                     </a-input>
                 </a-form-item>
+            
                 <a-form-item>
                     <a-input-number
                         :max="getPayable(finance.payable)"
@@ -37,6 +38,16 @@
                     >
                     </a-input-number>
                 </a-form-item>
+                    <a-form-item label="pay by card">
+                    <a-switch
+                        prefix="$"
+                        v-decorator="[
+                            'pay_by_card',
+                            {
+                                rules: []
+                            }
+                        ]"
+                /></a-form-item>
                 <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
                     <a-button type="primary" html-type="submit">
                         Submit
@@ -140,13 +151,13 @@ export default {
         }
     },
     methods: {
-        getPayable(payable){
-            if(!isEmpty(payable)){
-                return parseInt(payable) 
+        getPayable(payable) {
+            if (!isEmpty(payable)) {
+                return parseInt(payable);
             }
         },
-        showlargeImage(show){
-            this.showImage = show ;
+        showlargeImage(show) {
+            this.showImage = show;
         },
         getImages() {
             if (!isEmpty(this.finance.attachmentTemp)) {
