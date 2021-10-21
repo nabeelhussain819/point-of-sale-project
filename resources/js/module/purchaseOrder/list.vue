@@ -17,6 +17,9 @@
                     </a-button>
                 </span>
                 <span v-else>
+                    <a-button @click="goto(record)" type="primary"
+                        >Show
+                    </a-button>
                     <a-icon
                         type="check-circle"
                         theme="twoTone"
