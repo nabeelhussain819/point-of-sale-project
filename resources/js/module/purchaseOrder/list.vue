@@ -5,12 +5,17 @@
                 <strong> Purchase order list</strong>
             </template>
             <span slot="action" slot-scope="text, record">
-                <a-button
-                    v-if="!record.received_at"
-                    @click="goto(record)"
-                    type="primary"
-                    >Receive
-                </a-button>
+                <span v-if="!record.received_at">
+                    <a-button @click="goto(record)" type="primary"
+                        >Receive
+                    </a-button>
+                    <a-button
+                        @click="destroy(record)"
+                        type="danger"
+                        htmlType="button"
+                        >delete
+                    </a-button>
+                </span>
                 <span v-else>
                     <a-icon
                         type="check-circle"
@@ -46,7 +51,7 @@
 
 <script>
 import PurchaseOrderServices from "../../services/API/PurchaseOrderServices";
-import { isEmpty } from "../../services/helpers";
+import { isEmpty, notification } from "../../services/helpers";
 import moment from "moment";
 const columns = [
     {
@@ -116,6 +121,12 @@ export default {
                 ]
             };
             this.fetch(this.params);
+        },
+        destroy(record) {
+            PurchaseOrderServices.destroy(record.id).then(response => {
+                notification(this, response.message);
+                this.fetch();
+            });
         }
     }
 };

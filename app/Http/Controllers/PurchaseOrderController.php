@@ -150,7 +150,7 @@ class PurchaseOrderController extends Controller
     public function destroy(PurchaseOrder $purchaseOrder)
     {
         $purchaseOrder->delete();
-        return redirect()->back()->with('success', 'Purchase Order delete');
+        return $this->genericResponse(true, "delete successfully");
     }
 
     /**

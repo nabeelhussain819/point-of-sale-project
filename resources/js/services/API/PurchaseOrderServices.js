@@ -18,9 +18,17 @@ function all(params) {
     });
 }
 
+function destroy(id) {
+    return request({
+        url: `${baseUrl}/${id}`,
+        method: "Delete"
+    });
+}
+
 const PurchaseOrderService = {
     create,
-    all
+    all,
+    destroy
 };
 
 export default PurchaseOrderService;
