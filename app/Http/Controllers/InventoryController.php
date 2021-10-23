@@ -159,7 +159,7 @@ class InventoryController extends Controller
             ->with(['bin' => function (BelongsTo $belongsTo) {
                 $belongsTo->select(['name', 'id']);
             }])
-            ->orderBy('stock_bin_id')
+            ->orderBy('name')
             ->paginate($this->pageSize);
     }
 
