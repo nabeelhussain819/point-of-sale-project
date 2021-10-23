@@ -234,7 +234,7 @@ export default {
         },
         fetchList(param = {}) {
             this.loading = true;
-            RepairService.all({ ...param, ...this.pagination })
+            RepairService.all({ ...this.filters, ...this.pagination })
                 .then(data => {
                     this.data = data.data;
                     const pagination = { ...this.pagination };
