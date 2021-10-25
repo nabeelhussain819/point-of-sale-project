@@ -319,7 +319,34 @@
                             />
                         </a-form-item>
                     </a-col>
-                    <a-col class="no-print" :span="4">
+                    <a-col :span="3">
+                        <a-form-item label="Product">
+                            <a-select
+                                :showSearch="true"
+                                :filter-option="filterOption"
+                                mode="tags"
+                                :maxTagCount="1"
+                                @search="modelSearch"
+                                v-decorator="[
+                                    `productItem[${r}][product_id]`,
+                                    {
+                                        initialValue: getStringId(
+                                            product.product_id
+                                        )
+                                    }
+                                ]"
+                                placeholder="Select a option and change input text above"
+                            >
+                                <a-select-option
+                                    v-for="product in products"
+                                    :key="product.product_id.toString()"
+                                >
+                                    {{ product.product.name }}</a-select-option
+                                >
+                            </a-select>
+                        </a-form-item>
+                    </a-col>
+                    <a-col class="no-print" :span="1">
                         <a-form-item label="Action">
                             <a-button @click="removeRow(r)" type="link"
                                 ><a-icon
@@ -443,6 +470,7 @@
 import DeviceTypeService from "../../services/API/DeviceTypeService";
 import BrandService from "../../services/API/BrandService";
 import ProductService from "../../services/API/ProductService";
+import InventoryService from "../../services/API/InventoryService";
 import IssueTypeService from "../../services/API/IssueTypeService";
 import RepairService from "../../services/API/RepairService";
 import CustomerService from "../../services/API/CustomerService";
@@ -494,6 +522,7 @@ export default {
         if (!this.isCreated) {
             this.addItem();
         }
+        this.fetchProductRequest();
     },
     methods: {
         validateTotal(rule, value, callback, key) {
@@ -528,8 +557,12 @@ export default {
             window.print();
         },
         fetchProductRequest(params) {
-            ProductService.all(params).then(products => {
-                this.products = products.data;
+            InventoryService.search({
+                ...params,
+                has_serial: false,
+                quantity: true
+            }).then(products => {
+                this.products = products;
             });
         },
         modelSearch(keyword) {

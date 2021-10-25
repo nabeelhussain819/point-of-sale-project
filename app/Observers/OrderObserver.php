@@ -28,9 +28,7 @@ class OrderObserver
 
     private function detachWithoutSerialNumber(Order $order)
     {
-        $productIdsWithOutSerial = [];
         $nonSerialProducts = [];
-
 
         collect($order->POSTEDPRODUCTS)
             ->filter(function ($product) {

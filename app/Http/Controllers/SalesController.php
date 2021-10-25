@@ -115,6 +115,7 @@ class SalesController extends Controller
                 ]
             );
         });
+
         $order->orderProducts()->sync($productData);
 
         return redirect()->back()->with('success', 'New Sale Created');
@@ -175,7 +176,6 @@ class SalesController extends Controller
         $orderProduct->delete();
         return back()->with('success', 'Product Deleted');
     }
-
 
 
 }

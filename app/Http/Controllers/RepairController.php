@@ -72,6 +72,7 @@ class RepairController extends Controller
                 $d["updated_at"] = Carbon::now();
                 return $d;
             })->all();
+
             $products = array_filter($productData);
             $repair->syncProducts($products);
 

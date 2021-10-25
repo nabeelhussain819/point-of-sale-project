@@ -111,6 +111,10 @@ trait AppliesQueryParams
                 return $query->where('id', '!=', $exclude_id);
             })->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->when($request->get('has_serial'), function (Builder $builder, $has_serial_number) {
+                return $builder->whereHas('product', function (Builder $builder) use ($has_serial_number) {
+                    $builder->where('has_serial_number', $has_serial_number);
+                });
             });
         };
     }
