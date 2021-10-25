@@ -71,13 +71,17 @@ const columns = [
     }
 ];
 export default {
+    props: {
+        params: {
+            default: () => {},
+            type: Object
+        }
+    },
     components: { filters, barChart },
     data() {
         return {
             columns,
             loading: true,
-            dateFormat: "YYYY/MM/DD",
-            monthFormat: "YYYY/MM",
             records: [],
             showBar: false,
             label: [],
@@ -85,8 +89,8 @@ export default {
         };
     },
     mounted() {
-        this.fetch();
         let fetch = this.fetch;
+        fetch(this.params);
         this.$eventBus.$on(EVENT_REPORT_FILTERS, function(filters) {
             fetch(filters);
         });
@@ -98,14 +102,15 @@ export default {
         },
         moment,
         onChange(dates, dateStrings) {
-            console.log("From: ", dates[0], ", to: ", dates[1]);
-            console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+            // console.log("From: ", dates[0], ", to: ", dates[1]);
+            // console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
         },
         getPastMoment(days) {
             return moment().subtract(days, "days");
         },
         async fetch(params = {}) {
             this.loading = true;
+
             ReportsService.mainCategory(params)
                 .then(records => {
                     let lables = [];

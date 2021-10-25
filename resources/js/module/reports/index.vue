@@ -16,6 +16,7 @@
                         >Back</a-button
                     >
                     <summary-report
+                        :params="params"
                         v-if="!showDetail"
                         @selectType="selectType"
                     />
