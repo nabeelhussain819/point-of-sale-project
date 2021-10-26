@@ -115,6 +115,10 @@ trait AppliesQueryParams
                 return $builder->whereHas('product', function (Builder $builder) use ($has_serial_number) {
                     $builder->where('has_serial_number', $has_serial_number);
                 });
+            })->when($request->get('quantity'), function (Builder $builder, $quantity) {
+                if ($quantity) {
+                    $builder->where('quantity', '>', 0);
+                }
             });
         };
     }

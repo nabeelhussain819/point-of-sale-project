@@ -119,7 +119,7 @@ class Inventory extends Base
     {
         return $this->with(['product' => function (BelongsTo $belongsTo) {
             $belongsTo->select(['id', 'name', 'has_serial_number', 'UPC'])
-            ->orderBy('name');
+                ->orderBy('name');
         }]);
     }
 
@@ -156,7 +156,7 @@ class Inventory extends Base
 
     private static function defaultSelect(): array
     {
-        return ['id', 'quantity', 'store_id'];
+        return ['id', 'quantity', 'store_id', 'product_id'];
     }
 
     public static function getProductQuantity($storeId, $productId, $bin = 1)
@@ -168,7 +168,6 @@ class Inventory extends Base
             ->where('stock_bin_id', $bin)
             ->first();
     }
-
 
 
     public static function getSerialProducts($productId, $storeId)
@@ -269,5 +268,20 @@ class Inventory extends Base
     public function addRefund()
     {
 
+    }
+
+
+    public static function pluckSingleQuantity(int $quantity, int $productId): Inventory
+    {
+        $productQuantity = self::getProduct($productId);
+        $productQuantity->OUTGOING_PRODUCTS = true;
+        $productQuantity->update(['quantity' => $productQuantity->quantity - $quantity]);
+        return $productQuantity;
+    }
+
+    public static function getProduct(int $productId): Inventory
+    {
+        return Inventory::select(self::defaultSelect())
+            ->where('product_id', $productId)->firstOrFail();
     }
 }

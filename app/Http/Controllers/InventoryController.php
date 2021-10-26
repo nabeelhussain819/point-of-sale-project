@@ -144,11 +144,13 @@ class InventoryController extends Controller
 
     public function search(Request $request)
     {
+
         $inventory = new Inventory();
         return $inventory->
         withProduct()->select(['id', 'quantity', 'product_id'])
             ->where($this->applyFilters($request))
             ->where('store_id', Store::currentId())
+
             ->get();
     }
 

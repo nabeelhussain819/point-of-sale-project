@@ -114,9 +114,13 @@ class Repair extends Base
             $product['device_type_id'] = isset($product['device_type_id']) ? DevicesType::getIdByRequest($product['device_type_id']) : null;
             $product['issue_id'] = isset($product['issue_id']) ? IssueType::getIdByRequest($product['issue_id']) : null;
             $product['brand_id'] = isset($product['brand_id']) ? Brand::getIdByRequest($product['brand_id']) : null;
+            if (!empty($product['product_id'])) {
+                Inventory::pluckSingleQuantity(1, $product['product_id']);
+            }
             return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
+
         })->all();
-       
+
         $this->products()->sync($products);
         return $this;
     }
