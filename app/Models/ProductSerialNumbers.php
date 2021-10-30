@@ -153,7 +153,7 @@ class ProductSerialNumbers extends Base
                 $product = [
                     'product_id' => $productId,
                     'store_id' => $purchaseOrder->store_id,
-                    'serial_no' => trim($serial),
+                    'serial_no' => preg_replace('/\s+/', ' ', $serial),
                     'purchase_order_id' => $purchaseOrder->id,
                 ];
 
