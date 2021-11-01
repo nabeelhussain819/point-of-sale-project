@@ -104,7 +104,8 @@ export default {
     },
     methods: {
         refundQuantity(value, record) {
-            this.handleRefunds(value, record);
+           
+        this.handleRefunds(value, record);
         },
         handleRefunds(value, record) {
             let returnProducts = this.returnProducts;

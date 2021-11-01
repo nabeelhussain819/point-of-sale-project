@@ -13,6 +13,14 @@
                 <a-form :form="form" @submit="handleSubmit">
                     <billing-summary :order="stateOrder" />
                     <br />
+                    <a-alert
+                        :closable="true"
+                        type="error"
+                        @close="closeAlert"
+                        message="please select product"
+                        v-if="error.show"
+                        >{{ error.message }}</a-alert
+                    >
                     <a-col :span="12" offset="12">
                         <a-button html-type="submit" type="primary"
                             >Return</a-button
@@ -42,7 +50,11 @@ export default {
             totalRefundMoney: 0,
             returnProducts: {},
             stateOrder: {},
-            orderLoad: true
+            orderLoad: true,
+            error: {
+                show: false,
+                message: null
+            }
         };
     },
     props: {
@@ -52,6 +64,12 @@ export default {
         }
     },
     methods: {
+        closeAlert() {
+            this.error = {
+                show: false,
+                message: null
+            };
+        },
         setRefund(refund) {
             this.refund = refund;
             this.form.setFieldsValue({
@@ -80,6 +98,14 @@ export default {
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
+                if (isEmpty(this.returnProducts)) {
+                    this.error = {
+                        show: true,
+                        message: "please select the value"
+                    };
+                    return false;
+                }
+              
                 if (!err) {
                     this.orderLoad = true;
                     RefundServices.create({
