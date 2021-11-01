@@ -148,7 +148,7 @@ class FinanceController extends Controller
             }, 'status' => function (BelongsTo $query) {
                 $query->select(["id", "name", "color"]);
             }, 'releatedSchedules'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate();
     }
 

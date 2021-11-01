@@ -8,6 +8,7 @@ use App\Models\ProductSerialNumbers;
 use App\Models\Status;
 use App\Models\Store;
 use Carbon\Carbon;
+use function PHPUnit\Framework\isEmpty;
 
 class FinanceObserver
 {
@@ -56,7 +57,7 @@ class FinanceObserver
                     'due_date' => Carbon::now(),
                     'amount' => $schedules['received_amount'],
                     'status' => $finance->status->name,
-                    'pay_by_card' => $schedules['pay_by_card'],
+                    'pay_by_card' => isset($schedules['pay_by_card']) ? $schedules['pay_by_card'] : false,
                 ]
             ];
             $finance->schedules()->attach($scheduleData);
