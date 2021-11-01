@@ -113,16 +113,16 @@ export default {
 
             ReportsService.mainCategory(params)
                 .then(records => {
-                    let lables = [];
+                    // let lables = [];
                     this.records = records;
-                    this.records.map(m => {
-                        lables.push(m.name);
+                    // this.records.map(m => {
+                    //     lables.push(m.name);
 
-                        this.data.push(m.total);
-                        return m;
-                    });
+                    //     this.data.push(m.total);
+                    //     return m;
+                    // });
 
-                    this.label = lables;
+                    // this.label = lables;
                 })
                 .finally(() => (this.loading = false));
         }

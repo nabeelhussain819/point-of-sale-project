@@ -9,6 +9,7 @@ use App\Models\RefundsProduct;
 use App\Models\Repair;
 use App\Models\RepairsProduct;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\JoinClause;
@@ -121,6 +122,12 @@ END
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })->orderBy("total");
+    }
+
+    public function singleDetailResponse(Collection $data)
+    {
+
+        return ["data" => $data, "total" => $data->sum('total')];
     }
 
 }

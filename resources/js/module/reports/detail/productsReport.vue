@@ -1,5 +1,5 @@
 <template>
-    <a-table :pagination="false" :columns="columns" :data-source="data">
+    <a-table :pagination="false" :columns="columns" :data-source="data.data">
         <a slot="name" class="text-capitalize" slot-scope="text">{{ text }}</a>
         <a slot="total" class="text-capitalize" slot-scope="text"
             >{{ text }}$</a
@@ -81,6 +81,12 @@
             </a-select>
         </div>
         <!-- Deparment search  -->
+
+        <template slot="footer">
+            <div v-if="showFooter" class="text-right">
+                <strong>Total</strong> {{ data.total }}
+            </div>
+        </template>
     </a-table>
 </template>
 <script>
@@ -89,14 +95,18 @@ import DepartmentService from "../../../services/API/DepartmentService";
 export default {
     props: {
         data: {
-            default: () => [],
-            type: Array,
+            default: () =>{},
+            type: Object,
             required: true
         },
         columns: {
             default: () => [],
             type: Array,
             required: true
+        },
+        showFooter: {
+            default: () => false,
+            type: Boolean
         }
     },
     data() {

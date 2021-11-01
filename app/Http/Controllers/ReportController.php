@@ -78,13 +78,13 @@ class ReportController extends Controller
     public function detail($name, Request $request)
     {
         if ($name === "Sales") {
-            return $this->report_sales($request)->where($this->applyFilters($request))->get();
+            return $this->singleDetailResponse($this->report_sales($request)->where($this->applyFilters($request))->get());
         } else if ($name === "Finances") {
-            return $this->report_finance($request)->where($this->applyFilters($request))->get();
+            return $this->singleDetailResponse($this->report_finance($request)->where($this->applyFilters($request))->get());
         } else if ($name === "Repair") {
-            return $this->report_repair($request)->get();
+            return $this->singleDetailResponse($this->report_repair($request)->get());
         } else if ($name === "Refunds") {
-            return $this->report_refund($request)->where($this->applyFilters($request))->get();
+            return $this->singleDetailResponse($this->report_refund($request)->where($this->applyFilters($request))->get());
         }
 
     }

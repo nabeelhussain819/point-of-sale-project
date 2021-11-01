@@ -6,6 +6,7 @@
             :columns="productColumns"
             :data="data"
             @fetch="eventSearch"
+            :showFooter="true"
         />
         <productsReport
             v-if="type === 'Finances'"
@@ -175,7 +176,7 @@ const repairColumns = [
     //     key: "advance",
     //     scopedSlots: { customRender: "total" }
     // },
-     {
+    {
         title: "Today received",
         dataIndex: "received_amount",
         key: "received_amount",
@@ -227,6 +228,7 @@ export default {
         },
         fetch(type, params = {}) {
             this.loading = true;
+          
             ReportsService.detail(type, params)
                 .then(data => {
                     this.data = data;
