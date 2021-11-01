@@ -25,7 +25,7 @@
                                 Year: [getPastMoment(365), moment()],
                                 Month: [getPastMoment(30), moment()]
                             }"
-                            format="DD/MM/YYYY"
+                            format="MM/DD/YYYY"
                             @change="dateRangeChange"
                         /> </a-form-item
                 ></a-col>
