@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Scopes\StoreGlobalScope;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -83,6 +84,16 @@ class OrderProduct extends Base
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new StoreGlobalScope);
     }
 }
