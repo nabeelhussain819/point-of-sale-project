@@ -8,6 +8,7 @@ use App\Models\OrderProduct;
 use App\Models\RefundsProduct;
 use App\Models\Repair;
 use App\Models\RepairsProduct;
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -95,6 +96,7 @@ END) as card")
 END  
 ) as cash")
             ->groupBy("status")
+            ->where('store_id',Store::currentId())
             ->join('repairs_schedules', function (JoinClause $join) use ($request) {
 
                 $join->on('repairs.id', '=', 'repairs_schedules.repair_id');
@@ -122,6 +124,10 @@ END
                     }
                     ]);
             }])
+
+            ->whereHas('refund', function (Builder $query) {
+                $query->where('store_id',Store::currentId());
+            })
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })->orderBy("total");
