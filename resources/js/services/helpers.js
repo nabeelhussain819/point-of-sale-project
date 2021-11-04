@@ -18,6 +18,7 @@ export const isEmpty = (value, depth = 1, level = 0) => {
 };
 
 export const filterOption = (input, option) => {
+    console.log(input, option);
     return (
         option.componentOptions.children[0].text
             .toLowerCase()
@@ -68,13 +69,12 @@ export function isNumeric(str) {
     ); // ...and ensure strings of whitespace fail
 }
 
-export function isInt(data){
-  return  data===parseInt(data, 10)
+export function isInt(data) {
+    return data === parseInt(data, 10);
 }
 export const getStringId = id => {
-   
     if (isInt(id)) {
         return id.toString();
     }
-    return undefined;// using in tags @todo fixing
+    return undefined; // using in tags @todo fixing
 };

@@ -320,13 +320,10 @@
                         </a-form-item>
                     </a-col>
                     <a-col :span="3">
-                        <a-form-item label="Product">
+                        <a-form-item label="Parts">
                             <a-select
                                 :showSearch="true"
-                                :filter-option="filterOption"
-                                mode="tags"
-                                :maxTagCount="1"
-                                @search="modelSearch"
+                                :filter-option="filterOption" 
                                 v-decorator="[
                                     `productItem[${r}][product_id]`,
                                     {
