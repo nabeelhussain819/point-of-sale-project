@@ -19,15 +19,15 @@
                 @blur="removeError"
                 @search="getProductById"
             >
+                <a-button slot="enterButton">
+                    <a-icon type="mobile" />
+                </a-button>
                 <a-button
                     v-on:click="showProductsModal"
                     type="link"
                     slot="addonBefore"
                     >Search</a-button
                 >
-                <a-button type="primary" slot="enterButton">
-                    <a-icon type="mobile" />
-                </a-button>
             </a-input-search>
         </a-form-item>
         <a-modal
@@ -74,7 +74,8 @@ export default {
         };
     },
     methods: {
-        removeError() {
+        removeError(e) {
+            this.product = e.target.value;
             this.fetchProductsErrors = {
                 validateStatus: "",
                 errorMsg: ""
@@ -84,6 +85,9 @@ export default {
             !isEmpty(e.target) && e.preventDefault();
             this.resetValidation();
             let productId = isEmpty(e.target) ? e : e.target.value;
+            if (!isEmpty(this.product)) {
+                productId = this.product;
+            }
             if (isEmpty(productId)) {
                 this.fetchProductsErrors = {
                     validateStatus: "error",
@@ -91,6 +95,7 @@ export default {
                 };
                 return false;
             }
+
             this.loading = true;
             let notInventory = this.notInventory;
             InventoryService.products({
