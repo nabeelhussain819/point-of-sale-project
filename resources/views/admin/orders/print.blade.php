@@ -48,9 +48,16 @@
             @endforeach
 
             <tr>
-                <td colspan="3" class="sumary-heading">Tax</td>
+                <td colspan="3" class="sumary-heading">Tax %</td>
 
                 <td class="price">{{empty($order->tax) ? 0 :$order->tax}}%</td>
+
+            </tr>
+            <tr>
+                <td colspan="3" class="sumary-heading">Tax $ </td>
+
+
+                <td class="price">{{$order->sub_total - $order->without_tax}}$</td>
             </tr>
 
             {{--            <tr>--}}
