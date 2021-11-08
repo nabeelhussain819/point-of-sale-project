@@ -75,7 +75,7 @@ export default {
     },
     methods: {
         removeError(e) {
-            this.product = e.target.value;
+            this.product.id = e.target.value;
             this.fetchProductsErrors = {
                 validateStatus: "",
                 errorMsg: ""
@@ -85,8 +85,8 @@ export default {
             !isEmpty(e.target) && e.preventDefault();
             this.resetValidation();
             let productId = isEmpty(e.target) ? e : e.target.value;
-            if (!isEmpty(this.product)) {
-                productId = this.product;
+            if (!isEmpty(this.product.id)) {
+                productId = this.product.id;
             }
             if (isEmpty(productId)) {
                 this.fetchProductsErrors = {
