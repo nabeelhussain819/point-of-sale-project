@@ -259,10 +259,14 @@ export default {
             this.showAddModal(true);
         },
         rowClassName(row) {
-            if (row.status === "COLLECTED") {
+            console.log(row.status);
+            if (row.status === "COLLECTED" || row.status === "INPROGRESS") {
                 return "green-row";
             }
-            return "red-row";
+            if (row.status === "CANCELLED") {
+                return "red-row";
+            }
+            return "blue-row";
         }
     },
     components: {
