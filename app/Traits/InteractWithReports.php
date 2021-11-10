@@ -8,6 +8,7 @@ use App\Models\OrderProduct;
 use App\Models\RefundsProduct;
 use App\Models\Repair;
 use App\Models\RepairsProduct;
+use App\Models\RepairsSchedules;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -56,27 +57,24 @@ trait InteractWithReports
             })->orderBy("total");
     }
 
-
-    public function report_repair2(Request $request): Builder
+    public function report_repairold(Request $request): Builder
     {
-        return Repair::select(["id", "status", "total_cost", "advance_cost"])->when($request->get('date_range'), function (Builder $builder, $date_range) {
-
-            $builder->where(function (Builder $builder) use ($date_range) {
-                $builder->whereRaw("repairs.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'")
-                    ->orWhereExists(function (\Illuminate\Database\Query\Builder $query) use ($date_range) {
-                        $query->from("repairs_schedules")->
-                        where('repairs.id', \DB::raw('repairs_schedules.repair_id'))->
-                        whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
-                    });
-            });
-
-        })->with(["schedules" => function (HasMany $belongsTo) use ($request) {
-            $date_range = $request->get('date_range');
-            if (!empty($date_range)) {
-                $belongsTo->select(["id", "additional_charge", "repair_id", "discount", "received_amount"])->whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
-            }
-
-        }])->dd();
+        return RepairsSchedules::selectRaw("product_id,sum(quantity) as quantity,sum(received_amount) as total ")
+            ->groupBy("product_id")->with(["product" => function (BelongsTo $builder) {
+                $builder->select(['id', 'name', 'category_id', 'department_id'])
+                    ->with(["category" => function (BelongsTo $builder) {
+                        $builder->select(['id', 'name']);
+                    }, "department" => function (BelongsTo $builder) {
+                        $builder->select(['id', 'name']);
+                    }
+                    ]);
+            }])
+            ->whereHas('order', function (Builder $query) {
+                $query->whereNull("finance_id");
+            })
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->orderBy("total");
     }
 
     public function report_repair(Request $request): Builder
@@ -96,15 +94,15 @@ END) as card")
 END  
 ) as cash")
             ->groupBy("status")
-            ->where('store_id',Store::currentId())
+            ->where('store_id', Store::currentId())
             ->join('repairs_schedules', function (JoinClause $join) use ($request) {
 
                 $join->on('repairs.id', '=', 'repairs_schedules.repair_id');
             })
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
 
-                $builder->orWhereRaw("repairs.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'")
-                    ->orwhereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+                $builder->WhereRaw("repairs.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'")
+                    ->whereRaw("repairs_schedules.created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
 
             })
             ->orderBy("total");
@@ -124,9 +122,8 @@ END
                     }
                     ]);
             }])
-
             ->whereHas('refund', function (Builder $query) {
-                $query->where('store_id',Store::currentId());
+                $query->where('store_id', Store::currentId());
             })
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
