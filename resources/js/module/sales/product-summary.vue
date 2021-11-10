@@ -162,6 +162,7 @@ export default {
             if (isEmpty(this.products)) {
                 return false;
             }
+            
             this.$emit("handleSubmit", this.toggleModal);
         }
     },

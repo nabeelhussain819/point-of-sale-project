@@ -54,7 +54,6 @@ export default {
                 if (!err) {
                     callback(true);
                 }
-                console.log(err);
             });
         }
     },

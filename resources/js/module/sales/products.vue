@@ -215,6 +215,7 @@ export default {
                         return;
                     })
                     .catch(e => {
+                      
                         if (e.response.status === 404) {
                             callback("not found");
                         }
@@ -225,11 +226,12 @@ export default {
             callback();
         },
         cancelSearch() {
-            if (this.cancelSource) {
-                this.cancelSource.cancel(
-                    "Start new search, stop active search"
-                );
-            }
+            // console.log();
+            // if (this.cancelSource) {
+            //     this.cancelSource.cancel(
+            //         "Start new search, stop active search"
+            //     );
+            // }
         },
         cost(value, key) {
             value = value.target.value;
@@ -282,6 +284,7 @@ export default {
         },
 
         serialNumberHandling(key, value) {
+            console.log("asd",key, value);
             let products = this.products;
             products[key].serial_number = value.target.value;
             this.updateProducts(products);
