@@ -113,3 +113,9 @@ body * {
     background: #f0f5ff  !important;
     border-color: #adc6ff !important;
 }
+
+.yellow-row td {
+    color:#474804 !important;
+    background:#fffdc1  !important;
+    border-color: #adc6ff !important;
+}

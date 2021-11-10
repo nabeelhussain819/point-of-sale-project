@@ -260,8 +260,11 @@ export default {
         },
         rowClassName(row) {
             console.log(row.status);
-            if (row.status === "COLLECTED" || row.status === "INPROGRESS") {
+            if (row.status === "COLLECTED") {
                 return "green-row";
+            }
+            if (row.status === "INPROGRESS") {
+                return "yellow-row";
             }
             if (row.status === "CANCELLED") {
                 return "red-row";
