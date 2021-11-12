@@ -42,6 +42,40 @@
                 Reset
             </a-button>
         </div>
+        <div
+            slot="statusDropdown"
+            slot-scope="{ setSelectedKeys, selectedKeys, column }"
+            style="padding: 8px"
+        >
+            <a-select
+                style="width: 100%; margin-bottom: 5px"
+                v-ant-ref="c => (searchInput = c)"
+                @change="value => setSelectedKeys(value ? [value] : [])"
+                placeholder="Select a option and change input text above"
+                @pressEnter="() => handleSearch(selectedKeys, column)"
+            >
+                <a-select-option v-for="bin in bins" :key="bin.id">
+                    {{ bin.name }}</a-select-option
+                >
+            </a-select>
+
+            <a-button
+                type="primary"
+                icon="search"
+                size="small"
+                style="width: 90px; margin-right: 8px"
+                @click="() => handleSearch(selectedKeys, column)"
+            >
+                Search
+            </a-button>
+            <a-button
+                size="small"
+                style="width: 90px"
+                @click="() => handleReset(selectedKeys, column)"
+            >
+                Reset
+            </a-button>
+        </div>
         <span slot="action" slot-scope="text, record">
             <!-- <a-button
                 :href="`/inventory-management/inventory/${record.id}/edit`"
@@ -56,12 +90,15 @@
 </template>
 <script>
 import InventoryService from "../../services/API/InventoryService";
+import StockBinService from "../../services/API/StockBinService";
+
 export default {
     data() {
         return {
             data: [],
             loading: true,
             filters: {},
+            bins: {},
             columns: [
                 // {
                 //     title: "ID",
@@ -109,10 +146,10 @@ export default {
                     title: "Bin",
                     key: "stock_bin_id",
                     dataIndex: "bin.name",
-                    // scopedSlots: {
-                    //     filterDropdown: "filterDropdown",
-                    //     filterIcon: "filterIcon"
-                    // }
+                    scopedSlots: {
+                        filterDropdown: "statusDropdown",
+                        filterIcon: "filterIcon"
+                    }
                 },
                 {
                     title: "Action",
@@ -137,6 +174,11 @@ export default {
             filters[column.key] = value[0];
             this.setfilters(filters);
         },
+        fetchBins() {
+            StockBinService.get().then(bins => {
+                this.bins = bins;
+            });
+        },
         fetch(params) {
             this.loading = true;
             InventoryService.all(params)
@@ -151,6 +193,7 @@ export default {
         }
     },
     mounted() {
+        this.fetchBins();
         this.fetch();
     }
 };
