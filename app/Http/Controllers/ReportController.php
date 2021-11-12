@@ -34,6 +34,8 @@ class ReportController extends Controller
             })->join('finances', function (JoinClause $joinClause) {
                 $joinClause->on('finances_schedules.finance_id', '=', 'finances.id')
                     ->where('finances.store_id', Store::currentId());
+            })->when($request->get('pay_by_card'), function (Builder $builder, $pay_by_card) {
+                $builder->where('pay_by_card', $pay_by_card);
             })
             ->selectRaw("ROUND(sum(received_amount)) as total,'Finances' as name ");
 
@@ -44,6 +46,12 @@ class ReportController extends Controller
                 $joinClause->on('repairs_schedules.repair_id', '=', 'repairs.id')
                     ->where('repairs.store_id', Store::currentId());
             })
+            ->when($request->get('pay_by_card'), function (Builder $builder, $pay_by_card) {
+                if($pay_by_card){
+                    $builder->where('repairs_schedules.id', 0);
+                }
+
+            })
             ->selectRaw("ROUND(sum(received_amount)) as total,'Repair' as name ");
 
         $refunds = \DB::table('refunds')
@@ -51,12 +59,25 @@ class ReportController extends Controller
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })
+            ->when($request->get('pay_by_card'), function (Builder $builder, $pay_by_card) {
+                if($pay_by_card){
+                    $builder->where('id', 0);
+                }
+
+            })
             ->selectRaw("ROUND(sum(return_cost)) as total,'Refunds' as name ");
 
 
         $products = \DB::table('orders')
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })
+            ->when($request->get('pay_by_card'), function (Builder $builder, $pay_by_card) {
+                if ($pay_by_card) {
+                    $builder->whereNotNull('customer_card_number');
+                } else {
+                    $builder->whereNull('customer_card_number');
+                }
             })
             ->where('store_id', Store::currentId())
             ->whereNull("finance_id")

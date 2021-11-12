@@ -1,22 +1,7 @@
 <template>
     <a-row>
         <a-col :span="24">
-            <!-- <a-list
-                :loading="loading"
-                item-layout="horizontal"
-                :data-source="records"
-            >
-                <a-list-item slot="renderItem" slot-scope="item">
-                    <a-button
-                        type="link"
-                        @click="goto(item.name)"
-                        class="col-12"
-                    >
-                        {{ item.name }}
-                        <span class="float-right"> ${{ item.total }}</span>
-                    </a-button>
-                </a-list-item>
-            </a-list> -->
+ 
             <a-table
                 :pagination="false"
                 :columns="columns"
@@ -91,8 +76,10 @@ export default {
     mounted() {
         let fetch = this.fetch;
         fetch(this.params);
+        const params = this.params;
         this.$eventBus.$on(EVENT_REPORT_FILTERS, function(filters) {
-            fetch(filters);
+         
+            fetch({ ...params, ...filters });
         });
     },
     methods: {

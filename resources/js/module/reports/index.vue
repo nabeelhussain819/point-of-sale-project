@@ -15,11 +15,27 @@
                         @click="handleDetailTab(false)"
                         >Back</a-button
                     >
-                    <summary-report
-                        :params="params"
+                    <a-tabs
                         v-if="!showDetail"
-                        @selectType="selectType"
-                    />
+                        default-active-key="1"
+                        @change="changeTab"
+                    >
+                        <a-tab-pane key="1" tab="Cash">
+                            <summary-report
+                                :params="params"
+                                v-if="!showDetail"
+                                @selectType="selectType"
+                            />
+                        </a-tab-pane>
+                        <a-tab-pane key="2" tab="Card" force-render>
+                            <summary-report
+                            
+                                :params="{ pay_by_card: true }"
+                                @selectType="selectType"
+                            />
+                        </a-tab-pane>
+                    </a-tabs>
+
                     <detail :params="params" :type="selectedReport" v-else />
                 </a-card>
             </a-col>
@@ -49,7 +65,8 @@ export default {
         },
         setFilters(filters) {
             this.params = filters;
-        }
+        },
+        changeTab() {}
     }
 };
 </script>

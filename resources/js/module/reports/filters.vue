@@ -93,9 +93,9 @@ export default {
             // console.log("From: ", dates[0], ", to: ", dates[1]);
             // console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
         },
-        filters() {
-            this.$emit("getFilters", this.params);
-        }
+        // filters() {
+        //     this.$emit("getFilters", this.params);
+        // }
     }
 };
 </script>
