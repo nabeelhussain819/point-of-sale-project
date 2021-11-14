@@ -215,7 +215,6 @@ export default {
                         return;
                     })
                     .catch(e => {
-                      
                         if (e.response.status === 404) {
                             callback("not found");
                         }
@@ -245,7 +244,9 @@ export default {
         discount(value, key) {
             value = value.target.value;
             let pp = this.products;
-            let price = pp[key].retail_price;
+            let formPP = this.form.getFieldValue("productItem");
+            
+            let price = formPP[key].min_price;
 
             pp[key].min_price = this.dicountFormula(price, value);
 
@@ -284,7 +285,7 @@ export default {
         },
 
         serialNumberHandling(key, value) {
-            console.log("asd",key, value);
+            console.log("asd", key, value);
             let products = this.products;
             products[key].serial_number = value.target.value;
             this.updateProducts(products);
