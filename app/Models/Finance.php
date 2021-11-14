@@ -185,4 +185,9 @@ class Finance extends Base
             return asset('storage/' . $attachment);
         });
     }
+
+    public function getPayableAttribute()
+    {
+        return round($this->attributes['payable'], 2);
+    }
 }
