@@ -5,17 +5,20 @@
             v-if="type === 'Sales'"
             :columns="productColumns"
             :data="data"
+            @fetchSerial="fetchSerial"
             @fetch="eventSearch"
             :showFooter="true"
         />
         <productsReport
             v-if="type === 'Finances'"
             :columns="financesColumns"
+            @fetchSerial="fetchSerial"
             :data="data"
             @fetch="eventSearch"
         />
         <productsReport
             v-if="type === 'Repair'"
+            @fetchSerial="fetchSerial"
             :columns="repairColumns"
             :data="data"
             @fetch="eventSearch"
@@ -23,15 +26,25 @@
         <productsReport
             v-if="type === 'Refunds'"
             :columns="refundColumns"
+            @fetchSerial="fetchSerial"
             :data="data"
             @fetch="eventSearch"
         />
+        <a-modal
+            @cancel="displaySerialModal(false)"
+            :visible="showserialmodal"
+            title=""
+        >
+            <serials :data="serialNumbers" />
+        </a-modal>
     </a-skeleton>
 </template>
 <script>
 import ReportsService from "../../../services/API/ReportsServices";
+
 import productsReport from "./productsReport";
 import { EVENT_REPORT_FILTERS } from "../../../services/constants";
+import serials from "./serials";
 const productColumns = [
     {
         title: "Name",
@@ -196,7 +209,7 @@ const repairColumns = [
     }
 ];
 export default {
-    components: { productsReport },
+    components: { productsReport, serials },
     props: {
         type: {
             default: "",
@@ -207,12 +220,14 @@ export default {
     },
     data() {
         return {
+            showserialmodal: false,
             loading: true,
             data: [],
             productColumns,
             financesColumns,
             repairColumns,
-            refundColumns
+            refundColumns,
+            serialNumbers: []
         };
     },
     mounted() {
@@ -222,13 +237,34 @@ export default {
             fetch(filters);
         });
     },
+
     methods: {
+        fetchSerial(productDetail) {
+            this.displaySerialModal(true);
+            this.fetchSerials(productDetail.product_id, {
+                is_sold: true,
+                apply_on_update: true
+            });
+        },
+        fetchSerials(product_id, params = {}) {
+            ReportsService.getReportSerials({
+                product_id,
+                ...this.params,
+                ...params
+            }).then(serialNumbers => {
+                
+                this.serialNumbers = serialNumbers;
+            });
+        },
+        displaySerialModal(show) {
+            this.showserialmodal = show;
+        },
         eventSearch(filters) {
             this.fetch(this.type, { ...this.params, ...filters });
         },
         fetch(type, params = {}) {
             this.loading = true;
-          
+
             ReportsService.detail(type, params)
                 .then(data => {
                     this.data = data;

@@ -17,9 +17,17 @@ function detail(id, params = {}) {
     });
 }
 
+function getReportSerials(params = {}) {
+    return request({
+        url: `${baseUrl}/get-report-serial`,
+        params
+    });
+}
+
 const ReportsService = {
     mainCategory,
-    detail
+    detail,
+    getReportSerials
 };
 
 export default ReportsService;

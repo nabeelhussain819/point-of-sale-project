@@ -136,4 +136,21 @@ END
         return ["data" => $data, "total" => $data->sum('total')];
     }
 
+    public function getSerialsFromOrder(Request $request)
+    {
+        return OrderProduct::selectRaw("serial_number,product_id ")
+
+            ->whereNull("refund_id")
+            ->where("product_id",$request->get('product_id'))
+            ->whereNotNull('serial_number')
+            ->whereHas('order', function (Builder $query) {
+                $query->whereNull("finance_id");
+            })
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            });
+    }
+
+
+
 }

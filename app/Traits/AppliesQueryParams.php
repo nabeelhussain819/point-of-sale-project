@@ -109,12 +109,21 @@ trait AppliesQueryParams
             })->when($request->get('exclude_id'), function (Builder $query, $exclude_id) {
 
                 return $query->where('id', '!=', $exclude_id);
-            })->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->when($request->get('date_range'), function (Builder $builder, $date_range) use ($request) {
+                if ($request->get('apply_on_update',false)) {
+
+                    $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+                }
+                else{
+                    $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+                }
+
             })->when($request->get('has_serial'), function (Builder $builder, $has_serial_number) {
                 return $builder->whereHas('product', function (Builder $builder) use ($has_serial_number) {
                     $builder->where('has_serial_number', $has_serial_number);
                 });
+            })->when($request->get('is_sold'), function (Builder $builder, $is_sold) {
+                return  $builder->where('is_sold', $is_sold);
             })->when($request->get('quantity'), function (Builder $builder, $quantity) {
                 if ($quantity) {
                     $builder->where('quantity', '>', 0);

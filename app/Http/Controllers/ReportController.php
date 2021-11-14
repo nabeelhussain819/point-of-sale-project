@@ -47,7 +47,7 @@ class ReportController extends Controller
                     ->where('repairs.store_id', Store::currentId());
             })
             ->when($request->get('pay_by_card'), function (Builder $builder, $pay_by_card) {
-                if($pay_by_card){
+                if ($pay_by_card) {
                     $builder->where('repairs_schedules.id', 0);
                 }
 
@@ -60,7 +60,7 @@ class ReportController extends Controller
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })
             ->when($request->get('pay_by_card'), function (Builder $builder, $pay_by_card) {
-                if($pay_by_card){
+                if ($pay_by_card) {
                     $builder->where('id', 0);
                 }
 
@@ -108,5 +108,11 @@ class ReportController extends Controller
             return $this->singleDetailResponse($this->report_refund($request)->where($this->applyFilters($request))->get());
         }
 
+    }
+
+    public function getReportingSerialNumbers(Request $request)
+    {
+
+        return $this->getSerialsFromOrder($request)->get();
     }
 }
