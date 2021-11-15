@@ -193,7 +193,8 @@ export default {
         updateQuantity(quantity, key) {
             let pp = this.products;
 
-            pp[key].total = quantity * pp[key].min_price;
+            let number = quantity * pp[key].min_price;
+            pp[key].total = (Math.round(number * 100) / 100).toFixed(2);
             pp[key].quantity = parseFloat(quantity);
             this.updateProducts(pp);
         },
@@ -245,7 +246,7 @@ export default {
             value = value.target.value;
             let pp = this.products;
             let formPP = this.form.getFieldValue("productItem");
-            
+
             let price = formPP[key].min_price;
 
             pp[key].min_price = this.dicountFormula(price, value);
