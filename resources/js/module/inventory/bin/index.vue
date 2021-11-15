@@ -37,15 +37,17 @@ export default {
     methods: {
         onSelect(data) {
             let stateSerials = this.serials;
-            if (data.selected) {
-                this.serials = [...stateSerials, data.record];
+            if (data.isSelected) {
+                stateSerials.push(data.selected);
+                this.serials = stateSerials;
+                return true;
+            } else {
+                stateSerials = stateSerials
+                    .filter(serial => serial.id !== data.selected.id)
+                    .map(serial => serial);
+                this.serials = stateSerials;
                 return true;
             }
-            stateSerials = stateSerials
-                .filter(serial => serial.id !== data.record.id)
-                .map(serial => serial);
-            this.serials = stateSerials;
-            //this.serials = [...stateSerials, data.record];
         },
         onSelectAll(data) {
             if (data.selected) {

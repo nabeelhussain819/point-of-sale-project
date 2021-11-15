@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-3">
+    <div class="mt-3 serialsearch">
         <a-input-search
             v-model="searchSerail"
             placeholder="input search text"
@@ -12,6 +12,7 @@
             :columns="columns"
             :data-source="records"
             :row-selection="{
+                hideDefaultSelections: true,
                 selectedRowKeys: selectedRowKeys,
                 onChange: onSelect
             }"
@@ -20,6 +21,7 @@
 </template>
 <script>
 import ProductService from "../../services/API/ProductService";
+import { isEmpty } from "../../services/helpers";
 const columns = [
     {
         title: "Serials",
@@ -59,8 +61,7 @@ export default {
         onSelect(record, selected, selectedRows) {
             this.selectedRowKeys = record;
 
-            // this.selectedProducts = [];
-            this.emit(selected);
+            this.emit({ selected: record[0], isSelected: !isEmpty(selected) });
         },
         emit(data) {
             this.$emit("onSelect", data);
@@ -95,3 +96,9 @@ export default {
     computed: {}
 };
 </script>
+
+<style>
+.serialsearch .ant-table-header-column .ant-checkbox {
+    display: none;
+}
+</style>
