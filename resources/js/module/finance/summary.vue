@@ -36,6 +36,10 @@
                                     {
                                         required: true,
                                         message: 'Please insert Deposit!'
+                                    },
+                                    {
+                                        max: maxDeposite,
+                                        message: 'max'
                                     }
                                 ]
                             }
@@ -63,9 +67,8 @@
             </a-descriptions-item>
             <a-descriptions-item :span="24" label="Pay By card">
                 <a-form-item>
-                    
                     <a-switch
-                        prefix="$"                      
+                        prefix="$"
                         v-decorator="[
                             'pay_by_card',
                             {
@@ -105,7 +108,17 @@ export default {
                 payable: parseFloat(formValues.total) - value.target.value
             });
         },
-        handleTotal(value) {}
+        handleTotal(total) {
+            let ttotal = total.target.value;
+            let formValues = this.form.getFieldsValue();
+           
+            this.maxDeposite = ttotal;
+            let advance = parseFloat(formValues.advance);
+            
+            this.form.setFieldsValue({
+                payable: parseFloat(ttotal) - advance
+            });
+        }
     }
 };
 </script>
