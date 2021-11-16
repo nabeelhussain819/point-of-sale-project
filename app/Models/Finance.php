@@ -186,8 +186,8 @@ class Finance extends Base
         });
     }
 
-    public function getPayableAttribute()
-    {
-        return round($this->attributes['payable'], 2);
-    }
+//    public function getPayableAttribute()
+//    {
+//        return round($this->attributes['payable'], 2);
+//    }
 }
