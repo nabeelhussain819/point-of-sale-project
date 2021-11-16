@@ -33,12 +33,11 @@ export default {
         this.show = true;
     },
     methods: {
-        onSelect(data) {
-            console.log(data);
+        onSelect(data) {           
             let serials = {
                 key: this.product.key,
                 product_id: this.product.product_id,
-                serials_number: data.map(serial => serial.serial_no)
+                serials_number: data.allSelected.map(serial => serial.serial_no)
             };
             //     console.log("here data ", this.product, data);
             this.serials = serials;

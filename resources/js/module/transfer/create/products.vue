@@ -133,7 +133,7 @@ import helpers from "./../../../mixins/helpers";
 import ProductService from "./../../../services/API/ProductService";
 import InventoryService from "./../../../services/API/InventoryService";
 import { filterOption } from "./../../../services/helpers";
-import serialNumbers from "./serial-numbers.vue";
+import serialNumbers from "./serial-numbers";
 
 const columns = [
     {

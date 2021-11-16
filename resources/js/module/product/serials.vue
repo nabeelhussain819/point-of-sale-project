@@ -61,7 +61,11 @@ export default {
         onSelect(record, selected, selectedRows) {
             this.selectedRowKeys = record;
 
-            this.emit({ selected: record[0], isSelected: !isEmpty(selected) });
+            this.emit({
+                selected: record[0],
+                isSelected: !isEmpty(selected),
+                allSelected: selected
+            });
         },
         emit(data) {
             this.$emit("onSelect", data);
