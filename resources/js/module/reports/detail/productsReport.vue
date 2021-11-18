@@ -1,105 +1,108 @@
 <template>
-    <div>
-        <a-table
-            :pagination="false"
-            :columns="columns"
-            :data-source="data.data"
-        >
-            <a slot="name" class="text-capitalize" slot-scope="text, row">
-                <a-button @click="showSerials(row)" type="link">
-                    {{ text }}
-                </a-button>
-            </a>
-            <a slot="total" class="text-capitalize" slot-scope="text"
-                >{{ text }}$</a
+    <div class="row ">
+        <div class="col-12 over">
+            <a-table
+                :scroll="{ x: 900 }"
+                :pagination="false"
+                :columns="columns"
+                :data-source="data.data"
             >
-            <div
-                slot="filterDropdown"
-                slot-scope="{
-                    setSelectedKeys,
-                    selectedKeys,
+                <a slot="name" class="text-capitalize text-primary" slot-scope="text, row">
+                    <span  @click="showSerials(row)" type="link">
+                        {{ text }}
+                    </span>
+                </a>
+                <a slot="total" class="text-capitalize" slot-scope="text"
+                    >{{ text }}$</a
+                >
+                <div
+                    slot="filterDropdown"
+                    slot-scope="{
+                        setSelectedKeys,
+                        selectedKeys,
 
-                    column
-                }"
-                style="padding: 8px"
-            >
-                <a-input
-                    v-ant-ref="c => (searchInput = c)"
-                    :placeholder="`Search ${column.dataIndex}`"
-                    :value="selectedKeys[0]"
-                    style="width: 188px; margin-bottom: 8px; display: block"
-                    @change="
-                        e =>
-                            setSelectedKeys(
-                                e.target.value ? [e.target.value] : []
-                            )
-                    "
-                    @pressEnter="() => handleSearch(selectedKeys, column)"
-                />
-                <a-button
-                    type="primary"
-                    icon="search"
-                    size="small"
-                    style="width: 90px; margin-right: 8px"
-                    @click="() => handleSearch(selectedKeys, column)"
+                        column
+                    }"
+                    style="padding: 8px"
                 >
-                    Search
-                </a-button>
-                <a-button
-                    size="small"
-                    style="width: 90px"
-                    @click="() => handleReset(selectedKeys, column)"
-                >
-                    Reset
-                </a-button>
-            </div>
-
-            <!-- Category search  -->
-            <div
-                slot="catgoryDropdown"
-                slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                style="padding: 8px;   min-width: 200px;"
-            >
-                <a-select
-                    style="width: 100%"
-                    @change="value => handleSearch([value], column)"
-                >
-                    <a-select-option
-                        v-for="category in categories"
-                        :key="category.id"
+                    <a-input
+                        v-ant-ref="c => (searchInput = c)"
+                        :placeholder="`Search ${column.dataIndex}`"
+                        :value="selectedKeys[0]"
+                        style="width: 188px; margin-bottom: 8px; display: block"
+                        @change="
+                            e =>
+                                setSelectedKeys(
+                                    e.target.value ? [e.target.value] : []
+                                )
+                        "
+                        @pressEnter="() => handleSearch(selectedKeys, column)"
+                    />
+                    <a-button
+                        type="primary"
+                        icon="search"
+                        size="small"
+                        style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, column)"
                     >
-                        {{ category.name }}
-                    </a-select-option>
-                </a-select>
-            </div>
-            <!-- Category search  -->
-            <!-- Department search  -->
-            <div
-                slot="departmentDropdown"
-                slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                style="padding: 8px;    min-width: 200px;"
-            >
-                <a-select
-                    class="w-100"
-                    style="width: 100%"
-                    @change="value => handleSearch([value], column)"
-                >
-                    <a-select-option
-                        v-for="department in departments"
-                        :key="department.id"
+                        Search
+                    </a-button>
+                    <a-button
+                        size="small"
+                        style="width: 90px"
+                        @click="() => handleReset(selectedKeys, column)"
                     >
-                        {{ department.name }}
-                    </a-select-option>
-                </a-select>
-            </div>
-            <!-- Deparment search  -->
-
-            <template slot="footer">
-                <div v-if="showFooter" class="text-right">
-                    <strong>Total</strong> {{ data.total }}
+                        Reset
+                    </a-button>
                 </div>
-            </template>
-        </a-table>
+
+                <!-- Category search  -->
+                <div
+                    slot="catgoryDropdown"
+                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
+                    style="padding: 8px;   min-width: 200px;"
+                >
+                    <a-select
+                        style="width: 100%"
+                        @change="value => handleSearch([value], column)"
+                    >
+                        <a-select-option
+                            v-for="category in categories"
+                            :key="category.id"
+                        >
+                            {{ category.name }}
+                        </a-select-option>
+                    </a-select>
+                </div>
+                <!-- Category search  -->
+                <!-- Department search  -->
+                <div
+                    slot="departmentDropdown"
+                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
+                    style="padding: 8px;    min-width: 200px;"
+                >
+                    <a-select
+                        class="w-100"
+                        style="width: 100%"
+                        @change="value => handleSearch([value], column)"
+                    >
+                        <a-select-option
+                            v-for="department in departments"
+                            :key="department.id"
+                        >
+                            {{ department.name }}
+                        </a-select-option>
+                    </a-select>
+                </div>
+                <!-- Deparment search  -->
+
+                <template slot="footer">
+                    <div v-if="showFooter" class="text-right">
+                        <strong>Total</strong> {{ data.total }}
+                    </div>
+                </template>
+            </a-table>
+        </div>
     </div>
 </template>
 <script>

@@ -55,7 +55,7 @@ const productColumns = [
     {
         title: "Quantity",
         dataIndex: "quantity",
-        key: "quantity"
+        key: "quantity",
     },
     {
         title: "Category",
@@ -64,8 +64,7 @@ const productColumns = [
         scopedSlots: {
             filterDropdown: "catgoryDropdown",
             filterIcon: "filterIcon"
-        },
-        width: 200
+        }
     },
     {
         title: "Department",
@@ -74,8 +73,7 @@ const productColumns = [
         scopedSlots: {
             filterDropdown: "departmentDropdown",
             filterIcon: "filterIcon"
-        },
-        width: 200
+        }
     },
     {
         title: "Total",
@@ -252,7 +250,6 @@ export default {
                 ...this.params,
                 ...params
             }).then(serialNumbers => {
-                
                 this.serialNumbers = serialNumbers;
             });
         },
