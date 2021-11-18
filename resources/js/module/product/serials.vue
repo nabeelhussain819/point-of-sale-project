@@ -91,7 +91,11 @@ export default {
             ];
 
             this.searchSerail = null;
-            this.emit(this.selectedProducts);
+            this.emit({
+                selected: null,
+                isSelected: null,
+                allSelected: this.selectedProducts
+            });
         }
     },
     mounted() {

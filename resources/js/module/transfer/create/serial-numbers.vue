@@ -33,7 +33,8 @@ export default {
         this.show = true;
     },
     methods: {
-        onSelect(data) {           
+        onSelect(data) {
+                  
             let serials = {
                 key: this.product.key,
                 product_id: this.product.product_id,
