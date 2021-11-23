@@ -12,6 +12,9 @@
                         <a-button type="primary">Create </a-button>
                     </a>
                 </template>
+                <template slot="total" slot-scope="text">
+                   {{text}}$
+                </template>
                 <a slot="name" slot-scope="text">{{ text }}</a>
                 <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
 
@@ -109,6 +112,12 @@ export default {
                         filterDropdown: "filterDropdown",
                         filterIcon: "filterIcon"
                     }
+                },
+                {
+                    dataIndex: "sub_total",
+                    key: "sub_total",
+                    title: "Total",
+                     scopedSlots: { customRender: "total" }
                 },
                 {
                     title: "Customer Number",

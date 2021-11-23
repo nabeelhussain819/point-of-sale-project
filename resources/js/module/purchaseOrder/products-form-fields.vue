@@ -5,8 +5,8 @@
         >
         <a-row class="form-field-container" :gutter="23">
             <a-col :span="6">Lookup</a-col>
-            <a-col :span="6">Products</a-col>
-            <a-col :span="6">Quantity</a-col>
+            <a-col :span="10">Products</a-col>
+            <a-col :span="2">Quantity</a-col>
             <a-col :span="2">Unit Price</a-col>
             <a-col :span="2"></a-col>
             <a-col :span="2">Action</a-col>
@@ -25,12 +25,12 @@
                     :showLabel="false"
                 />
             </a-col>
-            <a-col :span="6">
+            <a-col :span="10">
                 <a-form-item>
                     <a-select
                         :show-search="true"
                         :filter-option="filterOption"
-                        style="width: 200px"
+                        style="width: 400px"
                         @select="selectProduct"
                         v-decorator="[
                             `products[${key}][product_id]`,
@@ -57,7 +57,7 @@
                     </a-select>
                 </a-form-item>
             </a-col>
-            <a-col :span="6">
+            <a-col :span="2">
                 <a-form-item>
                     <a-input-number
                         style="width: 200px"
