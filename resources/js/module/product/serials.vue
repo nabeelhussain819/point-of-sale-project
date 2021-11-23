@@ -42,7 +42,7 @@ export default {
             records: [],
             columns,
             selectedRowKeys: [
-                { id: 26, product_id: 1002, serial_no: "z6", store_id: 1 }
+              
             ],
             selectedProducts: []
         };

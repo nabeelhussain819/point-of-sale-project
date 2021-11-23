@@ -36,12 +36,13 @@ export default {
     },
     methods: {
         onSelect(data) {
-            let stateSerials = this.serials;
             if (data.isSelected) {
-                stateSerials.push(data.selected);
-                this.serials = stateSerials;
+                // stateSerials.push(data.allSelected);
+                this.serials = data.allSelected;
                 return true;
             } else {
+                console.error("not implemented");
+                return false;
                 stateSerials = stateSerials
                     .filter(serial => serial.id !== data.selected.id)
                     .map(serial => serial);
