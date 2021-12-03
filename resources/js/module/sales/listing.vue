@@ -13,7 +13,7 @@
                     </a>
                 </template>
                 <template slot="total" slot-scope="text">
-                   {{text}}$
+                    {{ text }}$
                 </template>
                 <a slot="name" slot-scope="text">{{ text }}</a>
                 <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
@@ -85,8 +85,10 @@
 import OrderService from "../../services/API/OrderServices";
 import productTable from "./products-table";
 import { isEmpty } from "../../services/helpers";
+import pagination from "../../mixins/pagination";
 
 export default {
+    mixins: [pagination],
     components: { productTable },
     name: "index.vue",
     data() {
@@ -117,7 +119,7 @@ export default {
                     dataIndex: "sub_total",
                     key: "sub_total",
                     title: "Total",
-                     scopedSlots: { customRender: "total" }
+                    scopedSlots: { customRender: "total" }
                 },
                 {
                     title: "Customer Number",
@@ -149,7 +151,7 @@ export default {
         };
     },
     mounted() {
-        this.fetchList();
+        this.fetch();
     },
     methods: {
         href(id) {
@@ -161,11 +163,12 @@ export default {
         orderCreated(created) {
             this.isOrderCreated = created;
         },
-        fetchList(params = {}) {
+        fetch(params = {}) {
             this.loading = true;
-            OrderService.all(params)
+            OrderService.all({...params ,...this.pagination})
                 .then(data => {
                     this.data = data.data;
+                     this.setPagination(data);
                 })
                 .finally(() => (this.loading = false));
         },
@@ -189,7 +192,7 @@ export default {
         },
         setfilters(filters) {
             this.filters = JSON.parse(JSON.stringify(filters));
-            this.fetchList(this.filters);
+            this.fetch(this.filters);
         },
         handleSearch(value, column) {
             let filters = this.filters;
