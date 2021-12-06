@@ -31,13 +31,13 @@ export default {
         };
     },
     methods: {
-        setFetch(fetch) {            
+        setFetch(fetch) {
             this.fetch = fetch;
         },
         getTitle() {
             let inventory = this.inventory;
             if (!isEmpty(inventory)) {
-                return `${inventory.product.name} Change Stock Bin`;
+                return `${inventory.product.name}`;
             }
         },
         showSerialNumber(inventory) {

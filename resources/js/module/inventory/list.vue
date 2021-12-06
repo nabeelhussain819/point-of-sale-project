@@ -4,6 +4,7 @@
         :columns="columns"
         :data-source="data"
         :loading="loading"
+         :pagination="pagination"
     >
         <div
             slot="filterDropdown"
@@ -91,8 +92,10 @@
 <script>
 import InventoryService from "../../services/API/InventoryService";
 import StockBinService from "../../services/API/StockBinService";
+import pagination from "../../mixins/pagination";
 
 export default {
+    mixins: [pagination],
     data() {
         return {
             data: [],
@@ -179,11 +182,12 @@ export default {
                 this.bins = bins;
             });
         },
-        fetch(params) {
+        fetch(params = {}) {
             this.loading = true;
-            InventoryService.all(params)
+            InventoryService.all({ ...params, ...this.pagination })
                 .then(data => {
                     this.data = data.data;
+                    this.setPagination(data);
                 })
                 .finally(() => (this.loading = false));
         },
