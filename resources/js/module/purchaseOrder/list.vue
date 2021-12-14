@@ -1,6 +1,12 @@
 <template>
     <div>
-        <a-table :columns="columns" :data-source="data" bordered>
+        <a-table
+            :columns="columns"
+            :data-source="data"
+            bordered
+            :loading="loading"
+            :pagination="pagination"
+        >
             <template slot="title">
                 <strong> Purchase order list</strong>
             </template>
@@ -55,6 +61,8 @@
 <script>
 import PurchaseOrderServices from "../../services/API/PurchaseOrderServices";
 import { isEmpty, notification } from "../../services/helpers";
+import pagination from "../../mixins/pagination";
+
 import moment from "moment";
 const columns = [
     {
@@ -89,10 +97,12 @@ const columns = [
     }
 ];
 export default {
+    mixins: [pagination],
     data() {
         return {
             columns,
-            data: []
+            data: [],
+            loading: false
         };
     },
     mounted() {
@@ -102,9 +112,14 @@ export default {
         moment,
         isEmpty,
         fetch(params = {}) {
-            PurchaseOrderServices.all(params).then(response => {
-                this.data = response.data;
-            });
+            this.loading = true;
+            PurchaseOrderServices.all({ ...params, ...this.pagination })
+                .then(response => {
+                    console.log(response);
+                    this.data = response.data;
+                    this.setPagination(response);
+                })
+                .finally(() => (this.loading = false));
         },
         goto(item) {
             window.location.href = `/purchase-order/received-form/${item.id}`;
