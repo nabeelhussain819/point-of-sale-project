@@ -18,12 +18,25 @@ class FinanceObserver
      */
     public function creating(Finance $finance)
     {
+        $this->validateDifference($finance);
         if ($finance->isCreatingScenario()) {
             $finance->status_id = Status::FINANCE_PENDING;
             $finance->store_id = Store::currentId();
             $this->handleDuration($finance);
             $this->validationSerialNumber($finance);
         }
+
+    }
+
+    public function validateDifference($finance)
+    {
+        $diff = $finance->total - $finance->advance;
+
+        if ($diff != $finance->payable) {
+
+            throw new \Exception("$finance->payable is not valid, $diff is correct value");
+        }
+      
     }
 
     public function saved(Finance $finance)
