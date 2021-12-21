@@ -60,7 +60,8 @@
                                         required: true,
                                         message: 'Please insert Deposit!'
                                     }
-                                ]
+                                ],
+                                initialValue: payable
                             }
                         ]"
                 /></a-form-item>
@@ -81,6 +82,7 @@
     </div>
 </template>
 <script>
+import { EVENT_FINANCE_PRODUCT_CHANGE } from "../../services/constants";
 export default {
     props: {
         product: {
@@ -97,10 +99,28 @@ export default {
         return {
             maxDeposite: 12,
             billSummary: {},
-            advanceDisabled: true
+            advanceDisabled: true,
+            payable: null
         };
     },
+    mounted() {
+        this.isProductChange();
+    },
     methods: {
+        isProductChange() {
+            const setPayableNull = this.setPayableNull;
+            this.$eventBus.$on(EVENT_FINANCE_PRODUCT_CHANGE, function() {
+                console.log("EVENT_FINANCE_PRODUCT_CHANGE");
+                setPayableNull();
+            });
+        },
+        setPayableNull() {
+            this.form.setFieldsValue({
+                payable: null,
+                advance: null
+            });
+           
+        },
         handleAdvance(value) {
             let formValues = this.form.getFieldsValue();
             this.maxDeposite = parseFloat(formValues.total);
@@ -111,10 +131,10 @@ export default {
         handleTotal(total) {
             let ttotal = total.target.value;
             let formValues = this.form.getFieldsValue();
-           
+
             this.maxDeposite = ttotal;
             let advance = parseFloat(formValues.advance);
-            
+
             this.form.setFieldsValue({
                 payable: parseFloat(ttotal) - advance
             });

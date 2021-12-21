@@ -125,7 +125,7 @@ export default {
             this.fileList = fileList;
         },
         uploadAttachments(response) {
-            console.log(response.finance.id);
+           
             if (!isEmpty(this.fileList)) {
                 const formData = new FormData();
                 this.fileList.forEach(file => {

@@ -2,7 +2,6 @@
     <div>
         <a-col :span="6">
             <a-form-item
-                
                 :validate-status="fetchProductsErrors.validateStatus"
                 :help="fetchProductsErrors.errorMsg"
             >
@@ -59,7 +58,10 @@
 import InventoryService from "../../services/API/InventoryService";
 import { isEmpty } from "../../services/helpers";
 import AddProduct from "../product/add";
-import { EVENT_CUSTOMERSALE_PRODUCT_ADD } from "../../services/constants";
+import {
+    EVENT_CUSTOMERSALE_PRODUCT_ADD,
+    EVENT_FINANCE_PRODUCT_CHANGE
+} from "../../services/constants";
 export default {
     components: {
         AddProduct
@@ -84,13 +86,17 @@ export default {
 
     methods: {
         addProductDetail() {
-            const getProductById = this.getProductById
+            const getProductById = this.getProductById;
+            const registerFinanceEvent = this.registerFinanceEvent;
             this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function(
                 product
             ) {
+                registerFinanceEvent();
                 getProductById(product.id);
-                console.log(product);
             });
+        },
+        registerFinanceEvent() {
+            this.$eventBus.$emit(EVENT_FINANCE_PRODUCT_CHANGE);
         },
         getSerialRules(hasSerial) {
             if (hasSerial) {

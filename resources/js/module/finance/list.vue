@@ -245,7 +245,7 @@ export default {
         },
         fetch(params = {}) {
             this.loading = true;
-            console.log("asd");
+    
             FinanceService.all({ ...this.filters, ...this.pagination })
                 .then(finance => {
                     this.data = finance.data;
