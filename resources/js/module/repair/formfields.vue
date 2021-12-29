@@ -419,7 +419,7 @@
                 <a-col :span="4">
                     <a-form-item label="Comment">
                         <a-input
-                            :disabled="!isCreated"
+                           
                             v-decorator="[
                                 'comment',
                                 {

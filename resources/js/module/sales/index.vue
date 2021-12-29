@@ -3,7 +3,7 @@
         <a-card :bordered="false">
             <div class="product-detail">
                 <header-feature />
-                <a-divider orientation="left"> Shoping List </a-divider>
+                <a-divider orientation="left"> Shopping List </a-divider>
                 <a-form
                     :form="form"
                     :label-col="{ span: 24 }"

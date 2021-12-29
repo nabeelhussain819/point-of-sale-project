@@ -22,9 +22,6 @@
                         <a-descriptions-item label="Date" :span="24">
                             {{ currentDateTime }}
                         </a-descriptions-item>
-                        <!-- <a-descriptions-item :span="24" label="Due Date">
-            {{ currentDateTime }}
-          </a-descriptions-item> -->
                     </a-descriptions>
                 </a-col>
             </a-row>
@@ -88,6 +85,13 @@
                         </a-descriptions-item>
                         <a-descriptions-item label="Sub Total" :span="24">
                             ${{ billSummary.subTotal }}
+                        </a-descriptions-item>
+                        <a-descriptions-item
+                            v-if="isCreated || !isEmpty(order)"
+                            label="Notes"
+                            :span="24"
+                        >
+                            ${{ order.notes }}
                         </a-descriptions-item>
                     </a-descriptions>
                 </a-col>
