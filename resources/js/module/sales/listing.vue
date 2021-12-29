@@ -165,10 +165,10 @@ export default {
         },
         fetch(params = {}) {
             this.loading = true;
-            OrderService.all({...params ,...this.pagination})
+            OrderService.all({ ...params, ...this.pagination })
                 .then(data => {
                     this.data = data.data;
-                     this.setPagination(data);
+                    this.setPagination(data);
                 })
                 .finally(() => (this.loading = false));
         },

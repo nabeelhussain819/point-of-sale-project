@@ -18,9 +18,9 @@ export const isEmpty = (value, depth = 1, level = 0) => {
 };
 
 export const filterOption = (input, option) => {
-    console.log(input, option);
     return (
         option.componentOptions.children[0].text
+
             .toLowerCase()
             .indexOf(input.toLowerCase()) >= 0
     );

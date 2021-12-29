@@ -239,37 +239,35 @@
 
                     <a-col :span="4">
                         <a-form-item label="Model">
-                            <!-- <a-select
+                            <a-select
                                 :showSearch="true"
                                 :filter-option="filterOption"
                                 mode="tags"
                                 :maxTagCount="1"
-                                @search="modelSearch"
-                                v-decorator="[
-                                    `productItem[${r}][product_id]`,
-                                    {
-                                        initialValue: getStringId(
-                                            product.product_id
-                                        )
-                                    }
-                                ]"
-                                placeholder="Select a option and change input text above"
-                            >
-                                <a-select-option
-                                    v-for="product in products"
-                                    :key="product.id.toString()"
-                                >
-                                    {{ product.name }}</a-select-option
-                                >
-                            </a-select> -->
-                            <a-input
+                                @search="fetchProducts"
                                 v-decorator="[
                                     `productItem[${r}][product]`,
                                     {
                                         initialValue: product.product
                                     }
                                 ]"
-                            />
+                                placeholder="Select a option and change input text above"
+                            >
+                                <a-select-option
+                                    v-for="product in productLIST"
+                                    :key="product.id.toString()"
+                                >
+                                    {{ product.name }}</a-select-option
+                                >
+                            </a-select>
+                            <!-- <a-input
+                                v-decorator="[
+                                    `productItem[${r}][product]`,
+                                    {
+                                        initialValue: product.product
+                                    }
+                                ]"
+                            /> -->
                         </a-form-item>
                     </a-col>
                     <a-col :span="4">
@@ -323,7 +321,7 @@
                         <a-form-item label="Parts">
                             <a-select
                                 :showSearch="true"
-                                :filter-option="filterOption" 
+                                :filter-option="filterOption"
                                 v-decorator="[
                                     `productItem[${r}][product_id]`,
                                     {
@@ -419,7 +417,6 @@
                 <a-col :span="4">
                     <a-form-item label="Comment">
                         <a-input
-                           
                             v-decorator="[
                                 'comment',
                                 {
@@ -507,7 +504,8 @@ export default {
             isEmpty,
             getStringId,
             maxTotal: 0,
-            advanceCompare: false
+            advanceCompare: false,
+            productLIST: []
         };
     },
     mounted() {
@@ -665,9 +663,8 @@ export default {
             });
         },
         fetchProducts(params, index) {
-            let $this = this;
-            ProductService.deviceBrand(params).then(products => {
-                $this.products.splice(index, 0, products);
+            ProductService.getAll(params).then(products => {
+                this.productLIST = products;
             });
         },
         fetchRepair(repairId) {

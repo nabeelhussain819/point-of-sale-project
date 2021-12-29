@@ -110,18 +110,26 @@ class Repair extends Base
     {
         $products = collect($products)->map(function ($product) {
 
+
             $product['product_id'] = isset($product['product_id']) ? Product::getIdByRequest($product['product_id'], ['is_repair' => true]) : null;
             $product['device_type_id'] = isset($product['device_type_id']) ? DevicesType::getIdByRequest($product['device_type_id']) : null;
             $product['issue_id'] = isset($product['issue_id']) ? IssueType::getIdByRequest($product['issue_id']) : null;
             $product['brand_id'] = isset($product['brand_id']) ? Brand::getIdByRequest($product['brand_id']) : null;
-            if (!empty($product['product_id'])) {
+
+
+            $product['product'] = ArrayHelper::isArray($product['product']) && isset($product['product']) && !empty($product['product']) ? $product['product'][0] : null;
+
+            if (isset($product['product_id']) && !empty($product['product_id'])) {
+
                 Inventory::pluckSingleQuantity(1, $product['product_id']);
             }
+
             return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
 
         })->all();
-
+      
         $this->products()->sync($products);
+
         return $this;
     }
 }
