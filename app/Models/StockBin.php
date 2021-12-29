@@ -15,6 +15,7 @@ class StockBin extends Model
 {
 
     const RETAIL=1;
+    const RETURN=2;
     /**
      * The "type" of the auto-incrementing ID.
      * 

@@ -127,7 +127,7 @@ class Repair extends Base
             return ArrayHelper::merge($product, ['guid' => GuidHelper::getGuid()]);
 
         })->all();
-      
+
         $this->products()->sync($products);
 
         return $this;

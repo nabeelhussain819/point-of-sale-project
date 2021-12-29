@@ -7,6 +7,7 @@ use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\ProductSerialNumbers;
 use App\Models\Refund;
+use App\Models\StockBin;
 use App\Models\Store;
 use App\Models\Type;
 use App\Models\User;
@@ -150,7 +151,6 @@ class InventoryController extends Controller
         withProduct()->select(['id', 'quantity', 'product_id'])
             ->where($this->applyFilters($request))
             ->where('store_id', Store::currentId())
-
             ->get();
     }
 
@@ -158,14 +158,22 @@ class InventoryController extends Controller
     {
         $inventory = new Inventory();
         return $inventory->getAll($request)
+            ->whereNotExists(function (Builder $builder) {
+                $builder->select('id')->where("quantity", "<=", 0)
+                    ->where("stock_bin_id", "=", StockBin::RETURN);
+
+            })
             ->with(['bin' => function (BelongsTo $belongsTo) {
                 $belongsTo->select(['name', 'id']);
             }])
+
             ->orderBy('name')
             ->paginate($this->pageSize);
     }
 
     /**
+     * 1 return true
+     * 0 return false
      * @param Request $request
      * @param $inventory
      * @return mixed
