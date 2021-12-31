@@ -40,7 +40,7 @@
             </a-table>
             <br /><br />
             <a-row>
-                <a-col :span="8">
+                <a-col :span="12">
                     <a-form
                         :form="form"
                         @submit="handleSubmit"
@@ -48,6 +48,7 @@
                         :wrapper-col="{ span: 24 }"
                     >
                         <checkout
+                            :form="form"
                             v-if="!isCreated"
                             @cashBack="cashBack"
                             :summary="billSummary"
@@ -68,7 +69,7 @@
                         </a-button>
                     </a-form>
                 </a-col>
-                <a-col :span="8"></a-col>
+                <a-col :span="4"></a-col>
                 <a-col :span="8">
                     <a-descriptions bordered title="Bill summary">
                         <!-- <a-descriptions-item :span="24" label="Without Tax">
