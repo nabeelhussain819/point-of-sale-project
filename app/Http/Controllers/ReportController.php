@@ -19,6 +19,11 @@ class ReportController extends Controller
         return view('admin.reports.index');
     }
 
+    public function sales()
+    {
+        return view('admin.reports.sales');
+    }
+
     public function entitySearch(Request $request)
     {
 //        $finance = \DB::table('finances')
@@ -108,6 +113,12 @@ class ReportController extends Controller
             return $this->singleDetailResponse($this->report_refund($request)->where($this->applyFilters($request))->get());
         }
 
+    }
+
+    public function getSalesStates(Request $request)
+    {
+        return ['data' => $this->report_sales($request)->where($this->applyFilters($request))->get(),
+            'summary' => $this->report_sales_total($request)->get()];
     }
 
     public function getReportingSerialNumbers(Request $request)

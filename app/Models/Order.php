@@ -68,7 +68,10 @@ class Order extends Base
 
     public function getDateAttribute()
     {
-        return $this->created_at->format('Y-m-d');
+        if (!empty($this->created_at)) {
+            return $this->created_at->format('Y-m-d');
+        }
+
     }
 
     public function withCustomer()

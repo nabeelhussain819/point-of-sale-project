@@ -61,12 +61,15 @@ class OrderController extends Controller
                     'sub_total' => $summaryData['subTotal'],
                     'without_discount' => $summaryData['withoutDiscount'],
                     'cash_paid' => $cashDetail['cash_paid'],
-                    'cash_back' => empty($cashDetail['cash_back']) ? null : $cashDetail['cash_back'],
-                    'card_paid' => empty($cashDetail['card_paid']) ? null : $cashDetail['card_paid'],
+                    'cash_back' => empty($cashDetail['cash_back']) ? 0 : $cashDetail['cash_back'],
+                    'card_paid' => empty($cashDetail['card_paid']) ? 0 : $cashDetail['card_paid'],
                     'customer_card_number' => empty($cashDetail['customer_card_number']) ? null : $cashDetail['customer_card_number'],
                     'tax' => empty($summaryData['tax']) ? null : $summaryData['tax'],
-                    'notes'=>empty($cashDetail['notes']) ? null : $cashDetail['notes'],
+                    'notes' => empty($cashDetail['notes']) ? null : $cashDetail['notes'],
                 ];
+                if ($summary['cash_paid'] + $summary['card_paid'] != $summary['sub_total']) {
+                    throw  new \Exception("sub total not match");
+                }
             }
 
             $productsData = [];

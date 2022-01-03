@@ -196,12 +196,14 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'reports'], function () {
+        Route::get('/sales', [ReportController::class, 'sales']);
+        Route::get('/get-sales-stats', [ReportController::class, 'getSalesStates']);
         Route::get('get-report-serial', [ReportController::class, 'getReportingSerialNumbers']);
         Route::get('/', [ReportController::class, 'index'])->name("reports");
         Route::get('/entity-search', [ReportController::class, 'entitySearch']);
 
         Route::get('/{name}', [ReportController::class, 'detail']);
-
+        Route::get('/sales', [ReportController::class, 'sales']);
     });
 
     Route::group(['prefix' => 'store'], function () {

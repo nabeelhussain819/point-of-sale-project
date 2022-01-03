@@ -21,7 +21,7 @@ trait InteractWithReports
 {
     public function report_sales(Request $request): Builder
     {
-        return OrderProduct::selectRaw("product_id,sum(quantity) as quantity,sum(total) as total ")
+        return OrderProduct::selectRaw("product_id,sum(quantity) as quantity,sum(total) as total  ")
             ->groupBy("product_id")->with(["product" => function (BelongsTo $builder) {
                 $builder->select(['id', 'name', 'category_id', 'department_id'])
                     ->with(["category" => function (BelongsTo $builder) {
@@ -37,6 +37,15 @@ trait InteractWithReports
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             })->orderBy("total");
+    }
+
+    public function report_sales_total(Request $request)
+    {
+
+        return Order::selectRaw("sum(sub_total) as total ,sum(cash_paid) as cash_paid,sum(card_paid) as card_paid,sum(cash_back) as cash_back")
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            });
     }
 
     public function report_finance(Request $request): Builder
@@ -139,9 +148,8 @@ END
     public function getSerialsFromOrder(Request $request)
     {
         return OrderProduct::selectRaw("serial_number,product_id ")
-
             ->whereNull("refund_id")
-            ->where("product_id",$request->get('product_id'))
+            ->where("product_id", $request->get('product_id'))
             ->whereNotNull('serial_number')
             ->whereHas('order', function (Builder $query) {
                 $query->whereNull("finance_id");
@@ -150,7 +158,6 @@ END
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             });
     }
-
 
 
 }

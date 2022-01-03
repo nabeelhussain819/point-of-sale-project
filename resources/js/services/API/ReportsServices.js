@@ -24,10 +24,18 @@ function getReportSerials(params = {}) {
     });
 }
 
+function getSalesStats(params = {}) {
+    return request({
+        url: `${baseUrl}/get-sales-stats`,
+        params
+    });
+}
+
 const ReportsService = {
     mainCategory,
     detail,
-    getReportSerials
+    getReportSerials,
+    getSalesStats
 };
 
 export default ReportsService;
