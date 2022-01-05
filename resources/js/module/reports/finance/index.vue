@@ -30,7 +30,22 @@
                     </a-form-item>
                 </a-form>
             </div>
-            <div class="col-6"><total :data="summary" /></div>
+            <div class="col-6">
+                <table class="table table-bordered ">
+                    <tr>
+                        <td>Advance</td>
+                        <td>${{ summary.advance }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>${{ summary.total }}</td>
+                    </tr>
+                    <tr>
+                        <td>Payable</td>
+                        <td>${{ summary.payable }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="col-12 over">
             <a-table
@@ -142,7 +157,9 @@
         >
             <ul>
                 <li v-for="order in orderIds" :key="order.id">
-                    <a @click="goto(order.order_id)">Order Number {{ order.id }}</a>
+                    <a @click="goto(order.order_id)"
+                        >Order Number {{ order.id }}</a
+                    >
                 </li>
             </ul>
         </a-modal>
@@ -225,7 +242,7 @@ export default {
 
     methods: {
         fetch(params) {
-            ReportsService.getSalesStats(params).then(response => {
+            ReportsService.getFinanceStats(params).then(response => {
                 this.data = response.data;
                 this.summary = response.summary[0];
             });

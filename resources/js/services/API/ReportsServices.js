@@ -31,11 +31,19 @@ function getSalesStats(params = {}) {
     });
 }
 
+function getFinanceStats(params = {}) {
+    return request({
+        url: `${baseUrl}/get-finance-stats`,
+        params
+    });
+}
+
 const ReportsService = {
     mainCategory,
     detail,
     getReportSerials,
-    getSalesStats
+    getSalesStats,
+    getFinanceStats
 };
 
 export default ReportsService;

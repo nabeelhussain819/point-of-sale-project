@@ -126,6 +126,14 @@ class ReportController extends Controller
             'summary' => $this->report_sales_total($request)->get()];
     }
 
+
+    public function getFinanceStates(Request $request)
+    {
+        return ['data' => $this->report_finance($request)->where($this->applyFilters($request))->get(),
+            'summary' => $this->report_finance_total($request)->get()];
+    }
+
+
     public function getReportingSerialNumbers(Request $request)
     {
         return $this->getSerialsFromOrder($request)->get();

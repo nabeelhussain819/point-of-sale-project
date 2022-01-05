@@ -66,6 +66,14 @@ trait InteractWithReports
             })->orderBy("total");
     }
 
+    public function report_finance_total(Request $request)
+    {
+        return Finance::selectRaw("sum(advance) as advance,sum(total) as total,sum(payable) as payable")
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            });
+    }
+
     public function report_repairold(Request $request): Builder
     {
         return RepairsSchedules::selectRaw("product_id,sum(quantity) as quantity,sum(received_amount) as total ")
