@@ -134,6 +134,18 @@
                 </template>
             </a-table>
         </div>
+
+        <a-modal
+            @cancel="handleModal(false)"
+            :visible="showOrderModal"
+            title="Order"
+        >
+            <ul>
+                <li v-for="order in orderIds" :key="order.id">
+                    <a @click="goto(order.order_id)">Order Number {{ order.id }}</a>
+                </li>
+            </ul>
+        </a-modal>
     </div>
 </template>
 <script>
@@ -141,6 +153,7 @@ import total from "../components/total";
 import CategoryService from "../../../services/API/CategoryService";
 import DepartmentService from "../../../services/API/DepartmentService";
 import ReportsService from "../../../services/API/ReportsServices";
+import OrderService from "../../../services/API/OrderServices";
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
@@ -191,7 +204,9 @@ export default {
             params: {},
             summary: {},
             formLayout: "vertical",
-            form: this.$form.createForm(this, { name: "addRepair" })
+            form: this.$form.createForm(this, { name: "addRepair" }),
+            showOrderModal: false,
+            orderIds: []
         };
     },
     mounted() {
@@ -242,7 +257,13 @@ export default {
             this.fetch(this.params);
         },
         showOrders(row) {
-            console.log(row);
+            OrderService.getIds({ ...this.params, ...row })
+                .then(response => {
+                    this.orderIds = response;
+                })
+                .then(() => {
+                    this.handleModal(true);
+                });
         },
         handleSearch(value, column) {
             let filters = this.params;
@@ -252,6 +273,12 @@ export default {
         setFilters(params) {
             this.params = params;
             this.fetch(this.params);
+        },
+        handleModal(show) {
+            this.showOrderModal = show;
+        },
+        goto(order) {
+            window.location = "/sales?order_id=" + order;
         }
     }
 };

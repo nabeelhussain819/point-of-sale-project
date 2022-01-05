@@ -30,11 +30,19 @@ function print() {
     });
 }
 
+function getIds(params = {}) {
+    return request({
+        url: `${baseUrl}/getIds`,
+        params
+    });
+}
+
 const OrderService = {
     create,
     all,
     show,
-    print
+    print,
+    getIds
 };
 
 export default OrderService;

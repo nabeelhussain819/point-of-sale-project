@@ -177,6 +177,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/fetch', [OrderController::class, 'fetch']);
         Route::get('/printableDetail', [OrderController::class, 'printableDetail']);
         Route::get('/print/{order}', [OrderController::class, 'print']);
+        Route::get('/getIds', [OrderController::class, 'getIds']);
     });
 
     Route::group(['prefix' => 'inventory'], function () {

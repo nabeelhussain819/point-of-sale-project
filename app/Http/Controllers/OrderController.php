@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ArrayHelper;
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\ProductSerialNumbers;
 use App\Models\Store;
 use App\Models\User;
@@ -184,4 +185,10 @@ class OrderController extends Controller
             ->withProductsProduct(), 'store' => Store::where('id', Store::currentId())->firstOrfail()]);
     }
 
+    public function getIds(Request $request)
+    {
+        return OrderProduct::
+        where($this->applyFilters($request))
+            ->get();
+    }
 }
