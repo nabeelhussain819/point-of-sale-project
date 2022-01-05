@@ -152,8 +152,19 @@ export default {
     },
     mounted() {
         this.fetch();
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        console.log("params", params);
+        this.showOrder();
     },
     methods: {
+        showOrder() {
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+            if (params.order_id) {
+                this.showPrintModal(params.order_id);
+            }
+        },
         href(id) {
             return `refund/order/${id}`;
         },
