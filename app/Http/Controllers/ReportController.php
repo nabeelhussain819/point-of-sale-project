@@ -24,6 +24,11 @@ class ReportController extends Controller
         return view('admin.reports.sales');
     }
 
+    public function finance()
+    {
+        return view('admin.reports.finance');
+    }
+
     public function entitySearch(Request $request)
     {
 //        $finance = \DB::table('finances')
@@ -123,7 +128,6 @@ class ReportController extends Controller
 
     public function getReportingSerialNumbers(Request $request)
     {
-
         return $this->getSerialsFromOrder($request)->get();
     }
 }
