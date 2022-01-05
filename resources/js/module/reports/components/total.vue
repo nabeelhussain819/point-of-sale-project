@@ -3,12 +3,12 @@
         <table class="table table-bordered ">
             <tr>
                 <td>Cash</td>
-                <td>${{ data.cash_paid }}</td>
+                <td>${{ data.cash_paid - data.cash_back}}</td>
             </tr>
-             <tr>
+             <!-- <tr>
                 <td>Cash back</td>
                 <td>${{ data.cash_back }}</td>
-            </tr>
+            </tr> -->
             <tr>
                 <td>Card</td>
                 <td>${{ data.card_paid }}</td>
