@@ -8,7 +8,12 @@
                 :rowClassName="rowClassName"
             >
                 <template slot="title">
-                    <a-button type="primary" v-on:click="add()">Add </a-button>
+                    <a-button
+                        v-if="showAddButton"
+                        type="primary"
+                        v-on:click="add()"
+                        >Add
+                    </a-button>
                 </template>
                 <a slot="name" slot-scope="text">{{ text }}</a>
                 <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
@@ -176,6 +181,11 @@ const columns = [
 
 export default {
     name: "index.vue",
+    props: {
+        params: { type: Object, required: false, default: () => ({}) },
+        showAddButton: { type: Boolean, required: false, default: true }
+    },
+
     data() {
         return {
             data: [],
@@ -201,6 +211,7 @@ export default {
     mounted() {
         this.fetchList();
         this.fetchStatues();
+        this.$emit("getFetch", this.fetchList);
     },
     methods: {
         fetchStatues() {
@@ -234,7 +245,7 @@ export default {
         },
         fetchList(param = {}) {
             this.loading = true;
-            RepairService.all({ ...this.filters, ...this.pagination })
+            RepairService.all({ ...this.filters, ...this.pagination, ...param })
                 .then(data => {
                     this.data = data.data;
                     const pagination = { ...this.pagination };

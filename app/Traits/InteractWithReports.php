@@ -79,6 +79,17 @@ trait InteractWithReports
             });
     }
 
+    public function report_repair_total(Request $request)
+    {
+        return RepairsSchedules::selectRaw("sum(received_amount) as total")
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->whereExists(function (QueryBuilder $query) use ($request) {
+                return $query->from('repairs')
+                    ->where('store_id', Store::currentId());
+            });
+    }
+
     public function report_repairold(Request $request): Builder
     {
         return RepairsSchedules::selectRaw("product_id,sum(quantity) as quantity,sum(received_amount) as total ")

@@ -40,7 +40,7 @@ function getFinanceStats(params = {}) {
 
 function getRepairStats(params = {}) {
     return request({
-        url: `${baseUrl}/get-finance-stats`,
+        url: `${baseUrl}/get-repair-stats`,
         params
     });
 }
@@ -50,7 +50,8 @@ const ReportsService = {
     detail,
     getReportSerials,
     getSalesStats,
-    getFinanceStats
+    getFinanceStats,
+    getRepairStats
 };
 
 export default ReportsService;

@@ -36,11 +36,12 @@
                         <td>Total</td>
                         <td>${{ summary.total }}</td>
                     </tr>
+                     
                 </table>
             </div>
         </div>
         <div class="col-12 over">
-            <repair :params="params" @getFetch="getFetch" />
+            <repair :showAddButton="false" :params="params" @getFetch="getFetch" />
         </div>
     </div>
 </template>
@@ -121,9 +122,9 @@ export default {
 
     methods: {
         fetch() {
-            ReportsService.getFinanceStats(this.params).then(response => {
+            ReportsService.getRepairStats(this.params).then(response => {
                 this.summary = response[0];
-                console.log(response);
+             
             });
             this.fetchFinance(this.params);
         },
