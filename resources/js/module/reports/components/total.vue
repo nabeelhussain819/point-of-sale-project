@@ -3,7 +3,8 @@
         <table class="table table-bordered ">
             <tr>
                 <td>Cash</td>
-                <td>${{ data.cash_paid - data.cash_back}}</td>
+                // this is  jugard should be from DB 
+                <td>${{  data.total - data.card_paid}}</td>
             </tr>
              <!-- <tr>
                 <td>Cash back</td>
@@ -16,6 +17,10 @@
             <tr>
                 <td>Total</td>
                 <td>${{ data.total }}</td>
+            </tr>
+             <tr>
+                <td>Tax</td>
+                <td>${{ data.tax }}</td>
             </tr>
         </table>
     </span>

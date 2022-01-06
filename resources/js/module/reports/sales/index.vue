@@ -142,7 +142,7 @@
         >
             <ul>
                 <li v-for="order in orderIds" :key="order.id">
-                    <a @click="goto(order.order_id)">Order Number {{ order.id }}</a>
+                    <a @click="goto(order.order_id)">Order Number {{ order.order_id }}</a>
                 </li>
             </ul>
         </a-modal>
