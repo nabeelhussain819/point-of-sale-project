@@ -129,8 +129,7 @@ class ReportController extends Controller
 
     public function getFinanceStates(Request $request)
     {
-        return ['data' => $this->report_finance($request)->where($this->applyFilters($request))->get(),
-            'summary' => $this->report_finance_total($request)->get()];
+        return $this->report_finance_total($request)->get();
     }
 
 

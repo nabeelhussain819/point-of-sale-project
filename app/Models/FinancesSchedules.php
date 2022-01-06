@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Observers\FinanceObserver;
+use App\Scopes\StoreGlobalScope;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -46,6 +48,7 @@ class FinancesSchedules extends Base
     {
         return $this->belongsTo('App\Finance');
     }
+
 
 //    public function getDateOfPaymentAttribute($dateOfPayment)
 //    {

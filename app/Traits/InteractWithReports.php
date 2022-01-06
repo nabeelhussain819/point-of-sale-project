@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Finance;
+use App\Models\FinancesSchedules;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\RefundsProduct;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 
@@ -68,9 +70,12 @@ trait InteractWithReports
 
     public function report_finance_total(Request $request)
     {
-        return Finance::selectRaw("sum(advance) as advance,sum(total) as total,sum(payable) as payable")
+        return FinancesSchedules::selectRaw("sum(amount) as total")
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+                $builder->whereRaw("date_of_payment BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->whereExists(function (QueryBuilder $query) use ($request) {
+                return $query->from('finances')
+                    ->where('store_id', Store::currentId());
             });
     }
 

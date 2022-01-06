@@ -30,6 +30,14 @@
                     </a-form-item>
                 </a-form>
             </div>
+            <div class="col-6">
+                <table class="table table-bordered ">
+                    <tr>
+                        <td>Total</td>
+                        <td>${{ summary.total }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="col-12 over">
             <finance :params="params" @getFetch="getFetch" />
@@ -99,21 +107,24 @@ export default {
         };
     },
     mounted() {
-        this.fetchCategoryService();
-        this.fetchDepartmentService();
         this.params = {
             date_range: [
                 this.getPastMoment(0).format(dateTimeFormat),
                 moment()
                     .set({ h: 23, m: 59 })
                     .format(dateTimeFormat)
-            ]
+            ],
+            apply_on_update: true
         };
         this.fetch();
     },
 
     methods: {
         fetch() {
+            ReportsService.getFinanceStats(this.params).then(response => {
+                this.summary = response[0];
+                console.log(response);
+            });
             this.fetchFinance(this.params);
         },
         moment,

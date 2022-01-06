@@ -53,7 +53,7 @@ class FinanceController extends Controller
             }
 
             $finance->save();
-          
+
             return $this->genericResponse(true, " Finance has been created", 200, ['finance' =>
                 $finance->withSchedules()
                     ->withCustomer()
