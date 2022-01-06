@@ -38,6 +38,13 @@ function getFinanceStats(params = {}) {
     });
 }
 
+function getRepairStats(params = {}) {
+    return request({
+        url: `${baseUrl}/get-finance-stats`,
+        params
+    });
+}
+
 const ReportsService = {
     mainCategory,
     detail,

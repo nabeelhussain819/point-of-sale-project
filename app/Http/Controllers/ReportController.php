@@ -29,6 +29,11 @@ class ReportController extends Controller
         return view('admin.reports.finance');
     }
 
+    public function repair()
+    {
+        return view('admin.reports.repair');
+    }
+
     public function entitySearch(Request $request)
     {
 //        $finance = \DB::table('finances')
@@ -132,6 +137,10 @@ class ReportController extends Controller
         return $this->report_finance_total($request)->get();
     }
 
+    public function getRepairStates(Request $request)
+    {
+        return $this->report_finance_total($request)->get();
+    }
 
     public function getReportingSerialNumbers(Request $request)
     {
