@@ -30,151 +30,22 @@
                     </a-form-item>
                 </a-form>
             </div>
-            <div class="col-6">
-                <table class="table table-bordered ">
-                    <tr>
-                        <td>Advance</td>
-                        <td>${{ summary.advance }}</td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td>${{ summary.total }}</td>
-                    </tr>
-                    <tr>
-                        <td>Payable</td>
-                        <td>${{ summary.payable }}</td>
-                    </tr>
-                </table>
-            </div>
         </div>
         <div class="col-12 over">
-            <a-table
-                :scroll="{ x: 900 }"
-                :pagination="false"
-                :columns="columns"
-                :data-source="data"
-            >
-                <a
-                    slot="name"
-                    class="text-capitalize text-primary"
-                    slot-scope="text, row"
-                >
-                    <span @click="showOrders(row)" type="link">
-                        {{ text }}
-                    </span>
-                </a>
-                <a slot="total" class="text-capitalize" slot-scope="text"
-                    >{{ text }}$</a
-                >
-                <div
-                    slot="filterDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px"
-                >
-                    <a-input
-                        v-ant-ref="c => (searchInput = c)"
-                        :placeholder="`Search ${column.dataIndex}`"
-                        :value="selectedKeys[0]"
-                        style="width: 188px; margin-bottom: 8px; display: block"
-                        @change="
-                            e =>
-                                setSelectedKeys(
-                                    e.target.value ? [e.target.value] : []
-                                )
-                        "
-                        @pressEnter="() => handleSearch(selectedKeys, column)"
-                    />
-                    <a-button
-                        type="primary"
-                        icon="search"
-                        size="small"
-                        style="width: 90px; margin-right: 8px"
-                        @click="() => handleSearch(selectedKeys, column)"
-                    >
-                        Search
-                    </a-button>
-                    <a-button
-                        size="small"
-                        style="width: 90px"
-                        @click="() => handleReset(selectedKeys, column)"
-                    >
-                        Reset
-                    </a-button>
-                </div>
-
-                <!-- Category search  -->
-                <div
-                    slot="catgoryDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px;   min-width: 200px;"
-                >
-                    <a-select
-                        style="width: 100%"
-                        @change="value => handleSearch([value], column)"
-                    >
-                        <a-select-option
-                            v-for="category in categories"
-                            :key="category.id"
-                        >
-                            {{ category.name }}
-                        </a-select-option>
-                    </a-select>
-                </div>
-                <!-- Category search  -->
-                <!-- Department search  -->
-                <div
-                    slot="departmentDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px;    min-width: 200px;"
-                >
-                    <a-select
-                        class="w-100"
-                        style="width: 100%"
-                        @change="value => handleSearch([value], column)"
-                    >
-                        <a-select-option
-                            v-for="department in departments"
-                            :key="department.id"
-                        >
-                            {{ department.name }}
-                        </a-select-option>
-                    </a-select>
-                </div>
-                <!-- Deparment search  -->
-
-                <template slot="footer">
-                    <div v-if="showFooter" class="text-right">
-                        <strong>Total</strong> {{ data.total }}
-                    </div>
-                </template>
-            </a-table>
+            <finance :params="params" @getFetch="getFetch" />
         </div>
-
-        <a-modal
-            @cancel="handleModal(false)"
-            :visible="showOrderModal"
-            title="Order"
-        >
-            <ul>
-                <li v-for="order in orderIds" :key="order.id">
-                    <a @click="goto(order.order_id)"
-                        >Order Number {{ order.id }}</a
-                    >
-                </li>
-            </ul>
-        </a-modal>
     </div>
 </template>
 <script>
 import total from "../components/total";
-import CategoryService from "../../../services/API/CategoryService";
-import DepartmentService from "../../../services/API/DepartmentService";
+import finance from "../../finance/index";
+
 import ReportsService from "../../../services/API/ReportsServices";
-import OrderService from "../../../services/API/OrderServices";
+
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total },
+    components: { total, finance },
     props: {
         showFooter: {
             default: () => false,
@@ -223,7 +94,8 @@ export default {
             formLayout: "vertical",
             form: this.$form.createForm(this, { name: "addRepair" }),
             showOrderModal: false,
-            orderIds: []
+            orderIds: [],
+            fetchFinance: () => {}
         };
     },
     mounted() {
@@ -237,27 +109,15 @@ export default {
                     .format(dateTimeFormat)
             ]
         };
-        this.fetch(this.params);
+        this.fetch();
     },
 
     methods: {
-        fetch(params) {
-            ReportsService.getFinanceStats(params).then(response => {
-                this.data = response.data;
-                this.summary = response.summary[0];
-            });
+        fetch() {
+            this.fetchFinance(this.params);
         },
         moment,
-        fetchCategoryService() {
-            CategoryService.all().then(data => {
-                this.categories = data;
-            });
-        },
-        fetchDepartmentService() {
-            DepartmentService.all().then(data => {
-                this.departments = data;
-            });
-        },
+
         getPastMoment(days) {
             return moment()
                 .subtract(days, "days")
@@ -273,15 +133,7 @@ export default {
             this.params = params;
             this.fetch(this.params);
         },
-        showOrders(row) {
-            OrderService.getIds({ ...this.params, ...row })
-                .then(response => {
-                    this.orderIds = response;
-                })
-                .then(() => {
-                    this.handleModal(true);
-                });
-        },
+
         handleSearch(value, column) {
             let filters = this.params;
             filters[column.key] = value[0];
@@ -291,11 +143,9 @@ export default {
             this.params = params;
             this.fetch(this.params);
         },
-        handleModal(show) {
-            this.showOrderModal = show;
-        },
-        goto(order) {
-            window.location = "/sales?order_id=" + order;
+
+        getFetch(postedFunction) {
+            this.fetchFinance = postedFunction;
         }
     }
 };

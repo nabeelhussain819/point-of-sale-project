@@ -245,8 +245,12 @@ export default {
         },
         fetch(params = {}) {
             this.loading = true;
-    
-            FinanceService.all({ ...this.filters, ...this.pagination })
+
+            FinanceService.all({
+                ...this.filters,
+                ...this.pagination,
+                ...params
+            })
                 .then(finance => {
                     this.data = finance.data;
                     this.setPagination(finance);

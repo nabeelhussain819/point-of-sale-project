@@ -9,18 +9,22 @@
 import list from "./list";
 import add from "./add";
 export default {
+    props: { params: { type: Object, required: false, default: () => ({}) } },
     components: { list, add },
     data() {
         return {
             fetch: () => {}
         };
     },
+    mounted() {
+        this.$emit("getFetch", this.fetch);
+    },
     methods: {
         refresh() {
-            this.fetch();
+            this.fetch(this.params);
         },
-        getFetch(postedfunction) {
-            this.fetch = postedfunction;
+        getFetch(postedFunction) {
+            this.fetch = postedFunction;
         }
     }
 };
