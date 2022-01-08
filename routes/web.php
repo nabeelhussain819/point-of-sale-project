@@ -204,6 +204,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/finance', [ReportController::class, 'finance']);
         Route::get('/get-finance-stats', [ReportController::class, 'getFinanceStates']);
 
+        Route::get('/return', [ReportController::class, 'return']);
+        Route::get('/get-return-stats', [ReportController::class, 'getReturnStates']);
+
+        Route::get('/transfer', [ReportController::class, 'transfer']);
+        Route::get('/get-transfer-stats', [ReportController::class, 'getTransferStates']);
+
+
+        Route::get('/purchase', [ReportController::class, 'purchase']);
+        Route::get('/get-purchase-stats', [ReportController::class, 'getPurchaseStates']);
+
         Route::get('/repair', [ReportController::class, 'repair']);
         Route::get('/get-repair-stats', [ReportController::class, 'getRepairStates']);
 

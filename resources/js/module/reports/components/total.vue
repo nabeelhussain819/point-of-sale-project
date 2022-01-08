@@ -3,7 +3,7 @@
         <table class="table table-bordered ">
             <tr>
                 <td>Cash</td>
-                // this is  jugard should be from DB 
+                <!-- // this is  jugard should be from DB  -->
                 <td>${{  data.total - data.card_paid}}</td>
             </tr>
              <!-- <tr>

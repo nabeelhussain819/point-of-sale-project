@@ -34,6 +34,25 @@ class ReportController extends Controller
         return view('admin.reports.repair');
     }
 
+
+    public function return()
+    {
+        return view('admin.reports.return');
+    }
+
+    public function transfer()
+    {
+        return view('admin.reports.transfer');
+    }
+
+
+    public function purchase()
+    {
+        return view('admin.reports.purchase');
+    }
+
+
+
     public function entitySearch(Request $request)
     {
 //        $finance = \DB::table('finances')
@@ -143,6 +162,21 @@ class ReportController extends Controller
     }
 
     public function getReportingSerialNumbers(Request $request)
+    {
+        return $this->getSerialsFromOrder($request)->get();
+    }
+
+    public function getReturnStates(Request $request)
+    {
+        return $this->report_finance_total($request)->get();
+    }
+
+    public function getTransferStates(Request $request)
+    {
+        return $this->report_repair_total($request)->get();
+    }
+
+    public function getPurchaseStates(Request $request)
     {
         return $this->getSerialsFromOrder($request)->get();
     }
