@@ -6,6 +6,7 @@ use App\Models\Finance;
 use App\Models\FinancesSchedules;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Refund;
 use App\Models\RefundsProduct;
 use App\Models\Repair;
 use App\Models\RepairsProduct;
@@ -49,6 +50,15 @@ trait InteractWithReports
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             });
     }
+
+    public function report_refund_total(Request $request)
+    {
+        return Refund::selectRaw("sum(return_cost) as total ")
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            });
+    }
+
 
     public function report_finance(Request $request): Builder
     {

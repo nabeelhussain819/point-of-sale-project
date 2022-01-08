@@ -52,7 +52,6 @@ class ReportController extends Controller
     }
 
 
-
     public function entitySearch(Request $request)
     {
 //        $finance = \DB::table('finances')
@@ -168,7 +167,9 @@ class ReportController extends Controller
 
     public function getReturnStates(Request $request)
     {
-        return $this->report_finance_total($request)->get();
+        return ['data' => $this->report_refund($request)->where($this->applyFilters($request))->get(),
+            'summary' => $this->report_refund_total($request)->get()];
+        // return $this->report_refund($request)->where($this->applyFilters($request))->get();
     }
 
     public function getTransferStates(Request $request)

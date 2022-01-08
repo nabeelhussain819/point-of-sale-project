@@ -45,13 +45,22 @@ function getRepairStats(params = {}) {
     });
 }
 
+function getRefundStats(params = {}) {
+    return request({
+        url: `${baseUrl}/get-return-stats`,
+        params
+    });
+}
+
+
 const ReportsService = {
     mainCategory,
     detail,
     getReportSerials,
     getSalesStats,
     getFinanceStats,
-    getRepairStats
+    getRepairStats,
+    getRefundStats
 };
 
 export default ReportsService;

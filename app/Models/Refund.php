@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Base;
 use App\Observers\RefundObserver;
+use App\Scopes\StoreGlobalScope;
 use App\Traits\InteractWithProducts;
 
 /**
@@ -60,14 +61,12 @@ class Refund extends Base
     public function refundsProducts()
     {
         return $this->belongsToMany(RefundsProduct::class, 'refunds_products', 'refund_id', 'refund_id');
-
-
     }
 
     public static function boot()
     {
         parent::boot();
-
+        static::addGlobalScope(new StoreGlobalScope);
         Refund::observe(RefundObserver::class);
     }
 }

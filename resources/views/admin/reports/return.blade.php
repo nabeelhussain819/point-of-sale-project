@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title','Repair Module')
+@section('title','Return Report')
 
 @section('content')
 
     <div class="container bg-white">
-        <sales-report></sales-report>
+        <repair-return></repair-return>
     </div>
 @endsection
