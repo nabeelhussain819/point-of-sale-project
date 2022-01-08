@@ -48,7 +48,7 @@
                 :columns="columns"
                 :data-source="data"
             >
-                <a
+                <!-- <a
                     slot="name"
                     class="text-capitalize text-primary"
                     slot-scope="text, row"
@@ -56,7 +56,7 @@
                     <span @click="showOrders(row)" type="link">
                         {{ text }}
                     </span>
-                </a>
+                </a> -->
                 <a slot="total" class="text-capitalize" slot-scope="text"
                     >{{ text }}$</a
                 >
