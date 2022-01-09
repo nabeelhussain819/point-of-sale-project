@@ -1,6 +1,6 @@
 <template>
     <div class="row ">
-        <div><menus /></div>
+        <div><menus :activeKey="['repair']" /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form
