@@ -69,7 +69,7 @@ class Order extends Base
     public function getDateAttribute()
     {
         if (!empty($this->created_at)) {
-            return $this->created_at->format('Y-m-d');
+            return $this->created_at->format('Y-m-d h:m a');
         }
 
     }
