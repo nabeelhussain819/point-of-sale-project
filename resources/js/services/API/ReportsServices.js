@@ -53,6 +53,14 @@ function getRefundStats(params = {}) {
 }
 
 
+function getPurchaseStats(params = {}) {
+    return request({
+        url: `${baseUrl}/get-purchase-stats`,
+        params
+    });
+}
+
+
 const ReportsService = {
     mainCategory,
     detail,
@@ -60,7 +68,8 @@ const ReportsService = {
     getSalesStats,
     getFinanceStats,
     getRepairStats,
-    getRefundStats
+    getRefundStats,
+    getPurchaseStats
 };
 
 export default ReportsService;

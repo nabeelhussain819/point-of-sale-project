@@ -45,7 +45,7 @@ class PurchaseOrder extends Base
     protected $dates = ['expected_date', 'received_date',];
     public $isReceiving = false;
 
-        public $appends = ['created_date', 'received_at'];
+    public $appends = ['created_date', 'received_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -90,7 +90,10 @@ class PurchaseOrder extends Base
 
     public function getCreatedDateAttribute()
     {
-        return $this->created_at->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
+        if (!empty($this->created_at)) {
+            return $this->created_at->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
+        }
+        return $this->created_at;
     }
 
     public function getReceivedAtAttribute()

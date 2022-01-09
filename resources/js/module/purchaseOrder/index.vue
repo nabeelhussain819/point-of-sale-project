@@ -2,7 +2,12 @@
     <div>
         <a-skeleton :loading="loading">
             <a-card title="Purchase Order" :bordered="false">
-                <a-form :form="form" @submit="handleSubmit" layout="inline">
+                <a-form
+                    v-if="showAdd"
+                    :form="form"
+                    @submit="handleSubmit"
+                    layout="inline"
+                >
                     <create />
                     <products-form-field />
                     <a-form-item
@@ -33,7 +38,10 @@ import List from "./list";
 import ProductsFormField from "./products-form-fields";
 import PurchaseOrderServices from "../../services/API/PurchaseOrderServices";
 export default {
-    props: { params: { type: Object, required: false, default: () => ({}) } },
+    props: {
+        params: { type: Object, required: false, default: () => ({}) },
+        showAdd: { type: Boolean, required: false, default: true }
+    },
     components: { create, ProductsFormField, List },
     data() {
         return {
@@ -74,12 +82,12 @@ export default {
             });
         },
         getFetch(postedFunction) {
-            console.log(postedFunction);
+            this.$emit("getFetch", postedFunction);
             this.fetchFinance = postedFunction;
         }
     },
     mounted() {
-        this.$emit("getFetch", this.getFetch);
+        this.$emit("getFetch", this.fetchFinance);
     }
 };
 </script>

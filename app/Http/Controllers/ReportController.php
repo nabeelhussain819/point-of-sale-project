@@ -179,6 +179,6 @@ class ReportController extends Controller
 
     public function getPurchaseStates(Request $request)
     {
-        return $this->getSerialsFromOrder($request)->get();
+        return $this->report_purchase_total($request)->get();
     }
 }

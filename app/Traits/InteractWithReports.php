@@ -6,6 +6,7 @@ use App\Models\Finance;
 use App\Models\FinancesSchedules;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\PurchaseOrder;
 use App\Models\Refund;
 use App\Models\RefundsProduct;
 use App\Models\Repair;
@@ -97,6 +98,14 @@ trait InteractWithReports
             })->whereExists(function (QueryBuilder $query) use ($request) {
                 return $query->from('repairs')
                     ->where('store_id', Store::currentId());
+            });
+    }
+
+    public function report_purchase_total(Request $request)
+    {
+        return PurchaseOrder::selectRaw("sum(price) as total")
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             });
     }
 

@@ -41,6 +41,7 @@
         </div>
         <div class="col-12 over">
             <purchase
+                :showAdd="false"
                 :showAddButton="false"
                 :params="params"
                 @getFetch="getFetch"
@@ -111,7 +112,6 @@ export default {
         };
     },
     mounted() {
-        console.log("asd")
         this.params = {
             date_range: [
                 this.getPastMoment(0).format(dateTimeFormat),
@@ -126,9 +126,10 @@ export default {
 
     methods: {
         fetch() {
-            ReportsService.getRepairStats(this.params).then(response => {
+            ReportsService.getPurchaseStats(this.params).then(response => {
                 this.summary = response[0];
             });
+           
             this.fetchFinance(this.params);
         },
         moment,
@@ -160,7 +161,6 @@ export default {
         },
 
         getFetch(postedFunction) {
-            console.log(postedFunction);
             this.fetchFinance = postedFunction;
         }
     }
