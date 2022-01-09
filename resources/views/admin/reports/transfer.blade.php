@@ -5,6 +5,6 @@
 @section('content')
 
     <div class="container bg-white">
-        <sales-report></sales-report>
+        <transfer-report></transfer-report>
     </div>
 @endsection

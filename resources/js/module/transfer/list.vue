@@ -8,7 +8,7 @@
         >
             <template slot="title">
                 <div class="w-100">
-                    <strong> Purchase order list</strong>
+                    <strong> Transfer order list</strong>
                     <a-button
                         v-on:click="showModal(true)"
                         class="float-right"
@@ -18,7 +18,7 @@
                 </div>
             </template>
             <span slot="action" slot-scope="text, record">
-                <span v-if="!record.received_at">
+                <span v-if="!record.received_at && showAdd">
                     <a-button @click="goto(record)" type="primary"
                         >Receive
                     </a-button>
@@ -113,6 +113,7 @@ const columns = [
     }
 ];
 export default {
+    props: { showAdd: { type: Boolean, required: false, default: true } },
     data() {
         return {
             columns,
@@ -125,6 +126,7 @@ export default {
         create
     },
     mounted() {
+        this.$emit("getFetch", this.fetch);
         this.fetch();
     },
     methods: {
@@ -151,7 +153,7 @@ export default {
         deletetransfer(item) {
             TransferServices.destroy(item.id).then(response => {
                 notification(this, response.message);
-                 this.fetch();
+                this.fetch();
             });
         },
         //move this into mixins

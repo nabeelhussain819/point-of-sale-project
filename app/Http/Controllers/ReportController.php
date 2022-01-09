@@ -174,7 +174,7 @@ class ReportController extends Controller
 
     public function getTransferStates(Request $request)
     {
-        return $this->report_repair_total($request)->get();
+        return $this->report_transfer_total($request)->get();
     }
 
     public function getPurchaseStates(Request $request)

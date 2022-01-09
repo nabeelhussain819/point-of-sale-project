@@ -52,7 +52,6 @@ function getRefundStats(params = {}) {
     });
 }
 
-
 function getPurchaseStats(params = {}) {
     return request({
         url: `${baseUrl}/get-purchase-stats`,
@@ -60,6 +59,12 @@ function getPurchaseStats(params = {}) {
     });
 }
 
+function getTransferStats(params = {}) {
+    return request({
+        url: `${baseUrl}/get-transfer-stats`,
+        params
+    });
+}
 
 const ReportsService = {
     mainCategory,
@@ -69,7 +74,8 @@ const ReportsService = {
     getFinanceStats,
     getRepairStats,
     getRefundStats,
-    getPurchaseStats
+    getPurchaseStats,
+    getTransferStats
 };
 
 export default ReportsService;

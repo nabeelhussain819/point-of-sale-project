@@ -97,6 +97,7 @@ const columns = [
     }
 ];
 export default {
+    params: { showAdd: { type: Boolean, required: false, default: true } },
     mixins: [pagination],
     data() {
         return {

@@ -83,11 +83,8 @@ export default {
         },
         getFetch(postedFunction) {
             this.$emit("getFetch", postedFunction);
-            this.fetchFinance = postedFunction;
         }
     },
-    mounted() {
-        this.$emit("getFetch", this.fetchFinance);
-    }
+    mounted() {}
 };
 </script>

@@ -210,7 +210,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/transfer', [ReportController::class, 'transfer']);
         Route::get('/get-transfer-stats', [ReportController::class, 'getTransferStates']);
 
-
         Route::get('/purchase', [ReportController::class, 'purchase']);
         Route::get('/get-purchase-stats', [ReportController::class, 'getPurchaseStates']);
 

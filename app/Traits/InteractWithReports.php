@@ -12,6 +12,7 @@ use App\Models\RefundsProduct;
 use App\Models\Repair;
 use App\Models\RepairsProduct;
 use App\Models\RepairsSchedules;
+use App\Models\StockTransfer;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -108,6 +109,15 @@ trait InteractWithReports
                 $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             });
     }
+
+    public function report_transfer_total(Request $request)
+    {
+        return StockTransfer::selectRaw("sum(price) as total")
+            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+                $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            });
+    }
+
 
     public function report_repairold(Request $request): Builder
     {

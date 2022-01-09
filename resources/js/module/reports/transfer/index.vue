@@ -30,31 +30,28 @@
                     </a-form-item>
                 </a-form>
             </div>
-            <div class="col-6">
-                <table class="table table-bordered ">
-                    <tr>
-                        <td>Total</td>
-                        <td>${{ summary.total }}</td>
-                    </tr>
-                     
-                </table>
-            </div>
+            <div class="col-6"></div>
         </div>
         <div class="col-12 over">
-            <repair :showAddButton="false" :params="params" @getFetch="getFetch" />
+            <transfer
+                :showAdd="false"
+                :showAddButton="false"
+                :params="params"
+                @getFetch="getFetch"
+            />
         </div>
     </div>
 </template>
 <script>
 import total from "../components/total";
-import repair from "../../repair/index.vue";
+import transfer from "../../transfer/index";
 
 import ReportsService from "../../../services/API/ReportsServices";
 
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total, repair },
+    components: { total, transfer },
     props: {
         showFooter: {
             default: () => false,
@@ -122,10 +119,10 @@ export default {
 
     methods: {
         fetch() {
-            ReportsService.getRepairStats(this.params).then(response => {
-                this.summary = response[0];
-             
-            });
+            // ReportsService.getTransferStats(this.params).then(response => {
+            //     this.summary = response[0];
+            // });
+
             this.fetchFinance(this.params);
         },
         moment,
