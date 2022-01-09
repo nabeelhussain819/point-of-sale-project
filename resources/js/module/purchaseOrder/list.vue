@@ -107,6 +107,7 @@ export default {
     },
     mounted() {
         this.fetch();
+        this.$emit("getFetch", this.fetch);
     },
     methods: {
         moment,

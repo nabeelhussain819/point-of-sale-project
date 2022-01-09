@@ -19,7 +19,7 @@
                 </a-form>
             </a-card>
         </a-skeleton>
-        <List />
+        <List @getFetch="getFetch" />
     </div>
 </template>
 <script>
@@ -33,6 +33,7 @@ import List from "./list";
 import ProductsFormField from "./products-form-fields";
 import PurchaseOrderServices from "../../services/API/PurchaseOrderServices";
 export default {
+    props: { params: { type: Object, required: false, default: () => ({}) } },
     components: { create, ProductsFormField, List },
     data() {
         return {
@@ -71,8 +72,14 @@ export default {
                         .finally(() => (this.loading = false));
                 }
             });
+        },
+        getFetch(postedFunction) {
+            console.log(postedFunction);
+            this.fetchFinance = postedFunction;
         }
     },
-    mounted() {}
+    mounted() {
+        this.$emit("getFetch", this.getFetch);
+    }
 };
 </script>

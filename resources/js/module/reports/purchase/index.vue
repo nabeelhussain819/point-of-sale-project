@@ -36,25 +36,28 @@
                         <td>Total</td>
                         <td>${{ summary.total }}</td>
                     </tr>
-                     
                 </table>
             </div>
         </div>
         <div class="col-12 over">
-            <repair :showAddButton="false" :params="params" @getFetch="getFetch" />
+            <purchase
+                :showAddButton="false"
+                :params="params"
+                @getFetch="getFetch"
+            />
         </div>
     </div>
 </template>
 <script>
 import total from "../components/total";
-import repair from "../../repair/index.vue";
+import purchase from "../../purchaseOrder/index";
 
 import ReportsService from "../../../services/API/ReportsServices";
 
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total, repair },
+    components: { total, purchase },
     props: {
         showFooter: {
             default: () => false,
@@ -108,6 +111,7 @@ export default {
         };
     },
     mounted() {
+        console.log("asd")
         this.params = {
             date_range: [
                 this.getPastMoment(0).format(dateTimeFormat),
@@ -124,7 +128,6 @@ export default {
         fetch() {
             ReportsService.getRepairStats(this.params).then(response => {
                 this.summary = response[0];
-             
             });
             this.fetchFinance(this.params);
         },
@@ -157,6 +160,7 @@ export default {
         },
 
         getFetch(postedFunction) {
+            console.log(postedFunction);
             this.fetchFinance = postedFunction;
         }
     }
