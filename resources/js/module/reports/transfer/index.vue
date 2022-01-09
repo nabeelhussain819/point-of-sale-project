@@ -1,5 +1,6 @@
 <template>
     <div class="row ">
+        <div><menus /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form
@@ -45,13 +46,13 @@
 <script>
 import total from "../components/total";
 import transfer from "../../transfer/index";
-
+import menus from "../components/menus";
 import ReportsService from "../../../services/API/ReportsServices";
 
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total, transfer },
+    components: { total, transfer, menus },
     props: {
         showFooter: {
             default: () => false,

@@ -1,5 +1,6 @@
 <template>
     <div class="row ">
+           <div><menus /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form
@@ -166,9 +167,10 @@ import DepartmentService from "../../../services/API/DepartmentService";
 import ReportsService from "../../../services/API/ReportsServices";
 import OrderService from "../../../services/API/OrderServices";
 import moment from "moment";
+import menus from "../components/menus";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total },
+    components: { total,menus },
     props: {
         showFooter: {
             default: () => false,

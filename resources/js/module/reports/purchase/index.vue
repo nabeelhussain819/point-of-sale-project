@@ -1,5 +1,6 @@
 <template>
     <div class="row ">
+        <div><menus /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form
@@ -52,13 +53,13 @@
 <script>
 import total from "../components/total";
 import purchase from "../../purchaseOrder/index";
-
+import menus from "../components/menus";
 import ReportsService from "../../../services/API/ReportsServices";
 
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total, purchase },
+    components: { total, purchase, menus },
     props: {
         showFooter: {
             default: () => false,
@@ -129,7 +130,7 @@ export default {
             ReportsService.getPurchaseStats(this.params).then(response => {
                 this.summary = response[0];
             });
-           
+
             this.fetchFinance(this.params);
         },
         moment,

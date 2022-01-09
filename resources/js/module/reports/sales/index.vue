@@ -1,5 +1,6 @@
 <template>
     <div class="row ">
+        <div><menus /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form
@@ -142,7 +143,9 @@
         >
             <ul>
                 <li v-for="order in orderIds" :key="order.id">
-                    <a @click="goto(order.order_id)">Order Number {{ order.order_id }}</a>
+                    <a @click="goto(order.order_id)"
+                        >Order Number {{ order.order_id }}</a
+                    >
                 </li>
             </ul>
         </a-modal>
@@ -150,6 +153,7 @@
 </template>
 <script>
 import total from "../components/total";
+import menus from "../components/menus";
 import CategoryService from "../../../services/API/CategoryService";
 import DepartmentService from "../../../services/API/DepartmentService";
 import ReportsService from "../../../services/API/ReportsServices";
@@ -157,7 +161,7 @@ import OrderService from "../../../services/API/OrderServices";
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total },
+    components: { total, menus },
     props: {
         showFooter: {
             default: () => false,

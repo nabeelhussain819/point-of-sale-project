@@ -1,5 +1,6 @@
 <template>
     <div class="row ">
+        <div><menus /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form
@@ -36,25 +37,28 @@
                         <td>Total</td>
                         <td>${{ summary.total }}</td>
                     </tr>
-                     
                 </table>
             </div>
         </div>
         <div class="col-12 over">
-            <repair :showAddButton="false" :params="params" @getFetch="getFetch" />
+            <repair
+                :showAddButton="false"
+                :params="params"
+                @getFetch="getFetch"
+            />
         </div>
     </div>
 </template>
 <script>
 import total from "../components/total";
 import repair from "../../repair/index.vue";
-
+import menus from "../components/menus";
 import ReportsService from "../../../services/API/ReportsServices";
 
 import moment from "moment";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total, repair },
+    components: { total, repair, menus },
     props: {
         showFooter: {
             default: () => false,
@@ -124,7 +128,6 @@ export default {
         fetch() {
             ReportsService.getRepairStats(this.params).then(response => {
                 this.summary = response[0];
-             
             });
             this.fetchFinance(this.params);
         },
