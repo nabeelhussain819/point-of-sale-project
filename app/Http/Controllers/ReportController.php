@@ -188,9 +188,9 @@ class ReportController extends Controller
         return $this->report_purchase_total($request)->get();
     }
 
-    public function getInventoryStates()
+    public function getInventoryStates(Request $request)
     {
 //        dd(Inventory::getLogs());
-        return Inventory::getLogs();
+        return Inventory::getLogs($request);
     }
 }

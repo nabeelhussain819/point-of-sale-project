@@ -1,6 +1,6 @@
 <template>
     <div class="row ">
-           <div><menus  :activeKey="['refund']"/></div>
+        <div><menus :activeKey="['finance']" /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form
@@ -31,16 +31,6 @@
                     </a-form-item>
                 </a-form>
             </div>
-            <div class="col-6">
-           <table class="table table-bordered">        
-            <tr>
-                <td>Total</td>
-                <!-- // this is  jugard should be from DB  -->
-                <td>${{  summary.total}}</td>
-            </tr>
-          
-        </table>
-             </div>
         </div>
         <div class="col-12 over">
             <a-table
@@ -49,128 +39,34 @@
                 :columns="columns"
                 :data-source="data"
             >
-                <!-- <a
+                <span
                     slot="name"
                     class="text-capitalize text-primary"
                     slot-scope="text, row"
                 >
-                    <span @click="showOrders(row)" type="link">
-                        {{ text }}
-                    </span>
-                </a> -->
-                <a slot="total" class="text-capitalize" slot-scope="text"
-                    >{{ text }}$</a
-                >
-                <div
-                    slot="filterDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px"
-                >
-                    <a-input
-                        v-ant-ref="c => (searchInput = c)"
-                        :placeholder="`Search ${column.dataIndex}`"
-                        :value="selectedKeys[0]"
-                        style="width: 188px; margin-bottom: 8px; display: block"
-                        @change="
-                            e =>
-                                setSelectedKeys(
-                                    e.target.value ? [e.target.value] : []
-                                )
-                        "
-                        @pressEnter="() => handleSearch(selectedKeys, column)"
-                    />
-                    <a-button
-                        type="primary"
-                        icon="search"
-                        size="small"
-                        style="width: 90px; margin-right: 8px"
-                        @click="() => handleSearch(selectedKeys, column)"
-                    >
-                        Search
-                    </a-button>
-                    <a-button
-                        size="small"
-                        style="width: 90px"
-                        @click="() => handleReset(selectedKeys, column)"
-                    >
-                        Reset
-                    </a-button>
-                </div>
-
-                <!-- Category search  -->
-                <div
-                    slot="catgoryDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px;   min-width: 200px;"
-                >
-                    <a-select
-                        style="width: 100%"
-                        @change="value => handleSearch([value], column)"
-                    >
-                        <a-select-option
-                            v-for="category in categories"
-                            :key="category.id"
-                        >
-                            {{ category.name }}
-                        </a-select-option>
-                    </a-select>
-                </div>
-                <!-- Category search  -->
-                <!-- Department search  -->
-                <div
-                    slot="departmentDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px;    min-width: 200px;"
-                >
-                    <a-select
-                        class="w-100"
-                        style="width: 100%"
-                        @change="value => handleSearch([value], column)"
-                    >
-                        <a-select-option
-                            v-for="department in departments"
-                            :key="department.id"
-                        >
-                            {{ department.name }}
-                        </a-select-option>
-                    </a-select>
-                </div>
-                <!-- Deparment search  -->
-
-                <template slot="footer">
-                    <div v-if="showFooter" class="text-right">
-                        <strong>Total</strong> {{ data.total }}
-                    </div>
-                </template>
+                    {{row.name}}
+                </span>
+                <span slot="inProduct" slot-scope="text, row">
+                    {{ getInProperties(row) }}
+                </span>
+                <span slot="outProduct" slot-scope="text, row">
+                    {{ getOutProperties(row) }}
+                </span>
             </a-table>
         </div>
-
-        <a-modal
-            @cancel="handleModal(false)"
-            :visible="showOrderModal"
-            title="Order"
-        >
-            <ul>
-                <li v-for="order in orderIds" :key="order.id">
-                    <a @click="goto(order.order_id)"
-                        >Order Number {{ order.order_id }}</a
-                    >
-                </li>
-            </ul>
-        </a-modal>
     </div>
 </template>
 <script>
 import total from "../components/total";
-import CategoryService from "../../../services/API/CategoryService";
-import DepartmentService from "../../../services/API/DepartmentService";
-import ReportsService from "../../../services/API/ReportsServices";
-import OrderService from "../../../services/API/OrderServices";
-import moment from "moment";
+
 import menus from "../components/menus";
+import ReportsService from "../../../services/API/ReportsServices";
+
+import moment from "moment";
+import { isEmpty } from "../../../services/helpers";
 const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss";
 export default {
-    components: { total,menus },
+    components: { total, menus },
     props: {
         showFooter: {
             default: () => false,
@@ -183,14 +79,8 @@ export default {
             columns: [
                 {
                     title: "Name",
-                    dataIndex: "product.name",
                     key: "name",
                     scopedSlots: { customRender: "name" }
-                },
-                {
-                    title: "Amount",
-                    dataIndex: "total",
-                    key: "total"
                 },
                 {
                     title: "Quantity",
@@ -198,22 +88,14 @@ export default {
                     key: "quantity"
                 },
                 {
-                    title: "Category",
-                    dataIndex: "product.category.name",
-                    key: "category_id",
-                    scopedSlots: {
-                        filterDropdown: "catgoryDropdown",
-                        filterIcon: "filterIcon"
-                    }
+                    title: "In",
+                    key: "in",
+                    scopedSlots: { customRender: "inProduct" }
                 },
                 {
-                    title: "Department",
-                    dataIndex: "product.department.name",
-                    key: "department_id",
-                    scopedSlots: {
-                        filterDropdown: "departmentDropdown",
-                        filterIcon: "filterIcon"
-                    }
+                    title: "out",
+                    key: "out",
+                    scopedSlots: { customRender: "outProduct" }
                 }
             ],
             filters: {},
@@ -224,42 +106,31 @@ export default {
             formLayout: "vertical",
             form: this.$form.createForm(this, { name: "addRepair" }),
             showOrderModal: false,
-            orderIds: []
+            orderIds: [],
+            fetchFinance: () => {}
         };
     },
     mounted() {
-        this.fetchCategoryService();
-        this.fetchDepartmentService();
         this.params = {
             date_range: [
                 this.getPastMoment(0).format(dateTimeFormat),
                 moment()
                     .set({ h: 23, m: 59 })
                     .format(dateTimeFormat)
-            ]
+            ],
+            apply_on_update: true
         };
-        this.fetch(this.params);
+        this.fetch();
     },
 
     methods: {
-        fetch(params) {
-            ReportsService.getRefundStats(params).then(response => {
-                     this.data = response.data;
-                 this.summary = response.summary[0];
-              //  this.data = response;
+        fetch() {
+            ReportsService.getInventoryStats(this.params).then(response => {
+                console.log(response);
+                this.data = response;
             });
         },
         moment,
-        fetchCategoryService() {
-            CategoryService.all().then(data => {
-                this.categories = data;
-            });
-        },
-        fetchDepartmentService() {
-            DepartmentService.all().then(data => {
-                this.departments = data;
-            });
-        },
         getPastMoment(days) {
             return moment()
                 .subtract(days, "days")
@@ -275,15 +146,7 @@ export default {
             this.params = params;
             this.fetch(this.params);
         },
-        showOrders(row) {
-            OrderService.getIds({ ...this.params, ...row })
-                .then(response => {
-                    this.orderIds = response;
-                })
-                .then(() => {
-                    this.handleModal(true);
-                });
-        },
+
         handleSearch(value, column) {
             let filters = this.params;
             filters[column.key] = value[0];
@@ -293,11 +156,25 @@ export default {
             this.params = params;
             this.fetch(this.params);
         },
-        handleModal(show) {
-            this.showOrderModal = show;
+        getName(getName) {
+            return getName.name;
+            // const response = JSON.parse(getName);
+            // return response.name;
         },
-        goto(order) {
-            window.location = "/sales?order_id=" + order;
+        getInProperties(row) {
+            let property = JSON.parse(row.properties);
+            if (!isEmpty(property[0])) {
+                return property[0].attributes.quantity;
+            }
+            return 0;
+        },
+        getOutProperties(row) {
+            let property = JSON.parse(row.properties);
+            if (!isEmpty(property)) {
+                if (!isEmpty(property.at(-1).old))
+                    return property.at(-1).old.quantity;
+            }
+            return 0;
         }
     }
 };

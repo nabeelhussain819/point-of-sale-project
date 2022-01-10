@@ -66,6 +66,13 @@ function getTransferStats(params = {}) {
     });
 }
 
+function getInventoryStats(params = {}) {
+    return request({
+        url: `${baseUrl}/get-inventory-stats`,
+        params
+    });
+}
+
 const ReportsService = {
     mainCategory,
     detail,
@@ -75,7 +82,8 @@ const ReportsService = {
     getRepairStats,
     getRefundStats,
     getPurchaseStats,
-    getTransferStats
+    getTransferStats,
+    getInventoryStats
 };
 
 export default ReportsService;

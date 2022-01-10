@@ -287,16 +287,18 @@ class Inventory extends Base
     }
 
 
-    public static function getLogs()
+    public static function getLogs(Request $request)
     {
+        $date_range = $request->get('date_range');
         $storeId = Store::currentId();
-        return \DB::select("SELECT product.name ,invt.quantity,invt.\"id\",json_agg(activity_log.properties),invt.store_id,invt.created_at
+        return \DB::select("SELECT product.name ,invt.quantity,invt.\"id\",json_agg(activity_log.properties) as properties,invt.store_id,invt.created_at
                         from inventories as invt
                         join products as product on  invt.product_id = product.id
                         join activity_log as activity_log on invt.id = activity_log.subject_id
                         where
                          activity_log.subject_type = 'App\Models\Inventory'
                         and store_id = $storeId
+                        and invt.created_at BETWEEN '$date_range[0]'AND '$date_range[1]'
                         GROUP BY invt.\"id\",product.name");
 
     }
