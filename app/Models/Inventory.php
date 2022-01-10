@@ -11,6 +11,7 @@ use App\Traits\AppliesQueryParams;
 use Illuminate\Database\Eloquent\Builder as eloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
@@ -283,5 +284,20 @@ class Inventory extends Base
     {
         return Inventory::select(self::defaultSelect())
             ->where('product_id', $productId)->firstOrFail();
+    }
+
+
+    public static function getLogs()
+    {
+        $storeId = Store::currentId();
+        return \DB::select("SELECT product.name ,invt.quantity,invt.\"id\",json_agg(activity_log.properties),invt.store_id,invt.created_at
+                        from inventories as invt
+                        join products as product on  invt.product_id = product.id
+                        join activity_log as activity_log on invt.id = activity_log.subject_id
+                        where
+                         activity_log.subject_type = 'App\Models\Inventory'
+                        and store_id = $storeId
+                        GROUP BY invt.\"id\",product.name");
+
     }
 }

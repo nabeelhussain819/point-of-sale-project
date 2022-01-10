@@ -22,17 +22,17 @@
         </a-card>
         <a-alert type="info" show-icon message=" STORE POLICY">
             <div slot="description">
-                <ul>
+                <ol>
                     <li>
-                        STORE POLICY 1. Products Phone, IPads, tablets, modems,
-                        watches, bluetooth devices and other gadgets These
-                        products (if unopened, no account created, and no sim
-                        inserted) are refundable within seven days, however, a
-                        restocking fee of 25% (or a fee of $150, whichever is
-                        greater) will apply. Items need to be exchanged or
-                        returned in the original condition. Items that are
-                        damaged, unsanitary, dented, scratched or missing major
-                        contents may be denied an exchange or return.
+                        Products Phone, IPads, tablets, modems, watches,
+                        bluetooth devices and other gadgets These products (if
+                        unopened, no account created, and no sim inserted) are
+                        refundable within seven days, however, a restocking fee
+                        of 25% (or a fee of $150, whichever is greater) will
+                        apply. Items need to be exchanged or returned in the
+                        original condition. Items that are damaged, unsanitary,
+                        dented, scratched or missing major contents may be
+                        denied an exchange or return.
                     </li>
                     <li>
                         Accessories Non refundable, can be exchanged within
@@ -45,7 +45,7 @@
                             aminali727@yahoo.com</strong
                         >
                     </li>
-                </ul>
+                </ol>
             </div></a-alert
         >
     </div>

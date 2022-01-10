@@ -46,6 +46,7 @@ Vue.component('repair-report', require('./module/reports/repair/index').default)
 Vue.component('transfer-report', require('./module/reports/transfer/index').default);
 Vue.component('purchase-report', require('./module/reports/purchase/index').default);
 Vue.component('repair-return', require('./module/reports/return/index').default);
+Vue.component('inventory-report', require('./module/reports/return/index').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Store;
 use App\Traits\InteractWithReports;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Permission\Models\Role;
 
 class ReportController extends Controller
@@ -51,6 +53,10 @@ class ReportController extends Controller
         return view('admin.reports.purchase');
     }
 
+    public function inventory()
+    {
+        return view('admin.reports.inventory');
+    }
 
     public function entitySearch(Request $request)
     {
@@ -180,5 +186,11 @@ class ReportController extends Controller
     public function getPurchaseStates(Request $request)
     {
         return $this->report_purchase_total($request)->get();
+    }
+
+    public function getInventoryStates()
+    {
+//        dd(Inventory::getLogs());
+        return Inventory::getLogs();
     }
 }

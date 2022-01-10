@@ -32,14 +32,14 @@
                 </a-form>
             </div>
             <div class="col-6">
-                   
+           <table class="table table-bordered">        
             <tr>
                 <td>Total</td>
                 <!-- // this is  jugard should be from DB  -->
                 <td>${{  summary.total}}</td>
             </tr>
           
-        </a-table>
+        </table>
              </div>
         </div>
         <div class="col-12 over">

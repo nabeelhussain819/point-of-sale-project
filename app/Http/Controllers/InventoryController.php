@@ -20,6 +20,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\Models\Activity;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use \Illuminate\Database\Eloquent\Builder as eloquentBuilder;
 
@@ -166,7 +167,6 @@ class InventoryController extends Controller
             ->with(['bin' => function (BelongsTo $belongsTo) {
                 $belongsTo->select(['name', 'id']);
             }])
-
             ->orderBy('name')
             ->paginate($this->pageSize);
     }
@@ -243,5 +243,11 @@ class InventoryController extends Controller
             return true;
         }
         return $this->genericResponse(false, "no item available in store", 409, ["code" => 409]);
+    }
+
+    public function log()
+    {
+        return Activity::getChangesAttribute();
+
     }
 }
