@@ -1,6 +1,6 @@
 <template>
     <div class="row ">
-        <div><menus :activeKey="['finance']" /></div>
+        <div><menus :activeKey="['inventory']" /></div>
         <div class="row col-12">
             <div class="col-6">
                 <a-form

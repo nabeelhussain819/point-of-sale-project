@@ -19,7 +19,7 @@
             <i class="fas fa-money-check-alt"></i>
             <span> Sales</span>
         </a>
-        <a href="{{route("reports")}}" class="col-1 menu-header-icon">
+        <a href="/reports/sales" class="col-1 menu-header-icon">
             <i class="far fa-file-image"></i>
             <span> Reports</span>
         </a>
@@ -38,10 +38,10 @@
             <span>  Tracking</span>
         </a>
 
-{{--        <a href="{{route("roles.index")}}" class="col-1 menu-header-icon">--}}
-{{--            <i class="fas fa-user-cog"></i>--}}
-{{--            <span> Settings</span>--}}
-{{--        </a>--}}
+        {{--        <a href="{{route("roles.index")}}" class="col-1 menu-header-icon">--}}
+        {{--            <i class="fas fa-user-cog"></i>--}}
+        {{--            <span> Settings</span>--}}
+        {{--        </a>--}}
 
     </div>
 </div>

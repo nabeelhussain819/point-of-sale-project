@@ -19,6 +19,10 @@
             <a-menu-item key="finance"
                 ><a href="/reports/finance">Finance</a>
             </a-menu-item>
+            <a-menu-item key="inventory"
+                ><a href="/reports/inventory">Inventory</a>
+            </a-menu-item>
+           
         </a-menu>
     </div>
 </template>
