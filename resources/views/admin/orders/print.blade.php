@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             @foreach($order->products as $product)
-                <tr class="@if(!empty($product->refund_id))strikeout    @endif" >
+                <tr class="@if(!empty($product->refund_id))strikeout    @endif">
 
                     <td class="quantity">{{$product->quantity}}</td>
                     <td class="description">{{$product->product->name}}
@@ -54,7 +54,7 @@
 
             </tr>
             <tr>
-                <td colspan="3" class="sumary-heading">Tax $ </td>
+                <td colspan="3" class="sumary-heading">Tax $</td>
 
 
                 <td class="price">{{$order->sub_total - $order->without_tax}}$</td>
@@ -74,13 +74,38 @@
             </tbody>
         </table>
         <p class="centered">
-            <strong>Thank you for your business!</strong>
-{{--            Payment is--}}
-{{--            expected within 15 days; please process this invoice--}}
-{{--            within that time. There will be a 5% interest charge per--}}
-{{--            month on late invoices.--}}
+            <h5>STORE POLICY</h5>
+        <ol style="padding: 0;  ">
+            <li>
+                Products Phone, IPads, tablets, modems, watches,
+                bluetooth devices and other gadgets These products (if
+                unopened, no account created, and no sim inserted) are
+                refundable within seven days, however, a restocking fee
+                of 25% (or a fee of $150, whichever is greater) will
+                apply. Items need to be exchanged or returned in the
+                original condition. Items that are damaged, unsanitary,
+                dented, scratched or missing major contents may be
+                denied an exchange or return.
+            </li>
+            <li>
+                Accessories Non refundable, can be exchanged within
+                seven days. Must be in original condition and requires
+                the original packaging. Further policies are posted on
+                the counter For any questions or concerns, contact the
+                general manager <br/>
+                <strong
+                >(see below for details) 703- 743-4384
+                    aminali727@yahoo.com</strong
+                >
+            </li>
+        </ol>
+        <strong>Thank you for your business!</strong>
+        {{--            Payment is--}}
+        {{--            expected within 15 days; please process this invoice--}}
+        {{--            within that time. There will be a 5% interest charge per--}}
+        {{--            month on late invoices.--}}
         </p>
-{{--        <div class="design_by">Software Design by www.Afnato.com</div>--}}
+        {{--        <div class="design_by">Software Design by www.Afnato.com</div>--}}
     </div>
 </div>
 <button id="btnPrint" class="hidden-print">Print</button>
@@ -170,6 +195,7 @@
         text-align: center;
         -webkit-print-color-adjust: exact;
     }
+
     tr.strikeout td {
         text-decoration: line-through;
     }
