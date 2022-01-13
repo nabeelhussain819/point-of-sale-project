@@ -17,6 +17,9 @@
                     >
                 </div>
             </template>
+            <span slot="view" slot-scope="text, record">
+                <a :href="'/inventory-management/transfer-view/' + record.id">View</a>
+            </span>
             <span slot="action" slot-scope="text, record">
                 <span v-if="!record.received_at && showAdd">
                     <a-button @click="goto(record)" type="primary"
@@ -110,6 +113,11 @@ const columns = [
         dataIndex: "total",
         key: "total",
         scopedSlots: { customRender: "action" }
+    },
+    {
+        title: "View",
+        key: "view",
+        scopedSlots: { customRender: "view" }
     }
 ];
 export default {

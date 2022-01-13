@@ -43,4 +43,9 @@ class StockTransferProduct extends Base
     {
         return $this->belongsTo('App\Models\StockTransfer');
     }
+
+    public function getSerialNumbers()
+    {
+        return ProductSerialNumbers::getTransferSerialProduct($this->product_id, $this->stock_transfer_id)->get();
+    }
 }
