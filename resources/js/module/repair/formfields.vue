@@ -239,6 +239,7 @@
 
                     <a-col :span="4">
                         <a-form-item label="Model">
+                            <!-- 3. Model section remove X from in repair when new repair is created Afzaal, 1/14/2022 2:46 AM-->
                             <a-select
                                 :showSearch="true"
                                 :filter-option="filterOption"
@@ -251,6 +252,7 @@
                                         initialValue: product.product
                                     }
                                 ]"
+                                :disabled="isCreated"
                                 placeholder="Select a option and change input text above"
                             >
                                 <a-select-option
