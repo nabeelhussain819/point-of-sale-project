@@ -248,4 +248,10 @@ class TransferController extends Controller
             ->orderBy("created_at", 'desc')
             ->paginate($this->pageSize);
     }
+
+    public function show(StockTransfer $transfer)
+    {
+        return view('admin.transfers.show', ["transfer" => $transfer]);
+    }
+
 }

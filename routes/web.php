@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/stock-transfer', [TransferController::class, 'store'])->name('transfer.store');
         Route::get('/stock-transfer/all', [TransferController::class, 'all']);
         Route::get('/stock-transfer/{transfer}', [TransferController::class, 'received'])->name('transfer.received');
-
+        Route::get('/transfer-view/{transfer}', [TransferController::class, 'show'])->name('transfer.show');
         Route::delete('/stock-transfer/{transfer}', [TransferController::class, 'delete'])->name('transfer.delete');
 
         Route::post('/stock-transfer-received/{transfer}', [TransferController::class, 'markAsReceived'])->name('transfer.markasreceived');
