@@ -88,7 +88,6 @@ class OrderController extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
-
             });
 
             $data = ArrayHelper::merge($summary, [
