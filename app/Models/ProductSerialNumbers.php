@@ -40,6 +40,13 @@ class ProductSerialNumbers extends Base
             ->where('product_id', $productId);
     }
 
+    public static function getPurchaseProduct(int $productId, int $purchase)
+    {
+        return ProductSerialNumbers::select(['id', 'store_id', 'product_id', 'serial_no',])
+            ->where('purchase_order_id', $purchase)
+            ->where('product_id', $productId);
+    }
+
     public static function updateStatusSold(int $productId, int $storeId, string $serialNo, array $subject, bool $isSold = true, $attributes = [])
     {
         $product = ProductSerialNumbers::where('store_id', $storeId)

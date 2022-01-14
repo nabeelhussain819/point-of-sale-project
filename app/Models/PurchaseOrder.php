@@ -88,6 +88,7 @@ class PurchaseOrder extends Base
         return $this->belongsToMany(ProductSerialNumbers::class, 'product_serial_numbers', 'purchase_order_id', 'purchase_order_id');
     }
 
+
     public function getCreatedDateAttribute()
     {
         if (!empty($this->created_at)) {

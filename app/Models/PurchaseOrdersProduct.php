@@ -50,4 +50,10 @@ class PurchaseOrdersProduct extends Base
     {
         return $this->belongsTo('App\Models\PurchaseOrder');
     }
+
+    public function getSerialNumbers()
+    {
+        return ProductSerialNumbers::getPurchaseProduct($this->product_id, $this->purchase_order_id)->get();
+    }
+
 }

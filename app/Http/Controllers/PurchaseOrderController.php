@@ -115,7 +115,7 @@ class PurchaseOrderController extends Controller
      */
     public function show(PurchaseOrder $purchaseOrder)
     {
-        //
+        return view('admin.purchase_order.show', ["purchaseOrder" => $purchaseOrder]);
     }
 
     /**
