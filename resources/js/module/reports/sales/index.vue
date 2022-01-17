@@ -143,9 +143,17 @@
         >
             <ul>
                 <li v-for="order in orderIds" :key="order.id">
-                    <a @click="goto(order.order_id)"
-                        >Order Number {{ order.order_id }}</a
+                    <a-button type="link" @click="goto(order.order_id)"
+                        >Order Number {{ order.order_id }}</a-button
                     >
+                </li>
+            </ul>
+
+            <h2>Serial Number</h2>
+
+            <ul>
+                <li v-for="serial in serialNumbers" :key="serial.serial_number">
+                    <span>{{ serial.serial_number }}</span>
                 </li>
             </ul>
         </a-modal>
@@ -210,7 +218,8 @@ export default {
             formLayout: "vertical",
             form: this.$form.createForm(this, { name: "addRepair" }),
             showOrderModal: false,
-            orderIds: []
+            orderIds: [],
+            serialNumbers: []
         };
     },
     mounted() {
@@ -266,8 +275,18 @@ export default {
                     this.orderIds = response;
                 })
                 .then(() => {
+                    this.fetchSerials(row.product_id);
                     this.handleModal(true);
                 });
+        },
+        fetchSerials(product_id, params = {}) {
+            ReportsService.getReportSerials({
+                product_id,
+                ...this.params,
+                ...params
+            }).then(serialNumbers => {
+                this.serialNumbers = serialNumbers;
+            });
         },
         handleSearch(value, column) {
             let filters = this.params;
