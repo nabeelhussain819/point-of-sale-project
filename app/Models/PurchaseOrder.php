@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Base;
 use App\Helpers\DateTimeHelper;
 use App\Observers\PurchaseOrderObserver;
+use App\Scopes\StoreGlobalScope;
 use App\Traits\InteractWithProducts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -79,7 +80,7 @@ class PurchaseOrder extends Base
     public static function boot()
     {
         parent::boot();
-
+        static::addGlobalScope(new StoreGlobalScope);
         PurchaseOrder::observe(PurchaseOrderObserver::class);
     }
 

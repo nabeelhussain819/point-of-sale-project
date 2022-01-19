@@ -1,0 +1,23 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: user
+ * Date: 3/24/2021
+ * Time: 5:13 AM
+ */
+
+namespace App\Scopes;
+
+use App\Models\Store;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Scope;
+
+class TransferStockStoreGlobalScope implements Scope
+{
+    public function apply(Builder $builder, Model $model)
+    {
+        $builder->orWhere('store_in_id', Store::currentId())
+            ->orWhere('store_out_id', Store::currentId());
+    }
+}

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Base;
 use App\Helpers\DateTimeHelper;
 use App\Observers\StockTransferObserver;
+use App\Scopes\TransferStockStoreGlobalScope;
 use App\Traits\InteractWithProducts;
 
 /**
@@ -96,7 +97,7 @@ class StockTransfer extends Base
     public static function boot()
     {
         parent::boot();
-
+        static::addGlobalScope(new TransferStockStoreGlobalScope());
         StockTransfer::observe(StockTransferObserver::class);
     }
 
