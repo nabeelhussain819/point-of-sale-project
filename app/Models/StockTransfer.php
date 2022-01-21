@@ -97,7 +97,7 @@ class StockTransfer extends Base
     public static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new TransferStockStoreGlobalScope());
+//        static::addGlobalScope(new TransferStockStoreGlobalScope());
         StockTransfer::observe(StockTransferObserver::class);
     }
 
