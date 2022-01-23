@@ -13,6 +13,7 @@ use App\Models\Store;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
@@ -238,6 +239,7 @@ class TransferController extends Controller
 
     public function all(Request $request)
     {
+
         return StockTransfer::select(['id', 'transfer_date', 'store_in_id', 'store_out_id', 'received_date', 'created_at'])
             ->with(['storeOut' => function (BelongsTo $builder) {
                 $builder->select(['id', 'name']);
@@ -245,6 +247,10 @@ class TransferController extends Controller
                 $builder->select(['id', 'name']);
             }])
             ->where($this->applyFilters($request))
+            ->where(function (\Illuminate\Database\Eloquent\Builder $builder) {
+                $builder->orWhere("store_in_id", Store::currentId())
+                    ->orWhere('store_out_id', Store::currentId());
+            })
             ->orderBy("created_at", 'desc')
             ->paginate($this->pageSize);
     }
