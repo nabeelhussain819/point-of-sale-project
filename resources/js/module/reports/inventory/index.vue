@@ -44,7 +44,7 @@
                     class="text-capitalize text-primary"
                     slot-scope="text, row"
                 >
-                    {{row.name}}
+                    {{ row.name }}
                 </span>
                 <span slot="inProduct" slot-scope="text, row">
                     {{ getInProperties(row) }}
@@ -162,13 +162,43 @@ export default {
             // return response.name;
         },
         getInProperties(row) {
+            //quantity > first
+            const first = this.firstActivityLog(row);
+            const second = this.lastActivityLog(row);
+            if (first > second) {
+                return first - second;
+            }
+            return 0;
+            // quantity last
+            // let property = JSON.parse(row.properties);
+            // if (!isEmpty(property[0])) {
+            //     return property[0].attributes.quantity;
+            // }
+            // return 0;
+        },
+        getOutProperties(row) {
+            const first = this.firstActivityLog(row);
+            const second = this.lastActivityLog(row);
+
+            if (first < second) {
+                return second - first;
+            }
+            return 0;
+            // let property = JSON.parse(row.properties);
+            // if (!isEmpty(property)) {
+            //     if (!isEmpty(property.at(-1).old))
+            //         return property.at(-1).old.quantity;
+            // }
+            // return 0;
+        },
+        firstActivityLog(row) {
             let property = JSON.parse(row.properties);
             if (!isEmpty(property[0])) {
                 return property[0].attributes.quantity;
             }
             return 0;
         },
-        getOutProperties(row) {
+        lastActivityLog(row) {
             let property = JSON.parse(row.properties);
             if (!isEmpty(property)) {
                 if (!isEmpty(property.at(-1).old))
