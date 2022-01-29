@@ -191,6 +191,34 @@ class ReportController extends Controller
     public function getInventoryStates(Request $request)
     {
 //        dd(Inventory::getLogs());
-        return Inventory::getLogs($request);
+        $dat = Inventory::getLogs($request);
+
+        return collect($dat)->map(function ($inventory) use (&$in, &$out) {
+            $properties = json_decode($inventory->properties);
+
+            $in = 0;
+            $out = 0;
+            if (!empty($properties)) {
+                collect($properties)->each(function ($property) use (&$in, &$out) {
+                    if (!empty($property->old)) {
+                        $quantity = $property->attributes->quantity;
+                        $oldQuantity = $property->old->quantity;
+
+//                        sales matlab out
+                        if ($oldQuantity > $quantity) {
+                            $out++;
+                        } // IN
+                        elseif ($oldQuantity < $quantity) {
+                            $in++;
+                        }
+                    }
+                });
+            }
+            $inventory->in = $in;
+            $inventory->out = $out;
+            return $inventory;
+        });
+
+        //  return Inventory::getLogs($request);
     }
 }

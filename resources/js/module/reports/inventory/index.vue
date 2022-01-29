@@ -90,12 +90,14 @@ export default {
                 {
                     title: "In",
                     key: "in",
-                    scopedSlots: { customRender: "inProduct" }
+                    dataIndex: "in"
+                    // scopedSlots: { customRender: "inProduct" }
                 },
                 {
                     title: "out",
                     key: "out",
-                    scopedSlots: { customRender: "outProduct" }
+                    dataIndex: "out"
+                    // scopedSlots: { customRender: "outProduct" }
                 }
             ],
             filters: {},
