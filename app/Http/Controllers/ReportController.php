@@ -193,31 +193,45 @@ class ReportController extends Controller
 //        dd(Inventory::getLogs());
         $dat = Inventory::getLogs($request);
 
-        return collect($dat)->map(function ($inventory) use (&$in, &$out) {
+        $i = collect($dat)->map(function ($inventory) use (&$in, &$out) {
             $properties = json_decode($inventory->properties);
-
+//            dump($inventory);
             $in = 0;
             $out = 0;
+            $currentQuantity = $inventory->quantity;
+            $endQuantity = 0;
+            $startQuantity = 0;
             if (!empty($properties)) {
-                collect($properties)->each(function ($property) use (&$in, &$out) {
+                collect($properties)->each(function ($property, $index) use (&$in, &$out, &$endQuantity, &$startQuantity) {
+
                     if (!empty($property->old)) {
                         $quantity = $property->attributes->quantity;
                         $oldQuantity = $property->old->quantity;
 
+                        if ($index == 0) {
+                            $endQuantity = $quantity;
+                        }
+                        $startQuantity = $oldQuantity;
+
 //                        sales matlab out
                         if ($oldQuantity > $quantity) {
-                            $out++;
+                            $out += $oldQuantity - $quantity;
                         } // IN
                         elseif ($oldQuantity < $quantity) {
-                            $in++;
+                            $in += $quantity - $oldQuantity;
                         }
                     }
                 });
             }
             $inventory->in = $in;
             $inventory->out = $out;
+
+            $inventory->startQuantity = $currentQuantity - ($in - $out);
+            $inventory->endQuantity = $endQuantity;
             return $inventory;
         });
+//        dd($i);
+        return $i;
 
         //  return Inventory::getLogs($request);
     }

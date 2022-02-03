@@ -9,23 +9,8 @@
                     class="print-repair-container"
                 >
                     <a-form-item label="Duration">
-                        <a-range-picker
-                            v-decorator="[
-                                'dateTime',
-                                {
-                                    initialValue: [
-                                        getPastMoment(0),
-                                        moment().set({ h: 23, m: 59 })
-                                    ]
-                                }
-                            ]"
-                            :ranges="{
-                                Today: [moment(), moment()],
-                                Week: [getPastMoment(7), moment()],
-                                Year: [getPastMoment(365), moment()],
-                                Month: [getPastMoment(30), moment()]
-                            }"
-                            format="MM/DD/YYYY"
+                        <a-date-picker
+                            v-decorator="['dateTime']"
                             @change="dateRangeChange"
                         />
                     </a-form-item>
@@ -88,6 +73,16 @@ export default {
                     key: "quantity"
                 },
                 {
+                    title: "Start Quantity",
+                    dataIndex: "startQuantity",
+                    key: "startQuantity"
+                },
+                {
+                    title: "End Quantity",
+                    dataIndex: "endQuantity",
+                    key: "endQuantity"
+                },
+                {
                     title: "In",
                     key: "in",
                     dataIndex: "in"
@@ -139,10 +134,11 @@ export default {
                 .set({ h: 0, m: 0 });
         },
         dateRangeChange(dates) {
+            console.log(dates.format(""));
             const params = this.params;
             params.date_range = [
-                dates[0].format(dateTimeFormat),
-                dates[1].format(dateTimeFormat)
+                dates.startOf("day").format(dateTimeFormat),
+                dates.endOf("day").format(dateTimeFormat)
             ];
 
             this.params = params;
