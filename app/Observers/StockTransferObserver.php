@@ -16,7 +16,7 @@ class StockTransferObserver
     public function saving(StockTransfer $stockTransfer)
     {
         if ($stockTransfer->isReceiving) {
-            
+
             $stockTransfer->products->each(function (StockTransferProduct $stockTransferProduct) use ($stockTransfer) {
                 $productPrice = Product::getPrice($stockTransferProduct->product_id);
 
@@ -62,9 +62,14 @@ class StockTransferObserver
 
             });
 
+
+            //Store out product logic
             Inventory::where('store_id', $stockTransfer->store_out_id)
+                ->withoutGlobalScope(new StockBinGlobalScope())
+                ->withoutGlobalScope(new StoreGlobalScope())
                 ->where('stock_bin_id', Type::RETAIL)
                 ->whereIn('product_id', $stockTransfer->products->pluck('product_id')->all())
+                ->where('store_id', $stockTransfer->store_out_id)
                 ->get()
                 ->each(function (Inventory $inventory) use ($stockTransfer) {
                     $inventory->OUTGOING_PRODUCTS = true;
@@ -74,5 +79,6 @@ class StockTransferObserver
                 });
 
         }
+
     }
 }

@@ -9,8 +9,23 @@
                     class="print-repair-container"
                 >
                     <a-form-item label="Duration">
-                        <a-date-picker
-                            v-decorator="['dateTime']"
+                        <a-range-picker
+                            v-decorator="[
+                                'dateTime',
+                                {
+                                    initialValue: [
+                                        getPastMoment(0),
+                                        moment().set({ h: 23, m: 59 })
+                                    ]
+                                }
+                            ]"
+                            :ranges="{
+                                Today: [moment(), moment()],
+                                Week: [getPastMoment(7), moment()],
+                                Year: [getPastMoment(365), moment()],
+                                Month: [getPastMoment(30), moment()]
+                            }"
+                            format="MM/DD/YYYY"
                             @change="dateRangeChange"
                         />
                     </a-form-item>
@@ -134,11 +149,10 @@ export default {
                 .set({ h: 0, m: 0 });
         },
         dateRangeChange(dates) {
-            console.log(dates.format(""));
             const params = this.params;
             params.date_range = [
-                dates.startOf("day").format(dateTimeFormat),
-                dates.endOf("day").format(dateTimeFormat)
+                dates[0].format(dateTimeFormat),
+                dates[1].format(dateTimeFormat)
             ];
 
             this.params = params;
