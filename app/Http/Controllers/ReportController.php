@@ -214,7 +214,6 @@ class ReportController extends Controller
                         $quantity = $property->attributes->quantity;
                         $oldQuantity = $property->old->quantity;
 
-
 //                        sales matlab out
                         if ($oldQuantity > $quantity) {
                             $out += $oldQuantity - $quantity;
@@ -222,6 +221,7 @@ class ReportController extends Controller
                         elseif ($oldQuantity < $quantity) {
                             $in += $quantity - $oldQuantity;
                         }
+                        
                     } elseif (!empty($property->attributes)) {
                         $in += $property->attributes->quantity;
 

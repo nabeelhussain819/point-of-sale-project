@@ -300,6 +300,7 @@ class Inventory extends Base
                          activity_log.subject_type = 'App\Models\Inventory'
                         and invt.store_id = $storeId
                         and activity_log.created_at BETWEEN '$date_range[0]'AND '$date_range[1]'
+                        and invt.stock_bin_id =1
                         GROUP BY invt.\"id\",product.name");
 
     }
