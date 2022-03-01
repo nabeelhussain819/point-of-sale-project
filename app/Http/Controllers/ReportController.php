@@ -202,9 +202,11 @@ class ReportController extends Controller
             $endQuantity = 0;
             $startQuantity = 0;
             if (!empty($properties)) {
+
                 collect($properties)->each(function ($property, $index) use (&$in, &$out, &$endQuantity, &$startQuantity) {
 
                     if (!empty($property->old)) {
+
                         $quantity = $property->attributes->quantity;
                         $oldQuantity = $property->old->quantity;
 
@@ -220,7 +222,10 @@ class ReportController extends Controller
                         elseif ($oldQuantity < $quantity) {
                             $in += $quantity - $oldQuantity;
                         }
+                    } elseif (!empty($property->attributes)) {
+                        $in += $property->attributes->quantity;
                     }
+
                 });
             }
             $inventory->in = $in;
