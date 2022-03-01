@@ -204,16 +204,16 @@ class ReportController extends Controller
             if (!empty($properties)) {
 
                 collect($properties)->each(function ($property, $index) use (&$in, &$out, &$endQuantity, &$startQuantity) {
+                    if ($index == 0) {
 
+                        $startQuantity = $property->attributes->quantity;;
+                    }
+                    $endQuantity = $property->attributes->quantity;
                     if (!empty($property->old)) {
 
                         $quantity = $property->attributes->quantity;
                         $oldQuantity = $property->old->quantity;
 
-                        if ($index == 0) {
-                            $endQuantity = $quantity;
-                        }
-                        $startQuantity = $oldQuantity;
 
 //                        sales matlab out
                         if ($oldQuantity > $quantity) {
@@ -224,6 +224,7 @@ class ReportController extends Controller
                         }
                     } elseif (!empty($property->attributes)) {
                         $in += $property->attributes->quantity;
+
                     }
 
                 });
@@ -231,7 +232,7 @@ class ReportController extends Controller
             $inventory->in = $in;
             $inventory->out = $out;
 
-            $inventory->startQuantity = $currentQuantity - ($in - $out);
+            $inventory->startQuantity = $startQuantity;
             $inventory->endQuantity = $endQuantity;
             return $inventory;
         });
