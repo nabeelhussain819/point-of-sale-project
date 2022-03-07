@@ -1,12 +1,12 @@
 <template>
-    <span class="float-left  w-100">
-        <table class="table table-bordered ">
+    <span class="float-left w-100">
+        <table class="table table-bordered">
             <tr>
                 <td>Cash</td>
                 <!-- // this is  jugard should be from DB  -->
-                <td>${{  data.total - data.card_paid}}</td>
+                <td>${{ fixedValue(data) }}</td>
             </tr>
-             <!-- <tr>
+            <!-- <tr>
                 <td>Cash back</td>
                 <td>${{ data.cash_back }}</td>
             </tr> -->
@@ -18,7 +18,7 @@
                 <td>Total</td>
                 <td>${{ data.total }}</td>
             </tr>
-             <tr>
+            <tr>
                 <td>Tax</td>
                 <td>${{ data.tax }}</td>
             </tr>
@@ -28,10 +28,17 @@
 <script>
 export default {
     props: {
-        data: { type: Object }
+        data: { type: Object },
     },
     data() {
         return {};
-    }
+    },
+    methods: {
+        fixedValue(data) {
+            let value = data.total - data.card_paid;
+           return Number(value).toFixed(2);  
+          
+        },
+    },
 };
 </script>
