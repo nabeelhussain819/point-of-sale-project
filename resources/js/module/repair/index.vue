@@ -35,17 +35,17 @@
                         setSelectedKeys,
                         selectedKeys,
 
-                        column
+                        column,
                     }"
                     style="padding: 8px"
                 >
                     <a-input
-                        v-ant-ref="c => (searchInput = c)"
+                        v-ant-ref="(c) => (searchInput = c)"
                         :placeholder="`Search ${column.dataIndex}`"
                         :value="selectedKeys[0]"
                         style="width: 188px; margin-bottom: 8px; display: block"
                         @change="
-                            e =>
+                            (e) =>
                                 setSelectedKeys(
                                     e.target.value ? [e.target.value] : []
                                 )
@@ -76,8 +76,49 @@
                 >
                     <a-select
                         style="width: 100%; margin-bottom: 5px"
-                        v-ant-ref="c => (searchInput = c)"
-                        @change="value => setSelectedKeys(value ? [value] : [])"
+                        v-ant-ref="(c) => (searchInput = c)"
+                        @change="
+                            (value) => setSelectedKeys(value ? [value] : [])
+                        "
+                        placeholder="Select a option and change input text above"
+                        @pressEnter="() => handleSearch(selectedKeys, column)"
+                    >
+                        <a-select-option
+                            v-for="type in statuses"
+                            :key="type.id"
+                        >
+                            {{ type.name }}</a-select-option
+                        >
+                    </a-select>
+
+                    <a-button
+                        type="primary"
+                        icon="search"
+                        size="small"
+                        style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, column)"
+                    >
+                        Search
+                    </a-button>
+                    <a-button
+                        size="small"
+                        style="width: 90px"
+                        @click="() => handleReset(selectedKeys, column)"
+                    >
+                        Reset
+                    </a-button>
+                </div>
+                <div
+                    slot="modelDropDown"
+                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
+                    style="padding: 8px"
+                >
+                    <a-select
+                        style="width: 100%; margin-bottom: 5px"
+                        v-ant-ref="(c) => (searchInput = c)"
+                        @change="
+                            (value) => setSelectedKeys(value ? [value] : [])
+                        "
                         placeholder="Select a option and change input text above"
                         @pressEnter="() => handleSearch(selectedKeys, column)"
                     >
@@ -131,8 +172,8 @@ const columns = [
         title: "Id",
         scopedSlots: {
             filterDropdown: "filterDropdown",
-            filterIcon: "filterIcon"
-        }
+            filterIcon: "filterIcon",
+        },
     },
     {
         dataIndex: "customer.name",
@@ -140,8 +181,8 @@ const columns = [
         title: "Customer Name",
         scopedSlots: {
             filterDropdown: "filterDropdown",
-            filterIcon: "filterIcon"
-        }
+            filterIcon: "filterIcon",
+        },
     },
     {
         title: "Customer Number",
@@ -149,18 +190,28 @@ const columns = [
         key: "customerPhone",
         scopedSlots: {
             filterDropdown: "filterDropdown",
-            filterIcon: "filterIcon"
-        }
+            filterIcon: "filterIcon",
+        },
+    },
+    {
+        title: "Model",
+        dataIndex: "customer.modelId",
+        key: "modelId",
+        scopedSlots: {
+            filterDropdown: "statusDropdown",
+            filterIcon: "filterIcon",
+            customRender: "modelDropDown",
+        },
     },
     {
         title: "Created At",
         dataIndex: "created_at",
-        key: "created_at"
+        key: "created_at",
     },
     {
         title: "Remaining Cost",
         dataIndex: "remaining",
-        key: "remaining"
+        key: "remaining",
     },
     {
         title: "Status",
@@ -169,21 +220,21 @@ const columns = [
         scopedSlots: {
             filterDropdown: "statusDropdown",
             filterIcon: "filterIcon",
-            customRender: "tags"
-        }
+            customRender: "tags",
+        },
     },
     {
         title: "Action",
         key: "action",
-        scopedSlots: { customRender: "action" }
-    }
+        scopedSlots: { customRender: "action" },
+    },
 ];
 
 export default {
     name: "index.vue",
     props: {
         params: { type: Object, required: false, default: () => ({}) },
-        showAddButton: { type: Boolean, required: false, default: true }
+        showAddButton: { type: Boolean, required: false, default: true },
     },
 
     data() {
@@ -204,8 +255,8 @@ export default {
                 // total: 0,
                 // showTotal: () => `Total ${this.pagination.total}`,
                 onChange: (current, pageSize) =>
-                    this.pageSelect(current, pageSize)
-            }
+                    this.pageSelect(current, pageSize),
+            },
         };
     },
     mounted() {
@@ -215,7 +266,7 @@ export default {
     },
     methods: {
         fetchStatues() {
-            RepairService.statuses().then(statuses => {
+            RepairService.statuses().then((statuses) => {
                 this.statuses = statuses;
             });
         },
@@ -246,7 +297,7 @@ export default {
         fetchList(param = {}) {
             this.loading = true;
             RepairService.all({ ...this.filters, ...this.pagination, ...param })
-                .then(data => {
+                .then((data) => {
                     this.data = data.data;
                     const pagination = { ...this.pagination };
                     pagination.current = data.current_page;
@@ -281,11 +332,11 @@ export default {
                 return "red-row";
             }
             return "blue-row";
-        }
+        },
     },
     components: {
-        FormFields
-    }
+        FormFields,
+    },
 };
 </script>
 

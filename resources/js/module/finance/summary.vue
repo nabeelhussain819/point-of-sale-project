@@ -5,7 +5,6 @@
                 <a-form-item>
                     <a-input
                         prefix="$"
-                        type="number"
                         v-on:change="handleTotal"
                         v-decorator="[
                             'total',
@@ -13,10 +12,10 @@
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Please insert Cost!'
-                                    }
-                                ]
-                            }
+                                        message: 'Please insert Cost!',
+                                    },
+                                ],
+                            },
                         ]"
                 /></a-form-item>
             </a-descriptions-item>
@@ -35,14 +34,14 @@
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Please insert Deposit!'
+                                        message: 'Please insert Deposit!',
                                     },
                                     {
                                         max: maxDeposite,
-                                        message: 'max'
-                                    }
-                                ]
-                            }
+                                        message: 'max',
+                                    },
+                                ],
+                            },
                         ]"
                 /></a-form-item>
             </a-descriptions-item>
@@ -58,11 +57,11 @@
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Please insert Deposit!'
-                                    }
+                                        message: 'Please insert Deposit!',
+                                    },
                                 ],
-                                initialValue: payable
-                            }
+                                initialValue: payable,
+                            },
                         ]"
                 /></a-form-item>
             </a-descriptions-item>
@@ -73,8 +72,8 @@
                         v-decorator="[
                             'pay_by_card',
                             {
-                                rules: []
-                            }
+                                rules: [],
+                            },
                         ]"
                 /></a-form-item>
             </a-descriptions-item>
@@ -86,21 +85,21 @@ import { EVENT_FINANCE_PRODUCT_CHANGE } from "../../services/constants";
 export default {
     props: {
         product: {
-            default: () => {}
+            default: () => {},
         },
         form: {
-            default: () => {}
+            default: () => {},
         },
         enableDeposite: {
-            default: true
-        }
+            default: true,
+        },
     },
     data() {
         return {
             maxDeposite: 12,
             billSummary: {},
             advanceDisabled: true,
-            payable: null
+            payable: null,
         };
     },
     mounted() {
@@ -109,7 +108,7 @@ export default {
     methods: {
         isProductChange() {
             const setPayableNull = this.setPayableNull;
-            this.$eventBus.$on(EVENT_FINANCE_PRODUCT_CHANGE, function() {
+            this.$eventBus.$on(EVENT_FINANCE_PRODUCT_CHANGE, function () {
                 console.log("EVENT_FINANCE_PRODUCT_CHANGE");
                 setPayableNull();
             });
@@ -117,15 +116,14 @@ export default {
         setPayableNull() {
             this.form.setFieldsValue({
                 payable: null,
-                advance: null
+                advance: null,
             });
-           
         },
         handleAdvance(value) {
             let formValues = this.form.getFieldsValue();
             this.maxDeposite = parseFloat(formValues.total);
             this.form.setFieldsValue({
-                payable: parseFloat(formValues.total) - value.target.value
+                payable: parseFloat(formValues.total) - value.target.value,
             });
         },
         handleTotal(total) {
@@ -136,10 +134,10 @@ export default {
             let advance = parseFloat(formValues.advance);
 
             this.form.setFieldsValue({
-                payable: parseFloat(ttotal) - advance
+                payable: parseFloat(ttotal) - advance,
             });
-        }
-    }
+        },
+    },
 };
 </script>
 <style scoped>
