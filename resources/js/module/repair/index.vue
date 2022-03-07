@@ -109,7 +109,7 @@
                     </a-button>
                 </div>
                 <div
-                    slot="modelDropDown"
+                    slot="productsDropsDown"
                     slot-scope="{ setSelectedKeys, selectedKeys, column }"
                     style="padding: 8px"
                 >
@@ -193,16 +193,15 @@ const columns = [
             filterIcon: "filterIcon",
         },
     },
-    {
-        title: "Model",
-        dataIndex: "customer.modelId",
-        key: "modelId",
-        scopedSlots: {
-            filterDropdown: "statusDropdown",
-            filterIcon: "filterIcon",
-            customRender: "modelDropDown",
-        },
-    },
+    // {
+    //     title: "Model",
+    //     dataIndex: "customer.modelId",
+    //     key: "modelId",
+    //     scopedSlots: {
+    //         filterDropdown: "productsDropsDown",
+    //         filterIcon: "filterIcon",
+    //     },
+    // },
     {
         title: "Created At",
         dataIndex: "created_at",
