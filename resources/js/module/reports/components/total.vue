@@ -12,15 +12,15 @@
             </tr> -->
             <tr>
                 <td>Card</td>
-                <td>${{ data.card_paid }}</td>
+                <td>${{ humanValue(data.card_paid) }}</td>
             </tr>
             <tr>
                 <td>Total</td>
-                <td>${{ data.total }}</td>
+                <td>${{ humanValue(data.total) }}</td>
             </tr>
             <tr>
                 <td>Tax</td>
-                <td>${{ data.tax }}</td>
+                <td>${{ humanValue(data.tax) }}</td>
             </tr>
         </table>
     </span>
@@ -36,8 +36,10 @@ export default {
     methods: {
         fixedValue(data) {
             let value = data.total - data.card_paid;
-           return Number(value).toFixed(2);  
-          
+            return Number(value).toFixed(2);
+        },
+        humanValue(value) {
+            return Number(value).toFixed(2);
         },
     },
 };

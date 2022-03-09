@@ -47,7 +47,7 @@ trait InteractWithReports
     public function report_sales_total(Request $request)
     {
 
-        return Order::selectRaw("sum(sub_total) as total ,sum(cash_paid) as cash_paid,sum(card_paid) as card_paid,sum(cash_back) as cash_back,sum(tax) as tax")
+        return Order::selectRaw("sum(sub_total) as total ,sum(cash_paid) as cash_paid,sum(card_paid) as card_paid,sum(cash_back) as cash_back,sum(sub_total - without_tax) as tax")
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
             });
@@ -153,7 +153,7 @@ END) as card")
 	received_amount
 	ELSE
 		0
-END  
+END
 ) as cash")
             ->groupBy("status")
             ->where('store_id', Store::currentId())
