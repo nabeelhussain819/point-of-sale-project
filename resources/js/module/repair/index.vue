@@ -213,6 +213,16 @@ const columns = [
         key: "remaining",
     },
     {
+        title: "Advance Cost",
+        dataIndex: "advance_cost",
+        key: "advance_cost",
+    },
+    {
+        title: "Total Cost",
+        dataIndex: "total_cost",
+        key: "total_cost",
+    },
+    {
         title: "Status",
         key: "status",
         dataIndex: "status",
