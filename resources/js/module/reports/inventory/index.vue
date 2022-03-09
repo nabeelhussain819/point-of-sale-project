@@ -82,11 +82,11 @@ export default {
                     key: "name",
                     scopedSlots: { customRender: "name" }
                 },
-                {
-                    title: "Quantity",
-                    dataIndex: "quantity",
-                    key: "quantity"
-                },
+                // {
+                //     title: "Quantity",
+                //     dataIndex: "quantity",
+                //     key: "quantity"
+                // },
                 {
                     title: "Start Quantity",
                     dataIndex: "startQuantity",
