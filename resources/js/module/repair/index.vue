@@ -26,6 +26,20 @@
                         }}
                     </a-tag>
                 </span>
+                <span slot="products" slot-scope="tags, record">
+                    <span v-if="!isEmpty(record.related_products)">
+                        <span
+                            v-for="schedule in record.related_products"
+                            :key="schedule.id"
+                        >
+                            <a-tag
+                                v-if="!isEmpty(schedule.product_id)"
+                                color="volcano"
+                                >{{ schedule.product.name }}
+                            </a-tag>
+                        </span>
+                    </span>
+                </span>
                 <span slot="action" slot-scope="text, record">
                     <a-icon v-on:click="edit(record.id)" type="edit" />
                 </span>
@@ -119,11 +133,14 @@
                         @change="
                             (value) => setSelectedKeys(value ? [value] : [])
                         "
+                        @search="handleProductSearch"
+                        show-search
+                        :filter-option="false"
                         placeholder="Select a option and change input text above"
                         @pressEnter="() => handleSearch(selectedKeys, column)"
                     >
                         <a-select-option
-                            v-for="type in statuses"
+                            v-for="type in products"
                             :key="type.id"
                         >
                             {{ type.name }}</a-select-option
@@ -164,6 +181,8 @@
 <script>
 import FormFields from "./formfields";
 import RepairService from "../../services/API/RepairService";
+import { isEmpty } from "../../services/helpers";
+import ProductService from "../../services/API/ProductService";
 
 const columns = [
     {
@@ -193,15 +212,16 @@ const columns = [
             filterIcon: "filterIcon",
         },
     },
-    // {
-    //     title: "Model",
-    //     dataIndex: "customer.modelId",
-    //     key: "modelId",
-    //     scopedSlots: {
-    //         filterDropdown: "productsDropsDown",
-    //         filterIcon: "filterIcon",
-    //     },
-    // },
+    {
+        title: "Model",
+        dataIndex: "customer.modelId",
+        key: "repair_product_id",
+        scopedSlots: {
+            filterDropdown: "productsDropsDown",
+            filterIcon: "filterIcon",
+            customRender: "products",
+        },
+    },
     {
         title: "Created At",
         dataIndex: "created_at",
@@ -271,13 +291,23 @@ export default {
     mounted() {
         this.fetchList();
         this.fetchStatues();
+        this.fetchProducts();
         this.$emit("getFetch", this.fetchList);
     },
     methods: {
+        isEmpty,
+        fetchProducts(params = {}) {
+            ProductService.all(params).then((response) => {
+                this.products = response.data;
+            });
+        },
         fetchStatues() {
             RepairService.statuses().then((statuses) => {
                 this.statuses = statuses;
             });
+        },
+        handleProductSearch(value, column) {
+            this.fetchProducts({ name: value });
         },
         handleSearch(value, column) {
             let filters = this.filters;

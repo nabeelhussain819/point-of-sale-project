@@ -15,6 +15,9 @@ use App\Models\Store;
 use App\Models\RepairsSchedules;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class RepairController extends Controller
@@ -118,7 +121,7 @@ class RepairController extends Controller
             $data = $request->all();
 
             if ($request->has("received_amount")) {
-                $data["advance_cost"] =  $data["advance_cost"] + $data["received_amount"];
+                $data["advance_cost"] = $data["advance_cost"] + $data["received_amount"];
             }
 
             if ($request->has("additional_charge")) {
@@ -172,7 +175,21 @@ class RepairController extends Controller
     public function fetch(Request $request)
     {
         return Repair::where($this->applyFilters($request))
-            ->with("customer")->orderBy('updated_at', "desc")->paginate($this->getPageSize());
+            ->with(["customer" => function (BelongsTo $belongsTo) {
+                $belongsTo->select(['id', 'name']);
+            },
+                'relatedProducts' => function (HasMany $hasMany) {
+                    $hasMany->select('product_id', 'repair_id', 'id')
+                        ->with(['product' => function (BelongsTo $belongsTo) {
+                            $belongsTo->select(['id', 'name']);
+                        }]);
+                }])
+            ->when($request->get('repair_product_id'), function (\Illuminate\Database\Eloquent\Builder $query, $productId) {
+                return $query->whereHas('relatedProducts', function (\Illuminate\Database\Eloquent\Builder $query) use ($productId) {
+                    $query->where('product_id', $productId);
+                });
+            })
+            ->orderBy('updated_at', "desc")->paginate($this->getPageSize());
     }
 
     public function statuses()
