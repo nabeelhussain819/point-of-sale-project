@@ -1,5 +1,5 @@
 <template>
-    <div class="row ">
+    <div class="row">
         <div><menus :activeKey="['inventory']" /></div>
         <div class="row col-12">
             <div class="col-6">
@@ -15,15 +15,15 @@
                                 {
                                     initialValue: [
                                         getPastMoment(0),
-                                        moment().set({ h: 23, m: 59 })
-                                    ]
-                                }
+                                        moment().set({ h: 23, m: 59 }),
+                                    ],
+                                },
                             ]"
                             :ranges="{
                                 Today: [moment(), moment()],
                                 Week: [getPastMoment(7), moment()],
                                 Year: [getPastMoment(365), moment()],
-                                Month: [getPastMoment(30), moment()]
+                                Month: [getPastMoment(30), moment()],
                             }"
                             format="MM/DD/YYYY"
                             @change="dateRangeChange"
@@ -70,8 +70,8 @@ export default {
     props: {
         showFooter: {
             default: () => false,
-            type: Boolean
-        }
+            type: Boolean,
+        },
     },
     data() {
         return {
@@ -80,7 +80,7 @@ export default {
                 {
                     title: "Name",
                     key: "name",
-                    scopedSlots: { customRender: "name" }
+                    scopedSlots: { customRender: "name" },
                 },
                 // {
                 //     title: "Quantity",
@@ -90,25 +90,25 @@ export default {
                 {
                     title: "Start Quantity",
                     dataIndex: "startQuantity",
-                    key: "startQuantity"
+                    key: "startQuantity",
                 },
                 {
                     title: "End Quantity",
                     dataIndex: "endQuantity",
-                    key: "endQuantity"
+                    key: "endQuantity",
                 },
                 {
                     title: "In",
                     key: "in",
-                    dataIndex: "in"
+                    dataIndex: "in",
                     // scopedSlots: { customRender: "inProduct" }
                 },
                 {
                     title: "out",
                     key: "out",
-                    dataIndex: "out"
+                    dataIndex: "out",
                     // scopedSlots: { customRender: "outProduct" }
-                }
+                },
             ],
             filters: {},
             categories: [],
@@ -119,40 +119,35 @@ export default {
             form: this.$form.createForm(this, { name: "addRepair" }),
             showOrderModal: false,
             orderIds: [],
-            fetchFinance: () => {}
+            fetchFinance: () => {},
         };
     },
     mounted() {
         this.params = {
             date_range: [
                 this.getPastMoment(0).format(dateTimeFormat),
-                moment()
-                    .set({ h: 23, m: 59 })
-                    .format(dateTimeFormat)
+                moment().set({ h: 23, m: 59 }).format(dateTimeFormat),
             ],
-            apply_on_update: true
+            apply_on_update: true,
         };
         this.fetch();
     },
 
     methods: {
         fetch() {
-            ReportsService.getInventoryStats(this.params).then(response => {
-                console.log(response);
+            ReportsService.getInventoryStats(this.params).then((response) => {
                 this.data = response;
             });
         },
         moment,
         getPastMoment(days) {
-            return moment()
-                .subtract(days, "days")
-                .set({ h: 0, m: 0 });
+            return moment().subtract(days, "days").set({ h: 0, m: 0 });
         },
         dateRangeChange(dates) {
             const params = this.params;
             params.date_range = [
                 dates[0].format(dateTimeFormat),
-                dates[1].format(dateTimeFormat)
+                dates[1].format(dateTimeFormat),
             ];
 
             this.params = params;
@@ -217,7 +212,7 @@ export default {
                     return property.at(-1).old.quantity;
             }
             return 0;
-        }
-    }
+        },
+    },
 };
 </script>

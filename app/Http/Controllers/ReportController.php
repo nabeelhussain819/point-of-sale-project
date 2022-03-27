@@ -151,8 +151,10 @@ class ReportController extends Controller
 
     public function getSalesStates(Request $request)
     {
-        return ['data' => $this->report_sales($request)->where($this->applyFilters($request))->get(),
-            'summary' => $this->report_sales_total($request)->get()];
+        return [
+            'data' => $this->report_sales($request)->where($this->applyFilters($request))->get(),
+            'summary' => $this->report_sales_total($request)->get()
+        ];
     }
 
 
@@ -204,7 +206,7 @@ class ReportController extends Controller
             if (!empty($properties)) {
 
 
-                collect($properties)->each(function ($property, $index) use (&$in, &$out, &$endQuantity, &$startQuantity, $properties) {
+                collect($properties)->each(function ($property, $index) use (&$in, &$out, &$endQuantity, &$startQuantity, $properties,$inventory) {
 
 
                     if ($index == 0 && !empty($property->old)) {
@@ -224,8 +226,12 @@ class ReportController extends Controller
                             $out += $oldQuantity - $quantity;
                         } // IN
                         elseif ($oldQuantity < $quantity) {
-                            $in += $quantity - $oldQuantity;
+
+                            $in = ($in +  ($quantity - $oldQuantity));
                         }
+                    } else {
+
+                        $in = $property->attributes->quantity;//
                     }
 
                 });
