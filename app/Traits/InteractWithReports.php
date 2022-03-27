@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 trait InteractWithReports
 {
@@ -93,13 +94,50 @@ trait InteractWithReports
 
     public function report_repair_total(Request $request)
     {
-        return RepairsSchedules::selectRaw("sum(received_amount) as total")
-            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
-                $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
-            })->whereExists(function (QueryBuilder $query) use ($request) {
-                return $query->from('repairs')
-                    ->where('store_id', Store::currentId());
-            });
+//        return RepairsSchedules::selectRaw("sum(received_amount) as total")
+//            ->when($request->get('date_range'), function (Builder $builder, $date_range) {
+//                $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+//            })->whereExists(function (QueryBuilder $query) use ($request) {
+//                return $query->from('repairs')
+//                    ->where('store_id', Store::currentId());
+//            });
+        $date_range = $request->get('date_range');
+        $storeId = Store::currentId();
+        return DB::select("SELECT
+	r.ID,
+	r.status,
+	r.total_cost,
+	r.advance_cost,
+	Sum(rs.received_amount) AS amount_received_in_duration,
+	Sum(rs.discount) AS discounted_on
+
+FROM
+	repairs AS r
+	JOIN repairs_schedules AS rs ON rs.repair_id = r.ID
+WHERE
+  rs.created_at
+	BETWEEN  '$date_range[0]' AND  '$date_range[1]'
+	And r.store_id = $storeId
+	GROUP BY r.Id
+");
+    }
+
+    public function repairSummaryWithData(array $queryData)
+    {
+        $summary = [];
+        $totalCost = 0;
+        $totalDiscount = 0;
+        $totalReceivedAmount = 0;
+        collect($queryData)->each(function ($data) use (&$summary, &$totalCost, &$totalDiscount, &$totalReceivedAmount) {
+
+            $totalCost += $data->total_cost;
+            $totalDiscount += $data->discounted_on;
+            $totalReceivedAmount += $data->amount_received_in_duration;
+            $summary = ['total_cost' => $totalCost, 'total_discount' => $totalDiscount, 'amount_received_in_duration' => $totalReceivedAmount];
+
+        });
+        $summary['data'] = $queryData;
+        return $summary;
     }
 
     public function report_purchase_total(Request $request)

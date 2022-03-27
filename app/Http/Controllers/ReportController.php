@@ -163,7 +163,7 @@ class ReportController extends Controller
 
     public function getRepairStates(Request $request)
     {
-        return $this->report_repair_total($request)->get();
+        return $this->repairSummaryWithData($this->report_repair_total($request));
     }
 
     public function getReportingSerialNumbers(Request $request)
