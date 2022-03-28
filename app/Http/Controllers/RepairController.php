@@ -135,7 +135,7 @@ class RepairController extends Controller
             $this->validateOnUpdate($data);
             $repair->update($data);
             $products = array_filter($request->get('productItem'));
-            $repair->syncProducts($products);
+            $repair->syncProducts($products, false);
 
             $repairSchedule = new RepairsSchedules();
             $data['repair_id'] = $repair->id;

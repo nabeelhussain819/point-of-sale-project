@@ -106,9 +106,9 @@ class Repair extends Base
         return $this->total_cost - $this->advance_cost;
     }
 
-    public function syncProducts(array $products)
+    public function syncProducts(array $products, $substituteFromInventory = true)
     {
-        $products = collect($products)->map(function ($product) {
+        $products = collect($products)->map(function ($product) use ($substituteFromInventory) {
 
 
             $product['product_id'] = isset($product['product_id']) ? Product::getIdByRequest($product['product_id'], ['is_repair' => true]) : null;
@@ -119,7 +119,7 @@ class Repair extends Base
 
             $product['product'] = ArrayHelper::isArray($product['product']) && isset($product['product']) && !empty($product['product']) ? $product['product'][0] : null;
 
-            if (isset($product['product_id']) && !empty($product['product_id'])) {
+            if ($substituteFromInventory && isset($product['product_id']) && !empty($product['product_id'])) {
 
                 Inventory::pluckSingleQuantity(1, $product['product_id']);
             }
