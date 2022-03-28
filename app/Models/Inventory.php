@@ -292,7 +292,7 @@ class Inventory extends Base
         $date_range = $request->get('date_range');
         $storeId = Store::currentId();
 
-        return \DB::select("SELECT product.name ,invt.quantity,invt.\"id\",json_agg(activity_log.properties) as properties,invt.store_id,invt.created_at
+        return \DB::select("SELECT product.name ,invt.quantity,invt.\"id\",json_agg(activity_log.properties ORDER BY activity_log.created_at ) as properties,invt.store_id,invt.created_at
                         from inventories as invt
                         join products as product on  invt.product_id = product.id
                         join activity_log as activity_log on invt.id = activity_log.subject_id

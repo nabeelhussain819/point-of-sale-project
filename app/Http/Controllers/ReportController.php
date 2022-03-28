@@ -208,7 +208,6 @@ class ReportController extends Controller
 
                 collect($properties)->each(function ($property, $index) use (&$in, &$out, &$endQuantity, &$startQuantity, $properties,$inventory) {
 
-
                     if ($index == 0 && !empty($property->old)) {
                         $startQuantity = $property->old->quantity;
                     }
