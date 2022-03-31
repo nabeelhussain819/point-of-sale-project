@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ProductSerialNumbers extends Base
 {
     use HasFactory;
+
     protected $hasGuid = false;
 
     public $subject, $subject_id, $subject_data;// setting the subject to the log
@@ -91,6 +92,10 @@ class ProductSerialNumbers extends Base
 
         if ($product->is_sold) {
             throw new ConflictHttpException('This serial number has been sold');
+        }
+
+        if ($product->return_to_vendor) {
+            throw new ConflictHttpException('This serial return to vendor');
         }
         return !$product->is_sold;
     }
