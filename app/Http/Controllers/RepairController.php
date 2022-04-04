@@ -189,6 +189,11 @@ class RepairController extends Controller
                     $query->where('product_id', $productId);
                 });
             })
+            ->when($request->get('model_name'), function (\Illuminate\Database\Eloquent\Builder $query, $search) {
+                return $query->whereHas('relatedProducts', function (\Illuminate\Database\Eloquent\Builder $query) use ($search) {
+                    return $query->where('product', 'ilike', "%" . $search . "%");
+                });
+            })
             ->orderBy('updated_at', "desc")->paginate($this->getPageSize());
     }
 

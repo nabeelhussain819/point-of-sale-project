@@ -62,7 +62,6 @@
                     slot-scope="{
                         setSelectedKeys,
                         selectedKeys,
-
                         column,
                     }"
                     style="padding: 8px"
@@ -229,9 +228,9 @@ const columns = [
     {
         title: "Model",
         dataIndex: "customer.modelId",
-        key: "repair_product_id",
+        key: "model_name",
         scopedSlots: {
-            filterDropdown: "modelsSearch",
+            filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "modelRender",
         },
