@@ -179,10 +179,10 @@ class RepairController extends Controller
                 $belongsTo->select(['id', 'name','phone']);
             },
                 'relatedProducts' => function (HasMany $hasMany) {
-                    $hasMany->select('product_id', 'repair_id', 'id')
-                        ->with(['product' => function (BelongsTo $belongsTo) {
-                            $belongsTo->select(['id', 'name']);
-                        }]);
+                    $hasMany->select('product_id', 'repair_id', 'id','product');
+//                        ->with(['product' => function (BelongsTo $belongsTo) {
+//                            $belongsTo->select(['id', 'name']);
+//                        }]);
                 }])
             ->when($request->get('repair_product_id'), function (\Illuminate\Database\Eloquent\Builder $query, $productId) {
                 return $query->whereHas('relatedProducts', function (\Illuminate\Database\Eloquent\Builder $query) use ($productId) {

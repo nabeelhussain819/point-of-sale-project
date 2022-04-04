@@ -26,6 +26,20 @@
                         }}
                     </a-tag>
                 </span>
+                <span slot="modelRender" slot-scope="name, record">
+                    <span v-if="!isEmpty(record.related_products)">
+                        <span
+                            v-for="rProduct in record.related_products"
+                            :key="rProduct.id"
+                        >
+                            <a-tag
+                                v-if="!isEmpty(rProduct.product)"
+                                color="volcano"
+                                >{{ rProduct.product }}
+                            </a-tag>
+                        </span>
+                    </span>
+                </span>
                 <span slot="products" slot-scope="tags, record">
                     <span v-if="!isEmpty(record.related_products)">
                         <span
@@ -217,9 +231,9 @@ const columns = [
         dataIndex: "customer.modelId",
         key: "repair_product_id",
         scopedSlots: {
-            filterDropdown: "productsDropsDown",
+            filterDropdown: "modelsSearch",
             filterIcon: "filterIcon",
-            customRender: "products",
+            customRender: "modelRender",
         },
     },
     {
