@@ -257,7 +257,7 @@
                             >
                                 <a-select-option
                                     v-for="product in productLIST"
-                                    :key="product.id.toString()"
+                                    :key="product.name"
                                 >
                                     {{ product.name }}</a-select-option
                                 >

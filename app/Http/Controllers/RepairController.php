@@ -176,7 +176,7 @@ class RepairController extends Controller
     {
         return Repair::where($this->applyFilters($request))
             ->with(["customer" => function (BelongsTo $belongsTo) {
-                $belongsTo->select(['id', 'name']);
+                $belongsTo->select(['id', 'name','phone']);
             },
                 'relatedProducts' => function (HasMany $hasMany) {
                     $hasMany->select('product_id', 'repair_id', 'id')
