@@ -51,6 +51,19 @@ trait InteractWithReports
         return Order::selectRaw("sum(sub_total) as total ,sum(cash_paid) as cash_paid,sum(card_paid) as card_paid,sum(cash_back) as cash_back,sum(sub_total - without_tax) as tax")
             ->when($request->get('date_range'), function (Builder $builder, $date_range) {
                 $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
+            })->when($request->get('category_id'), function (Builder $builder, $categoryId) {
+                $builder->whereHas('products', function (Builder $builder) use ($categoryId) {
+                    $builder->whereHas("product", function (Builder $builder) use ($categoryId) {
+                        $builder->where('category_id', $categoryId);
+                    });
+                });
+            })
+            ->when($request->get('department_id'), function (Builder $builder, $departmentId) {
+                $builder->whereHas('products', function (Builder $builder) use ($departmentId) {
+                    $builder->whereHas("product", function (Builder $builder) use ($departmentId) {
+                        $builder->where('department_id', $departmentId);
+                    });
+                });
             });
     }
 
