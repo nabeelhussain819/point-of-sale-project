@@ -24,6 +24,7 @@
                         width="100"
                         :max="parseFloat(billSummary.sub_total)"
                         :min="1"
+                        step="any"
                         type="number"
                         v-decorator="[
                             'return_cost',
@@ -31,10 +32,10 @@
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Please insert return Amount!'
-                                    }
-                                ]
-                            }
+                                        message: 'Please insert return Amount!',
+                                    },
+                                ],
+                            },
                         ]"
                     />
                 </a-form-item>
@@ -51,7 +52,7 @@
 export default {
     data() {
         return {
-            billSummary: {}
+            billSummary: {},
         };
     },
     components: {},
@@ -59,6 +60,6 @@ export default {
     props: { order: { default: () => {} } },
     mounted() {
         this.billSummary = this.order;
-    }
+    },
 };
 </script>
