@@ -1,5 +1,5 @@
 <template>
-    <div class="row ">
+    <div class="row">
         <div><menus :activeKey="['sale']" /></div>
         <div class="row col-12">
             <div class="col-6">
@@ -15,15 +15,15 @@
                                 {
                                     initialValue: [
                                         getPastMoment(0),
-                                        moment().set({ h: 23, m: 59 })
-                                    ]
-                                }
+                                        moment().set({ h: 23, m: 59 }),
+                                    ],
+                                },
                             ]"
                             :ranges="{
                                 Today: [moment(), moment()],
                                 Week: [getPastMoment(7), moment()],
                                 Year: [getPastMoment(365), moment()],
-                                Month: [getPastMoment(30), moment()]
+                                Month: [getPastMoment(30), moment()],
                             }"
                             format="MM/DD/YYYY"
                             @change="dateRangeChange"
@@ -54,16 +54,21 @@
                 >
                 <div
                     slot="filterDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
+                    slot-scope="{
+                        setSelectedKeys,
+                        selectedKeys,
+                        column,
+                        clearFilters,
+                    }"
                     style="padding: 8px"
                 >
                     <a-input
-                        v-ant-ref="c => (searchInput = c)"
+                        v-ant-ref="(c) => (searchInput = c)"
                         :placeholder="`Search ${column.dataIndex}`"
                         :value="selectedKeys[0]"
                         style="width: 188px; margin-bottom: 8px; display: block"
                         @change="
-                            e =>
+                            (e) =>
                                 setSelectedKeys(
                                     e.target.value ? [e.target.value] : []
                                 )
@@ -82,7 +87,7 @@
                     <a-button
                         size="small"
                         style="width: 90px"
-                        @click="() => handleReset(selectedKeys, column)"
+                        @click="() => handleReset(clearFilters, column)"
                     >
                         Reset
                     </a-button>
@@ -91,12 +96,18 @@
                 <!-- Category search  -->
                 <div
                     slot="catgoryDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px;   min-width: 200px;"
+                    slot-scope="{
+                        setSelectedKeys,
+                        selectedKeys,
+                        column,
+                        clearFilters,
+                    }"
+                    style="padding: 8px; min-width: 200px"
                 >
                     <a-select
+                        :value="category_id"
                         style="width: 100%"
-                        @change="value => handleSearch([value], column)"
+                        @change="(value) => handleSearch([value], column)"
                     >
                         <a-select-option
                             v-for="category in categories"
@@ -105,18 +116,32 @@
                             {{ category.name }}
                         </a-select-option>
                     </a-select>
+                    <a-button
+                        size="small"
+                        style="width: 90px"
+                        @click="() => handleReset(clearFilters, column)"
+                    >
+                        Reset
+                    </a-button>
                 </div>
                 <!-- Category search  -->
                 <!-- Department search  -->
                 <div
                     slot="departmentDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px;    min-width: 200px;"
+                    slot-scope="{
+                        setSelectedKeys,
+                        selectedKeys,
+                        column,
+                        clearFilters,
+                    }"
+                    style="padding: 8px; min-width: 200px"
                 >
                     <a-select
                         class="w-100"
                         style="width: 100%"
-                        @change="value => handleSearch([value], column)"
+                        :value="department_id"
+                        
+                        @change="(value) => handleSearch([value], column)"
                     >
                         <a-select-option
                             v-for="department in departments"
@@ -125,6 +150,13 @@
                             {{ department.name }}
                         </a-select-option>
                     </a-select>
+                    <a-button
+                        size="small"
+                        style="width: 90px"
+                        @click="() => handleReset(clearFilters, column)"
+                    >
+                        Reset
+                    </a-button>
                 </div>
                 <!-- Deparment search  -->
 
@@ -173,23 +205,25 @@ export default {
     props: {
         showFooter: {
             default: () => false,
-            type: Boolean
-        }
+            type: Boolean,
+        },
     },
     data() {
         return {
+            category_id: null,
+            department_id: null,
             data: [],
             columns: [
                 {
                     title: "Name",
                     dataIndex: "product.name",
                     key: "name",
-                    scopedSlots: { customRender: "name" }
+                    scopedSlots: { customRender: "name" },
                 },
                 {
                     title: "Quantity",
                     dataIndex: "quantity",
-                    key: "quantity"
+                    key: "quantity",
                 },
                 {
                     title: "Category",
@@ -197,8 +231,8 @@ export default {
                     key: "category_id",
                     scopedSlots: {
                         filterDropdown: "catgoryDropdown",
-                        filterIcon: "filterIcon"
-                    }
+                        filterIcon: "filterIcon",
+                    },
                 },
                 {
                     title: "Department",
@@ -206,9 +240,9 @@ export default {
                     key: "department_id",
                     scopedSlots: {
                         filterDropdown: "departmentDropdown",
-                        filterIcon: "filterIcon"
-                    }
-                }
+                        filterIcon: "filterIcon",
+                    },
+                },
             ],
             filters: {},
             categories: [],
@@ -219,7 +253,7 @@ export default {
             form: this.$form.createForm(this, { name: "addRepair" }),
             showOrderModal: false,
             orderIds: [],
-            serialNumbers: []
+            serialNumbers: [],
         };
     },
     mounted() {
@@ -228,42 +262,38 @@ export default {
         this.params = {
             date_range: [
                 this.getPastMoment(0).format(dateTimeFormat),
-                moment()
-                    .set({ h: 23, m: 59 })
-                    .format(dateTimeFormat)
-            ]
+                moment().set({ h: 23, m: 59 }).format(dateTimeFormat),
+            ],
         };
         this.fetch(this.params);
     },
 
     methods: {
         fetch(params) {
-            ReportsService.getSalesStats(params).then(response => {
+            ReportsService.getSalesStats(params).then((response) => {
                 this.data = response.data;
                 this.summary = response.summary[0];
             });
         },
         moment,
         fetchCategoryService() {
-            CategoryService.all().then(data => {
+            CategoryService.all().then((data) => {
                 this.categories = data;
             });
         },
         fetchDepartmentService() {
-            DepartmentService.all().then(data => {
+            DepartmentService.all().then((data) => {
                 this.departments = data;
             });
         },
         getPastMoment(days) {
-            return moment()
-                .subtract(days, "days")
-                .set({ h: 0, m: 0 });
+            return moment().subtract(days, "days").set({ h: 0, m: 0 });
         },
         dateRangeChange(dates) {
             const params = this.params;
             params.date_range = [
                 dates[0].format(dateTimeFormat),
-                dates[1].format(dateTimeFormat)
+                dates[1].format(dateTimeFormat),
             ];
 
             this.params = params;
@@ -271,7 +301,7 @@ export default {
         },
         showOrders(row) {
             OrderService.getIds({ ...this.params, ...row })
-                .then(response => {
+                .then((response) => {
                     this.orderIds = response;
                 })
                 .then(() => {
@@ -283,13 +313,15 @@ export default {
             ReportsService.getReportSerials({
                 product_id,
                 ...this.params,
-                ...params
-            }).then(serialNumbers => {
+                ...params,
+            }).then((serialNumbers) => {
                 this.serialNumbers = serialNumbers;
             });
         },
         handleSearch(value, column) {
             let filters = this.params;
+
+            this[column.key] = value[0];
             filters[column.key] = value[0];
             this.setFilters(filters);
         },
@@ -297,12 +329,23 @@ export default {
             this.params = params;
             this.fetch(this.params);
         },
+        handleReset(clearFilters, column) {
+            console.log(column);
+            clearFilters();
+            if (this[column.key]) {
+                this[column.key] = null;
+            }
+
+            const filters = this.params;
+            delete filters[column.key];
+            this.setFilters(filters);
+        },
         handleModal(show) {
             this.showOrderModal = show;
         },
         goto(order) {
             window.location = "/sales?order_id=" + order;
-        }
-    }
+        },
+    },
 };
 </script>
