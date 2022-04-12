@@ -109,15 +109,17 @@ class Repair extends Base
     public function syncProducts(array $products, $substituteFromInventory = true)
     {
         $products = collect($products)->map(function ($product) use ($substituteFromInventory) {
-
-
             $product['product_id'] = isset($product['product_id']) ? Product::getIdByRequest($product['product_id'], ['is_repair' => true]) : null;
             $product['device_type_id'] = isset($product['device_type_id']) ? DevicesType::getIdByRequest($product['device_type_id']) : null;
             $product['issue_id'] = isset($product['issue_id']) ? IssueType::getIdByRequest($product['issue_id']) : null;
             $product['brand_id'] = isset($product['brand_id']) ? Brand::getIdByRequest($product['brand_id']) : null;
 
+            if (ArrayHelper::isArray($product['product'])) {
+                $product['product'] = isset($product['product']) && !empty($product['product']) ? $product['product'][0] : null;
+            } else {
+                $product['product'] = isset($product['product']) && !empty($product['product']) ? $product['product'] : null;
+            }
 
-            $product['product'] = ArrayHelper::isArray($product['product']) && isset($product['product']) && !empty($product['product']) ? $product['product'][0] : null;
 
             if ($substituteFromInventory && isset($product['product_id']) && !empty($product['product_id'])) {
 
