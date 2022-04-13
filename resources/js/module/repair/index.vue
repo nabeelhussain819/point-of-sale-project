@@ -2,6 +2,7 @@
     <div>
         <a-skeleton :loading="loading">
             <a-table
+            class="w-100 table-responsive"
                 :pagination="pagination"
                 :columns="columns"
                 :data-source="data"
@@ -26,7 +27,11 @@
                         }}
                     </a-tag>
                 </span>
-                <span slot="modelRender" slot-scope="name, record">
+                <span
+                    slot="modelRender"
+                    class="tag-container"
+                    slot-scope="name, record"
+                >
                     <span v-if="!isEmpty(record.related_products)">
                         <span
                             v-for="rProduct in record.related_products"
@@ -59,11 +64,7 @@
                 </span>
                 <div
                     slot="filterDropdown"
-                    slot-scope="{
-                        setSelectedKeys,
-                        selectedKeys,
-                        column,
-                    }"
+                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
                     style="padding: 8px"
                 >
                     <a-input
@@ -234,11 +235,29 @@ const columns = [
             filterIcon: "filterIcon",
             customRender: "modelRender",
         },
+        width: "200px",
     },
     {
         title: "Created At",
         dataIndex: "created_at",
         key: "created_at",
+          width: "200px",
+    },
+    
+    {
+        title: "Status",
+        key: "status",
+        dataIndex: "status",
+        scopedSlots: {
+            filterDropdown: "statusDropdown",
+            filterIcon: "filterIcon",
+            customRender: "tags",
+        },
+    },
+    {
+        title: "Action",
+        key: "action",
+        scopedSlots: { customRender: "action" },
     },
     {
         title: "Remaining Cost",
@@ -254,21 +273,6 @@ const columns = [
         title: "Total Cost",
         dataIndex: "total_cost",
         key: "total_cost",
-    },
-    {
-        title: "Status",
-        key: "status",
-        dataIndex: "status",
-        scopedSlots: {
-            filterDropdown: "statusDropdown",
-            filterIcon: "filterIcon",
-            customRender: "tags",
-        },
-    },
-    {
-        title: "Action",
-        key: "action",
-        scopedSlots: { customRender: "action" },
     },
 ];
 
@@ -392,4 +396,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.tag-container {
+    
+    overflow: hidden;
+   
+    .ant-tag {
+        white-space: inherit;
+    }
+}
+</style>
