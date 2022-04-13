@@ -13,20 +13,20 @@
 import serials from "./../../product/serials";
 export default {
     components: {
-        serials
+        serials,
     },
     data() {
         return {
             stateProduct: {},
             show: false,
-            serials: {}
+            serials: {},
         };
     },
     props: {
         product: {
-            default: () => {}
+            default: () => {},
         },
-        params: { default: () => {} }
+        params: { default: () => {} },
     },
     mounted() {
         this.stateProduct = { id: this.product.product_id };
@@ -34,18 +34,20 @@ export default {
     },
     methods: {
         onSelect(data) {
-                  
+          
             let serials = {
                 key: this.product.key,
                 product_id: this.product.product_id,
-                serials_number: data.allSelected.map(serial => serial.serial_no)
+                serials_number: data.allSelected.map(
+                    (serial) => serial.serial_no
+                ),
             };
             //     console.log("here data ", this.product, data);
             this.serials = serials;
         },
         complete() {
             this.$emit("close", this.serials);
-        }
-    }
+        },
+    },
 };
 </script>

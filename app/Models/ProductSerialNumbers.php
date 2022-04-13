@@ -94,6 +94,9 @@ class ProductSerialNumbers extends Base
             throw new ConflictHttpException('This serial number has been sold');
         }
 
+        if ($product->stock_bin_id !== 1) {
+            throw new ConflictHttpException('Product is not in Retail');
+        }
         if ($product->return_to_vendor) {
             throw new ConflictHttpException('This serial return to vendor');
         }
