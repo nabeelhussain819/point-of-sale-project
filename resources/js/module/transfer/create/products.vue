@@ -1,9 +1,7 @@
 <template>
     <div>
         <div class="clearfix mb-2">
-            <a-button type="primary" @click="add">
-                Add +
-            </a-button>
+            <a-button type="primary" @click="add"> Add + </a-button>
         </div>
         <a-table
             :pagination="false"
@@ -17,7 +15,7 @@
                     <a-form-item>
                         <a-input
                             @change="
-                                e => {
+                                (e) => {
                                     checkInventory(e, record);
                                 }
                             "
@@ -25,8 +23,8 @@
                             v-decorator="[
                                 `products[${record.key}][quantity]`,
                                 {
-                                    rules: [{ required: true }]
-                                }
+                                    rules: [{ required: true }],
+                                },
                             ]"
                             type="number"
                             style="margin: -5px 0"
@@ -42,14 +40,14 @@
                         :help="record.error.message"
                     >
                         <a-select
-                           class="w-50"
+                            class="w-50"
                             :showSearch="true"
                             v-on:change="selectProduct"
                             v-decorator="[
                                 `products[${record.key}][product_id]`,
                                 {
-                                    rules: [{ required: true }]
-                                }
+                                    rules: [{ required: true }],
+                                },
                             ]"
                             :filter-option="filterOption"
                         >
@@ -61,7 +59,10 @@
                                 >{{ product.name }}</a-select-option
                             >
                         </a-select>
-                        <div  class="w-50 d-inline-block" v-if="record.showSerial">
+                        <div
+                            class="w-50 d-inline-block"
+                            v-if="record.showSerial"
+                        >
                             <a-button
                                 v-on:click="showSerialModal(record)"
                                 type="primary"
@@ -75,9 +76,7 @@
                             >
                                 {{ serial }}
                             </a-tag>
-                            <a-tag class="d-none" color="pink">
-                                pink
-                            </a-tag>
+                            <a-tag class="d-none" color="pink"> pink </a-tag>
 
                             <a-modal
                                 :footer="null"
@@ -87,7 +86,10 @@
                                 title=""
                             >
                                 <serialNumbers
-                                    :params="{ store_id: outStoreId() }"
+                                    :params="{
+                                        store_id: outStoreId(),
+                                        stock_bin_id: bins.retail.id,
+                                    }"
                                     :product="record"
                                     @close="getSerial"
                                 />
@@ -100,8 +102,8 @@
                                     `products[${record.key}][serials]`,
                                     {
                                         initialValue: record.serials_number,
-                                        rules: [{ required: true }]
-                                    }
+                                        rules: [{ required: true }],
+                                    },
                                 ]"
                             ></a-select>
                             <a-checkbox
@@ -109,8 +111,8 @@
                                 v-decorator="[
                                     `products[${record.key}][has_serials]`,
                                     {
-                                        initialValue: true
-                                    }
+                                        initialValue: true,
+                                    },
                                 ]"
                             ></a-checkbox>
                         </div>
@@ -133,6 +135,7 @@ import helpers from "./../../../mixins/helpers";
 import ProductService from "./../../../services/API/ProductService";
 import InventoryService from "./../../../services/API/InventoryService";
 import { filterOption } from "./../../../services/helpers";
+import { BINS } from "./../../../services/constants";
 import serialNumbers from "./serial-numbers";
 
 const columns = [
@@ -140,20 +143,20 @@ const columns = [
         title: "Products",
         dataIndex: "products",
         width: "75%",
-        scopedSlots: { customRender: "products" }
+        scopedSlots: { customRender: "products" },
     },
     {
         title: "Quantity",
         dataIndex: "quantity",
         width: "15%",
-        scopedSlots: { customRender: "quantity" }
+        scopedSlots: { customRender: "quantity" },
     },
 
     {
         title: "Operation",
         dataIndex: "operation",
-        scopedSlots: { customRender: "operation" }
-    }
+        scopedSlots: { customRender: "operation" },
+    },
 ];
 
 export default {
@@ -163,6 +166,7 @@ export default {
     data() {
         return {
             columns,
+            bins: BINS,
             editingKey: "",
             productsList: [],
             currentKey: {},
@@ -170,7 +174,7 @@ export default {
             uuidString: "uuid-",
             products: [],
             filterOption,
-            viewSerialModal: false
+            viewSerialModal: false,
         };
     },
     mounted() {
@@ -183,7 +187,7 @@ export default {
         },
         handleChange(value, key, column) {
             const newData = [...this.data];
-            const target = newData.filter(item => key === item.key)[0];
+            const target = newData.filter((item) => key === item.key)[0];
             if (target) {
                 target[column] = value;
                 this.data = newData;
@@ -191,7 +195,7 @@ export default {
         },
         removeRow(key) {
             let products = this.productsList.filter(
-                product => product.key !== key
+                (product) => product.key !== key
             );
             this.productsList = products;
         },
@@ -206,26 +210,26 @@ export default {
                 serials_number: [],
                 error: {
                     status: null,
-                    message: null
-                }
+                    message: null,
+                },
             });
         },
         async showErrorOnProducts(key, quantity) {
             let products = this.productsList;
             const form = this.form.getFieldsValue();
 
-            this.productsList = products.map(product => {
+            this.productsList = products.map((product) => {
                 if (product.key === key) {
                     InventoryService.productQuantity({
                         store_out_id: form.store_out_id,
                         product_id: product.product_id,
-                        quantity
+                        quantity,
                     })
-                        .then(res => {
+                        .then((res) => {
                             product.error.status = null;
                             product.error.message = null;
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             if (error.response.status === 409) {
                                 product.error.status = "error";
                                 product.error.message =
@@ -237,39 +241,23 @@ export default {
                 }
                 return product;
             });
-            // p = JSON.stringify(p);
-
-            // this.productsList = JSON.parse(p);
-            // for (const product in products) {
-            //     console.log(product);
-            //     let item = products[key];
-            //     console.log(item);
-            // }
         },
         checkInventory(e, record) {
             let quantity = e.target.value;
             this.showErrorOnProducts(record.key, quantity);
-            // const form = this.form.getFieldsValue();
-            // // ye jab kam kare ga jab
-            // if (e === null) {
-            //     quantity = form.quantity;
-            // } else {
-            //     // console.log("form", form);
-
-            // }
         },
         setProducts(product) {
             this.productsList = [...this.productsList, product];
         },
         fetchProducts() {
-            ProductService.getAll().then(products => {
+            ProductService.getAll().then((products) => {
                 this.products = products;
             });
         },
         selectProduct(product_id, row) {
             const hasSerial = row.data.attrs.productHasSerial;
             const key = row.data.attrs.dataKey;
-            this.productsList = this.productsList.map(product => {
+            this.productsList = this.productsList.map((product) => {
                 if (product.key === key) {
                     product.showSerial = hasSerial;
                     product.product_id = product_id; // idhar issue
@@ -282,7 +270,7 @@ export default {
             this.viewSerialModal = true;
         },
         getSerial(data) {
-            this.productsList = this.productsList.map(product => {
+            this.productsList = this.productsList.map((product) => {
                 if (product.key === data.key) {
                     product.serials_number = data.serials_number;
                 }
@@ -291,8 +279,8 @@ export default {
             });
             // this.$emit("close", this.productsList);
             this.viewSerialModal = false;
-        }
-    }
+        },
+    },
 };
 </script>
 <style scoped>

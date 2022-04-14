@@ -12,12 +12,13 @@
             style="padding: 8px"
         >
             <a-input
-                v-ant-ref="c => (searchInput = c)"
+                v-ant-ref="(c) => (searchInput = c)"
                 :placeholder="`Search ${column.dataIndex}`"
                 :value="selectedKeys[0]"
                 style="width: 188px; margin-bottom: 8px; display: block"
                 @change="
-                    e => setSelectedKeys(e.target.value ? [e.target.value] : [])
+                    (e) =>
+                        setSelectedKeys(e.target.value ? [e.target.value] : [])
                 "
                 @pressEnter="() => handleSearch(selectedKeys, column)"
             />
@@ -46,7 +47,7 @@ const columns = [
     {
         title: "ID",
         dataIndex: "product.id",
-        key: "id"
+        key: "id",
     },
     {
         title: "Product Name",
@@ -54,24 +55,25 @@ const columns = [
         key: "product_name",
         scopedSlots: {
             filterDropdown: "filterDropdown",
-            filterIcon: "filterIcon"
-        }
+            filterIcon: "filterIcon",
+        },
+       
     },
     {
         title: "Upc",
         dataIndex: "product.UPC",
-        key: "UPC"
+        key: "UPC",
     },
     {
         title: "quantity",
         dataIndex: "quantity",
-        key: "quantity"
+        key: "quantity",
     },
     {
         title: "Action",
         key: "action",
-        scopedSlots: { customRender: "action" }
-    }
+        scopedSlots: { customRender: "action" },
+    },
 ];
 
 export default {
@@ -79,12 +81,12 @@ export default {
         return {
             data: [],
             columns,
-            filters: {}
+            filters: {},
         };
     },
     methods: {
         fetch(params = {}) {
-            InventoryService.search(params).then(products => {
+            InventoryService.search(params).then((products) => {
                 this.data = products;
             });
         },
@@ -105,10 +107,10 @@ export default {
             value = "";
             delete filters[column.key];
             this.setfilters(filters);
-        }
+        },
     },
     mounted() {
         this.fetch();
-    }
+    },
 };
 </script>

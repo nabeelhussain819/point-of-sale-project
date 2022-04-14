@@ -41,9 +41,7 @@ export default {
             loading: true,
             records: [],
             columns,
-            selectedRowKeys: [
-              
-            ],
+            selectedRowKeys: [],
             selectedProducts: []
         };
     },

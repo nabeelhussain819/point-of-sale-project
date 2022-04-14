@@ -98,7 +98,7 @@ class Repair extends Base
         if (empty($createdAt)) {
             return $this->created_at;
         }
-        return Carbon::parse($createdAt)->format(DateTimeHelper::DATE_FORMAT_DEFAULT);
+        return Carbon::parse($createdAt)->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
     }
 
     public function getRemainingAttribute()
