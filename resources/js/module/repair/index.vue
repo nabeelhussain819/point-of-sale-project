@@ -243,7 +243,12 @@ const columns = [
         key: "created_at",
           width: "200px",
     },
-    
+     {
+        title: "Updated At",
+        dataIndex: "updated_at",
+        key: "updated_at",
+          width: "200px",
+    },
     {
         title: "Status",
         key: "status",

@@ -98,7 +98,20 @@ class Repair extends Base
         if (empty($createdAt)) {
             return $this->created_at;
         }
-        return Carbon::parse($createdAt)->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
+
+        $r = Carbon::parse($createdAt, 'America/Los_Angeles')->timezone('America/Los_Angeles')->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
+        return $r;
+    }
+
+    public function getUpdatedAtAttribute($updatedAt)
+    {
+
+        if (empty($updatedAt)) {
+            return $this->updated_at;
+        }
+
+        return Carbon::parse($updatedAt, 'America/Los_Angeles')->timezone('America/Los_Angeles')->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
+
     }
 
     public function getRemainingAttribute()

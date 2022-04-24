@@ -131,6 +131,7 @@ class RepairController extends Controller
             if ($request->has("discount")) {
                 $data["total_cost"] = $data["total_cost"] - $data["discount"];
             }
+            $data['updated_at'] = Carbon::now(); // on saving auto update not working will find he fix od it
 
             $this->validateOnUpdate($data);
             $repair->update($data);
@@ -177,10 +178,10 @@ class RepairController extends Controller
     {
         return Repair::where($this->applyFilters($request))
             ->with(["customer" => function (BelongsTo $belongsTo) {
-                $belongsTo->select(['id', 'name','phone']);
+                $belongsTo->select(['id', 'name', 'phone']);
             },
                 'relatedProducts' => function (HasMany $hasMany) {
-                    $hasMany->select('product_id', 'repair_id', 'id','product');
+                    $hasMany->select('product_id', 'repair_id', 'id', 'product');
 //                        ->with(['product' => function (BelongsTo $belongsTo) {
 //                            $belongsTo->select(['id', 'name']);
 //                        }]);
