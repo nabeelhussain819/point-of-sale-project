@@ -15,10 +15,10 @@ class StockBin extends Model
 {
 
     const RETAIL=1;
-    const RETURN=2;
+    const TYPE_RETURN=2;
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';

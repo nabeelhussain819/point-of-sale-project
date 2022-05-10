@@ -161,7 +161,7 @@ class InventoryController extends Controller
         return $inventory->getAll($request)
             ->whereNotExists(function (Builder $builder) {
                 $builder->select('id')->where("quantity", "<=", 0)
-                    ->where("stock_bin_id", "=", StockBin::RETURN);
+                    ->where("stock_bin_id", "=", StockBin::TYPE_RETURN);
 
             })
             ->with(['bin' => function (BelongsTo $belongsTo) {
