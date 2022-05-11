@@ -108,4 +108,10 @@ class VendorController extends Controller
         return Vendor::where($this->applyFilters($request))
             ->paginate();
     }
+
+    public function getList(Request $request)
+    {
+        return Vendor::where($this->applyFilters($request))
+            ->get();
+    }
 }

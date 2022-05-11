@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'vendor'], function () {
         Route::get('/search', [VendorController::class, 'search']);
+        Route::get('/list', [VendorController::class, 'getList']);
     });
 
     Route::group(['prefix' => 'reconciliation'], function () {

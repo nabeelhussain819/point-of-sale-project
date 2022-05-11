@@ -182,7 +182,6 @@ class InventoryController extends Controller
     public function changeBin(Request $request, $inventory)
     {
         return DB::transaction(function () use ($request, $inventory) {
-
             $inventory = Inventory::where('id', $inventory)->withoutGlobalScope(new StockBinGlobalScope())->firstOrFail();
             $isNotVendor = $request->get('return_to') !== 1;
 
@@ -198,6 +197,7 @@ class InventoryController extends Controller
                     $postInventory->update(['quantity' => $request->get("quantity")]);
                 } else {
                     $postInventory = new Inventory();
+
                     $postInventory->fill([
                         'name' => 'test',
                         'product_id' => $inventory->product_id,

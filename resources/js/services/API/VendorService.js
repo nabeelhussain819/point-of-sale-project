@@ -7,12 +7,20 @@ function search(params, cancelToken = null) {
     return request({
         url: `${baseUrl}/search/`,
         cancelToken,
-        params
+        params,
+    });
+}
+
+function getList(params) {
+    return request({
+        url: `${baseUrl}/list/`,
+        params,
     });
 }
 
 const VendorService = {
-    search
+    search,
+    getList,
 };
 
 export default VendorService;

@@ -13,12 +13,12 @@ class AddVendorBin extends Migration
      */
     public function up()
     {
-        \App\Models\StockBin::insert([
-            'id' => 9,
-            'name' => 'Vendor',
-            'Constant' => 'VENDOR',
-            'system' => true
-        ]);
+//        \App\Models\StockBin::insert([
+//            'id' => 9,
+//            'name' => 'Vendor',
+//            'Constant' => 'VENDOR',
+//            'system' => true
+//        ]);
     }
 
     /**
