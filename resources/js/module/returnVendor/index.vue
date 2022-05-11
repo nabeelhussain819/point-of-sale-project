@@ -15,25 +15,25 @@ export default {
                     key: "id",
                     title: "Id",
                 },
-                 {
+                {
                     dataIndex: "quantity",
                     key: "quantity",
                     title: "Quantity",
                 },
-                 {
+                {
                     dataIndex: "vendor.name",
                     key: "vendor",
                     title: "vendor",
                 },
-                 {
+                {
                     dataIndex: "product.name",
-                    key: "vendor",
+                    key: "product",
                     title: "product",
                 },
             ],
         };
     },
-    mounted(){
+    mounted() {
         this.fetchRefund();
     },
     methods: {

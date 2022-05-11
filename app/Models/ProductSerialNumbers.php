@@ -23,7 +23,7 @@ class ProductSerialNumbers extends Base
     /**
      * @var array
      */
-    protected $fillable = ['store_id', 'product_id', 'return_to_vendor', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at', 'stock_bin_id', 'purchase_order_id', 'stock_transfer_id'];
+    protected $fillable = ['store_id', 'product_id', 'return_to_vendor', 'serial_no', 'imei_no', 'is_sold', 'created_at', 'updated_at', 'stock_bin_id', 'purchase_order_id', 'stock_transfer_id', 'vendor_id'];
 
     public static function getByStoreId(int $productId, int $storeId)
     {
