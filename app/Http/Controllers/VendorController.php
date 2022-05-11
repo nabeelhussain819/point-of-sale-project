@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Vendor;
+use App\Models\VendorReturn;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -119,5 +122,17 @@ class VendorController extends Controller
     {
         return Vendor::where($this->applyFilters($request))
             ->get();
+    }
+
+    public function refundedList(Request $request)
+    {
+
+        return VendorReturn::where($this->applyFilters($request))
+            ->with(['vendor' => function (BelongsTo $builder) {
+                $builder->select(['id', 'name']);
+            }, 'product' => function (BelongsTo $builder) {
+                $builder->select(['id', 'name']);
+            }])
+            ->paginate($this->getPageSize());
     }
 }

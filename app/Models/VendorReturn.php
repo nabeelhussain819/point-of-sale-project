@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Core\Base;
+use App\Observers\InventoryObserver;
+use App\Scopes\StockBinGlobalScope;
+use App\Scopes\StoreGlobalScope;
 
 /**
  * @property integer $id
@@ -57,7 +60,7 @@ class VendorReturn extends Base
      */
     public function product()
     {
-        return $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Models\Product');
     }
 
     /**
@@ -65,7 +68,7 @@ class VendorReturn extends Base
      */
     public function vendor()
     {
-        return $this->belongsTo('App\Vendor');
+        return $this->belongsTo('App\Models\Vendor');
     }
 
     /**
@@ -74,6 +77,13 @@ class VendorReturn extends Base
     public function store()
     {
         return $this->belongsTo('App\Store');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new StoreGlobalScope);
+
     }
 
     public static function editOrInsert($data)

@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search', [VendorController::class, 'search']);
         Route::get('/list', [VendorController::class, 'getList']);
         Route::get('/refunded', [VendorController::class, 'vendorReturns']);
+        Route::get('/refunded-list', [VendorController::class, 'refundedList']);
     });
 
     Route::group(['prefix' => 'reconciliation'], function () {

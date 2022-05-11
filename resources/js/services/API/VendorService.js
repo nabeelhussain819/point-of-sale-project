@@ -18,9 +18,16 @@ function getList(params) {
     });
 }
 
+function getRefundedList(params) {
+    return request({
+        url: `${baseUrl}/refunded-list/`,
+        params,
+    });
+}
 const VendorService = {
     search,
     getList,
+    getRefundedList,
 };
 
 export default VendorService;
