@@ -191,7 +191,11 @@ class ProductSerialNumbers extends Base
             $product->subject = $subject['subject'];
             $product->subject_id = $subject['subject_id'];
             $product->subject_data = $subject['subject_data'];
-            $product->update(['is_sold' => false, 'return_to_vendor' => $isReturnToVendor, 'stock_bin_id' => $bin]);
+
+            $product->update(['is_sold' => false,
+                'return_to_vendor' => $isReturnToVendor,
+                'vendor_id' => $subject['vendor_id'],
+                'stock_bin_id' => $bin ?? $product->stock_bin_id]);
         });
     }
 }

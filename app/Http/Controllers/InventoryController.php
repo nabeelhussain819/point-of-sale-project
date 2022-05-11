@@ -220,7 +220,8 @@ class InventoryController extends Controller
             ProductSerialNumbers::changeBins($request->get("serial_numbers"), $request->get("stock_bin_id"), [
                 'subject' => Inventory::class,
                 'subject_id' => $inventory->id,
-                'subject_data' => $inventory
+                'subject_data' => $inventory,
+                'vendor_id' => $request->get('vendor_id'),
             ], !$isNotVendor);
 
             $inventory->OUTGOING_PRODUCTS = true;
