@@ -11,6 +11,7 @@ use App\Models\StockBin;
 use App\Models\Store;
 use App\Models\Type;
 use App\Models\User;
+use App\Models\VendorReturn;
 use App\Scopes\StockBinGlobalScope;
 use App\Scopes\StoreGlobalScope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -185,7 +186,7 @@ class InventoryController extends Controller
             $inventory = Inventory::where('id', $inventory)->withoutGlobalScope(new StockBinGlobalScope())->firstOrFail();
             $isNotVendor = $request->get('return_to') !== 1;
 
-            // If Changing the bin not related to Vandour
+            // If Changing the bin not related to Vendor
             if ($isNotVendor) {
                 $postInventory = Inventory::withoutGlobalScope(new StockBinGlobalScope())
                     ->where('product_id', $inventory->product_id)
@@ -198,7 +199,7 @@ class InventoryController extends Controller
                 } else {
                     $postInventory = new Inventory();
 
-                    $postInventory->fill([
+                    $inventoryData = [
                         'name' => 'test',
                         'product_id' => $inventory->product_id,
                         'vendor_id' => $inventory->vendor_id,
@@ -207,7 +208,10 @@ class InventoryController extends Controller
                         'cost' => $inventory->price,
                         'stock_bin_id' => $request->get("stock_bin_id"),
                         'store_id' => $inventory->store_id,
-                    ]);
+                    ];
+
+                    $postInventory->fill($inventoryData);
+
 
                     $postInventory->save();
                 }
@@ -220,7 +224,21 @@ class InventoryController extends Controller
             ], !$isNotVendor);
 
             $inventory->OUTGOING_PRODUCTS = true;
+
+
             $inventory->update(['quantity' => $inventory->quantity - $request->get("quantity")]);
+
+            if (!$isNotVendor) {
+                VendorReturn::editOrInsert(
+                    [
+                        'product_id' => $inventory->product_id,
+                        'store_id' => $inventory->store_id,
+                        'quantity' => $request->get('quantity'),
+                        'vendor_id' => $request->get('vendor_id'),
+                    ]
+                );
+            }
+
 
             return $this->genericResponse(true, "Stock has been transfer", 200, ['inventory' => $inventory]);
         });

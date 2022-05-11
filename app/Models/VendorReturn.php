@@ -75,4 +75,30 @@ class VendorReturn extends Base
     {
         return $this->belongsTo('App\Store');
     }
+
+    public static function editOrInsert($data)
+    {
+        $vendorReturn = VendorReturn::where('vendor_id', $data['vendor_id'])
+            ->where('product_id', $data['product_id'])
+            ->where('store_id', $data['store_id'])
+            ->first();
+
+
+        // ager null hai tou insert kardo
+        if (empty($vendorReturn)) {
+            VendorReturn::create(
+                [
+                    'vendor_id' => $data['vendor_id'],
+                    'product_id' => $data['product_id'],
+                    'store_id' => $data['store_id'],
+                    'quantity' => $data['quantity'],
+                ]
+            );
+        } else {
+
+            $vendorReturn->update([
+                'quantity' => $vendorReturn->quantity + $data['quantity'],
+            ]);
+        }
+    }
 }
