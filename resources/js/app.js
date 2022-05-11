@@ -47,13 +47,14 @@ Vue.component('transfer-report', require('./module/reports/transfer/index').defa
 Vue.component('purchase-report', require('./module/reports/purchase/index').default);
 Vue.component('repair-return', require('./module/reports/return/index').default);
 Vue.component('inventory-report', require('./module/reports/inventory/index').default);
+Vue.component('vendor-return', require('./module/returnVendor/index').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.prototype.$eventBus = new Vue(); // custom adding event bus if any issue in looping 
+Vue.prototype.$eventBus = new Vue(); // custom adding event bus if any issue in looping
 const app = new Vue({
     el: '#app',
 });

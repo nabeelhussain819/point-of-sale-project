@@ -19,6 +19,12 @@ class VendorController extends Controller
         return view('admin.vendors.index', ['vendors' => Vendor::all()]);
     }
 
+    public function vendorReturns()
+    {
+        //
+        return view('admin.vendors.refunded');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
