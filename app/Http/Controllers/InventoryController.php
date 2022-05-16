@@ -180,6 +180,7 @@ class InventoryController extends Controller
      * @return mixed
      * @throws \Throwable
      */
+    // so much logic on controller
     public function changeBin(Request $request, $inventory)
     {
         return DB::transaction(function () use ($request, $inventory) {
@@ -230,12 +231,15 @@ class InventoryController extends Controller
             $inventory->update(['quantity' => $inventory->quantity - $request->get("quantity")]);
 
             if (!$isNotVendor) {
+                $product_has_serial = collect($request->get("serial_numbers"))->count() > 0;
+
                 VendorReturn::editOrInsert(
                     [
                         'product_id' => $inventory->product_id,
                         'store_id' => $inventory->store_id,
                         'quantity' => $request->get('quantity'),
                         'vendor_id' => $request->get('vendor_id'),
+                        'has_serial_number' => $product_has_serial
                     ]
                 );
             }

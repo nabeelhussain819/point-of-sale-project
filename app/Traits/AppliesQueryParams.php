@@ -28,6 +28,10 @@ trait AppliesQueryParams
                 return $query->where('id', (int)$id);
             })->when($request->get('active'), function (Builder $query, $active) {
                 return $query->where('active', $active);
+            })->when($request->get('vendor_id'), function (Builder $query, $vendorId) {
+                return $query->where('vendor_id', $vendorId);
+            })->when($request->get('return_to_vendor'), function (Builder $query, $return_to_vendor) {
+                return $query->where('return_to_vendor', $return_to_vendor);
             })->when($request->get('categories'), function (Builder $query, $categories) {
                 if (is_array($categories)) {
                     return $query->whereHas('categories', function (Builder $query) use ($categories) {
@@ -110,11 +114,10 @@ trait AppliesQueryParams
 
                 return $query->where('id', '!=', $exclude_id);
             })->when($request->get('date_range'), function (Builder $builder, $date_range) use ($request) {
-                if ($request->get('apply_on_update',false)) {
+                if ($request->get('apply_on_update', false)) {
 
                     $builder->whereRaw("updated_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
-                }
-                else{
+                } else {
                     $builder->whereRaw("created_at BETWEEN' " . $date_range[0] . "'AND '" . $date_range[1] . "'");
                 }
 
@@ -123,7 +126,7 @@ trait AppliesQueryParams
                     $builder->where('has_serial_number', $has_serial_number);
                 });
             })->when($request->get('is_sold'), function (Builder $builder, $is_sold) {
-                return  $builder->where('is_sold', $is_sold);
+                return $builder->where('is_sold', $is_sold);
             })->when($request->get('quantity'), function (Builder $builder, $quantity) {
                 if ($quantity) {
                     $builder->where('quantity', '>', 0);

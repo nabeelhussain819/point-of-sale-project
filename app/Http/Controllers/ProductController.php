@@ -164,7 +164,7 @@ class ProductController extends Controller
     {
         return ProductSerialNumbers::getByStoreId($product->id, $request->get("store_id", Store::currentId()))
             ->where($this->applyFilters($request))
-            ->where('return_to_vendor', false)
+            ->where('return_to_vendor', $request->get('return_to_vendor', false))
             ->get();
     }
 

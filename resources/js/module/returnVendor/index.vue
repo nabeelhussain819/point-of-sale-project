@@ -1,13 +1,36 @@
 <template>
     <div>
-        <a-table :dataSource="data" :columns="columns"></a-table>
+        <a-table :dataSource="data" :columns="columns">
+            <span slot="action" slot-scope="text, record">
+                <a-button v-on:click="showSerials(record)" type="link"
+                    ><a-icon type="appstore" theme="filled" />
+                </a-button>
+            </span>
+        </a-table>
+        <a-modal
+            width="900"
+            :visible="showSerialModal"
+            title="Transfer modal"
+            @cancel="handleSerialModal(false)"
+            :destroyOnClose="true"
+        >
+            <transfer
+                v-if="!isEmpty(refundedVendor)"
+                :record="refundedVendor"
+            />
+        </a-modal>
     </div>
 </template>
 <script>
 import VendorService from "../../services/API/VendorService";
+import { isEmpty } from "../../services/helpers";
+import transfer from "./transfer";
+
 export default {
+    components: { transfer },
     data() {
         return {
+           
             data: [],
             columns: [
                 {
@@ -30,7 +53,13 @@ export default {
                     key: "product",
                     title: "product",
                 },
+                {
+                    title: "Action",
+                    scopedSlots: { customRender: "action" },
+                },
             ],
+            showSerialModal: false,
+            refundedVendor: null,
         };
     },
     mounted() {
@@ -42,6 +71,15 @@ export default {
                 this.data = response.data;
             });
         },
+        showSerials(refundedVendor) {
+            console.log(refundedVendor);
+            this.refundedVendor = refundedVendor;
+            this.handleSerialModal(true);
+        },
+        handleSerialModal(show) {
+            this.showSerialModal = show;
+        },
+        isEmpty,
     },
 };
 </script>
