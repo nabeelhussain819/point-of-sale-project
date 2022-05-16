@@ -102,6 +102,7 @@ class VendorReturn extends Base
                     'product_id' => $data['product_id'],
                     'store_id' => $data['store_id'],
                     'quantity' => $data['quantity'],
+                    'has_serial_number' => $data['has_serial_number'],
                 ]
             );
         } else {

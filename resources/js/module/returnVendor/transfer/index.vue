@@ -1,6 +1,7 @@
 <template>
     <div>
         <Serials
+            v-if="record.has_serial_number"
             :product="{ id: record.product_id }"
             :params="{ vendor_id: record.vendor.id, return_to_vendor: true }"
             @onSelect="onSelect"
