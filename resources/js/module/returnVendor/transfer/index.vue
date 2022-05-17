@@ -28,6 +28,7 @@
                     v-decorator="[
                         `vendor_refund_id`,
                         {
+                            initialValue: record.id,
                             rules: [
                                 {
                                     required: true,
@@ -38,11 +39,17 @@
                     ]"
                 ></a-input>
             </a-form-item>
+            <a-form-item>
+                <a-button type="primary" :loading="loading" htmlType="submit"
+                    >Submit</a-button
+                >
+            </a-form-item>
         </a-form>
     </div>
 </template>
 <script>
 import Serials from "./../../product/serials";
+import InventoryService from "../../../services/API/InventoryService";
 export default {
     props: {
         record: { type: Object },
@@ -51,6 +58,7 @@ export default {
         return {
             form: this.$form.createForm(this, { name: "vendorRefund" }),
             serialNumber: {},
+            loading: false,
         };
     },
     components: { Serials },
@@ -58,12 +66,20 @@ export default {
         onSelect(value) {
             this.serialNumber = value.allSelected;
         },
-        handleSubmit() {
+        handleSubmit(e) {
+            e.preventDefault();
+            this.loading = true;
             this.form.validateFields((err, values) => {
                 if (!err) {
                     console.log(values);
+
+                    InventoryService.getBackFromVendor({
+                        ...values,
+                        serial_numbers: this.serialNumber,
+                    });
                 }
             });
+            this.loading = false;
         },
     },
 };

@@ -6,28 +6,28 @@ const baseUrl = `/inventory`;
 function products(params = {}) {
     return request({
         url: `${baseUrl}/products`,
-        params
+        params,
     });
 }
 
 function list(params = {}) {
     return request({
         url: `${baseUrl}/fetch`,
-        params
+        params,
     });
 }
 
 function all(params = {}) {
     return request({
         url: `${baseUrl}/all`,
-        params
+        params,
     });
 }
 
 function search(params = {}) {
     return request({
         url: `${baseUrl}/search`,
-        params
+        params,
     });
 }
 
@@ -35,14 +35,22 @@ function changeBin(id, data) {
     return request({
         url: `${baseUrl}/${id}/change-bin`,
         method: "PUT",
-        data
+        data,
     });
 }
 
 function productQuantity(params = {}) {
     return request({
         url: `${baseUrl}/product-quantity`,
-        params
+        params,
+    });
+}
+
+function getBackFromVendor(params = {}) {
+    return request({
+        url: `${baseUrl}/back-from-vendor`,
+        params,
+        method: "Post",
     });
 }
 
@@ -52,7 +60,8 @@ const InventoryService = {
     all,
     changeBin,
     search,
-    productQuantity
+    productQuantity,
+    getBackFromVendor,
 };
 
 export default InventoryService;

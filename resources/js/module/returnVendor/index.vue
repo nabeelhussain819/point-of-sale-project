@@ -9,6 +9,7 @@
         </a-table>
         <a-modal
             width="900"
+            :footer="null"
             :visible="showSerialModal"
             title="Transfer modal"
             @cancel="handleSerialModal(false)"
@@ -30,7 +31,6 @@ export default {
     components: { transfer },
     data() {
         return {
-           
             data: [],
             columns: [
                 {

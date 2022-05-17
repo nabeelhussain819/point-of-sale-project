@@ -273,4 +273,11 @@ class InventoryController extends Controller
         return Activity::getChangesAttribute();
 
     }
+
+    public function getBackFromVendor(Request $request)
+    {
+        dd($request->all());
+    }
+
+
 }

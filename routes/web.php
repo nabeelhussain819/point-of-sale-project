@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put("{inventory}/change-bin", [InventoryController::class, 'changeBin']);
         Route::get('/search', [InventoryController::class, 'search']);
         Route::get('/product-quantity', [InventoryController::class, 'checkProductCount']);
+        Route::post('/back-from-vendor', [InventoryController::class, 'getBackFromVendor']);
     });
 
     Route::group(['prefix' => 'finance'], function () {
