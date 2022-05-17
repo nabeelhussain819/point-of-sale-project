@@ -39,6 +39,11 @@
                     ]"
                 ></a-input>
             </a-form-item>
+            <a-alert
+                type="error"
+                :message="error.message"
+                v-if="error.status"
+            ></a-alert>
             <a-form-item>
                 <a-button type="primary" :loading="loading" htmlType="submit"
                     >Submit</a-button
@@ -59,6 +64,7 @@ export default {
             form: this.$form.createForm(this, { name: "vendorRefund" }),
             serialNumber: {},
             loading: false,
+            error: {},
         };
     },
     components: { Serials },
@@ -70,16 +76,30 @@ export default {
             e.preventDefault();
             this.loading = true;
             this.form.validateFields((err, values) => {
+                this.error = {};
                 if (!err) {
-                    console.log(values);
-
-                    InventoryService.getBackFromVendor({
-                        ...values,
-                        serial_numbers: this.serialNumber,
-                    });
+                    if (this.validateSerialsNumbers(values)) {
+                        InventoryService.getBackFromVendor(this.record.id, {
+                            ...values,
+                            serial_numbers: this.serialNumber,
+                        });
+                    } else {
+                        this.error = {
+                            message: "match the quantity with Serials",
+                            status: true,
+                        };
+                    }
                 }
             });
             this.loading = false;
+        },
+        validateSerialsNumbers(values) {
+            const refundedProduct = this.record;
+            if (refundedProduct.has_serial_number) {
+                const quantity = values.quantity;
+                return quantity === this.serialNumber.length;
+            }
+            return true;
         },
     },
 };

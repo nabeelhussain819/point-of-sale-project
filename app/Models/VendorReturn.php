@@ -86,6 +86,11 @@ class VendorReturn extends Base
 
     }
 
+    public static function substituteQuantity(VendorReturn $vendor, int $quantity)
+    {
+        $vendor->update(['quantity' => $vendor->quantity - $quantity]);
+    }
+
     public static function editOrInsert($data)
     {
         $vendorReturn = VendorReturn::where('vendor_id', $data['vendor_id'])

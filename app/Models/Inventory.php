@@ -28,6 +28,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 class Inventory extends Base
 {
     use AppliesQueryParams;
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -48,6 +49,8 @@ class Inventory extends Base
         SCENARIO_PURCHASE = 'PURCHASE';
 
     public static $INCOMING_PRODUCTS = false;
+
+    // when substitute the value from inventory
     public $OUTGOING_PRODUCTS = false;
 
     /**
@@ -136,7 +139,8 @@ class Inventory extends Base
 
     public static function updateProductQuantityByIdAndProductId($id, $product_id, $quantity)
     {
-        return Inventory::where(
+
+        $invt = Inventory::where(
             [
                 ['id', '=', $id],
                 ['product_id', '=', $product_id],
@@ -147,6 +151,8 @@ class Inventory extends Base
                 'quantity' => $quantity
             )
         );
+
+        return $invt;
     }
 
     private function removeStoreScope()
@@ -266,13 +272,17 @@ class Inventory extends Base
         return $inventoryProduct;
     }
 
-    public function addRefund()
+    public static function addToInventory(int $productId, int $quantity, int $stockBinId = StockBin::RETAIL)
     {
+        $inventory = self::where("product_id", $productId)
+            ->where("stock_bin_id", $stockBinId)
+            ->first();
 
+        $inventory->update(['quantity' => $quantity]);
     }
 
-
-    public static function pluckSingleQuantity(int $quantity, int $productId): Inventory
+    public
+    static function pluckSingleQuantity(int $quantity, int $productId): Inventory
     {
         $productQuantity = self::getProduct($productId);
         $productQuantity->OUTGOING_PRODUCTS = true;
@@ -280,14 +290,16 @@ class Inventory extends Base
         return $productQuantity;
     }
 
-    public static function getProduct(int $productId): Inventory
+    public
+    static function getProduct(int $productId): Inventory
     {
         return Inventory::select(self::defaultSelect())
             ->where('product_id', $productId)->firstOrFail();
     }
 
 
-    public static function getLogs(Request $request)
+    public
+    static function getLogs(Request $request)
     {
         $date_range = $request->get('date_range');
         $storeId = Store::currentId();

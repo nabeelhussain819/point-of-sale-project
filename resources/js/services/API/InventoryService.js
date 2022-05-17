@@ -46,9 +46,9 @@ function productQuantity(params = {}) {
     });
 }
 
-function getBackFromVendor(params = {}) {
+function getBackFromVendor(id,params = {}) {
     return request({
-        url: `${baseUrl}/back-from-vendor`,
+        url: `${baseUrl}/back-from-vendor/${id}`,
         params,
         method: "Post",
     });
