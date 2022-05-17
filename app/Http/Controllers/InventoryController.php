@@ -276,12 +276,17 @@ class InventoryController extends Controller
 
     public function getBackFromVendor(Request $request, VendorReturn $vendorReturn)
     {
+
+
         DB::transaction(function () use ($request, $vendorReturn) {
             $quantity = $request->get('quantity');
 
             VendorReturn::substituteQuantity($vendorReturn, $quantity);
             Inventory::addToInventory($vendorReturn->product_id, $quantity);
-
+            $serialNumbers = $request->get("serial_numbers");
+            if (empty($serialNumbers)) {
+                ProductSerialNumbers::returnFromVendors($serialNumbers);
+            }
         });
 
     }

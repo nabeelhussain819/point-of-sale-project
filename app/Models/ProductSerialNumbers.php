@@ -198,4 +198,17 @@ class ProductSerialNumbers extends Base
                 'stock_bin_id' => $bin ?? $product->stock_bin_id]);
         });
     }
+
+    public static function returnFromVendors(array $serialNumbers)
+    {
+
+        collect($serialNumbers)->each(function ($serialNumber) {
+
+            $product = self::where('serial_no', $serialNumber)->first();
+            if (empty($product)) {
+                throw  new \Exception("product not found");
+            }
+            $product->update(['return_to_vendor' => false, 'vendor_id' => null]);
+        });
+    }
 }

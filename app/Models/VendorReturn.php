@@ -88,6 +88,10 @@ class VendorReturn extends Base
 
     public static function substituteQuantity(VendorReturn $vendor, int $quantity)
     {
+        $updatedQuantity = $vendor->quantity - $quantity;
+        if ($updatedQuantity < 0) {
+            throw new \Exception("quantity should not be less then 0");
+        }
         $vendor->update(['quantity' => $vendor->quantity - $quantity]);
     }
 

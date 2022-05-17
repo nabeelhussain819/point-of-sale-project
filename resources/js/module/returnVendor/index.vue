@@ -18,6 +18,7 @@
             <transfer
                 v-if="!isEmpty(refundedVendor)"
                 :record="refundedVendor"
+                @closeModal="closeModalOnUpdate"
             />
         </a-modal>
     </div>
@@ -80,6 +81,10 @@ export default {
             this.showSerialModal = show;
         },
         isEmpty,
+        closeModalOnUpdate(){
+            this.handleSerialModal(false);
+            this.fetchRefund();
+        }
     },
 };
 </script>

@@ -70,7 +70,8 @@ export default {
     components: { Serials },
     methods: {
         onSelect(value) {
-            this.serialNumber = value.allSelected;
+            console.log(value)
+            this.serialNumber = value.allSelected.map(s=>s.serial_no);
         },
         handleSubmit(e) {
             e.preventDefault();
@@ -82,6 +83,8 @@ export default {
                         InventoryService.getBackFromVendor(this.record.id, {
                             ...values,
                             serial_numbers: this.serialNumber,
+                        }).then(()=>{
+                            this.$emit("closeModal");
                         });
                     } else {
                         this.error = {
