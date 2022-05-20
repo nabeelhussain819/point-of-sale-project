@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category; 
+use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
