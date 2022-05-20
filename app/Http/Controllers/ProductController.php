@@ -51,6 +51,7 @@ class ProductController extends Controller
             'cost' => 'required|numeric|min:0',
             'retail_price' => 'required|numeric|min:0',
             'min_price' => 'required|numeric|min:0',
+            'UPC' => 'required|unique:products,UPC',
         ]);
         $product = new Product();
         $product->guid = Str::uuid();

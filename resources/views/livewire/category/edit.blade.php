@@ -28,8 +28,9 @@
                             <option value="0">IN-ACTIVE</option>
                         </select>
                     </div>
+                    <button  wire:click="update()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Update</button>
                 </div>
-                <button  wire:click="update()" class="btn btn-success font-weight-bold shadow-lg rounded float-right">Edit</button>
+
             </div>
         </div>
         @if (isset($errors) && count($errors) > 0)
@@ -42,4 +43,5 @@
             </div>
         @endif
     </div>
+
 </div>
