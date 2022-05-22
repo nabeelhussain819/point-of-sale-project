@@ -276,8 +276,6 @@ class InventoryController extends Controller
 
     public function getBackFromVendor(Request $request, VendorReturn $vendorReturn)
     {
-
-
         DB::transaction(function () use ($request, $vendorReturn) {
             $quantity = $request->get('quantity');
 

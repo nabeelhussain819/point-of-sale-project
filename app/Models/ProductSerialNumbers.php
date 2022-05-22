@@ -118,6 +118,11 @@ class ProductSerialNumbers extends Base
         return $this->belongsTo(PurchaseOrder::class);
     }
 
+    public function refundedVendor()
+    {
+        return $this->belongsTo(VendorReturn::class, 'vendor_id');
+    }
+
 
     public function stockTransfer()
     {
@@ -191,6 +196,10 @@ class ProductSerialNumbers extends Base
             $product->subject = $subject['subject'];
             $product->subject_id = $subject['subject_id'];
             $product->subject_data = $subject['subject_data'];
+
+
+            $product->subject = VendorReturn::class;
+            $product->subject_id = $subject['vendor_id'];
 
             $product->update(['is_sold' => false,
                 'return_to_vendor' => $isReturnToVendor,

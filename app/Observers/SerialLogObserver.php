@@ -12,6 +12,7 @@ use App\Models\Refund;
 use App\Models\SerialLogs;
 use App\Models\StockBin;
 use App\Models\StockTransfer;
+use App\Models\VendorReturn;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,7 @@ class SerialLogObserver
 
     private function log(ProductSerialNumbers $productSerialNumbers)
     {
+
         switch ($productSerialNumbers->subject) {
             case PurchaseOrder::class:
                 $this->belongsToPurchaseOrder($productSerialNumbers);
@@ -44,9 +46,24 @@ class SerialLogObserver
             case Inventory::class:
                 $this->belongsToInventory($productSerialNumbers);
                 break;
+            case VendorReturn::class:
+                $this->belongsToVendorReturn($productSerialNumbers);
+                break;
             default:
         }
 
+    }
+
+    private function belongsToVendorReturn(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = new SerialLogs();
+        $serialLog->add(
+            $productSerialNumbers->id,
+            $productSerialNumbers->serial_no,
+            VendorReturn::class,
+            $productSerialNumbers->vendor_id,
+            $this->vendorReturnOptions($productSerialNumbers)
+        );
     }
 
     private function belongsToPurchaseOrder(ProductSerialNumbers $productSerialNumbers)
@@ -143,12 +160,27 @@ class SerialLogObserver
         return json_encode($serialLog);
     }
 
+    private function vendorReturnOptions(ProductSerialNumbers $productSerialNumbers)
+    {
+        $serialLog = $this->baseOptions();
+        $serialLog->doc = $productSerialNumbers->vendor_id;
+        $serialLog->subject = "Return To vendor";
+
+        $serialLog->from = $productSerialNumbers->vendor_id;
+
+
+        $serialLog->to = $productSerialNumbers->vendor_id;;
+        $serialLog->url = route('return_tovendor_', $productSerialNumbers->vendor_id);
+
+        return json_encode($serialLog);
+    }
+
     private function purchaseOrderOptions(ProductSerialNumbers $productSerialNumbers)
     {
         $serialLog = $this->baseOptions();
-        $serialLog->doc = $productSerialNumbers->purchaseOrder->id;
-        $serialLog->subject = "Purchase Order";
+        $serialLog->doc = $productSerialNumbers->vendor_id;
 
+        $serialLog->subject = "Purchase Order";
         $serialLog->from = $productSerialNumbers->purchaseOrder->vendor->name;
         $serialLog->to = $productSerialNumbers->purchaseOrder->store->name;
         $serialLog->url = route('purchaseOrder.view', $productSerialNumbers->purchaseOrder->id);

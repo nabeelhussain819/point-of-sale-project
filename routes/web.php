@@ -91,8 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'vendor'], function () {
         Route::get('/search', [VendorController::class, 'search']);
         Route::get('/list', [VendorController::class, 'getList']);
-        Route::get('/refunded', [VendorController::class, 'vendorReturns']);
-        Route::get('/refunded-list', [VendorController::class, 'refundedList']);
+        Route::get('/refunded', [VendorController::class, 'vendorReturns'])->name("return_tovendor_");
+        Route::get('/refunded-list', [VendorController::class, 'refundedList'])->name("return_to_vendor_list");
     });
 
     Route::group(['prefix' => 'reconciliation'], function () {
