@@ -166,10 +166,9 @@ class SerialLogObserver
         $serialLog->doc = $productSerialNumbers->vendor_id;
         $serialLog->subject = "Return To vendor";
 
-        $serialLog->from = $productSerialNumbers->vendor_id;
-
-
-        $serialLog->to = $productSerialNumbers->vendor_id;;
+        $serialLog->from = "Inventory ";
+        
+        $serialLog->to = "vendor";
         $serialLog->url = route('return_tovendor_', $productSerialNumbers->vendor_id);
 
         return json_encode($serialLog);
