@@ -23,7 +23,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Full Name</th>
                     <th scope="col">Reference</th>
                     <th scope="col">Active</th>
                     <th scope="col">Action</th>
@@ -45,7 +45,7 @@
                         <td>
                             <div style="display: flex">
                                 @if(auth()->user()->hasPermissionTo('category-edit'))
-                                    <button class="btn btn-info mr-1" wire:click="edit({{$item->id}})"><i
+                                    <button class="btn btn-info mr-1" wire:click="edit({{$item['id']}})" ><i
                                                 class="fa fa-pen"></i></button>
                                 @endif
                                 @if(auth()->user()->hasPermissionTo('category-delete'))

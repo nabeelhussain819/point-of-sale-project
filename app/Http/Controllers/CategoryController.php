@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        return view('admin.category.index', ['categories' => Category::all()]);
+        return view('admin.category.index', ['categories' => Category::paginate(15)]);
     }
 
     /**
@@ -85,6 +85,7 @@ class CategoryController extends Controller
             'active' => 'required'
         ]);
         $category = Category::find($id);
+
         $category->fill($request->all())->update();
         return redirect()->back()->with('success', "$category->name Updated");
     }
