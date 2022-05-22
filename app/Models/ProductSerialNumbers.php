@@ -18,7 +18,7 @@ class ProductSerialNumbers extends Base
 
     protected $hasGuid = false;
 
-    public $subject, $subject_id, $subject_data;// setting the subject to the log
+    public $subject, $subject_id, $subject_data, $subject_title;// setting the subject to the log
 
     /**
      * @var array
@@ -208,15 +208,19 @@ class ProductSerialNumbers extends Base
         });
     }
 
-    public static function returnFromVendors(array $serialNumbers)
+    public static function returnFromVendors(array $serialNumbers, Inventory $inventory)
     {
 
-        collect($serialNumbers)->each(function ($serialNumber) {
+        collect($serialNumbers)->each(function ($serialNumber) use ($inventory) {
 
             $product = self::where('serial_no', $serialNumber)->first();
             if (empty($product)) {
                 throw  new \Exception("product not found");
             }
+            $product->subject = Inventory::class;
+            $product->subject_id = $inventory->id;
+
+            $product->subject_title = "Back From Vendor";
             $product->update(['return_to_vendor' => false, 'vendor_id' => null]);
         });
     }

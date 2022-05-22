@@ -279,6 +279,7 @@ class Inventory extends Base
             ->first();
 
         $inventory->update(['quantity' => $quantity]);
+        return $inventory;
     }
 
     public

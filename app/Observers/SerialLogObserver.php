@@ -167,7 +167,7 @@ class SerialLogObserver
         $serialLog->subject = "Return To vendor";
 
         $serialLog->from = "Inventory ";
-        
+
         $serialLog->to = "vendor";
         $serialLog->url = route('return_tovendor_', $productSerialNumbers->vendor_id);
 
@@ -244,7 +244,7 @@ class SerialLogObserver
     {
         $serialLog = $this->baseOptions();
         $serialLog->doc = $productSerialNumbers->subject_id;
-        $serialLog->subject = "Change Bin";
+        $serialLog->subject = $productSerialNumbers->subject_title ?? "Change Bin";
 
         $serialLog->from = StockBin::where('id', $productSerialNumbers->getOriginal('stock_bin_id'))->firstOrFail()->name;
         $serialLog->to = $productSerialNumbers->bin->name;
