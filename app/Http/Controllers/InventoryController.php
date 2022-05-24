@@ -282,7 +282,9 @@ class InventoryController extends Controller
             VendorReturn::substituteQuantity($vendorReturn, $quantity);
             $inventory = Inventory::addToInventory($vendorReturn->product_id, $quantity);
             $serialNumbers = $request->get("serial_numbers");
-            if (!empty($serialNumbers)) {
+
+            if (!empty($serialNumbers) && $serialNumbers !== "{}") {
+               
                 ProductSerialNumbers::returnFromVendors($serialNumbers, $inventory);
             }
 

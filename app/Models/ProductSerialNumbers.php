@@ -197,9 +197,10 @@ class ProductSerialNumbers extends Base
             $product->subject_id = $subject['subject_id'];
             $product->subject_data = $subject['subject_data'];
 
-
-            $product->subject = VendorReturn::class;
-            $product->subject_id = $subject['vendor_id'];
+            if (isset($subject['vendor_id'])) {
+                $product->subject = VendorReturn::class;
+                $product->subject_id = $subject['vendor_id'];
+            }
 
             $product->update(['is_sold' => false,
                 'return_to_vendor' => $isReturnToVendor,
