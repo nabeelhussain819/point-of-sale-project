@@ -110,6 +110,26 @@
                     </div>
                 </a>
             </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <a href="{{url('vendor/refunded')}}" style="color: #fff;">
+                    <div class="card shadow-lg bg-white rounded"
+                         style="height: 120px;background-image: linear-gradient(87deg, #3c3f72  0%, #8187ec  100%) !important; border-radius: .375rem;">
+                        <div class="card-body text-center">
+                            <div class="row">
+                                <div class="col">
+                                    <i class="fas fa-cubes text-light" style="font-size: 70px"></i>
+                                </div>
+                                <div class="col">
+                                    <h4 class="text-light mt-1">Return To vendor</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 @endsection

@@ -18,7 +18,7 @@ class CreatingSerialTrackingTable extends Migration
             $table->string('serial_number');
             $table->string('subject_type');
             $table->bigInteger('subject_id');
-            $table->unsignedBigInteger('product_serial_number_id');
+            $table->bigInteger('product_serial_number_id');
             $table->json('properties')->nullable();
             $table->uuid('guid');
             $table->unsignedBigInteger('created_by')->nullable();
