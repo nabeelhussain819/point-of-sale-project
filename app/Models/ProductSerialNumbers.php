@@ -222,6 +222,7 @@ class ProductSerialNumbers extends Base
             $product->subject_id = $inventory->id;
 
             $product->subject_title = "Back From Vendor";
+            $product->stock_bin_id = StockBin::RETAIL;
             $product->update(['return_to_vendor' => false, 'vendor_id' => null]);
         });
     }

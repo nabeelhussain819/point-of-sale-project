@@ -284,7 +284,7 @@ class InventoryController extends Controller
             $serialNumbers = $request->get("serial_numbers");
 
             if (!empty($serialNumbers) && $serialNumbers !== "{}") {
-               
+
                 ProductSerialNumbers::returnFromVendors($serialNumbers, $inventory);
             }
 

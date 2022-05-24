@@ -282,8 +282,7 @@ class Inventory extends Base
         return $inventory;
     }
 
-    public
-    static function pluckSingleQuantity(int $quantity, int $productId): Inventory
+    public static function pluckSingleQuantity(int $quantity, int $productId): Inventory
     {
         $productQuantity = self::getProduct($productId);
         $productQuantity->OUTGOING_PRODUCTS = true;
@@ -291,16 +290,14 @@ class Inventory extends Base
         return $productQuantity;
     }
 
-    public
-    static function getProduct(int $productId): Inventory
+    public static function getProduct(int $productId): Inventory
     {
         return Inventory::select(self::defaultSelect())
             ->where('product_id', $productId)->firstOrFail();
     }
 
 
-    public
-    static function getLogs(Request $request)
+    public static function getLogs(Request $request)
     {
         $date_range = $request->get('date_range');
         $storeId = Store::currentId();
