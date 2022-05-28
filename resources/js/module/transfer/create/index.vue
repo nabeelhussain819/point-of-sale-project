@@ -87,14 +87,14 @@ export default {
         },
         handleSubmit(e) {
             e.preventDefault();
-            this.isActive = true;
+
             this.form.validateFields((err, values) => {
                 const products = values.products;
                 const serialQuantityCheck = this.validateQuantityAndSerial(
                     products
                 );
-
                 if (!err && serialQuantityCheck) {
+                    this.isActive = true;
                     this.saveTrasnfer(values);
                 }
             });
