@@ -1,22 +1,11 @@
 <template>
     <div class="mt-3 serialsearch">
-        <a-input-search
-            v-model="searchSerail"
-            placeholder="input search text"
-            enter-button
-            @search="onSearch"
-        />
-        <a-table
-            :pagination="false"
-            :loading="loading"
-            :columns="columns"
-            :data-source="records"
-            :row-selection="{
-                hideDefaultSelections: true,
-                selectedRowKeys: selectedRowKeys,
-                onChange: onSelect
-            }"
-        />
+        <a-input-search v-model="searchSerail" placeholder="input search text" enter-button @search="onSearch" />
+        <a-table :pagination="false" :loading="loading" :columns="columns" :data-source="records" :row-selection="{
+            hideDefaultSelections: true,
+            selectedRowKeys: selectedRowKeys,
+            onChange: onSelect
+        }" />
     </div>
 </template>
 <script>
@@ -32,8 +21,8 @@ const columns = [
 
 export default {
     props: {
-        product: { default: () => {} },
-        params: { default: () => {} }
+        product: { default: () => { } },
+        params: { default: () => { } }
     },
     data() {
         return {
@@ -42,7 +31,8 @@ export default {
             records: [],
             columns,
             selectedRowKeys: [],
-            selectedProducts: []
+            selectedProducts: [],
+
         };
     },
     methods: {
@@ -72,14 +62,29 @@ export default {
             this.$emit("onSelectAll", { record, selected });
         },
         onSearch(serialKey, v) {
+
             const records = this.records;
             let datas = [];
             let selectedProducts = [];
+            let exists = false;
             records.map((product, index) => {
                 if (product.serial_no == serialKey) {
-                    datas.push(index);
-                    selectedProducts.push(product);
+                    this.selectedProducts.map((data, index) => {
+                        if (data.serial_no.includes(product.serial_no) == true) {
+                            return exists = true
+                        } else {
+                            return exists = false
+                        }
+                    }
+                    );
+                    if (exists == true) {
+                        alert('already Exists')
+                    } else {
+                        datas.push(index);
+                        selectedProducts.push(product);
+                    }
                 }
+
             });
 
             this.selectedRowKeys = [...this.selectedRowKeys, ...datas];

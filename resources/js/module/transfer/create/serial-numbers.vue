@@ -1,11 +1,6 @@
 <template>
     <div>
-        <serials
-            :params="params"
-            :product="stateProduct"
-            @onSelect="onSelect"
-            v-if="show"
-        />
+        <serials :params="params" :product="stateProduct" @onSelect="onSelect" v-if="show" />
         <a-button type="primary" @click="complete">Complete</a-button>
     </div>
 </template>
@@ -24,9 +19,9 @@ export default {
     },
     props: {
         product: {
-            default: () => {},
+            default: () => { },
         },
-        params: { default: () => {} },
+        params: { default: () => { } },
     },
     mounted() {
         this.stateProduct = { id: this.product.product_id };
@@ -34,7 +29,7 @@ export default {
     },
     methods: {
         onSelect(data) {
-          
+
             let serials = {
                 key: this.product.key,
                 product_id: this.product.product_id,

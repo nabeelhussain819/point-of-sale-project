@@ -32,7 +32,26 @@ trait AppliesQueryParams
                 return $query->where('vendor_id', $vendorId);
             })->when($request->get('return_to_vendor'), function (Builder $query, $return_to_vendor) {
                 return $query->where('return_to_vendor', $return_to_vendor);
-            })->when($request->get('categories'), function (Builder $query, $categories) {
+            })
+
+
+            ->when($request->get('vendor'), function (Builder $builder, $search) {
+                $search = StringHelper::lower($search);
+
+                return $builder->whereHas('vendor', function (Builder $query) use ($search) {
+                    return $query->where('name', 'ilike', "%" . $search . "%");
+                });
+            })
+            ->when($request->get('product'), function (Builder $builder, $search) {
+                $search = StringHelper::lower($search);
+
+                return $builder->whereHas('product', function (Builder $query) use ($search) {
+                    return $query->where('name', 'ilike', "%" . $search . "%");
+                });
+            })
+
+
+            ->when($request->get('categories'), function (Builder $query, $categories) {
                 if (is_array($categories)) {
                     return $query->whereHas('categories', function (Builder $query) use ($categories) {
                         $query->whereIn('category_id', $categories);

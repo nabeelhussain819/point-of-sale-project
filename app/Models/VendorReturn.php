@@ -85,8 +85,7 @@ class VendorReturn extends Base
         static::addGlobalScope(new StoreGlobalScope);
 
     }
-
-    public static function substituteQuantity(VendorReturn $vendor, int $quantity)
+     public static function substituteQuantity(VendorReturn $vendor, int $quantity)
     {
         $updatedQuantity = $vendor->quantity - $quantity;
         if ($updatedQuantity < 0) {

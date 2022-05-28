@@ -203,6 +203,7 @@ class Inventory extends Base
 
     public function getAll(Request $request, $pageSize = 25)
     {
+
         return Inventory:: withProduct()
             ->select(['id', 'name', 'quantity', 'product_id', 'cost', 'extended_cost', 'stock_bin_id', 'UPC'])
             ->withoutGlobalScope(StockBinGlobalScope::class)

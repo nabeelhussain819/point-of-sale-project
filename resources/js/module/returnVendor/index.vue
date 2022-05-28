@@ -1,10 +1,26 @@
 <template>
     <div>
-        <a-input-search placeholder="Insert search key" v-model="searchQuery">
-        </a-input-search>
-        <div v-for="r of resultQuery" :key="r.id">{{ r.title }}</div>
 
-        <a-table :dataSource="data" :columns="columns">
+
+        <a-table class="table table-bordered" :columns="columns" :data-source="data" :loading="loading">
+            <div slot="filterDropdown" slot-scope="{
+                setSelectedKeys,
+                selectedKeys,
+
+                column
+            }" style="padding: 8px">
+                <a-input v-ant-ref="c => (searchInput = c)" :placeholder="`Search ${column.dataIndex}`"
+                    :value="selectedKeys[0]" style="width: 188px; margin-bottom: 8px; display: block" @change="
+                        e => setSelectedKeys(e.target.value ? [e.target.value] : [])
+                    " @pressEnter="() => handleSearch(selectedKeys, column)" />
+                <a-button type="primary" icon="search" size="small" style="width: 90px; margin-right: 8px"
+                    @click="() => handleSearch(selectedKeys, column)">
+                    Search
+                </a-button>
+                <a-button size="small" style="width: 90px" @click="() => handleReset(selectedKeys, column)">
+                    Reset
+                </a-button>
+            </div>
             <span slot="action" slot-scope="text, record">
                 <a-button v-on:click="showSerials(record)" type="link">
                     <a-icon type="appstore" theme="filled" />
@@ -29,8 +45,9 @@ export default {
 
     data() {
         return {
-            searchQuery: "",
             data: [],
+            loading: true,
+            filters: {},
             columns: [
                 {
                     dataIndex: "id",
@@ -46,11 +63,19 @@ export default {
                     dataIndex: "vendor.name",
                     key: "vendor",
                     title: "vendor",
+                    scopedSlots: {
+                        filterDropdown: "filterDropdown",
+                        filterIcon: "filterIcon"
+                    }
                 },
                 {
                     dataIndex: "product.name",
                     key: "product",
                     title: "product",
+                    scopedSlots: {
+                        filterDropdown: "filterDropdown",
+                        filterIcon: "filterIcon"
+                    }
                 },
                 {
                     title: "Action",
@@ -62,29 +87,29 @@ export default {
         };
     },
     mounted() {
-        this.fetchRefund();
+        this.fetch();
     },
-    // Kia krna hy ?
-    // search filter lgaya hy pgsql medata import krna hy ta k data ay
-    // Ok
-    // table konsa hy ?
+
     methods: {
-        resultQuery() {
-            if (!isEmpty(value)) {
-                return this.data.filter(item => {
-                    return this.searchQuery
-                        .toLowerCase()
-                        .split(" ")
-                        .every(v => item.title.toLowerCase().includes(v));
-                });
-            } else {
-                return this.data
-            }
+        setfilters(filters) {
+            this.filters = JSON.parse(JSON.stringify(filters));
+            this.fetch(this.filters);
         },
-        fetchRefund() {
-            VendorService.getRefundedList().then((response) => {
+        handleReset(value, column) {
+            let filters = this.filters;
+            delete filters[column.key];
+            this.setfilters(filters);
+        },
+        handleSearch(value, column) {
+            let filters = this.filters;
+            filters[column.key] = value[0];
+            this.setfilters(filters);
+        },
+        fetch(params = {}) {
+            this.loading = true;
+            VendorService.getRefundedList({ ...params }).then((response) => {
                 this.data = response.data;
-            });
+            }).finally(() => (this.loading = false));
         },
         showSerials(refundedVendor) {
             console.log(refundedVendor);
@@ -97,7 +122,7 @@ export default {
         isEmpty,
         closeModalOnUpdate() {
             this.handleSerialModal(false);
-            this.fetchRefund();
+            this.fetch();
         }
     },
 };

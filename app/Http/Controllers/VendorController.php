@@ -126,7 +126,6 @@ class VendorController extends Controller
 
     public function refundedList(Request $request)
     {
-
         return VendorReturn::where($this->applyFilters($request))
             ->with(['vendor' => function (BelongsTo $builder) {
                 $builder->select(['id', 'name']);
