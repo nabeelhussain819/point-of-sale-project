@@ -227,7 +227,6 @@ class InventoryController extends Controller
 
             $inventory->OUTGOING_PRODUCTS = true;
 
-
             $inventory->update(['quantity' => $inventory->quantity - $request->get("quantity")]);
 
             if (!$isNotVendor) {

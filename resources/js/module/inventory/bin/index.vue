@@ -1,11 +1,6 @@
 <template>
     <div>
-        <Serials
-            v-if="showSerial"
-            @onSelect="onSelect"
-            @onSelectAll="onSelectAll"
-            :product="product"
-        />
+        <Serials v-if="showSerial" @onSelect="onSelect" @onSelectAll="onSelectAll" :product="product" />
         <a-form :form="form" @submit="handleSubmit" layout="inline">
             <formfields @onClose="onClose" :inventory="inventory" />
         </a-form>
@@ -19,7 +14,7 @@ import InventoryService from "../../../services/API/InventoryService";
 import { errorNotification, notification } from "../../../services/helpers";
 export default {
     props: {
-        inventory: { default: () => {} },
+        inventory: { default: () => { } },
         // product: { default: () => {} }
     },
     data() {
@@ -65,7 +60,7 @@ export default {
 
             this.form.validateFields((err, values) => {
                 //      validate if serail number should be allow only
-              
+
                 if (this.showSerial) {
                     if (values.quantity !== this.serials.length) {
                         this.$error({
@@ -75,8 +70,9 @@ export default {
                         return false;
                     }
                 }
-                
+
                 if (!err) {
+
                     InventoryService.changeBin(this.inventory.id, {
                         ...values,
                         serial_numbers: this.serials,

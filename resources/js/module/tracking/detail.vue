@@ -5,7 +5,7 @@
                 Zhou Maomao
             </a-descriptions-item> -->
             <a-descriptions-item label="Date Time">
-                {{ tracking.dateTime }}
+                {{ this.date }}
             </a-descriptions-item>
         </a-descriptions>
         <a-table :columns="columns" :data-source="data"> </a-table>
@@ -31,6 +31,12 @@ export default {
     props: {
         tracking_id: {
             default: null
+        },
+        subject: {
+            default: null
+        },
+        date: {
+            default: null
         }
     },
     data() {
@@ -43,8 +49,10 @@ export default {
         };
     },
     mounted() {
+
         if (!isEmpty(this.tracking_id)) {
             this.loading = true;
+
             TrackingService.show(this.tracking_id)
                 .then(tracking => {
                     this.tracking = tracking;

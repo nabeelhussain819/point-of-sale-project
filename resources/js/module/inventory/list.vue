@@ -1,79 +1,38 @@
 <template>
-    <a-table
-        class="table table-bordered"
-        :columns="columns"
-        :data-source="data"
-        :loading="loading"
-         :pagination="pagination"
-    >
-        <div
-            slot="filterDropdown"
-            slot-scope="{
+    <a-table class="table table-bordered" :columns="columns" :data-source="data" :loading="loading"
+        :pagination="pagination">
+        <div slot="filterDropdown" slot-scope="{
                 setSelectedKeys,
                 selectedKeys,
 
                 column
-            }"
-            style="padding: 8px"
-        >
-            <a-input
-                v-ant-ref="c => (searchInput = c)"
-                :placeholder="`Search ${column.dataIndex}`"
-                :value="selectedKeys[0]"
-                style="width: 188px; margin-bottom: 8px; display: block"
-                @change="
+            }" style="padding: 8px">
+            <a-input v-ant-ref="c => (searchInput = c)" :placeholder="`Search ${column.dataIndex}`"
+                :value="selectedKeys[0]" style="width: 188px; margin-bottom: 8px; display: block" @change="
                     e => setSelectedKeys(e.target.value ? [e.target.value] : [])
-                "
-                @pressEnter="() => handleSearch(selectedKeys, column)"
-            />
-            <a-button
-                type="primary"
-                icon="search"
-                size="small"
-                style="width: 90px; margin-right: 8px"
-                @click="() => handleSearch(selectedKeys, column)"
-            >
+                " @pressEnter="() => handleSearch(selectedKeys, column)" />
+            <a-button type="primary" icon="search" size="small" style="width: 90px; margin-right: 8px"
+                @click="() => handleSearch(selectedKeys, column)">
                 Search
             </a-button>
-            <a-button
-                size="small"
-                style="width: 90px"
-                @click="() => handleReset(selectedKeys, column)"
-            >
+            <a-button size="small" style="width: 90px" @click="() => handleReset(selectedKeys, column)">
                 Reset
             </a-button>
         </div>
-        <div
-            slot="statusDropdown"
-            slot-scope="{ setSelectedKeys, selectedKeys, column }"
-            style="padding: 8px"
-        >
-            <a-select
-                style="width: 100%; margin-bottom: 5px"
-                v-ant-ref="c => (searchInput = c)"
+        <div slot="statusDropdown" slot-scope="{ setSelectedKeys, selectedKeys, column }" style="padding: 8px">
+            <a-select style="width: 100%; margin-bottom: 5px" v-ant-ref="c => (searchInput = c)"
                 @change="value => setSelectedKeys(value ? [value] : [])"
                 placeholder="Select a option and change input text above"
-                @pressEnter="() => handleSearch(selectedKeys, column)"
-            >
+                @pressEnter="() => handleSearch(selectedKeys, column)">
                 <a-select-option v-for="bin in bins" :key="bin.id">
-                    {{ bin.name }}</a-select-option
-                >
+                    {{ bin.name }}</a-select-option>
             </a-select>
 
-            <a-button
-                type="primary"
-                icon="search"
-                size="small"
-                style="width: 90px; margin-right: 8px"
-                @click="() => handleSearch(selectedKeys, column)"
-            >
+            <a-button type="primary" icon="search" size="small" style="width: 90px; margin-right: 8px"
+                @click="() => handleSearch(selectedKeys, column)">
                 Search
             </a-button>
-            <a-button
-                size="small"
-                style="width: 90px"
-                @click="() => handleReset(selectedKeys, column)"
-            >
+            <a-button size="small" style="width: 90px" @click="() => handleReset(selectedKeys, column)">
                 Reset
             </a-button>
         </div>
@@ -83,8 +42,8 @@
                 type="link"
                 ><a-icon type="edit"
             /></a-button> -->
-            <a-button v-on:click="showSerials(record)" type="link"
-                ><a-icon type="appstore" theme="filled" />
+            <a-button v-on:click="showSerials(record)" type="link">
+                <a-icon type="appstore" theme="filled" />
             </a-button>
         </span>
     </a-table>
@@ -194,6 +153,7 @@ export default {
         showSerials(product_id) {
             this.$emit("fetch", this.fetch);
             this.$emit("showSerialNumber", product_id);
+
         }
     },
     mounted() {

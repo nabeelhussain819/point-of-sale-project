@@ -25,7 +25,8 @@ trait InteractWithProducts
     }
 
     public function withFormattedDateTime(){
-        $this->setAttribute("dateTime",$this->created_at->format("y/d/m H:m"));
+        $this->setAttribute("dateTime",$this->created_at->format("y/d/m H:i"));
+
         return $this;
     }
 

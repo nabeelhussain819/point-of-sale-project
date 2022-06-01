@@ -96,6 +96,7 @@ class VendorReturn extends Base
 
     public static function editOrInsert($data)
     {
+
         $vendorReturn = VendorReturn::where('vendor_id', $data['vendor_id'])
             ->where('product_id', $data['product_id'])
             ->where('store_id', $data['store_id'])
@@ -113,6 +114,7 @@ class VendorReturn extends Base
                     'has_serial_number' => $data['has_serial_number'],
                 ]
             );
+
         } else {
 
             $vendorReturn->update([
