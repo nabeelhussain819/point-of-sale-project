@@ -1,12 +1,7 @@
 <template>
     <a-skeleton :loading="loading">
-        <a-form
-            :form="form"
-            :label-col="{ span: 24 }"
-            :wrapper-col="{ span: 24 }"
-            @submit="handleSubmit"
-            class="print-repair-container"
-        >
+        <a-form :form="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit"
+            class="print-repair-container">
             <a-row :gutter="24">
                 <a-col :span="24">
                     <a-divider>Add Customer Detail</a-divider>
@@ -14,15 +9,9 @@
 
                 <a-col :span="4">
                     <a-form-item label="Customer Name">
-                        <a-select
-                            mode="tags"
-                            :filter-option="filterOption"
-                            :maxTagCount="maxCustomer"
-                            @search="customerSearch"
-                            @select="customerSelect"
-                            :loading="customerSearchLoading"
-                            :disabled="!isEmpty(repair.customer)"
-                            v-decorator="[
+                        <a-select mode="tags" :filter-option="filterOption" :maxTagCount="maxCustomer"
+                            @search="customerSearch" @select="customerSelect" :loading="customerSearchLoading"
+                            :disabled="!isEmpty(repair.customer)" v-decorator="[
                                 'customer_id',
                                 {
                                     rules: [
@@ -35,106 +24,81 @@
                                     initialValue:
                                         repair.customer && repair.customer.name
                                 }
-                            ]"
-                        >
-                            <a-select-option
-                                v-for="customer in customers"
-                                :key="customer.id.toString()"
-                                :customer="customer"
-                            >
+                            ]">
+                            <a-select-option v-for="customer in customers" :key="customer.id.toString()"
+                                :customer="customer">
                                 {{ customer.name_phone }}
                             </a-select-option>
                         </a-select>
-                    </a-form-item></a-col
-                >
+                    </a-form-item>
+                </a-col>
 
                 <a-col :span="4">
                     <a-form-item label="Customer Number">
-                        <a-input
-                            type="number"
-                            :disabled="!isEmpty(repair.customer)"
-                            v-decorator="[
-                                'phone',
-                                {
-                                    initialValue:
-                                        repair.customer &&
-                                        repair.customer.phone,
-                                    rules: [
-                                        {
-                                            required: true,
-                                            message:
-                                                'Please input your customer_number!'
-                                        }
-                                    ]
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
+                        <a-input type="number" :disabled="!isEmpty(repair.customer)" v-decorator="[
+                            'phone',
+                            {
+                                initialValue:
+                                    repair.customer &&
+                                    repair.customer.phone,
+                                rules: [
+                                    {
+                                        required: true,
+                                        message:
+                                            'Please input your customer_number!'
+                                    }
+                                ]
+                            }
+                        ]" />
+                    </a-form-item>
+                </a-col>
 
                 <a-col :span="4">
                     <a-form-item label="Total Cost">
-                        <a-input
-                            @change="handleTotal"
-                            :min="0"
-                            type="number"
-                            :disabled="isCreated"
-                            v-decorator="[
-                                'total_cost',
-                                {
-                                    initialValue: repair.total_cost,
-                                    rules: [
-                                        {
-                                            required: true,
-                                            message:
-                                                'Please input your total cost!'
-                                        }
-                                    ]
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
+                        <a-input @change="handleTotal" :min="0" type="number" :disabled="isCreated" v-decorator="[
+                            'total_cost',
+                            {
+                                initialValue: repair.total_cost,
+                                rules: [
+                                    {
+                                        required: true,
+                                        message:
+                                            'Please input your total cost!'
+                                    }
+                                ]
+                            }
+                        ]" />
+                    </a-form-item>
+                </a-col>
 
                 <a-col :span="4">
                     <a-form-item label="Advance Cost">
-                        <a-input
-                            :disabled="true"
-                            :max="maxTotal"
-                            :min="0"
-                            type="number"
-                            v-decorator="[
-                                'advance_cost',
-                                {
-                                    initialValue: repair.advance_cost
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
+                        <a-input :disabled="true" :max="maxTotal" :min="0" type="number" v-decorator="[
+                            'advance_cost',
+                            {
+                                initialValue: repair.advance_cost
+                            }
+                        ]" />
+                    </a-form-item>
+                </a-col>
 
                 <a-col :span="4">
                     <a-form-item label="Status">
-                        <a-select
-                            v-if="isCreated"
-                            v-decorator="[
-                                `status`,
-                                {
-                                    initialValue: repair.status,
-                                    rules: [
-                                        {
-                                            required: true,
-                                            message:
-                                                'Please select your gender!'
-                                        }
-                                    ]
-                                }
-                            ]"
-                            placeholder="Select a option and change input text above"
-                        >
-                            <a-select-option
-                                v-for="status in statuses"
-                                :key="status.id"
-                            >
-                                {{ status.name }}</a-select-option
-                            >
+                        <a-select v-if="isCreated" v-decorator="[
+                            `status`,
+                            {
+                                initialValue: repair.status,
+                                rules: [
+                                    {
+                                        required: true,
+                                        message:
+                                            'Please select your gender!'
+                                    }
+                                ]
+                            }
+                        ]" placeholder="Select a option and change input text above">
+                            <a-select-option v-for="status in statuses" :key="status.id">
+                                {{ status.name }}</a-select-option>
                         </a-select>
                         <span v-else>
                             <a-tag color="volcano"> Pending </a-tag>
@@ -144,35 +108,30 @@
 
                 <a-col class="no-print" :span="4">
                     <a-form-item label="Action">
-                        <a-button type="dashed" v-on:click="addItem"
-                            >Add Item</a-button
-                        >
+                        <a-button type="dashed" v-on:click="addItem">Add Item</a-button>
                     </a-form-item>
                 </a-col>
 
-                <a-col :span="24"> <a-divider>Add Items</a-divider> </a-col>
+                <a-col :span="24">
+                    <a-divider>Add Items</a-divider>
+                </a-col>
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
 
                 <div v-for="(product, r) in row" :key="r">
                     <a-col :span="4">
                         <a-form-item label="Device Type">
-                            <a-input
-                                type="hidden"
-                                v-decorator="[
-                                    `productItem[${r}][id]`,
-                                    {
-                                        initialValue: product.id
-                                    }
-                                ]"
-                            />
-                            <a-input
-                                v-decorator="[
-                                    `productItem[${r}][device_type]`,
-                                    {
-                                        initialValue: product.device_type
-                                    }
-                                ]"
-                            />
+                            <a-input type="hidden" v-decorator="[
+                                `productItem[${r}][id]`,
+                                {
+                                    initialValue: product.id
+                                }
+                            ]" />
+                            <a-input v-decorator="[
+                                `productItem[${r}][device_type]`,
+                                {
+                                    initialValue: product.device_type
+                                }
+                            ]" />
                             <!-- <a-select
                                 :filterOption="true"
                                 :filter-option="filterOption"
@@ -226,41 +185,27 @@
                                     {{ brand.name }}
                                 </a-select-option>
                             </a-select> -->
-                            <a-input
-                                v-decorator="[
-                                    `productItem[${r}][brand]`,
-                                    {
-                                        initialValue: product.brand
-                                    }
-                                ]"
-                            />
+                            <a-input v-decorator="[
+                                `productItem[${r}][brand]`,
+                                {
+                                    initialValue: product.brand
+                                }
+                            ]" />
                         </a-form-item>
                     </a-col>
 
                     <a-col :span="4">
                         <a-form-item label="Model">
                             <!-- 3. Model section remove X from in repair when new repair is created Afzaal, 1/14/2022 2:46 AM-->
-                            <a-select
-                                :showSearch="true"
-                                :filter-option="filterOption"
-                                mode="tags"
-                                :maxTagCount="1"
-                                @search="fetchProducts"
-                                v-decorator="[
+                            <a-select :showSearch="true" :filter-option="filterOption" mode="tags" :maxTagCount="1"
+                                @search="fetchProducts" v-decorator="[
                                     `productItem[${r}][product]`,
                                     {
                                         initialValue: product.product
                                     }
-                                ]"
-                                :disabled="isCreated"
-                                placeholder="Select a option and change input text above"
-                            >
-                                <a-select-option
-                                    v-for="product in productLIST"
-                                    :key="product.name"
-                                >
-                                    {{ product.name }}</a-select-option
-                                >
+                                ]" :disabled="isCreated" placeholder="Select a option and change input text above">
+                                <a-select-option v-for="product in productLIST" :key="product.name">
+                                    {{ product.name }}</a-select-option>
                             </a-select>
                             <!-- <a-input
                                 v-decorator="[
@@ -274,13 +219,8 @@
                     </a-col>
                     <a-col :span="4">
                         <a-form-item label="Issue">
-                            <a-select
-                                :showSearch="true"
-                                :filter-option="filterOption"
-                                mode="tags"
-                                :maxTagCount="1"
-                                @search="issueSearch"
-                                v-decorator="[
+                            <a-select :showSearch="true" :filter-option="filterOption" mode="tags" :maxTagCount="1"
+                                @search="issueSearch" v-decorator="[
                                     `productItem[${r}][issue_id]`,
                                     {
                                         rules: [
@@ -294,167 +234,121 @@
                                             product.issue_id
                                         )
                                     }
-                                ]"
-                                placeholder="Select a option and change input text above"
-                            >
-                                <a-select-option
-                                    v-for="issue in issues"
-                                    :key="issue.id.toString()"
-                                >
-                                    {{ issue.name }}</a-select-option
-                                >
+                                ]" placeholder="Select a option and change input text above">
+                                <a-select-option v-for="issue in issues" :key="issue.id.toString()">
+                                    {{ issue.name }}</a-select-option>
                             </a-select>
                         </a-form-item>
                     </a-col>
                     <a-col :span="4">
                         <a-form-item label="IMEI">
-                            <a-input
-                                v-decorator="[
-                                    `productItem[${r}][device_unique_number]`,
-                                    {
-                                        initialValue:
-                                            product.device_unique_number
-                                    }
-                                ]"
-                            />
+                            <a-input v-decorator="[
+                                `productItem[${r}][device_unique_number]`,
+                                {
+                                    initialValue:
+                                        product.device_unique_number
+                                }
+                            ]" />
                         </a-form-item>
                     </a-col>
                     <a-col :span="3">
                         <a-form-item label="Parts">
-                            <a-select
-                                :showSearch="true"
-                                :filter-option="filterOption"
-                                v-decorator="[
-                                    `productItem[${r}][product_id]`,
-                                    {
-                                        initialValue: getStringId(
-                                            product.product_id
-                                        )
-                                    }
-                                ]"
-                                placeholder="Select a option and change input text above"
-                            >
-                                <a-select-option
-                                    v-for="product in products"
-                                    :key="product.product_id.toString()"
-                                >
-                                    {{ product.product.name }}</a-select-option
-                                >
+                            <a-select :showSearch="true" :filter-option="filterOption" v-decorator="[
+                                `productItem[${r}][product_id]`,
+                                {
+                                    initialValue: getStringId(
+                                        product.product_id
+                                    )
+                                }
+                            ]" placeholder="Select a option and change input text above">
+                                <a-select-option v-for="product in products" :key="product.product_id.toString()">
+                                    {{ product.product.name }}</a-select-option>
                             </a-select>
                         </a-form-item>
                     </a-col>
                     <a-col class="no-print" :span="1">
                         <a-form-item label="Action">
-                            <a-button @click="removeRow(r)" type="link"
-                                ><a-icon
-                                    type="delete"
-                                ></a-icon></a-button></a-form-item
-                    ></a-col>
+                            <a-button @click="removeRow(r)" type="link">
+                                <a-icon type="delete"></a-icon>
+                            </a-button>
+                        </a-form-item>
+                    </a-col>
                 </div>
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
                 <a-col :span="4">
                     <a-form-item label="Add Payables">
-                        <a-input
-                            :max="maxTotal"
-                            :min="0"
-                            type="number"
-                            v-decorator="[
-                                'received_amount',
-                                {
-                                    initialValue: 0,
-                                    rules: [
-                                        {
-                                            validator: (
+                        <a-input :max="maxTotal" :step="0.01" type="number" v-decorator="[
+                            'received_amount',
+                            {
+                                rules: [
+                                    {
+                                        validator: (
+                                            rule,
+                                            value,
+                                            callback
+                                        ) =>
+                                            validateTotal(
                                                 rule,
                                                 value,
                                                 callback
-                                            ) =>
-                                                validateTotal(
-                                                    rule,
-                                                    value,
-                                                    callback
-                                                )
-                                        }
-                                    ]
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
+                                            )
+                                    }
+                                ]
+                            }
+                        ]" />
+                    </a-form-item>
+                </a-col>
                 <a-col :span="4">
                     <a-form-item label="Discount">
-                        <a-input
-                            :max="maxTotal"
-                            :min="0"
-                            :disabled="!isCreated"
-                            type="number"
-                            v-decorator="[
-                                'discount',
-                                {
-                                    rules: []
-                                }
-                            ]"
-                        /> </a-form-item
-                ></a-col>
+                        <a-input :max="maxTotal" :min="0" :disabled="!isCreated" type="number" v-decorator="[
+                            'discount',
+                            {
+                                rules: []
+                            }
+                        ]" />
+                    </a-form-item>
+                </a-col>
                 <a-col :span="4">
                     <a-form-item label="Additional Charge">
-                        <a-input
-                            :disabled="!isCreated"
-                            v-decorator="['additional_charge', {}]"
-                        /> </a-form-item
-                ></a-col>
+                        <a-input :disabled="!isCreated" v-decorator="['additional_charge', {}]" />
+                    </a-form-item>
+                </a-col>
                 <a-col :span="4">
                     <a-form-item label="Payment Method">
-                        <a-checkbox
-                            v-decorator="[
-                                'pay_by_card',
-                                {
-                                    rules: []
-                                }
-                            ]"
-                        >
+                        <a-checkbox v-decorator="[
+                            'pay_by_card',
+                            {
+                                rules: []
+                            }
+                        ]">
                             Pay By card
                         </a-checkbox>
                     </a-form-item>
                 </a-col>
                 <a-col :span="4">
                     <a-form-item label="Comment">
-                        <a-input
-                            v-decorator="[
-                                'comment',
-                                {
-                                    rules: []
-                                }
-                            ]"
-                        />
+                        <a-input v-decorator="[
+                            'comment',
+                            {
+                                rules: []
+                            }
+                        ]" />
                     </a-form-item>
                 </a-col>
                 <a-col :span="4">
                     <a-form-item label="Action" :wrapper-col="{ span: 12 }">
-                        <a-button
-                            type="primary"
-                            class="no-print"
-                            html-type="submit"
-                        >
+                        <a-button type="primary" class="no-print" html-type="submit">
                             Submit
                         </a-button>
 
-                        <a-button
-                            v-if="isCreated"
-                            @click="print"
-                            class="no-print ml-2"
-                            type="default"
-                            >Print
+                        <a-button v-if="isCreated" @click="print" class="no-print ml-2" type="default">Print
                         </a-button>
                     </a-form-item>
                 </a-col>
 
                 <a-col :span="24">
-                    <a-alert
-                        v-if="advanceCompare"
-                        type="error"
-                        message="Please Adjust Advance Cost Equals To Total Cost"
-                        banner
-                    />
+                    <a-alert v-if="advanceCompare" type="error"
+                        message="Please Adjust Advance Cost Equals To Total Cost" banner />
                 </a-col>
             </a-row>
         </a-form>
@@ -722,24 +616,30 @@ export default {
     .print-repair-container {
         width: 100%;
         font-size: 16px !important;
+
         .ant-form-item-label {
             height: 60px !important;
         }
+
         .ant-select-selection {
             border: none !important;
         }
+
         .ant-modal-close-x {
             display: none;
         }
+
         .ant-form label {
             font-size: 16px !important;
         }
     }
+
     .ant-divider,
     .ant-modal-close-x,
     .anticon-close {
         display: none !important;
     }
+
     .no-print,
     .no-print * {
         display: none !important;

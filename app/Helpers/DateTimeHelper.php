@@ -18,7 +18,7 @@ class DateTimeHelper
     const DATE_FORMAT_DEFAULT = 'Y-m-d';
     const DATE_FORMAT_DEFAULT_NO_SEPARATORS = 'Ymd';
     const DATE_TIME_FORMAT_DEFAULT = 'Y-m-d\TH:i:s';
-    const DATE_TIME_FORMAT_BASIC = 'Y-m-d H:i:s';
+    const DATE_TIME_FORMAT_BASIC = 'Y-m-d h:i:s';
 
     const LONG_DATE_FORMAT = 'D, M j, Y';
     const LONG_DATE_FORMAT_EXTENDED = 'D, F jS, Y';

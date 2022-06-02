@@ -46,7 +46,7 @@
                                         <i class="fas fa-cubes text-light" style="font-size: 70px"></i>
                                     </div>
                                     <div class="col">
-                                        <h5 class="mt-0 text-light">Layaway/In Store Finace</h5>
+                                        <h5 class="mt-0 text-light">Layaway/In Store Finance</h5>
                                     </div>
                                 </div>
                             </div>

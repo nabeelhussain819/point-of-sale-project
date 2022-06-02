@@ -1,34 +1,25 @@
 <template>
     <a-row :gutter="16">
-        <a-form
-            :form="form"
-            :label-col="{ span: 24 }"
-            :wrapper-col="{ span: 24 }"
-            @submit="handleSubmit"
-        >
+        <a-form :form="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
             <!-- <a-divider orientation="left">Customer Detail</a-divider> -->
             <customer-lookup :form="form" />
 
             <!-- <a-divider orientation="left">Finance & Card Detail</a-divider> -->
             <a-col :span="6">
                 <a-form-item label="Type">
-                    <a-select
-                        v-decorator="[
-                            `type`,
-                            {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: 'Please insert type!'
-                                    }
-                                ]
-                            }
-                        ]"
-                        placeholder="Select a option and change input text above"
-                    >
+                    <a-select v-decorator="[
+                        `type`,
+                        {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please insert type!'
+                                }
+                            ]
+                        }
+                    ]" placeholder="Select a option and change input text above">
                         <a-select-option v-for="type in types" :key="type.id">
-                            {{ type.name }}</a-select-option
-                        >
+                            {{ type.name }}</a-select-option>
                     </a-select>
                 </a-form-item>
             </a-col>
@@ -39,18 +30,9 @@
                     <upload @getUpload="getUpload" />
                 </a-col>
                 <a-col :span="8">
-                    <Summary
-                        :form="form"
-                        :enableDeposite="enableDeposite"
-                        :product="selectedProduct"
-                    />
+                    <Summary :form="form" :enableDeposite="enableDeposite" :product="selectedProduct" />
 
-                    <a-button
-                        type="primary"
-                        :loading="loading"
-                        htmlType="submit"
-                        >Submit</a-button
-                    >
+                    <a-button type="primary" :loading="loading" htmlType="submit">Submit</a-button>
                 </a-col>
             </a-col>
         </a-form>
@@ -71,7 +53,7 @@ import {
 } from "../../services/helpers";
 export default {
     props: {
-        finance: { default: () => {} }
+        finance: { default: () => { } }
     },
     data() {
         return {
@@ -101,7 +83,7 @@ export default {
                             this.uploadAttachments(response);
                             this.show(false);
                         })
-                        .catch(error => {                           
+                        .catch(error => {
                             errorNotification(this, error);
                         })
                         .finally(() => {
@@ -125,7 +107,7 @@ export default {
             this.fileList = fileList;
         },
         uploadAttachments(response) {
-           
+
             if (!isEmpty(this.fileList)) {
                 const formData = new FormData();
                 this.fileList.forEach(file => {
