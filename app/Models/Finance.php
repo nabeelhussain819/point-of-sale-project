@@ -174,7 +174,9 @@ class Finance extends Base
 
     public function isAddInstallmentScenario()
     {
+
         return $this->scenario === self::SCENARIO_ADD_INSTALLMENT;
+
     }
 
     // this is temp attribute just I am late to deliver
@@ -188,6 +190,7 @@ class Finance extends Base
 
     public function getPayableAttribute()
     {
-        return round($this->attributes['payable'], 2);
+
+        return $this->attributes['payable'];
     }
 }

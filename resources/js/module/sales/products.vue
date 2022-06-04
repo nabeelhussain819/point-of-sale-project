@@ -12,21 +12,14 @@
             <a-col :span="2"><strong>Total</strong></a-col>
             <a-col :span="1"><strong></strong></a-col>
         </a-row>
-        <a-row
-            v-for="(product, key) in products"
-            :key="key"
-            class="form-field-container"
-            :gutter="23"
-        >
+        <a-row v-for="(product, key) in products" :key="key" class="form-field-container" :gutter="23">
             <a-col :span="1"> {{ product.id }}</a-col>
             <a-col :span="7"> {{ product.name }}</a-col>
 
             <a-col :span="4">
                 <a-form-item v-if="product.has_serial_number">
-                    <a-input-search
-                        v-on:blur="value => serialNumberHandling(key, value)"
-                        :disabled="!product.has_serial_number"
-                        v-decorator="[
+                    <a-input-search v-on:blur="value => serialNumberHandling(key, value)"
+                        :disabled="!product.has_serial_number" v-decorator="[
                             `productItem[${key}][serial_number]`,
                             {
                                 initialValue: product.serial_number,
@@ -46,9 +39,7 @@
                                     }
                                 ]
                             }
-                        ]"
-                        @search="serialModal(product, key)"
-                    >
+                        ]" @search="serialModal(product, key)">
                         <a-button type="primary" slot="enterButton">
                             <a-icon type="mobile" />
                         </a-button>
@@ -58,79 +49,66 @@
             </a-col>
             <a-col :span="2">
                 <a-form-item>
-                    <a-input
-                        @change="
-                            e => {
-                                computedTotal(e, key);
-                            }
-                        "
-                        :disabled="product.has_serial_number"
-                        type="number"
-                        v-decorator="[
-                            `productItem[${key}][quantity]`,
-                            {
-                                initialValue: product.quantity
-                            }
-                        ]"
-                    /> </a-form-item
-            ></a-col>
+                    <a-input @change="
+                        e => {
+                            computedTotal(e, key);
+                        }
+                    " :disabled="product.has_serial_number" type="number" v-decorator="[
+    `productItem[${key}][quantity]`,
+    {
+        initialValue: product.quantity
+    }
+]" />
+                </a-form-item>
+            </a-col>
             <a-col :span="3">
                 <a-form-item>
-                    <a-input
-                        :max="100"
-                        prefix="%"
-                        type="number"
-                        @change="e => discount(e, key)"
-                        v-decorator="[
-                            `productItem[${key}][discount]`,
-                            {
-                                initialValue: 0,
-                                rules: []
-                            }
-                        ]"
-                    /> </a-form-item
-            ></a-col>
+                    <a-input :max="100" prefix="%" type="number" @change="e => discount(e, key)" v-decorator="[
+                        `productItem[${key}][discount]`,
+                        {
+                            initialValue: 0,
+                            rules: []
+                        }
+                    ]" />
+                </a-form-item>
+            </a-col>
             <a-col :span="2">
                 <a-form-item>
-                    <a-input
-                        type="number"
-                        v-decorator="[
-                            `productItem[${key}][price]`,
-                            {
-                                initialValue: 0,
-                                initialValue: product.retail_price,
-                                rules: []
-                            }
-                        ]"
-                    /> </a-form-item
-            ></a-col>
+                    <a-input type="number" v-decorator="[
+                        `productItem[${key}][price]`,
+                        {
+                            initialValue: 0,
+                            initialValue: product.retail_price,
+                            rules: []
+                        }
+                    ]" />
+                </a-form-item>
+            </a-col>
             <a-col :span="2">
                 <a-form-item>
-                    <a-input
-                        @change="
-                            e => {
-                                cost(e, key);
-                            }
-                        "
-                        type="number"
-                        v-decorator="[
-                            `productItem[${key}][min_price]`,
-                            {
-                                initialValue: product.min_price,
-                                rules: []
-                            }
-                        ]"
-                    /> </a-form-item
-            ></a-col>
+                    <a-input @change="
+                        e => {
+                            cost(e, key);
+                        }
+                    " type="number" v-decorator="[
+    `productItem[${key}][min_price]`,
+    {
+        initialValue: product.min_price,
+        rules: []
+    }
+]" />
+                </a-form-item>
+            </a-col>
             <a-col :span="2">
                 <a-form-item>
                     {{ products[key].total }}
-                </a-form-item></a-col
-            >
-            <a-col :span="1"
-                ><a-button v-on:click="removeRow(key)" type="link"
-                    ><a-icon type="delete"/></a-button
-            ></a-col>
+                </a-form-item>
+            </a-col>
+            <a-col :span="1">
+                <a-button v-on:click="removeRow(key)" type="link">
+                    <a-icon type="delete" />
+                </a-button>
+            </a-col>
         </a-row>
     </div>
 </template>
@@ -148,7 +126,7 @@ export default {
             default: null
         },
         form: {
-            default: () => {}
+            default: () => { }
         }
     },
     data() {
@@ -164,7 +142,7 @@ export default {
         };
     },
     methods: {
-        handleSubmit() {},
+        handleSubmit() { },
         getUid() {
             this.uuid = this.uuid + 1;
             return this.uuidString + this.uuid;
@@ -300,7 +278,7 @@ export default {
                 setProducts(this.preloadProduct.product);
             }, 300);
         }
-        this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function(product) {
+        this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function (product) {
             setProducts(product);
         });
     }
@@ -313,7 +291,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-.form-field-container.ant-row > .ant-col {
+.form-field-container.ant-row>.ant-col {
     border: 1px solid #e2e2e2;
     height: 59px;
     vertical-align: middle;
@@ -321,6 +299,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .form-field-container .ant-form-item {
     margin-bottom: 0;
 }

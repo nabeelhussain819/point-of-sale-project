@@ -120,6 +120,7 @@ class FinanceController extends Controller
     public function update(Request $request, Finance $finance)
     {
         $finance->update($request->all());
+
         return $this->genericResponse(true, " Finance has been updated", 200, ['finance' =>
             $finance->withSchedules()
                 ->withCustomer()
@@ -162,6 +163,7 @@ class FinanceController extends Controller
 
     public function payInstallment(Request $request, Finance $finance)
     {
+
         return \DB::transaction(function () use (&$finance, &$request) {
 
             $finance->scenario = Finance::SCENARIO_ADD_INSTALLMENT;

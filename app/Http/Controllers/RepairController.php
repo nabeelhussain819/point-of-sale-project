@@ -49,6 +49,8 @@ class RepairController extends Controller
      */
     public function store(Request $request)
     {
+
+
         return DB::transaction(function () use ($request) {
             if (empty($request->get('productItem'))) {
                 throw new \Exception("Please associated item to the repair");
@@ -75,7 +77,6 @@ class RepairController extends Controller
                 $d["updated_at"] = Carbon::now();
                 return $d;
             })->all();
-
             $products = array_filter($productData);
             $repair->syncProducts($products);
 

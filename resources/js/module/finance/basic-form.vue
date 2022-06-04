@@ -73,6 +73,7 @@ export default {
         handleSubmit(e) {
             e.preventDefault();
             this.form.validateFields((err, values) => {
+                console.log(values)
                 if (!err) {
                     FinanceService.create(values)
                         .then(response => {

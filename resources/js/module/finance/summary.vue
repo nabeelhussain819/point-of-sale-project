@@ -107,8 +107,9 @@ export default {
         handleAdvance(value) {
             let formValues = this.form.getFieldsValue();
             this.maxDeposite = parseFloat(formValues.total);
+
             this.form.setFieldsValue({
-                payable: parseFloat(formValues.total) - value.target.value,
+                payable: parseFloat(formValues.total) - parseFloat(value.target.value),
             });
         },
         handleTotal(total) {

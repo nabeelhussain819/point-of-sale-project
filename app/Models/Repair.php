@@ -99,7 +99,7 @@ class Repair extends Base
             return $this->created_at;
         }
 
-        $r = Carbon::parse($createdAt, 'America/Los_Angeles')->shiftTimezone('America/Los_Angeles')->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
+        $r = Carbon::parse($createdAt, 'America/New_York')->timezone('America/New_York')->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
         return $r;
     }
 
@@ -110,7 +110,7 @@ class Repair extends Base
             return $this->updated_at;
         }
 
-        return Carbon::parse($updatedAt, 'America/Los_Angeles')->timezone('America/Los_Angeles')->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
+        return Carbon::parse($updatedAt, 'America/New_York')->timezone('America/New_York')->format(DateTimeHelper::DATE_TIME_FORMAT_BASIC);
 
     }
 
