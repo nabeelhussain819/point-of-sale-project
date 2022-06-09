@@ -63,7 +63,7 @@
             </a-col>
             <a-col :span="3">
                 <a-form-item>
-                    <a-input :max="100" prefix="%" type="number" @change="e => discount(e, key)" v-decorator="[
+                    <a-input :max="100" prefix="%" type="number" @change="e => dicountreal(e, key)" v-decorator="[
                         `productItem[${key}][discount]`,
                         {
                             initialValue: 0,
@@ -90,18 +90,16 @@
                         e => {
                             cost(e, key);
                         }
-                    " type="number" v-decorator="[
-    `productItem[${key}][min_price]`,
-    {
-        initialValue: product.min_price,
-        rules: []
-    }
+                    " type="number" v-decorator="[`productItem[${key}][min_price]`, {
+    initialValue: product.min_price,
+    rules: []
+}
 ]" />
                 </a-form-item>
             </a-col>
             <a-col :span="2">
                 <a-form-item>
-                    {{ products[key].total }}
+                    {{ product.total }}
                 </a-form-item>
             </a-col>
             <a-col :span="1">
@@ -138,7 +136,8 @@ export default {
             expendedTotal: 0,
             showSerialModal: false,
             selectedProduct: {},
-            cancelSource: null
+            cancelSource: null,
+            productPrice: 0,
         };
     },
     methods: {
@@ -171,9 +170,12 @@ export default {
         updateQuantity(quantity, key) {
             let pp = this.products;
 
-            let number = quantity * pp[key].min_price;
-            pp[key].total = (Math.round(number * 100) / 100).toFixed(2);
+            let number = quantity * this.productPrice;
+
+            pp[key].total = ((Math.round(number * 100) / 100)).toFixed(2);
+            console.log(pp[key].total);
             pp[key].quantity = parseFloat(quantity);
+
             this.updateProducts(pp);
         },
         checkSerial(rule, value, callback, key) {
@@ -220,22 +222,36 @@ export default {
             this.updateProducts(pp);
             this.updateQuantity(pp[key].quantity, key);
         },
-        discount(value, key) {
+        dicountreal(value, key) {
             value = value.target.value;
             let pp = this.products;
             let formPP = this.form.getFieldValue("productItem");
-
             let price = formPP[key].min_price;
-
-            pp[key].min_price = this.dicountFormula(price, value);
+            let dicountFormula = (price / 100) * value;
+            this.productPrice = price - dicountFormula;
 
             this.updateProducts(pp);
             this.updateQuantity(pp[key].quantity, key);
+
         },
-        dicountFormula(prices, discountPrices) {
-            let dicountFormula = (prices / 100) * discountPrices;
-            return prices - dicountFormula;
-        },
+        // discount(value, key) {
+        //     value = value.target.value;
+        //     let pp = this.products;
+        //     let formPP = this.form.getFieldValue("productItem");
+
+        //     this.productPrice = formPP[key].min_price;
+
+        //     pp[key].min_price = this.dicountFormula(this.productPrice, value);
+
+        //     this.updateProducts(pp);
+        //     this.updateQuantity(pp[key].quantity, key);
+        // },
+        // dicountFormula(prices, discountPrices) {
+        //     console.log(prices, discountPrices)
+        //     let dicountFormula = (prices / 100) * discountPrices;
+
+        //     return prices - dicountFormula;
+        // },
         updateProducts(products) {
             products = JSON.stringify(products);
             this.products = JSON.parse(products);
