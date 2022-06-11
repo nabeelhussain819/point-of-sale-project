@@ -106,7 +106,7 @@
                     </a-form-item>
                 </a-col>
 
-                <a-col class="no-print" :span="4">
+                <a-col class="no-print" :span="4" v-if="!repair.status">
                     <a-form-item label="Action">
                         <a-button type="dashed" v-on:click="addItem">Add Item</a-button>
                     </a-form-item>
@@ -277,9 +277,10 @@
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
                 <a-col :span="4">
                     <a-form-item label="Add Payables">
-                        <a-input :max="maxTotal" :step="0.01" type="number" v-decorator="[
+                        <a-input :max="maxTotal" :min="0" :step="0.01" type="number" v-decorator="[
                             'received_amount',
                             {
+
                                 rules: [
                                     {
                                         validator: (
@@ -292,6 +293,11 @@
                                                 value,
                                                 callback
                                             )
+                                    },
+                                    {
+                                        required: true,
+                                        message:
+                                            'Please input your Add Payable! '
                                     }
                                 ]
                             }
@@ -461,6 +467,7 @@ export default {
         },
         handleSubmit(e) {
             e.preventDefault();
+            console.log()
             this.form.validateFields((err, values) => {
                 if (!err) {
                     this.isCreated ? this.update(values) : this.save(values);

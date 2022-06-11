@@ -1,60 +1,37 @@
 <template>
     <div>
         <a-skeleton :loading="loading">
-            <a-table
-            class="w-100 table-responsive"
-                :pagination="pagination"
-                :columns="columns"
-                :data-source="data"
-                :rowClassName="rowClassName"
-            >
+            <a-table class="w-100 table-responsive" :pagination="pagination" :columns="columns" :data-source="data"
+                :rowClassName="rowClassName">
                 <template slot="title">
-                    <a-button
-                        v-if="showAddButton"
-                        type="primary"
-                        v-on:click="add()"
-                        >Add
+                    <a-button v-if="showAddButton" type="primary" v-on:click="add()">Add
                     </a-button>
                 </template>
                 <a slot="name" slot-scope="text">{{ text }}</a>
-                <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
+                <span slot="customTitle">
+                    <a-icon type="smile-o" /> Name
+                </span>
                 <span slot="tags" slot-scope="tags">
                     <a-tag color="volcano">
                         {{
-                            tags.toUpperCase() === "COMPLETED"
-                                ? "Ready For Pickup"
-                                : tags.toUpperCase()
+                                tags.toUpperCase() === "COMPLETED"
+                                    ? "Ready For Pickup"
+                                    : tags.toUpperCase()
                         }}
                     </a-tag>
                 </span>
-                <span
-                    slot="modelRender"
-                    class="tag-container"
-                    slot-scope="name, record"
-                >
+                <span slot="modelRender" class="tag-container" slot-scope="name, record">
                     <span v-if="!isEmpty(record.related_products)">
-                        <span
-                            v-for="rProduct in record.related_products"
-                            :key="rProduct.id"
-                        >
-                            <a-tag
-                                v-if="!isEmpty(rProduct.product)"
-                                color="volcano"
-                                >{{ rProduct.product }}
+                        <span v-for="rProduct in record.related_products" :key="rProduct.id">
+                            <a-tag v-if="!isEmpty(rProduct.product)" color="volcano">{{ rProduct.product }}
                             </a-tag>
                         </span>
                     </span>
                 </span>
                 <span slot="products" slot-scope="tags, record">
                     <span v-if="!isEmpty(record.related_products)">
-                        <span
-                            v-for="schedule in record.related_products"
-                            :key="schedule.id"
-                        >
-                            <a-tag
-                                v-if="!isEmpty(schedule.product_id)"
-                                color="volcano"
-                                >{{ schedule.product.name }}
+                        <span v-for="schedule in record.related_products" :key="schedule.id">
+                            <a-tag v-if="!isEmpty(schedule.product_id)" color="volcano">{{ schedule.product.name }}
                             </a-tag>
                         </span>
                     </span>
@@ -62,131 +39,61 @@
                 <span slot="action" slot-scope="text, record">
                     <a-icon v-on:click="edit(record.id)" type="edit" />
                 </span>
-                <div
-                    slot="filterDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px"
-                >
-                    <a-input
-                        v-ant-ref="(c) => (searchInput = c)"
-                        :placeholder="`Search ${column.dataIndex}`"
-                        :value="selectedKeys[0]"
-                        style="width: 188px; margin-bottom: 8px; display: block"
-                        @change="
+                <div slot="filterDropdown" slot-scope="{ setSelectedKeys, selectedKeys, column }" style="padding: 8px">
+                    <a-input v-ant-ref="(c) => (searchInput = c)" :placeholder="`Search ${column.title}`"
+                        :value="selectedKeys[0]" style="width: 188px; margin-bottom: 8px; display: block" @change="
                             (e) =>
                                 setSelectedKeys(
                                     e.target.value ? [e.target.value] : []
                                 )
-                        "
-                        @pressEnter="() => handleSearch(selectedKeys, column)"
-                    />
-                    <a-button
-                        type="primary"
-                        icon="search"
-                        size="small"
-                        style="width: 90px; margin-right: 8px"
-                        @click="() => handleSearch(selectedKeys, column)"
-                    >
+                        " @pressEnter="() => handleSearch(selectedKeys, column)" />
+                    <a-button type="primary" icon="search" size="small" style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, column)">
                         Search
                     </a-button>
-                    <a-button
-                        size="small"
-                        style="width: 90px"
-                        @click="() => handleReset(selectedKeys, column)"
-                    >
+                    <a-button size="small" style="width: 90px" @click="() => handleReset(selectedKeys, column)">
                         Reset
                     </a-button>
                 </div>
-                <div
-                    slot="statusDropdown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px"
-                >
-                    <a-select
-                        style="width: 100%; margin-bottom: 5px"
-                        v-ant-ref="(c) => (searchInput = c)"
-                        @change="
-                            (value) => setSelectedKeys(value ? [value] : [])
-                        "
-                        placeholder="Select a option and change input text above"
-                        @pressEnter="() => handleSearch(selectedKeys, column)"
-                    >
-                        <a-select-option
-                            v-for="type in statuses"
-                            :key="type.id"
-                        >
-                            {{ type.name }}</a-select-option
-                        >
+                <div slot="statusDropdown" slot-scope="{ setSelectedKeys, selectedKeys, column }" style="padding: 8px">
+                    <a-select style="width: 100%; margin-bottom: 5px" v-ant-ref="(c) => (searchInput = c)" @change="
+                        (value) => setSelectedKeys(value ? [value] : [])
+                    " placeholder="Select a option and change input text above"
+                        @pressEnter="() => handleSearch(selectedKeys, column)">
+                        <a-select-option v-for="type in statuses" :key="type.id">
+                            {{ type.name }}</a-select-option>
                     </a-select>
 
-                    <a-button
-                        type="primary"
-                        icon="search"
-                        size="small"
-                        style="width: 90px; margin-right: 8px"
-                        @click="() => handleSearch(selectedKeys, column)"
-                    >
+                    <a-button type="primary" icon="search" size="small" style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, column)">
                         Search
                     </a-button>
-                    <a-button
-                        size="small"
-                        style="width: 90px"
-                        @click="() => handleReset(selectedKeys, column)"
-                    >
+                    <a-button size="small" style="width: 90px" @click="() => handleReset(selectedKeys, column)">
                         Reset
                     </a-button>
                 </div>
-                <div
-                    slot="productsDropsDown"
-                    slot-scope="{ setSelectedKeys, selectedKeys, column }"
-                    style="padding: 8px"
-                >
-                    <a-select
-                        style="width: 100%; margin-bottom: 5px"
-                        v-ant-ref="(c) => (searchInput = c)"
-                        @change="
-                            (value) => setSelectedKeys(value ? [value] : [])
-                        "
-                        @search="handleProductSearch"
-                        show-search
-                        :filter-option="false"
+                <div slot="productsDropsDown" slot-scope="{ setSelectedKeys, selectedKeys, column }"
+                    style="padding: 8px">
+                    <a-select style="width: 100%; margin-bottom: 5px" v-ant-ref="(c) => (searchInput = c)" @change="
+                        (value) => setSelectedKeys(value ? [value] : [])
+                    " @search="handleProductSearch" show-search :filter-option="false"
                         placeholder="Select a option and change input text above"
-                        @pressEnter="() => handleSearch(selectedKeys, column)"
-                    >
-                        <a-select-option
-                            v-for="type in products"
-                            :key="type.id"
-                        >
-                            {{ type.name }}</a-select-option
-                        >
+                        @pressEnter="() => handleSearch(selectedKeys, column)">
+                        <a-select-option v-for="type in products" :key="type.id">
+                            {{ type.name }}</a-select-option>
                     </a-select>
 
-                    <a-button
-                        type="primary"
-                        icon="search"
-                        size="small"
-                        style="width: 90px; margin-right: 8px"
-                        @click="() => handleSearch(selectedKeys, column)"
-                    >
+                    <a-button type="primary" icon="search" size="small" style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, column)">
                         Search
                     </a-button>
-                    <a-button
-                        size="small"
-                        style="width: 90px"
-                        @click="() => handleReset(selectedKeys, column)"
-                    >
+                    <a-button size="small" style="width: 90px" @click="() => handleReset(selectedKeys, column)">
                         Reset
                     </a-button>
                 </div>
             </a-table>
         </a-skeleton>
-        <a-modal
-            header="false"
-            :destroyOnClose="true"
-            width="95%"
-            :footer="null"
-            v-model="addModal"
-        >
+        <a-modal header="false" :destroyOnClose="true" width="95%" :footer="null" v-model="addModal">
             <form-fields :repairId="repairId" @close="showAddModal()" />
         </a-modal>
     </div>
@@ -241,13 +148,13 @@ const columns = [
         title: "Created At",
         dataIndex: "created_at",
         key: "created_at",
-          width: "200px",
+        width: "200px",
     },
-     {
+    {
         title: "Updated At",
         dataIndex: "updated_at",
         key: "updated_at",
-          width: "200px",
+        width: "200px",
     },
     {
         title: "Status",
@@ -300,6 +207,7 @@ export default {
             repairId: null,
             filters: {},
             statuses: [],
+
             pagination: {
                 // current: 1,
                 pageSize: 10,
@@ -334,6 +242,7 @@ export default {
         handleSearch(value, column) {
             let filters = this.filters;
             filters[column.key] = value[0];
+
             this.setfilters(filters);
         },
         handleReset(value, column) {
@@ -342,6 +251,7 @@ export default {
             this.setfilters(filters);
         },
         setfilters(filters) {
+            console.log(filters)
             this.filters = JSON.parse(JSON.stringify(filters));
             this.fetchList(this.filters);
         },
@@ -403,9 +313,9 @@ export default {
 
 <style lang="scss" scoped>
 .tag-container {
-    
+
     overflow: hidden;
-   
+
     .ant-tag {
         white-space: inherit;
     }

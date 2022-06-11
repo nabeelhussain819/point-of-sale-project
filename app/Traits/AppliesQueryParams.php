@@ -25,7 +25,7 @@ trait AppliesQueryParams
 
                     return $query->whereIn('id', $id);
                 }
-                return $query->where('id', (int)$id);
+                return $query->where('id', 'ilike', "%" . (int)$id . "%");
             })->when($request->get('active'), function (Builder $query, $active) {
                 return $query->where('active', $active);
             })->when($request->get('vendor_id'), function (Builder $query, $vendorId) {
@@ -110,6 +110,7 @@ trait AppliesQueryParams
                 if (StringHelper::isInt($upc)) {
                     $builder->orWhere('product_id', $upc);
                 }
+
                 return $builder->orWhere
                     ->whereHas('product', function (Builder $query) use ($upc) {
                         $upc = StringHelper::lower($upc);
@@ -122,7 +123,7 @@ trait AppliesQueryParams
                 });
             })->when($request->get('customerPhone'), function (Builder $builder, $customerPhone) {
                 return $builder->whereHas('customer', function (Builder $builder) use ($customerPhone) {
-                    $builder->where('phone', 'like', "%" . $customerPhone . "%");
+                    $builder->where('phone', 'ilike', "%" . $customerPhone . "%");
                 });
             })->when($request->get('product_name'), function (Builder $builder, $productName) {
 
