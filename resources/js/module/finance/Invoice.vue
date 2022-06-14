@@ -2,21 +2,18 @@
     <div>
         <a-row :gutter="12">
             <a-col :span="16">
-              
-                <a-descriptions
-                    bordered
-                    :title="`${finance.product.name} Finance Detail`"
-                >
+
+                <a-descriptions bordered :title="`${finance.product.name} Finance Detail`">
                     <a-descriptions-item label="Customer Name">
                         {{
-                            !isEmpty(finance.customer) && finance.customer.name
+                                !isEmpty(finance.customer) && finance.customer.name
                         }}
                     </a-descriptions-item>
                     <a-descriptions-item label="Telephone">
-                        {{ !isEmpty(finance.customer) &&  finance.customer.phone }}
+                        {{ !isEmpty(finance.customer) && finance.customer.phone }}
                     </a-descriptions-item>
                     <a-descriptions-item label="Address">
-                        {{ !isEmpty(finance.customer) &&  finance.customer.address }}
+                        {{ !isEmpty(finance.customer) && finance.customer_address }}
                     </a-descriptions-item>
                     <a-descriptions-item label="Item">
                         {{ finance.product.name }}
@@ -30,7 +27,7 @@
                     <a-descriptions-item label="Serial Number">
                         {{ finance.serial_number }}
                     </a-descriptions-item>
-                     <a-descriptions-item label="Comments">
+                    <a-descriptions-item label="Comments">
                         {{ finance.comments }}
                     </a-descriptions-item>
                 </a-descriptions>
@@ -55,13 +52,14 @@
 import { isEmpty } from "../../services/helpers";
 export default {
     data() {
+
         return {
             isEmpty
         };
     },
     props: {
         finance: {
-            default: () => {}
+            default: () => { }
         }
     }
 };

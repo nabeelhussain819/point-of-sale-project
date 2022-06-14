@@ -15,7 +15,7 @@
                 </a-form-item>
 
                 <a-form-item>
-                    <a-input-number type="number" :step="0.01" v-decorator="[
+                    <a-input-number type="number" v-if="this.status" :step="0.01" v-decorator="[
                         'received_amount',
                         {
                             rules: [
@@ -101,7 +101,8 @@ export default {
             schedulesData: [],
             schedulesColumns,
             isEmpty,
-            showImage: false
+            showImage: false,
+            status: true
         };
     },
     props: {
@@ -133,6 +134,13 @@ export default {
         },
         statusChange(status_id) {
             this.statusLoader = true;
+            if (status_id == 4) {
+                this.status = false
+            } else {
+                this.status = true
+            }
+
+            console.log(this.status)
             FinanceService.update(this.finance.id, { status_id })
                 .then(response => {
                     notification(this, response.message);

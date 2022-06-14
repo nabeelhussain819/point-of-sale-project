@@ -1,10 +1,7 @@
 <template>
     <div>
         <a-col :span="6">
-            <a-form-item
-                :validate-status="fetchProductsErrors.validateStatus"
-                :help="fetchProductsErrors.errorMsg"
-            >
+            <a-form-item :validate-status="fetchProductsErrors.validateStatus" :help="fetchProductsErrors.errorMsg">
                 <AddProduct />
                 <!-- <a-input-search
                     enter-button
@@ -21,37 +18,30 @@
                     ]"
                     @search="getProductById"
                     type="text"/> -->
-            </a-form-item></a-col
-        >
+            </a-form-item>
+        </a-col>
         <a-col :span="6">
             <a-form-item label="Product Name">
-                <a-input
-                    :disabled="true"
-                    v-decorator="['product_name']"
-                    type="customer_number"
-                />
-                <a-input
-                    :disabled="true"
-                    v-decorator="['product_id']"
-                    type="hidden"
-                /> </a-form-item
-        ></a-col>
+                <a-input :disabled="true" v-decorator="['product_name']" type="customer_number" />
+                <a-input :disabled="true" v-decorator="['product_id']" type="hidden" />
+            </a-form-item>
+        </a-col>
         <a-col :span="6">
             <a-form-item label="Product Serial Number">
-                <a-input
-                    :disabled="!productHasSerial"
-                    v-decorator="[
-                        'serial_number',
-                        {
-                            rules: serialKeyRules
-                        }
-                    ]"/></a-form-item
-        ></a-col>
+                <a-input :disabled="!productHasSerial" v-decorator="[
+                    'serial_number',
+                    {
+                        rules: serialKeyRules
+                    }
+                ]" />
+            </a-form-item>
+        </a-col>
 
         <a-col :span="6">
             <a-form-item label="Comments">
-                <a-textarea :rows="1" v-decorator="['comments']"/></a-form-item
-        ></a-col>
+                <a-textarea :rows="1" v-decorator="['comments']" />
+            </a-form-item>
+        </a-col>
     </div>
 </template>
 <script>
@@ -68,7 +58,7 @@ export default {
     },
     props: {
         form: {
-            default: () => {}
+            default: () => { }
         }
     },
     data() {
@@ -88,7 +78,7 @@ export default {
         addProductDetail() {
             const getProductById = this.getProductById;
             const registerFinanceEvent = this.registerFinanceEvent;
-            this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function(
+            this.$eventBus.$on(EVENT_CUSTOMERSALE_PRODUCT_ADD, function (
                 product
             ) {
                 registerFinanceEvent();
@@ -99,6 +89,7 @@ export default {
             this.$eventBus.$emit(EVENT_FINANCE_PRODUCT_CHANGE);
         },
         getSerialRules(hasSerial) {
+            console.log(hasSerial)
             if (hasSerial) {
                 return [
                     {
@@ -115,6 +106,7 @@ export default {
         getProductById(e) {
             this.resetValidation();
             let productId = e;
+
             InventoryService.products({
                 product_id: productId,
                 OrUPC: productId
@@ -130,6 +122,7 @@ export default {
                             product_id: inventory.product.id,
                             serial_number: inventory.serial_number
                         });
+                        console.log(inventory)
                     }
                 })
                 .catch(ex => {
