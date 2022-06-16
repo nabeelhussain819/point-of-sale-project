@@ -3,118 +3,66 @@
         <div class="clearfix mb-2">
             <a-button type="primary" @click="add"> Add + </a-button>
         </div>
-        <a-table
-            :pagination="false"
-            :columns="columns"
-            :data-source="productsList"
-            bordered
-        >
+        <a-table :pagination="false" :columns="columns" :data-source="productsList" bordered>
             <!-- ----------- quantity ----------- -->
             <template slot="quantity" slot-scope="text, record">
                 <div>
                     <a-form-item>
-                        <a-input
-                            @change="
-                                (e) => {
-                                    checkInventory(e, record);
-                                }
-                            "
-                            min="1"
-                            v-decorator="[
-                                `products[${record.key}][quantity]`,
-                                {
-                                    rules: [{ required: true }],
-                                },
-                            ]"
-                            type="number"
-                            style="margin: -5px 0"
-                        />
+                        <a-input @change="
+                            (e) => {
+                                checkInventory(e, record);
+                            }
+                        " min="1" v-decorator="[
+    `products[${record.key}][quantity]`,
+    {
+        rules: [{ required: true }],
+    },
+]" type="number" style="margin: -5px 0" />
                     </a-form-item>
                 </div>
             </template>
             <!-- ----------- products ----------- -->
             <template slot="products" slot-scope="text, record">
                 <div>
-                    <a-form-item
-                        :validate-status="record.error.status"
-                        :help="record.error.message"
-                    >
-                        <a-select
-                            class="w-50"
-                            :showSearch="true"
-                            v-on:change="selectProduct"
-                            v-decorator="[
-                                `products[${record.key}][product_id]`,
-                                {
-                                    rules: [{ required: true }],
-                                },
-                            ]"
-                            :filter-option="filterOption"
-                        >
-                            <a-select-option
-                                v-for="product in products"
-                                :productHasSerial="product.has_serial_number"
-                                :dataKey="record.key"
-                                :key="product.id"
-                                >{{ product.name }}</a-select-option
-                            >
+                    <a-form-item :validate-status="record.error.status" :help="record.error.message">
+                        <a-select class="w-50" :showSearch="true" v-on:change="selectProduct" v-decorator="[
+                            `products[${record.key}][product_id]`,
+                            {
+                                rules: [{ required: true }],
+                            },
+                        ]" :filter-option="filterOption">
+                            <a-select-option v-for="product in products" :productHasSerial="product.has_serial_number"
+                                :dataKey="record.key" :key="product.id">{{ product.name }}</a-select-option>
                         </a-select>
-                        <div
-                            class="w-50 d-inline-block"
-                            v-if="record.showSerial"
-                        >
-                            <a-button
-                                v-on:click="showSerialModal(record)"
-                                type="primary"
-                                >Associate Serial</a-button
-                            >
+                        <div class="w-50 d-inline-block" v-if="record.showSerial">
+                            <a-button v-on:click="showSerialModal(record)" type="primary">Associate Serial</a-button>
 
-                            <a-tag
-                                v-for="(serial, index) in record.serials_number"
-                                :key="index"
-                                color="cyan"
-                            >
+                            <a-tag v-for="(serial, index) in record.serials_number" :key="index" color="cyan">
                                 {{ serial }}
                             </a-tag>
                             <a-tag class="d-none" color="pink"> pink </a-tag>
 
-                            <a-modal
-                                :footer="null"
-                                v-if="viewSerialModal"
-                                :destroyOnClose="true"
-                                v-model="viewSerialModal"
-                                title=""
-                            >
-                                <serialNumbers
-                                    :params="{
-                                        store_id: outStoreId(),
-                                        stock_bin_id: bins.retail.id,
-                                    }"
-                                    :product="record"
-                                    @close="getSerial"
-                                />
+                            <a-modal :footer="null" v-if="viewSerialModal" :destroyOnClose="true"
+                                v-model="viewSerialModal" title="">
+                                <serialNumbers :params="{
+                                    store_id: outStoreId(),
+                                    stock_bin_id: bins.retail.id,
+                                }" :product="record" @close="getSerial" />
                             </a-modal>
 
-                            <a-select
-                                class="d-none"
-                                mode="tags"
-                                v-decorator="[
-                                    `products[${record.key}][serials]`,
-                                    {
-                                        initialValue: record.serials_number,
-                                        rules: [{ required: true }],
-                                    },
-                                ]"
-                            ></a-select>
-                            <a-checkbox
-                                class="d-none"
-                                v-decorator="[
-                                    `products[${record.key}][has_serials]`,
-                                    {
-                                        initialValue: true,
-                                    },
-                                ]"
-                            ></a-checkbox>
+                            <a-select class="d-none" mode="tags" v-decorator="[
+                                `products[${record.key}][serials]`,
+                                {
+                                    initialValue: record.serials_number,
+                                    rules: [{ required: true }],
+                                },
+                            ]"></a-select>
+                            <a-checkbox class="d-none" v-decorator="[
+                                `products[${record.key}][has_serials]`,
+                                {
+                                    initialValue: true,
+                                },
+                            ]"></a-checkbox>
                         </div>
                     </a-form-item>
                 </div>
@@ -123,8 +71,8 @@
             <template slot="operation" slot-scope="text, record">
                 <div class="editable-row-operations">
                     <a-form-item>
-                        <a-icon @click="removeRow(record.key)" type="delete"
-                    /></a-form-item>
+                        <a-icon @click="removeRow(record.key)" type="delete" />
+                    </a-form-item>
                 </div>
             </template>
         </a-table>
@@ -245,6 +193,7 @@ export default {
         checkInventory(e, record) {
             let quantity = e.target.value;
             this.showErrorOnProducts(record.key, quantity);
+
         },
         setProducts(product) {
             this.productsList = [...this.productsList, product];
@@ -253,6 +202,7 @@ export default {
             ProductService.getAll().then((products) => {
                 this.products = products;
             });
+
         },
         selectProduct(product_id, row) {
             const hasSerial = row.data.attrs.productHasSerial;
@@ -260,7 +210,7 @@ export default {
             this.productsList = this.productsList.map((product) => {
                 if (product.key === key) {
                     product.showSerial = hasSerial;
-                    product.product_id = product_id; // idhar issue
+                    product.product_id = product_id;
                 }
 
                 return product;

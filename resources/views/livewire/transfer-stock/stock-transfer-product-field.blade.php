@@ -55,9 +55,10 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($formFields as $key=>$value)
 
-            <tr wire:key="{{ $key }}">
+
+        @foreach($formFields as $key=>$value)
+         <tr wire:key="{{ $key }}">
                 <td>
                     <div class="input-group spinner">
                         <div class="row">
@@ -66,7 +67,7 @@
                                    value="{{!empty($value['id']) ? $value['id']:null}}"/>
 
                             <input type="number" class="form-control"
-                                   {{$isCreated ?'disabled':''}}
+                                   {{$key === 0 ?'disabled':''}}
                                    wire:change="validateProduct({{$key}})"
                                    wire:model="formFields.{{$key}}.quantity"
                                    value="{{!empty($value['quantity']) ? $value['quantity']:null}}"
@@ -78,11 +79,10 @@
                 </td>
 
                 <td>
-
                     <div class="input-group spinner">
                         <div class="row">
                             <div class="input-group mb-3">
-                                @if(isset($formFields[$key]['hasSerial'])&& $formFields[$key]['hasSerial']  && !$isCreated)
+                                @if(isset($formFields[$key]['hasSerial'])&& !$formFields[$key]['hasSerial']  && $isCreated)
                                     <div class="input-group-append">
                                         <button
                                                 wire:click.prevent="associateSerial({{$key}})"
@@ -93,7 +93,8 @@
                                         </button>
                                     </div>
                                 @endIf
-                                @if(isset($formFields[$key]['hasSerial'])&& $isCreated)
+
+                                @if(isset($formFields[$key]['hasSerial'])&& $formFields[$key]['hasSerial'] && $isCreated)
                                     <div class="input-group-append">
                                         <button
                                                 wire:click.prevent="showSerials({{$key}})"
@@ -105,7 +106,7 @@
                                     </div>
                                 @endIf
                                 <select class="form-control"
-                                        {{$isCreated ?'disabled':''}}
+                                        {{$key === 0  ?'disabled':''}}
                                         wire:change.debounce.1000ms="validateProduct({{$key}})"
                                         wire:model="formFields.{{$key}}.product_id"
                                         name="products[{{$key}}][product_id]">

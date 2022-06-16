@@ -46,8 +46,9 @@ class StockTransferProductField extends Component
 
     public function addRow($row)
     {
-        $this->formFields[$this->row] = ['quantity' => null, 'product_id' => null, 'error' => false, 'hasSerial' => false];
-        $this->row = $row + 1;
+             $this->row = $row + 1;
+
+            $this->formFields[$this->row] = ['quantity' => null, 'product_id'=>$this->formFields[$row]['product_id'] , 'error' => false, 'hasSerial' => false];
     }
 
     public function deleteRow($row)
