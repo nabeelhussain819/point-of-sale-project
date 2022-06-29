@@ -48,6 +48,7 @@ class Test extends Component
         $this->fullName = $department->full_name;
         $this->reference = $department->reference;
         $this->updateMode = true;
+
     }
 
     public function update()

@@ -74,7 +74,7 @@
             </a-col>
             <a-col :span="2">
                 <a-form-item>
-                    <a-input type="number" v-decorator="[
+                    <a-input type="number" disabled v-decorator="[
                         `productItem[${key}][price]`,
                         {
                             initialValue: 0,
@@ -99,6 +99,7 @@
             </a-col>
             <a-col :span="2">
                 <a-form-item>
+
                     {{ product.total }}
                 </a-form-item>
             </a-col>
@@ -138,6 +139,7 @@ export default {
             selectedProduct: {},
             cancelSource: null,
             productPrice: 0,
+            exPrice: 0
         };
     },
     methods: {
@@ -153,6 +155,9 @@ export default {
             let uuidT = this.getUid();
             let products = { ...this.products, [uuidT]: product };
             this.products = products;
+
+
+
             this.updateProducts(products);
 
             this.computedTotal(product.quantity, uuidT);
@@ -169,11 +174,12 @@ export default {
         },
         updateQuantity(quantity, key) {
             let pp = this.products;
-
             let number = quantity * this.productPrice;
 
             pp[key].total = ((Math.round(number * 100) / 100)).toFixed(2);
-            console.log(pp[key].total);
+            if (pp[key].total == 0) {
+                pp[key].total = pp[key].min_price
+            }
             pp[key].quantity = parseFloat(quantity);
 
             this.updateProducts(pp);
@@ -216,6 +222,11 @@ export default {
         cost(value, key) {
             value = value.target.value;
             let pp = this.products;
+            let formPP = this.form.getFieldValue("productItem");
+            let dicountFormula = (value / 100) * this.exPrice;
+            console.log(value, this.exPrice)
+            this.productPrice = value - dicountFormula;
+
 
             pp[key].min_price = value;
 
@@ -228,6 +239,7 @@ export default {
             let formPP = this.form.getFieldValue("productItem");
             let price = formPP[key].min_price;
             let dicountFormula = (price / 100) * value;
+            this.exPrice = value
             this.productPrice = price - dicountFormula;
 
             this.updateProducts(pp);

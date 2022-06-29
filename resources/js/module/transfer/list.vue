@@ -1,20 +1,10 @@
 <template>
     <div>
-        <a-table
-            :loading="loading"
-            :columns="columns"
-            :data-source="data"
-            bordered
-        >
+        <a-table :loading="loading" :columns="columns" :data-source="data" bordered>
             <template slot="title">
                 <div class="w-100">
                     <strong> Transfer order list</strong>
-                    <a-button
-                        v-on:click="showModal(true)"
-                        class="float-right"
-                        type="primary"
-                        >Create</a-button
-                    >
+                    <a-button v-on:click="showModal(true)" class="float-right" type="primary">Create</a-button>
                 </div>
             </template>
             <span slot="view" slot-scope="text, record">
@@ -22,56 +12,38 @@
             </span>
             <span slot="action" slot-scope="text, record">
                 <span v-if="!record.received_at && showAdd">
-                    <a-button @click="goto(record)" type="primary"
-                        >Receive
+                    <a-button @click="goto(record)" type="primary">Receive
                     </a-button>
-                    <a-popconfirm
-                        title="Are you sure delete this transfer?"
-                        ok-text="Yes"
-                        cancel-text="No"
-                        @confirm="deletetransfer(record)"
-                    >
+                    <a-popconfirm title="Are you sure delete this transfer?" ok-text="Yes" cancel-text="No"
+                        @confirm="deletetransfer(record)">
                         <a-button type="danger">delete</a-button>
                     </a-popconfirm>
                 </span>
 
                 <span v-else>
-                    <a-icon
-                        type="check-circle"
-                        theme="twoTone"
-                        two-tone-color="#52c41a"
-                    />Received At {{ record.received_at }}</span
-                >
+                    <a-icon type="check-circle" theme="twoTone" two-tone-color="#52c41a" />Received At {{
+                            record.received_at
+                    }}
+                </span>
             </span>
             <span slot="dateSearch">
-                <a-range-picker
-                    v-decorator="[
-                        'dateTime',
-                        {
-                            initialValue: [
-                                getPastMoment(365),
-                                moment().set({ h: 11, m: 59 })
-                            ]
-                        }
-                    ]"
-                    :ranges="{
-                        Today: [moment(), moment()],
-                        Week: [getPastMoment(7), moment()],
-                        Year: [getPastMoment(365), moment()],
-                        Month: [getPastMoment(30), moment()]
-                    }"
-                    format="YYYY/MM/DD"
-                    @change="dateRangeChange"
-                />
+                <a-range-picker v-decorator="[
+                    'dateTime',
+                    {
+                        initialValue: [
+                            getPastMoment(365),
+                            moment().set({ h: 11, m: 59 })
+                        ]
+                    }
+                ]" :ranges="{
+    Today: [moment(), moment()],
+    Week: [getPastMoment(7), moment()],
+    Year: [getPastMoment(365), moment()],
+    Month: [getPastMoment(30), moment()]
+}" format="YYYY/MM/DD" @change="dateRangeChange" />
             </span>
         </a-table>
-        <a-modal
-            :footer="null"
-            :destroyOnClose="true"
-            width="90%"
-            v-model="showCreateModal"
-            title="Create Request"
-        >
+        <a-modal :footer="null" :destroyOnClose="true" width="90%" v-model="showCreateModal" title="Create Request">
             <create @close="onClose" />
         </a-modal>
     </div>

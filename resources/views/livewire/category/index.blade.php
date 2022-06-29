@@ -8,7 +8,6 @@
                     @include('livewire.category.create')
                 @endif
             @endif
-
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -21,6 +20,7 @@
                 @endif
                 <thead>
                 <tr>
+
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Full Name</th>
@@ -59,8 +59,9 @@
                 @endforelse
                 </tbody>
             </table>
+            {{$categories->links()}}
             </div>
-            {{$categories->links('pagination::bootstrap-4')}}
+
         </div>
     </div>
 </div>

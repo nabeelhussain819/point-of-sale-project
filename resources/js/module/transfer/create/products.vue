@@ -193,7 +193,6 @@ export default {
         checkInventory(e, record) {
             let quantity = e.target.value;
             this.showErrorOnProducts(record.key, quantity);
-
         },
         setProducts(product) {
             this.productsList = [...this.productsList, product];
