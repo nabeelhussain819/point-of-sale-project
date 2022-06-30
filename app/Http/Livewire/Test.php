@@ -9,8 +9,10 @@ use Livewire\WithPagination;
 
 class Test extends Component
 {
+
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
     public $name,$fullName,$reference,$status, $selected_id;
     public $updateMode = false;
 

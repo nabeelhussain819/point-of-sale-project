@@ -277,31 +277,33 @@
                 <!-- ------------------------- Item Loop should be in seperate components------------------------- -->
                 <a-col :span="4">
                     <a-form-item label="Add Payables">
-                        <a-input :max="maxTotal" :min="0" :step="0.01" type="number" v-decorator="[
-                            'received_amount',
-                            {
+                        <a-input
+                            :max="!Number(repair.advance_cost) ? maxTotal : Number(repair.advance_cost) + Number(maxTotal)"
+                            :step="0.01" type="number" v-decorator="[
+                                'received_amount',
+                                {
 
-                                rules: [
-                                    {
-                                        validator: (
-                                            rule,
-                                            value,
-                                            callback
-                                        ) =>
-                                            validateTotal(
+                                    rules: [
+                                        {
+                                            validator: (
                                                 rule,
                                                 value,
                                                 callback
-                                            )
-                                    },
-                                    {
-                                        required: true,
-                                        message:
-                                            'Please input your Add Payable! '
-                                    }
-                                ]
-                            }
-                        ]" />
+                                            ) =>
+                                                validateTotal(
+                                                    rule,
+                                                    value,
+                                                    callback
+                                                )
+                                        },
+                                        {
+                                            required: true,
+                                            message:
+                                                'Please input your Add Payable! '
+                                        }
+                                    ]
+                                }
+                            ]" />
                     </a-form-item>
                 </a-col>
                 <a-col :span="4">
@@ -324,11 +326,13 @@
                         <a-checkbox v-decorator="[
                             'pay_by_card',
                             {
+
                                 rules: []
                             }
                         ]">
                             Pay By card
-                        </a-checkbox>
+                        </a-checkbox>{{ repair.pay_by_card }}
+
                     </a-form-item>
                 </a-col>
                 <a-col :span="4">
@@ -356,6 +360,7 @@
                     <a-alert v-if="advanceCompare" type="error"
                         message="Please Adjust Advance Cost Equals To Total Cost" banner />
                 </a-col>
+
             </a-row>
         </a-form>
         <schedules :repair="repair" v-if="isCreated" />
@@ -406,6 +411,7 @@ export default {
             isEmpty,
             getStringId,
             maxTotal: 0,
+            Advance: 0,
             advanceCompare: false,
             productLIST: []
         };
@@ -467,7 +473,7 @@ export default {
         },
         handleSubmit(e) {
             e.preventDefault();
-            console.log()
+
             this.form.validateFields((err, values) => {
                 if (!err) {
                     this.isCreated ? this.update(values) : this.save(values);
@@ -575,11 +581,13 @@ export default {
                 this.isCreated = true;
                 this.loading = true;
                 this.fetchStatues();
+
                 RepairService.show(repairId)
                     .then(repair => {
                         this.repair = repair;
                         this.row = repair.related_products;
                         this.maxTotal = repair.total_cost;
+                        this.Advance = repair.advance_cost;
                     })
                     .then(() => (this.loading = false))
                     .then(() => {
@@ -593,6 +601,7 @@ export default {
                             });
                         }
                     });
+
             }
         },
         customerSearch(value, event) {
@@ -613,6 +622,7 @@ export default {
         },
         handleTotal(e, v) {
             this.maxTotal = e.target.value;
+
         }
     }
 };
