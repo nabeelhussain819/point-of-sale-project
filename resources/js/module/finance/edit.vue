@@ -149,6 +149,7 @@ export default {
                 .finally(() => (this.statusLoader = false));
         },
         print() {
+
             window.print();
         },
         handleSubmit(e) {

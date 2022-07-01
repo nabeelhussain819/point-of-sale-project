@@ -38,7 +38,9 @@ class FinancesSchedules extends Base
         'received_amount', 'received_date', 'status', 'created_at',
         'updated_at', 'comment', 'pay_by_card'
     ];
-
+    protected $casts = [
+        'date_of_payment' => 'datetime:Y-m-d (g:i A)',
+    ];
     protected $dates = ['due_date', 'received_date', 'date_of_payment'];
 
     /**

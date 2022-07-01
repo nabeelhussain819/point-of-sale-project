@@ -1,7 +1,7 @@
 <template>
     <div>
         <a-row :gutter="12">
-            <a-col :span="16">
+            <a-col :span="24">
 
                 <a-descriptions bordered :title="`${finance.product.name} Finance Detail`">
                     <a-descriptions-item label="Customer Name">
@@ -32,7 +32,8 @@
                     </a-descriptions-item>
                 </a-descriptions>
             </a-col>
-            <a-col :span="8">
+
+            <a-col :span="24">
                 <a-descriptions title="Summary" bordered>
                     <a-descriptions-item :span="24" label="Invoice #">
                         {{ finance.order_id }}

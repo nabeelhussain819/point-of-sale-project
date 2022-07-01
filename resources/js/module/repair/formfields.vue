@@ -323,7 +323,15 @@
                 </a-col>
                 <a-col :span="4">
                     <a-form-item label="Payment Method">
-                        <a-checkbox v-decorator="[
+                        <a-checkbox v-if="pay[0] === true" checked v-decorator="[
+                            'pay_by_card',
+                            {
+                                rules: []
+                            }
+                        ]">
+                            Pay By card
+                        </a-checkbox>
+                        <a-checkbox v-else="pay === false" v-decorator="[
                             'pay_by_card',
                             {
 
@@ -331,8 +339,7 @@
                             }
                         ]">
                             Pay By card
-                        </a-checkbox>{{ repair.pay_by_card }}
-
+                        </a-checkbox>
                     </a-form-item>
                 </a-col>
                 <a-col :span="4">
@@ -413,7 +420,8 @@ export default {
             maxTotal: 0,
             Advance: 0,
             advanceCompare: false,
-            productLIST: []
+            productLIST: [],
+            pay: false,
         };
     },
     mounted() {
@@ -588,6 +596,8 @@ export default {
                         this.row = repair.related_products;
                         this.maxTotal = repair.total_cost;
                         this.Advance = repair.advance_cost;
+                        this.pay = repair.schedules.map((data) => data.pay_by_card)
+                        console.log(this.pay)
                     })
                     .then(() => (this.loading = false))
                     .then(() => {
